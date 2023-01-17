@@ -15,31 +15,13 @@ private const val DARK_TILE_COLOR = "#855E42"
 private const val CHESS_BOARD_SIZE = 8
 private const val MOVING_PIECE_SCALE = 1f // 0.5 to keep original size
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
+private var BITMAPS: MutableMap<Player, MutableMap<Type, Bitmap>> = mutableMapOf()
 
-private val PIECES_IMAGES = mapOf(
-    Player.WHITE to mapOf(
-        Type.KING to R.drawable.king_white,
-        Type.QUEEN to R.drawable.queen_white,
-        Type.ROOK to R.drawable.rook_white,
-        Type.BISHOP to R.drawable.bishop_white,
-        Type.KNIGHT to R.drawable.knight_white,
-        Type.PAWN to R.drawable.pawn_white
-    ),
-    Player.BLACK to mapOf(
-        Type.KING to R.drawable.king_black,
-        Type.QUEEN to R.drawable.queen_black,
-        Type.ROOK to R.drawable.rook_black,
-        Type.BISHOP to R.drawable.bishop_black,
-        Type.KNIGHT to R.drawable.knight_black,
-        Type.PAWN to R.drawable.pawn_black
-    )
-)
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private var cellSize = 0f
     private val lightColor = Color.parseColor(LIGHT_TILE_COLOR)
     private val darkColor = Color.parseColor(DARK_TILE_COLOR)
-    private val bitmaps = mutableMapOf<Int, Bitmap>()
     private val paint = Paint()
 
     private var movingPieceBitmap: Bitmap? = null
@@ -82,7 +64,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 previousTouchedSquare = touchedSquare
                 board?.pieceAt(touchedSquare)?.let {
                     movingPiece = it
-                    movingPieceBitmap = bitmaps[PIECES_IMAGES[it.player]?.get(it.type)]
+                    movingPieceBitmap = getPieceBitmap(it)
                     Log.d("CHESS", "clicked ${movingPiece!!.type.name}")
                 }
             }
@@ -112,13 +94,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawPieces(canvas: Canvas) {
-        for (row in 0 until 8) {
-            for (col in 0 until 8) {
+        for (row in 0 until CHESS_BOARD_SIZE) {
+            for (col in 0 until CHESS_BOARD_SIZE) {
                 val square = Square(col, row)
                 board?.pieceAt(square)?.let { piece ->
                     if (piece != movingPiece) {
-                        val image =
-                        drawPieceAtSquare(canvas, square, image!!)
+                        drawPieceAtSquare(canvas, square, getPieceBitmap(piece)!!)
                     }
                 }
             }
@@ -143,9 +124,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             )
         }
 
-    private fun drawPieceAtSquare(canvas: Canvas, square: Square, resID: Int) =
+    private fun drawPieceAtSquare(canvas: Canvas, square: Square, bitmap: Bitmap) =
         canvas.drawBitmap(
-            bitmaps[resID]!!,
+            bitmap,
             null,
             RectF(
                 square.col * cellSize,
@@ -157,9 +138,23 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         )
 
     private fun loadBitmaps() {
-        for (images in PIECES_IMAGES.values)
-            for (image in images.values)
-                bitmaps[image] = BitmapFactory.decodeResource(resources, image)
+        BITMAPS[Player.WHITE] = mutableMapOf(
+            Type.KING to BitmapFactory.decodeResource(resources, R.drawable.king_white),
+            Type.QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_white),
+            Type.ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_white),
+            Type.BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_white),
+            Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_white),
+            Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_white)
+        )
+
+        BITMAPS[Player.BLACK] = mutableMapOf(
+                Type.KING to BitmapFactory.decodeResource(resources, R.drawable.king_black),
+                Type.QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_black),
+                Type.ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_black),
+                Type.BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_black),
+                Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
+                Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black)
+        )
     }
 
     private fun drawChessboard(canvas: Canvas) {
@@ -181,7 +176,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         )
     }
 
-    private fun getImageForPiece(piece: Piece): Int {
-
+    private fun getPieceBitmap(piece: Piece): Bitmap? {
+        return BITMAPS[piece.player]?.get(piece.type)
     }
 }
