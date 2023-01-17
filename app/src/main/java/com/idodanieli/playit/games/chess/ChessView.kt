@@ -12,6 +12,8 @@ import kotlin.math.min
 
 private const val LIGHT_TILE_COLOR = "#ffe9c5"
 private const val DARK_TILE_COLOR = "#855E42"
+private const val TOUCHED_TILE_COLOR = "#CBC3E3"
+
 private const val CHESS_BOARD_SIZE = 8
 private const val MOVING_PIECE_SCALE = 1f // 0.5 to keep original size
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
@@ -22,11 +24,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var cellSize = 0f
     private val lightColor = Color.parseColor(LIGHT_TILE_COLOR)
     private val darkColor = Color.parseColor(DARK_TILE_COLOR)
-    private val paint = Paint()
+    private val touchedColor = Color.parseColor(TOUCHED_TILE_COLOR)
 
     private var movingPieceBitmap: Bitmap? = null
     private var movingPiece: Piece? = null
     private var previousTouchedSquare: Square = Square(-1, -1)
+    private var currentlyTouchedSquare: Square? = null
     private var movingPieceX = -1f
     private var movingPieceY = -1f
 
@@ -50,6 +53,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         cellSize = chessBoardSide / CHESS_BOARD_SIZE.toFloat()
 
         drawChessboard(canvas)
+
+        currentlyTouchedSquare?.let {
+            canvas.drawSquare(it, cellSize, touchedColor)
+        }
+
         drawPieces(canvas)
     }
 
@@ -62,6 +70,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 previousTouchedSquare = touchedSquare
+                currentlyTouchedSquare = touchedSquare
+
                 board?.pieceAt(touchedSquare)?.let {
                     movingPiece = it
                     movingPieceBitmap = getPieceBitmap(it)
@@ -69,6 +79,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 }
             }
             MotionEvent.ACTION_MOVE -> {
+                currentlyTouchedSquare = touchedSquare
                 movingPieceX = event.x
                 movingPieceY = event.y
                 invalidate() // calls onDraw
@@ -79,6 +90,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 }
                 movingPiece = null
                 movingPieceBitmap = null
+                currentlyTouchedSquare = null
                 invalidate() // calls onDraw
             }
         }
@@ -109,7 +121,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     // drawMovingPiece draws the piece that is currently touched by the user
-    private fun drawMovingPiece(canvas: Canvas)  =
+    private fun drawMovingPiece(canvas: Canvas) =
         movingPieceBitmap?.let { bitmap ->
             canvas.drawBitmap(
                 bitmap,
@@ -120,7 +132,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                     movingPieceX + cellSize * MOVING_PIECE_SCALE,
                     movingPieceY + cellSize * MOVING_PIECE_SCALE - MOVING_PIECE_Y_OFFSET
                 ),
-                paint
+                Paint()
             )
         }
 
@@ -134,8 +146,22 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 (square.col + 1) * cellSize,
                 ((7 - square.row) + 1) * cellSize
             ),
-            paint
+            Paint()
         )
+
+    private fun drawChessboard(canvas: Canvas) {
+        for (row in 0 until CHESS_BOARD_SIZE) {
+            for (col in 0 until CHESS_BOARD_SIZE) {
+                val square = Square(col, row)
+                val isDark = (square.col + square.row) % 2 == 1
+                canvas.drawSquare(square, cellSize, if (isDark) darkColor else lightColor)
+            }
+        }
+    }
+
+    private fun getPieceBitmap(piece: Piece): Bitmap? {
+        return BITMAPS[piece.player]?.get(piece.type)
+    }
 
     private fun loadBitmaps() {
         BITMAPS[Player.WHITE] = mutableMapOf(
@@ -148,35 +174,33 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         )
 
         BITMAPS[Player.BLACK] = mutableMapOf(
-                Type.KING to BitmapFactory.decodeResource(resources, R.drawable.king_black),
-                Type.QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_black),
-                Type.ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_black),
-                Type.BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_black),
-                Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
-                Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black)
+            Type.KING to BitmapFactory.decodeResource(resources, R.drawable.king_black),
+            Type.QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_black),
+            Type.ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_black),
+            Type.BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_black),
+            Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
+            Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black)
         )
     }
+}
 
-    private fun drawChessboard(canvas: Canvas) {
-        for (row in 0 until CHESS_BOARD_SIZE)
-            for (col in 0 until CHESS_BOARD_SIZE)
-                drawSquare(canvas, Square(col, row))
-    }
+///// Canvas extensions \\\\\\
 
-    // TODO: Extend canvas and move this function to it
-    private fun drawSquare(canvas: Canvas, square: Square) {
-        val isDark =  (square.col + square.row) % 2 == 1
-        paint.color = if (isDark) darkColor else lightColor
-        canvas.drawRect(
-             square.col * cellSize,
-            square.row * cellSize,
-            (square.col + 1) * cellSize,
-            (square.row + 1) * cellSize,
-            paint
-        )
-    }
+// drawSquare draws a square
+private fun Canvas.drawSquare(square: Square, size: Float, color: Int) {
+    this.drawRect(
+        square.col * size,
+        this.height - square.row * size,
+        (square.col + 1) * size,
+        this.height - (square.row + 1) * size,
+        getPaint(color)
+    )
+}
 
-    private fun getPieceBitmap(piece: Piece): Bitmap? {
-        return BITMAPS[piece.player]?.get(piece.type)
-    }
+// getPaint returns a paint with the given color
+private fun getPaint(color: Int): Paint {
+    val paint = Paint()
+    paint.color = color
+
+    return paint
 }
