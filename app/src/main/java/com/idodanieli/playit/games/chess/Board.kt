@@ -9,6 +9,10 @@ class Board {
         reset()
     }
 
+    fun pieces(): Set<Piece> {
+        return piecesBox
+    }
+
     fun clear() {
         piecesBox.clear()
     }
@@ -134,31 +138,31 @@ class Board {
         }
 
         piecesBox.remove(movingPiece)
-        addPiece(movingPiece.copy(col = toCol, row = toRow))
+        addPiece(movingPiece.copy(square = Square(toCol, toRow)))
     }
 
     fun reset() {
         clear()
         for (i in 0 until 2) {
-            addPiece(Piece(0 + i * 7, 0, Player.WHITE, Type.ROOK))
-            addPiece(Piece(0 + i * 7, 7, Player.BLACK, Type.ROOK))
+            addPiece(Piece(Square(0 + i * 7, 0), Player.WHITE, Type.ROOK))
+            addPiece(Piece(Square(0 + i * 7, 7), Player.BLACK, Type.ROOK))
 
-            addPiece(Piece(1 + i * 5, 0, Player.WHITE, Type.KNIGHT))
-            addPiece(Piece(1 + i * 5, 7, Player.BLACK, Type.KNIGHT))
+            addPiece(Piece(Square(1 + i * 5, 0), Player.WHITE, Type.KNIGHT))
+            addPiece(Piece(Square(1 + i * 5, 7), Player.BLACK, Type.KNIGHT))
 
-            addPiece(Piece(2 + i * 3, 0, Player.WHITE, Type.BISHOP))
-            addPiece(Piece(2 + i * 3, 7, Player.BLACK, Type.BISHOP))
+            addPiece(Piece(Square(2 + i * 3, 0), Player.WHITE, Type.BISHOP))
+            addPiece(Piece(Square(2 + i * 3, 7), Player.BLACK, Type.BISHOP))
         }
 
         for (i in 0 until 8) {
-            addPiece(Piece(i, 1, Player.WHITE, Type.PAWN))
-            addPiece(Piece(i, 6, Player.BLACK, Type.PAWN))
+            addPiece(Piece(Square(i, 1), Player.WHITE, Type.PAWN))
+            addPiece(Piece(Square(i, 6), Player.BLACK, Type.PAWN))
         }
 
-        addPiece(Piece(3, 0, Player.WHITE, Type.QUEEN))
-        addPiece(Piece(3, 7, Player.BLACK, Type.QUEEN))
-        addPiece(Piece(4, 0, Player.WHITE, Type.KING))
-        addPiece(Piece(4, 7, Player.BLACK, Type.KING))
+        addPiece(Piece(Square(3, 0), Player.WHITE, Type.QUEEN))
+        addPiece(Piece(Square(3, 7), Player.BLACK, Type.QUEEN))
+        addPiece(Piece(Square(4, 0), Player.WHITE, Type.KING))
+        addPiece(Piece(Square(4, 7), Player.BLACK, Type.KING))
     }
 
     fun pieceAt(square: Square): Piece? {
@@ -167,7 +171,7 @@ class Board {
 
     private fun pieceAt(col: Int, row: Int): Piece? {
         for (piece in piecesBox) {
-            if (col == piece.col && row == piece.row) {
+            if (col == piece.square.col && row == piece.square.row) {
                 return  piece
             }
         }

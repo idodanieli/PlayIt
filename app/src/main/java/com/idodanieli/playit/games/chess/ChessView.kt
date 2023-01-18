@@ -105,24 +105,15 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawPieces() {
-        for (row in 0 until CHESS_BOARD_SIZE) {
-            for (col in 0 until CHESS_BOARD_SIZE) {
-                val square = Square(col, row)
-                board?.pieceAt(square)?.let { piece ->
-                    if (piece != movingPiece) {
-                        chessDrawer.drawPieceAtSquare(square, getPieceBitmap(piece)!!)
-                    }
-                }
+        board?.pieces()?.forEach {
+            if (it != movingPiece) {
+                chessDrawer.drawPiece(it)
             }
         }
 
         movingPieceBitmap?.let {
             chessDrawer.drawPieceAtPosition(movingPieceX, movingPieceY - MOVING_PIECE_Y_OFFSET, it, scale = MOVING_PIECE_SCALE)
         }
-    }
-
-    private fun getPieceBitmap(piece: Piece): Bitmap? {
-        return BITMAPS[piece.player]?.get(piece.type)
     }
 
     private fun loadBitmaps() {
@@ -187,6 +178,10 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
             Paint()
         )
 
+    fun drawPiece(piece: Piece) {
+        this.drawPieceAtSquare(piece.square, getPieceBitmap(piece)!!)
+    }
+
     fun drawChessboard() {
         for (row in 0 until CHESS_BOARD_SIZE) {
             for (col in 0 until CHESS_BOARD_SIZE) {
@@ -195,6 +190,10 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
                 this.drawSquare(square, if (isDark) darkColor else lightColor)
             }
         }
+    }
+
+    fun drawPieces() {
+
     }
 
     fun drawSquare(square: Square, color: Int) {
@@ -207,6 +206,10 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
         )
     }
 
+}
+
+private fun getPieceBitmap(piece: Piece): Bitmap? {
+    return BITMAPS[piece.player]?.get(piece.type)
 }
 
 // getPaint returns a paint with the given color

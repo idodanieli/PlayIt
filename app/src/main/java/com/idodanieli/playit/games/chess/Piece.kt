@@ -1,6 +1,6 @@
 package com.idodanieli.playit.games.chess
 
-data class Piece(val col: Int, val row: Int, val player: Player, val type: Type) {
+data class Piece(val square: Square, val player: Player, val type: Type) {
 }
 
 enum class Type {
