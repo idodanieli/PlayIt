@@ -24,14 +24,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private val chessDrawer = ChessDrawer(COLOR_LIGHT, COLOR_DARK)
     private var squareSize = 0f
 
-    private var movingPieceBitmap: Bitmap? = null
-    private var movingPiece: Piece? = null
+    private var movingPiece: MovingPiece? = null
     private var previousTouchedSquare: Square = Square(-1, -1)
     private var currentlyTouchedSquare: Square? = null
-    private var movingPieceX = -1f
-    private var movingPieceY = -1f
 
-    var board: Board? = Board()
+    private var board: Board? = Board()
 
     init {
         loadBitmaps()
@@ -72,15 +69,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 currentlyTouchedSquare = touchedSquare
 
                 board?.pieceAt(touchedSquare)?.let {
-                    movingPiece = it
-                    movingPieceBitmap = getPieceBitmap(it)
-                    Log.d("CHESS", "clicked ${movingPiece!!.type.name}")
+                    movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!)
+                    Log.d("CHESS", "clicked ${movingPiece!!.piece.type.name}")
                 }
             }
             MotionEvent.ACTION_MOVE -> {
                 currentlyTouchedSquare = touchedSquare
-                movingPieceX = event.x
-                movingPieceY = event.y
+                movingPiece?.let {
+                    it.x = event.x
+                    it.y = event.y
+                }
+
                 invalidate() // calls onDraw
             }
             MotionEvent.ACTION_UP -> {
@@ -88,7 +87,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                     board?.movePiece(previousTouchedSquare, touchedSquare)
                 }
                 movingPiece = null
-                movingPieceBitmap = null
                 currentlyTouchedSquare = null
                 invalidate() // calls onDraw
             }
@@ -105,14 +103,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawPieces() {
-        board?.pieces()?.forEach {
-            if (it != movingPiece) {
-                chessDrawer.drawPiece(it)
+        board?.pieces()?.forEach { piece ->
+            if (movingPiece == null || piece != movingPiece!!.piece) {
+                chessDrawer.drawPiece(piece)
             }
         }
 
-        movingPieceBitmap?.let {
-            chessDrawer.drawPieceAtPosition(movingPieceX, movingPieceY - MOVING_PIECE_Y_OFFSET, it, scale = MOVING_PIECE_SCALE)
+        movingPiece?.let {
+            chessDrawer.drawPieceAtPosition(it.x, it.y - MOVING_PIECE_Y_OFFSET, it.bitmap, scale = MOVING_PIECE_SCALE)
         }
     }
 
@@ -207,6 +205,8 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
     }
 
 }
+
+private data class MovingPiece(val piece: Piece, var x: Float, var y: Float, val bitmap: Bitmap)
 
 private fun getPieceBitmap(piece: Piece): Bitmap? {
     return BITMAPS[piece.player]?.get(piece.type)
