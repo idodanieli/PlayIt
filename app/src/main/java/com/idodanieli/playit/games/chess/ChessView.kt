@@ -39,6 +39,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         setMeasuredDimension(smaller, smaller)
     }
 
+    // onDraw is called everytime invalidate() is called
+    // the order of the draw functions inside is crucial
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
 
@@ -49,7 +51,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         chessDrawer.drawChessboard()
 
-        currentlyTouchedSquare?.let {
+        currentlyTouchedSquare?.let { // if a square is touched, it will be highlighted purple for indication
             chessDrawer.drawSquare(it, COLOR_TOUCHED)
         }
 
@@ -69,7 +71,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
                 board?.pieceAt(touchedSquare)?.let {
                     movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!)
-                    Log.d("CHESS", "clicked ${movingPiece!!.piece.type.name}")
                 }
             }
             MotionEvent.ACTION_MOVE -> {
@@ -83,7 +84,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             }
             MotionEvent.ACTION_UP -> {
                 if (previousTouchedSquare.col != touchedSquare.col || previousTouchedSquare.row != touchedSquare.row) {
-                    board?.movePiece(previousTouchedSquare, touchedSquare)
+                    if (board?.canMove(previousTouchedSquare, touchedSquare) == true) {
+                        board?.movePiece(previousTouchedSquare, touchedSquare)
+                    }
+
                 }
                 movingPiece = null
                 currentlyTouchedSquare = null
@@ -114,16 +118,8 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
         this.squareSize = size
     }
 
-    fun drawChessboard() {
-        for (row in 0 until CHESS_BOARD_SIZE) {
-            for (col in 0 until CHESS_BOARD_SIZE) {
-                val square = Square(col, row)
-                val isDark = (square.col + square.row) % 2 == 1
-                this.drawSquare(square, if (isDark) darkColor else lightColor)
-            }
-        }
-    }
-
+    // drawPieces draws all the pieces on the board
+    // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
     fun drawPieces(board: Board?, movingPiece: MovingPiece?) {
         board?.pieces()?.forEach { piece ->
             if (movingPiece == null || piece != movingPiece.piece) {
@@ -132,17 +128,18 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
         }
 
         movingPiece?.let {
-            this.drawPieceAtPosition(it.x, it.y - MOVING_PIECE_Y_OFFSET, it.bitmap, scale = MOVING_PIECE_SCALE)
+            this.drawBitmapAtPosition(it.x, it.y - MOVING_PIECE_Y_OFFSET, it.bitmap, scale = MOVING_PIECE_SCALE)
         }
     }
 
+    // drawPiece draws the given piece at the right square on the board
     fun drawPiece(piece: Piece) {
-        this.drawPieceAtSquare(piece.square, getPieceBitmap(piece)!!)
+        this.drawBitmapAtSquare(piece.square, getPieceBitmap(piece)!!)
     }
 
     // drawPieceAtPosition draws the piece in the given position on the screen
     // @param scale = the scaling of the piece
-    fun drawPieceAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) =
+    fun drawBitmapAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) =
         canvas.drawBitmap(
             bitmap,
             null,
@@ -156,7 +153,7 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
         )
 
     // drawSquare draws a square
-    fun drawPieceAtSquare(square: Square, bitmap: Bitmap) =
+    fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) =
         this.canvas.drawBitmap(
             bitmap,
             null,
@@ -169,6 +166,18 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
             Paint()
         )
 
+    // drawChessboard draws the whole chessboard ( without the pieces )
+    fun drawChessboard() {
+        for (row in 0 until CHESS_BOARD_SIZE) {
+            for (col in 0 until CHESS_BOARD_SIZE) {
+                val square = Square(col, row)
+                val isDark = (square.col + square.row) % 2 == 1
+                this.drawSquare(square, if (isDark) darkColor else lightColor)
+            }
+        }
+    }
+
+    // drawSquare draws the square at the right position on the screen
     fun drawSquare(square: Square, color: Int) {
         this.canvas.drawRect(
             square.col * squareSize,

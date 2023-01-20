@@ -66,7 +66,8 @@ class Board {
         for (i in 1..gap) {
             val nextCol = if (to.col > from.col) from.col + i else from.col - i
             val nextRow = if (to.row > from.row) from.row + i else from.row - i
-            if (pieceAt(nextCol, nextRow) != null) {
+            val nextSquare = Square(nextCol, nextRow)
+            if (pieceAt(nextSquare) != null) {
                 return false
             }
         }
@@ -121,16 +122,10 @@ class Board {
     }
 
     fun movePiece(from: Square, to: Square) {
-        if (canMove(from, to)) {
-            movePiece(from.col, from.row, to.col, to.row)
-        }
-    }
+        if (from.col == to.col && from.row == to.row) return
+        val movingPiece = pieceAt(from) ?: return
 
-    private fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int) {
-        if (fromCol == toCol && fromRow == toRow) return
-        val movingPiece = pieceAt(fromCol, fromRow) ?: return
-
-        pieceAt(toCol, toRow)?.let {
+        pieceAt(to)?.let {
             if (it.player == movingPiece.player) {
                 return
             }
@@ -138,7 +133,7 @@ class Board {
         }
 
         piecesBox.remove(movingPiece)
-        addPiece(movingPiece.copy(square = Square(toCol, toRow)))
+        addPiece(movingPiece.copy(square = to))
     }
 
     fun reset() {
@@ -165,16 +160,14 @@ class Board {
         addPiece(Piece(Square(4, 7), Player.BLACK, Type.KING))
     }
 
+    // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
-        return pieceAt(square.col, square.row)
-    }
-
-    private fun pieceAt(col: Int, row: Int): Piece? {
         for (piece in piecesBox) {
-            if (col == piece.square.col && row == piece.square.row) {
+            if (square.col == piece.square.col && square.row == piece.square.row) {
                 return  piece
             }
         }
+
         return null
     }
 
@@ -194,7 +187,7 @@ class Board {
         var desc = ""
         for (col in 0 until 8) {
             desc += " "
-            desc += pieceAt(col, row)?.let { piece ->
+            desc += pieceAt(Square(col, row))?.let { piece ->
                 val white = piece.player == Player.WHITE
                 when (piece.type) {
                     Type.KING -> if (white) "k" else "K"
