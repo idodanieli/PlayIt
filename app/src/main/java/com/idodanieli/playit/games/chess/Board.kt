@@ -107,7 +107,7 @@ class Board {
 
 
     fun canMove(from: Square, to: Square): Boolean {
-        if (from.col == to.col && from.row == to.row) {
+        if (from == to) {
             return  false
         }
         val movingPiece = pieceAt(from) ?: return false
@@ -122,7 +122,7 @@ class Board {
     }
 
     fun movePiece(from: Square, to: Square) {
-        if (from.col == to.col && from.row == to.row) return
+        if (from == to) return
         val movingPiece = pieceAt(from) ?: return
 
         pieceAt(to)?.let {
@@ -163,7 +163,7 @@ class Board {
     // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
         for (piece in piecesBox) {
-            if (square.col == piece.square.col && square.row == piece.square.row) {
+            if (square == piece.square) {
                 return  piece
             }
         }

@@ -83,7 +83,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 invalidate() // calls onDraw
             }
             MotionEvent.ACTION_UP -> {
-                if (previousTouchedSquare.col != touchedSquare.col || previousTouchedSquare.row != touchedSquare.row) {
+                if (previousTouchedSquare != touchedSquare) {
                     if (board?.canMove(previousTouchedSquare, touchedSquare) == true) {
                         board?.movePiece(previousTouchedSquare, touchedSquare)
                     }
