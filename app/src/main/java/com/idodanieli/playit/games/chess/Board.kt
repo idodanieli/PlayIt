@@ -6,7 +6,7 @@ class Board {
     private var piecesBox = mutableSetOf<Piece>()
 
     init {
-        reset()
+        addPieces()
     }
 
     fun pieces(): Set<Piece> {
@@ -111,6 +111,7 @@ class Board {
             return  false
         }
         val movingPiece = pieceAt(from) ?: return false
+
         return when(movingPiece.type) {
             Type.KNIGHT -> canKnightMove(from, to)
             Type.ROOK -> canRookMove(from, to)
@@ -136,7 +137,20 @@ class Board {
         addPiece(movingPiece.copy(square = to))
     }
 
-    fun reset() {
+    // pieceAt returns the piece at the given square. if there is none - returns null
+    fun pieceAt(square: Square): Piece? {
+        for (piece in piecesBox) {
+            if (square == piece.square) {
+                return  piece
+            }
+        }
+
+        return null
+    }
+
+    // addPieces adds all the pieces to the board at the correct order
+    // TODO: make this more general so we could have different boards
+    private fun addPieces() {
         clear()
         for (i in 0 until 2) {
             addPiece(Piece(Square(0 + i * 7, 0), Player.WHITE, Type.ROOK))
@@ -158,17 +172,6 @@ class Board {
         addPiece(Piece(Square(3, 7), Player.BLACK, Type.QUEEN))
         addPiece(Piece(Square(4, 0), Player.WHITE, Type.KING))
         addPiece(Piece(Square(4, 7), Player.BLACK, Type.KING))
-    }
-
-    // pieceAt returns the piece at the given square. if there is none - returns null
-    fun pieceAt(square: Square): Piece? {
-        for (piece in piecesBox) {
-            if (square == piece.square) {
-                return  piece
-            }
-        }
-
-        return null
     }
 
     override fun toString(): String {
