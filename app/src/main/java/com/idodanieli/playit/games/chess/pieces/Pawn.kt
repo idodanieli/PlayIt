@@ -1,0 +1,16 @@
+package com.idodanieli.playit.games.chess.pieces
+
+import com.idodanieli.playit.games.chess.Square
+
+class Pawn(square: Square, player: Player, type: Type) : BasePiece(square, player, type) {
+    override fun canMove(destination: Square): Boolean {
+        if (this.square.col == destination.col) {
+            if (this.square.row == 1) {
+                return destination.row == 2 || destination.row == 3
+            } else if (this.square.row == 6) {
+                return destination.row == 5 || destination.row == 4
+            }
+        }
+        return false
+    }
+}

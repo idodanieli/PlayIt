@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess
 
+import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.abs
 
 class Board {
@@ -94,17 +95,6 @@ class Board {
         return false
     }
 
-    private fun canPawnMove(from: Square, to: Square): Boolean {
-        if (from.col == to.col) {
-            if (from.row == 1) {
-                return to.row == 2 || to.row == 3
-            } else if (from.row == 6) {
-                return to.row == 5 || to.row == 4
-            }
-        }
-        return false
-    }
-
 
     fun canMove(from: Square, to: Square): Boolean {
         if (from == to) {
@@ -118,7 +108,7 @@ class Board {
             Type.BISHOP -> canBishopMove(from, to)
             Type.QUEEN -> canQueenMove(from, to)
             Type.KING -> canKingMove(from, to)
-            Type.PAWN -> canPawnMove(from, to)
+            Type.PAWN -> movingPiece.canMove(to)
         }
     }
 
@@ -133,8 +123,7 @@ class Board {
             piecesBox.remove(it)
         }
 
-        piecesBox.remove(movingPiece)
-        addPiece(movingPiece.copy(square = to))
+        movingPiece.square = to
     }
 
     // pieceAt returns the piece at the given square. if there is none - returns null
@@ -153,25 +142,25 @@ class Board {
     private fun addPieces() {
         clear()
         for (i in 0 until 2) {
-            addPiece(Piece(Square(0 + i * 7, 0), Player.WHITE, Type.ROOK))
-            addPiece(Piece(Square(0 + i * 7, 7), Player.BLACK, Type.ROOK))
+            addPiece(BasePiece(Square(0 + i * 7, 0), Player.WHITE, Type.ROOK))
+            addPiece(BasePiece(Square(0 + i * 7, 7), Player.BLACK, Type.ROOK))
 
-            addPiece(Piece(Square(1 + i * 5, 0), Player.WHITE, Type.KNIGHT))
-            addPiece(Piece(Square(1 + i * 5, 7), Player.BLACK, Type.KNIGHT))
+            addPiece(BasePiece(Square(1 + i * 5, 0), Player.WHITE, Type.KNIGHT))
+            addPiece(BasePiece(Square(1 + i * 5, 7), Player.BLACK, Type.KNIGHT))
 
-            addPiece(Piece(Square(2 + i * 3, 0), Player.WHITE, Type.BISHOP))
-            addPiece(Piece(Square(2 + i * 3, 7), Player.BLACK, Type.BISHOP))
+            addPiece(BasePiece(Square(2 + i * 3, 0), Player.WHITE, Type.BISHOP))
+            addPiece(BasePiece(Square(2 + i * 3, 7), Player.BLACK, Type.BISHOP))
         }
 
         for (i in 0 until 8) {
-            addPiece(Piece(Square(i, 1), Player.WHITE, Type.PAWN))
-            addPiece(Piece(Square(i, 6), Player.BLACK, Type.PAWN))
+            addPiece(Pawn(Square(i, 1), Player.WHITE, Type.PAWN))
+            addPiece(Pawn(Square(i, 6), Player.BLACK, Type.PAWN))
         }
 
-        addPiece(Piece(Square(3, 0), Player.WHITE, Type.QUEEN))
-        addPiece(Piece(Square(3, 7), Player.BLACK, Type.QUEEN))
-        addPiece(Piece(Square(4, 0), Player.WHITE, Type.KING))
-        addPiece(Piece(Square(4, 7), Player.BLACK, Type.KING))
+        addPiece(BasePiece(Square(3, 0), Player.WHITE, Type.QUEEN))
+        addPiece(BasePiece(Square(3, 7), Player.BLACK, Type.QUEEN))
+        addPiece(BasePiece(Square(4, 0), Player.WHITE, Type.KING))
+        addPiece(BasePiece(Square(4, 7), Player.BLACK, Type.KING))
     }
 
     override fun toString(): String {
