@@ -2,7 +2,7 @@ package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.Square
 
-interface Piece: Cloneable {
+interface Piece {
     var square: Square
     val player: Player
     val type: Type
