@@ -9,11 +9,16 @@ interface Piece {
     val type: Type
 
     fun canMove(destination: Square, board: Board): Boolean
+    fun onMove()
 }
 
 open class BasePiece(override var square: Square, override val player: Player, override val type: Type): Piece {
     override fun canMove(destination: Square, board: Board): Boolean {
         TODO("Not yet implemented")
+    }
+
+    override fun onMove() {
+        return
     }
 }
 

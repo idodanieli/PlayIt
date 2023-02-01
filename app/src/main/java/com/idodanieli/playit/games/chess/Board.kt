@@ -83,6 +83,7 @@ class Board {
         }
 
         movingPiece.square = to
+        movingPiece.onMove()
     }
 
     // pieceAt returns the piece at the given square. if there is none - returns null
