@@ -22,20 +22,7 @@ class Board {
         piecesBox.add(piece)
     }
 
-    private fun canKnightMove(from: Square, to: Square): Boolean {
-        return abs(from.col - to.col) == 2 && abs(from.row - to.row) == 1 ||
-                abs(from.col - to.col) == 1 && abs(from.row - to.row) == 2
-    }
-
-    private fun canRookMove(from: Square, to: Square): Boolean {
-        if (from.col == to.col && isClearVerticallyBetween(from, to) ||
-            from.row == to.row && isClearHorizontallyBetween(from, to)) {
-            return true
-        }
-        return false
-    }
-
-    private fun isClearVerticallyBetween(from: Square, to: Square): Boolean {
+    fun isClearVerticallyBetween(from: Square, to: Square): Boolean {
         if (from.col != to.col) return false
         val gap = abs(from.row - to.row) - 1
         if (gap == 0 ) return true
@@ -48,7 +35,7 @@ class Board {
         return true
     }
 
-    private fun isClearHorizontallyBetween(from: Square, to: Square): Boolean {
+    fun isClearHorizontallyBetween(from: Square, to: Square): Boolean {
         if (from.row != to.row) return false
         val gap = abs(from.col - to.col) - 1
         if (gap == 0 ) return true
@@ -61,7 +48,7 @@ class Board {
         return true
     }
 
-    private fun isClearDiagonally(from: Square, to: Square): Boolean {
+    fun isClearDiagonally(from: Square, to: Square): Boolean {
         if (abs(from.col - to.col) != abs(from.row - to.row)) return false
         val gap = abs(from.col - to.col) - 1
         for (i in 1..gap) {
@@ -75,41 +62,13 @@ class Board {
         return true
     }
 
-    private fun canBishopMove(from: Square, to: Square): Boolean {
-        if (abs(from.col - to.col) == abs(from.row - to.row)) {
-            return isClearDiagonally(from, to)
-        }
-        return false
-    }
-
-    private fun canQueenMove(from: Square, to: Square): Boolean {
-        return canRookMove(from, to) || canBishopMove(from, to)
-    }
-
-    private fun canKingMove(from: Square, to: Square): Boolean {
-        if (canQueenMove(from, to)) {
-            val deltaCol = abs(from.col - to.col)
-            val deltaRow = abs(from.row - to.row)
-            return deltaCol == 1 && deltaRow == 1 || deltaCol + deltaRow == 1
-        }
-        return false
-    }
-
-
     fun canMove(from: Square, to: Square): Boolean {
         if (from == to) {
             return  false
         }
         val movingPiece = pieceAt(from) ?: return false
 
-        return when(movingPiece.type) {
-            Type.KNIGHT -> canKnightMove(from, to)
-            Type.ROOK -> canRookMove(from, to)
-            Type.BISHOP -> canBishopMove(from, to)
-            Type.QUEEN -> canQueenMove(from, to)
-            Type.KING -> canKingMove(from, to)
-            Type.PAWN -> movingPiece.canMove(to)
-        }
+        return movingPiece.canMove(to, this)
     }
 
     fun movePiece(from: Square, to: Square) {
@@ -142,14 +101,14 @@ class Board {
     private fun addPieces() {
         clear()
         for (i in 0 until 2) {
-            addPiece(BasePiece(Square(0 + i * 7, 0), Player.WHITE, Type.ROOK))
-            addPiece(BasePiece(Square(0 + i * 7, 7), Player.BLACK, Type.ROOK))
+            addPiece(Rook(Square(0 + i * 7, 0), Player.WHITE, Type.ROOK))
+            addPiece(Rook(Square(0 + i * 7, 7), Player.BLACK, Type.ROOK))
 
-            addPiece(BasePiece(Square(1 + i * 5, 0), Player.WHITE, Type.KNIGHT))
-            addPiece(BasePiece(Square(1 + i * 5, 7), Player.BLACK, Type.KNIGHT))
+            addPiece(Knight(Square(1 + i * 5, 0), Player.WHITE, Type.KNIGHT))
+            addPiece(Knight(Square(1 + i * 5, 7), Player.BLACK, Type.KNIGHT))
 
-            addPiece(BasePiece(Square(2 + i * 3, 0), Player.WHITE, Type.BISHOP))
-            addPiece(BasePiece(Square(2 + i * 3, 7), Player.BLACK, Type.BISHOP))
+            addPiece(Bishop(Square(2 + i * 3, 0), Player.WHITE, Type.BISHOP))
+            addPiece(Bishop(Square(2 + i * 3, 7), Player.BLACK, Type.BISHOP))
         }
 
         for (i in 0 until 8) {
@@ -157,10 +116,10 @@ class Board {
             addPiece(Pawn(Square(i, 6), Player.BLACK, Type.PAWN))
         }
 
-        addPiece(BasePiece(Square(3, 0), Player.WHITE, Type.QUEEN))
-        addPiece(BasePiece(Square(3, 7), Player.BLACK, Type.QUEEN))
-        addPiece(BasePiece(Square(4, 0), Player.WHITE, Type.KING))
-        addPiece(BasePiece(Square(4, 7), Player.BLACK, Type.KING))
+        addPiece(Queen(Square(3, 0), Player.WHITE, Type.QUEEN))
+        addPiece(Queen(Square(3, 7), Player.BLACK, Type.QUEEN))
+        addPiece(King(Square(4, 0), Player.WHITE, Type.KING))
+        addPiece(King(Square(4, 7), Player.BLACK, Type.KING))
     }
 
     override fun toString(): String {
