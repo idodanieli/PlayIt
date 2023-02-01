@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.idodanieli.playit.R
-import com.idodanieli.playit.games.chess.pieces.Player
+import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.pieces.Type
 import com.idodanieli.playit.games.chess.pieces.Piece
 import kotlin.math.min
@@ -65,14 +65,21 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         event ?: return false
 
         val touchedSquare = getTouchedSquare(event)
+        val touchedPiece: Piece? = game.board.pieceAt(touchedSquare)
+
+        touchedPiece?.let {
+            if (game.currentPlayer != touchedPiece.player) {
+                return false
+            }
+        }
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 previousTouchedSquare = touchedSquare
                 currentlyTouchedSquare = touchedSquare
 
-                game.board.pieceAt(touchedSquare)?.let {
-                    movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!)
+                touchedPiece?.let {
+                    movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!, it.player)
                 }
             }
             MotionEvent.ACTION_MOVE -> {
@@ -85,11 +92,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 invalidate() // calls onDraw
             }
             MotionEvent.ACTION_UP -> {
-                if (previousTouchedSquare != touchedSquare) {
-                    if (game.board.canMove(previousTouchedSquare, touchedSquare)) {
-                        game.board.movePiece(previousTouchedSquare, touchedSquare)
-                    }
-
+                if (previousTouchedSquare != touchedSquare &&
+                    game.board.canMove(previousTouchedSquare, touchedSquare)) {
+                    game.movePiece(previousTouchedSquare, touchedSquare)
                 }
                 movingPiece = null
                 currentlyTouchedSquare = null
@@ -192,7 +197,7 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
 
 }
 
-private data class MovingPiece(val piece: Piece, var x: Float, var y: Float, val bitmap: Bitmap)
+private data class MovingPiece(val piece: Piece, var x: Float, var y: Float, val bitmap: Bitmap, var player: Player)
 
 //// HELPER FUNCTIONS \\\\
 

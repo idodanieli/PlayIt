@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.Board
+import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
 
 interface Piece {
@@ -29,9 +30,4 @@ enum class Type {
     BISHOP,
     KNIGHT,
     PAWN,
-}
-
-enum class Player {
-    WHITE,
-    BLACK,
 }

@@ -54,21 +54,6 @@ class Board(private var piecesBox: MutableSet<Piece>) {
         return movingPiece.canMove(to, this)
     }
 
-    fun movePiece(from: Square, to: Square) {
-        if (from == to) return
-        val movingPiece = pieceAt(from) ?: return
-
-        pieceAt(to)?.let {
-            if (it.player == movingPiece.player) {
-                return
-            }
-            piecesBox.remove(it)
-        }
-
-        movingPiece.square = to
-        movingPiece.onMove()
-    }
-
     // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
         for (piece in piecesBox) {

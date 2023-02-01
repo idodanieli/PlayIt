@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
-import com.idodanieli.playit.games.chess.Board
-import com.idodanieli.playit.games.chess.Square
+import com.idodanieli.playit.games.chess.*
 import kotlin.math.abs
 
 class King(square: Square, player: Player, type: Type) : BasePiece(square, player, type) {

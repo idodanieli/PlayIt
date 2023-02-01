@@ -4,9 +4,27 @@ import com.idodanieli.playit.games.chess.pieces.*
 
 data class Game(var pieces: MutableSet<Piece>) {
     val board = Board(pieces)
+    var currentPlayer = Player.WHITE // white always starts in chess
 
     fun pieces(): Set<Piece> {
         return this.pieces
+    }
+
+    fun movePiece(from: Square, to: Square) {
+        if (from == to) return
+        val movingPiece = this.board.pieceAt(from) ?: return
+
+        this.board.pieceAt(to)?.let {
+            if (it.player == movingPiece.player) {
+                return
+            }
+            pieces.remove(it)
+        }
+
+        movingPiece.square = to
+        movingPiece.onMove()
+
+        this.currentPlayer = currentPlayer.opposite()
     }
 }
 
