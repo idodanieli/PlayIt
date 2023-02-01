@@ -13,7 +13,7 @@ import com.idodanieli.playit.games.chess.pieces.Type
 import com.idodanieli.playit.games.chess.pieces.Piece
 import kotlin.math.min
 
-private const val CHESS_BOARD_SIZE = 8
+private const val CHESSBOARD_SIZE = 8
 private const val MOVING_PIECE_SCALE = 1.5f
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
 
@@ -29,7 +29,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var movingPiece: MovingPiece? = null
     private var previousTouchedSquare: Square = Square(-1, -1)
     private var currentlyTouchedSquare: Square? = null
-    private var board: Board? = Board()
+    private var game: Game = Game(classicPiecesSet())
 
     init {
         loadBitmaps(resources)
@@ -46,7 +46,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
 
-        squareSize = width / CHESS_BOARD_SIZE.toFloat()
+        squareSize = width / CHESSBOARD_SIZE.toFloat()
 
         chessDrawer.setCanvas(canvas)
         chessDrawer.setSize(squareSize)
@@ -57,7 +57,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             chessDrawer.drawSquare(it, COLOR_TOUCHED)
         }
 
-        chessDrawer.drawPieces(board, movingPiece)
+        chessDrawer.drawPieces(game, movingPiece)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -71,7 +71,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 previousTouchedSquare = touchedSquare
                 currentlyTouchedSquare = touchedSquare
 
-                board?.pieceAt(touchedSquare)?.let {
+                game.board.pieceAt(touchedSquare)?.let {
                     movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!)
                 }
             }
@@ -86,8 +86,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             }
             MotionEvent.ACTION_UP -> {
                 if (previousTouchedSquare != touchedSquare) {
-                    if (board?.canMove(previousTouchedSquare, touchedSquare) == true) {
-                        board?.movePiece(previousTouchedSquare, touchedSquare)
+                    if (game.board.canMove(previousTouchedSquare, touchedSquare)) {
+                        game.board.movePiece(previousTouchedSquare, touchedSquare)
                     }
 
                 }
@@ -120,10 +120,10 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
         this.squareSize = size
     }
 
-    // drawPieces draws all the pieces on the board
+    // drawPieces draws all the pieces on the game.board
     // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
-    fun drawPieces(board: Board?, movingPiece: MovingPiece?) {
-        board?.pieces()?.forEach { piece ->
+    fun drawPieces(game: Game, movingPiece: MovingPiece?) {
+        game.pieces().forEach { piece ->
             if (movingPiece == null || piece != movingPiece.piece) {
                 this.drawPiece(piece)
             }
@@ -134,7 +134,7 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
         }
     }
 
-    // drawPiece draws the given piece at the right square on the board
+    // drawPiece draws the given piece at the right square on the game.board
     fun drawPiece(piece: Piece) {
         this.drawBitmapAtSquare(piece.square, getPieceBitmap(piece)!!)
     }
@@ -168,10 +168,10 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
             Paint()
         )
 
-    // drawChessboard draws the whole chessboard ( without the pieces )
+    // drawChessgame.board draws the whole chessgame.board ( without the pieces )
     fun drawChessboard() {
-        for (row in 0 until CHESS_BOARD_SIZE) {
-            for (col in 0 until CHESS_BOARD_SIZE) {
+        for (row in 0 until CHESSBOARD_SIZE) {
+            for (col in 0 until CHESSBOARD_SIZE) {
                 val square = Square(col, row)
                 val isDark = (square.col + square.row) % 2 == 1
                 this.drawSquare(square, if (isDark) darkColor else lightColor)

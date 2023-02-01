@@ -3,24 +3,7 @@ package com.idodanieli.playit.games.chess
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.abs
 
-class Board {
-    private var piecesBox = mutableSetOf<Piece>()
-
-    init {
-        addPieces()
-    }
-
-    fun pieces(): Set<Piece> {
-        return piecesBox
-    }
-
-    fun clear() {
-        piecesBox.clear()
-    }
-
-    fun addPiece(piece: Piece) {
-        piecesBox.add(piece)
-    }
+class Board(private var piecesBox: MutableSet<Piece>) {
 
     fun isClearVerticallyBetween(from: Square, to: Square): Boolean {
         if (from.col != to.col) return false
@@ -95,32 +78,6 @@ class Board {
         }
 
         return null
-    }
-
-    // addPieces adds all the pieces to the board at the correct order
-    // TODO: make this more general so we could have different boards
-    private fun addPieces() {
-        clear()
-        for (i in 0 until 2) {
-            addPiece(Rook(Square(0 + i * 7, 0), Player.WHITE, Type.ROOK))
-            addPiece(Rook(Square(0 + i * 7, 7), Player.BLACK, Type.ROOK))
-
-            addPiece(Knight(Square(1 + i * 5, 0), Player.WHITE, Type.KNIGHT))
-            addPiece(Knight(Square(1 + i * 5, 7), Player.BLACK, Type.KNIGHT))
-
-            addPiece(Bishop(Square(2 + i * 3, 0), Player.WHITE, Type.BISHOP))
-            addPiece(Bishop(Square(2 + i * 3, 7), Player.BLACK, Type.BISHOP))
-        }
-
-        for (i in 0 until 8) {
-            addPiece(Pawn(Square(i, 1), Player.WHITE, Type.PAWN))
-            addPiece(Pawn(Square(i, 6), Player.BLACK, Type.PAWN))
-        }
-
-        addPiece(Queen(Square(3, 0), Player.WHITE, Type.QUEEN))
-        addPiece(Queen(Square(3, 7), Player.BLACK, Type.QUEEN))
-        addPiece(King(Square(4, 0), Player.WHITE, Type.KING))
-        addPiece(King(Square(4, 7), Player.BLACK, Type.KING))
     }
 
     override fun toString(): String {
