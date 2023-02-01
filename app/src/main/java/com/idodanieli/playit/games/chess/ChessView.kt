@@ -29,6 +29,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var movingPiece: MovingPiece? = null
     private var previousTouchedSquare: Square = Square(-1, -1)
     private var currentlyTouchedSquare: Square? = null
+    private var touchedPiece: Piece? = null
     private var game: Game = Game(classicPiecesSet())
 
     init {
@@ -53,11 +54,20 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         chessDrawer.drawChessboard()
 
-        currentlyTouchedSquare?.let { // if a square is touched, it will be highlighted purple for indication
+        this.drawTouchEvents()
+
+        chessDrawer.drawPieces(game, movingPiece)
+    }
+
+    private fun drawTouchEvents() {
+        // if a square / piece is touched, it will be highlighted purple for indication
+        currentlyTouchedSquare?.let {
             chessDrawer.drawSquare(it, COLOR_TOUCHED)
         }
 
-        chessDrawer.drawPieces(game, movingPiece)
+        touchedPiece?.let {
+            chessDrawer.drawSquare(it.square, COLOR_TOUCHED)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -65,10 +75,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         event ?: return false
 
         val touchedSquare = getTouchedSquare(event)
-        val touchedPiece: Piece? = game.board.pieceAt(touchedSquare)
+        touchedPiece = game.board.pieceAt(touchedSquare)
 
         touchedPiece?.let {
-            if (game.currentPlayer != touchedPiece.player) {
+            if (game.currentPlayer != it.player) {
                 return false
             }
         }
