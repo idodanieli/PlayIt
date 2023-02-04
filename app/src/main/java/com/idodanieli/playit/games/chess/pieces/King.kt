@@ -15,7 +15,7 @@ class King(square: Square, player: Player, type: Type) : BasePiece(square, playe
 
                 val move = Square(square.col + i, square.row + j)
 
-                if (board.isIn(move) && board.isFree(move)) {
+                if (board.isIn(move) && board.playerAt(move) != player) {
                     moves.add(move)
                 }
             }

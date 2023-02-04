@@ -75,6 +75,11 @@ class Board(private var piecesBox: MutableSet<Piece>, private var size: Int) {
         return pieceAt(square) == null
     }
 
+    // playerAt returns the player at the given square
+    fun playerAt(square: Square): Player? {
+        return pieceAt(square)?.player
+    }
+
     override fun toString(): String {
         var desc = " \n"
         for (row in 7 downTo 0) {

@@ -24,6 +24,33 @@ open class BasePiece(override var square: Square, override val player: Player, o
     override fun availableSquares(board: Board): List<Square> {
         TODO("Not yet implemented")
     }
+
+    // getAllAvailableMovesInDirection returns all the available moves in the given direction
+    // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
+    fun getAllAvailableMovesInDirection(board: Board, direction: Square): List<Square> {
+        val moves = arrayListOf<Square>()
+        var move = square + direction
+
+        while (board.isIn(move)) {
+            when(board.playerAt(move)) {
+                // a piece as same as the bishop
+                player -> {
+                    break
+                }
+                // an enemy piece
+                player.opposite() -> {
+                    moves.add(move)
+                    break
+                }
+                else -> {
+                    moves.add(move)
+                    move += direction
+                }
+            }
+        }
+
+        return moves
+    }
 }
 
 enum class Type {

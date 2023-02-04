@@ -25,6 +25,10 @@ class Pawn(square: Square, player: Player, type: Type) : BasePiece(square, playe
         val defaultMove = Square(square.col, square.row + direction)
         if (board.isIn(defaultMove)) { moves.add(defaultMove) }
 
+        for (move in moves) {
+            if (!board.isFree(move)) { moves.remove(move) }
+        }
+
         val eatMove1 = Square(square.col - 1, square.row + direction)
         val eatMove2 = Square(square.col + 1, square.row + direction)
         for (move in listOf(eatMove1, eatMove2)) {

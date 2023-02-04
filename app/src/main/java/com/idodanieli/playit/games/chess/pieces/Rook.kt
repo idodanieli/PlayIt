@@ -13,19 +13,8 @@ class Rook(square: Square, player: Player, type: Type) : BasePiece(square, playe
             for (j in moveOffsets) {
                 if (i == 0 && j == 0 || Math.abs(i) == Math.abs(j)) { continue }
 
-                var col = square.col + i
-                var row = square.row + j
-
-                while (board.isIn(Square(col, row))) {
-                    val move = Square(col, row)
-
-                    // stops this direction if a piece is blocking
-                    if (!board.isFree(move)) { break }
-
-                    moves.add(move)
-                    col += i
-                    row += j
-                }
+                val direction = Square(i, j)
+                moves.addAll(getAllAvailableMovesInDirection(board, direction))
             }
         }
 

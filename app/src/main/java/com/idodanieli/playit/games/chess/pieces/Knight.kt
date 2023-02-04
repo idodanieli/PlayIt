@@ -18,7 +18,7 @@ class Knight(square: Square, player: Player, type: Type) : BasePiece(square, pla
                 val move2 = Square(this.square.col + j, this.square.row + i)
 
                 for (move in listOf(move1, move2)) {
-                    if (board.isIn(move) && board.isFree(move)) { moves.add(move) }
+                    if (board.isIn(move) && board.playerAt(move) != player) { moves.add(move) }
                 }
             }
         }

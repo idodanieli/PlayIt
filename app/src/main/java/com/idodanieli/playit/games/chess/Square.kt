@@ -11,6 +11,8 @@ class Square(val col: Int, val row: Int) {
         return result
     }
 
+    operator fun plus(other: Square) = Square(col + other.col, row + other.row)
+
     fun isDark(): Boolean {
         return (col + row) % 2 == 1
     }

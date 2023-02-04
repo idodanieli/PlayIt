@@ -79,20 +79,18 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         event ?: return false
 
         val touchedSquare = getTouchedSquare(event)
-        touchedPiece = game.board.pieceAt(touchedSquare)
-
-        touchedPiece?.let {
-            if (game.currentPlayer != it.player) {
-                return false
-            }
-        }
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 previousTouchedSquare = touchedSquare
                 currentlyTouchedSquare = touchedSquare
+                touchedPiece = game.board.pieceAt(touchedSquare)
 
                 touchedPiece?.let {
+                    if (game.currentPlayer != it.player) {
+                        return false
+                    }
+
                     movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!, it.player)
                     availableSquares = it.availableSquares(game.board)
                 }
@@ -110,6 +108,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 if (previousTouchedSquare != touchedSquare &&
                     game.board.canMove(previousTouchedSquare, touchedSquare)) {
                     game.movePiece(previousTouchedSquare, touchedSquare)
+                    touchedPiece = null
                 }
                 movingPiece = null
                 currentlyTouchedSquare = null
