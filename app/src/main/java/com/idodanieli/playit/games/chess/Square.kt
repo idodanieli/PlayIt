@@ -11,5 +11,8 @@ class Square(val col: Int, val row: Int) {
         return result
     }
 
+    fun isDark(): Boolean {
+        return (col + row) % 2 == 1
+    }
 }
 

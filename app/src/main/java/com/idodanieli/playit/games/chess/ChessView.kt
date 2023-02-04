@@ -21,16 +21,19 @@ private var BITMAPS: MutableMap<Player, MutableMap<Type, Bitmap>> = mutableMapOf
 private val COLOR_LIGHT = Color.parseColor("#ffe9c5")
 private val COLOR_DARK = Color.parseColor("#855E42")
 private val COLOR_TOUCHED = Color.parseColor("#CBC3E3")
+private val COLOR_LIGHT_AVAILABLE_SQUARE = Color.parseColor("#FF7276")
+private val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
 
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    private val chessDrawer = ChessDrawer(COLOR_LIGHT, COLOR_DARK)
+    private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, COLOR_LIGHT, COLOR_DARK)
     private var squareSize = 0f
     private var movingPiece: MovingPiece? = null
     private var previousTouchedSquare: Square = Square(-1, -1)
     private var currentlyTouchedSquare: Square? = null
+    private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
-    private var game: Game = Game(classicPiecesSet())
+    private var game: Game = Game(classicPiecesSet(), CHESSBOARD_SIZE)
 
     init {
         loadBitmaps(resources)
@@ -47,7 +50,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
 
-        squareSize = width / CHESSBOARD_SIZE.toFloat()
+        squareSize = width / this.game.size.toFloat()
 
         chessDrawer.setCanvas(canvas)
         chessDrawer.setSize(squareSize)
@@ -67,6 +70,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         touchedPiece?.let {
             chessDrawer.drawSquare(it.square, COLOR_TOUCHED)
+            chessDrawer.drawSquares(availableSquares, COLOR_LIGHT_AVAILABLE_SQUARE, COLOR_DARK_AVAILABLE_SQUARE)
         }
     }
 
@@ -90,6 +94,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
                 touchedPiece?.let {
                     movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!, it.player)
+                    availableSquares = it.availableSquares(game.board)
                 }
             }
             MotionEvent.ACTION_MOVE -> {
@@ -123,7 +128,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 }
 
-private class ChessDrawer(private val lightColor: Int, private val darkColor: Int) {
+private class ChessDrawer(private val size: Int, private val lightColor: Int, private val darkColor: Int) {
     private var canvas = Canvas()
     private var squareSize = 0f
 
@@ -176,21 +181,26 @@ private class ChessDrawer(private val lightColor: Int, private val darkColor: In
             null,
             RectF(
                 square.col * squareSize,
-                (7 - square.row) * squareSize,
+                (size - 1 - square.row) * squareSize,
                 (square.col + 1) * squareSize,
-                ((7 - square.row) + 1) * squareSize
+                ((size - 1 - square.row) + 1) * squareSize
             ),
             Paint()
         )
 
-    // drawChessgame.board draws the whole chessgame.board ( without the pieces )
+    // drawChessboard.board draws the whole chessboard ( without the pieces )
     fun drawChessboard() {
-        for (row in 0 until CHESSBOARD_SIZE) {
-            for (col in 0 until CHESSBOARD_SIZE) {
+        for (row in 0 until size) {
+            for (col in 0 until size) {
                 val square = Square(col, row)
-                val isDark = (square.col + square.row) % 2 == 1
-                this.drawSquare(square, if (isDark) darkColor else lightColor)
+                this.drawSquare(square, if (square.isDark()) darkColor else lightColor)
             }
+        }
+    }
+
+    fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
+        for (square in squares) {
+            this.drawSquare(square, if (square.isDark()) darkColor else lightColor)
         }
     }
 

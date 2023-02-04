@@ -3,7 +3,7 @@ package com.idodanieli.playit.games.chess
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.abs
 
-class Board(private var piecesBox: MutableSet<Piece>) {
+class Board(private var piecesBox: MutableSet<Piece>, private var size: Int) {
 
     fun isClearVerticallyBetween(from: Square, to: Square): Boolean {
         if (from.col != to.col) return false
@@ -63,6 +63,11 @@ class Board(private var piecesBox: MutableSet<Piece>) {
         }
 
         return null
+    }
+
+    // isIn returns true if the given square is in the boards borders
+    fun isIn(square: Square): Boolean {
+        return square.col in 0..this.size && square.row in 0..this.size
     }
 
     override fun toString(): String {
