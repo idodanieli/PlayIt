@@ -13,7 +13,9 @@ private const val STARTING_MAX_STEPS = 1
 //
 // In this variant, Venom piece adds an extra layer of strategy and tactical considerations, as players must weigh the risk and reward of capturing pieces with Venom.
 // Will you use Venom to absorb your opponent's pieces and gain the advantage, or will you protect your pieces and limit Venom's movement options? The choice is yours!
-class Venom(square: Square, player: Player, type: Type) : BasePiece(square, player, type) {
+class Venom(square: Square, player: Player) : BasePiece(square, player) {
+    override val type = Type.VENOM
+    
     private var maxSteps = STARTING_MAX_STEPS // specifies how much steps the piece can make in each direction
 
     override fun onEat(eatenPiece: Piece) {

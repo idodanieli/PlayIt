@@ -34,25 +34,25 @@ fun classicPiecesSet(): MutableSet<Piece> {
     val pieces = mutableSetOf<Piece>()
 
     for (i in 0 until 2) {
-        pieces.add(Rook(Square(0 + i * 7, 0), Player.WHITE, Type.ROOK))
-        pieces.add(Rook(Square(0 + i * 7, 7), Player.BLACK, Type.ROOK))
+        pieces.add(Rook(Square(0 + i * 7, 0), Player.WHITE))
+        pieces.add(Rook(Square(0 + i * 7, 7), Player.BLACK))
 
-        pieces.add(Knight(Square(1 + i * 5, 0), Player.WHITE, Type.KNIGHT))
-        pieces.add(Knight(Square(1 + i * 5, 7), Player.BLACK, Type.KNIGHT))
+        pieces.add(Knight(Square(1 + i * 5, 0), Player.WHITE))
+        pieces.add(Knight(Square(1 + i * 5, 7), Player.BLACK))
 
-        pieces.add(Bishop(Square(2 + i * 3, 0), Player.WHITE, Type.BISHOP))
-        pieces.add(Bishop(Square(2 + i * 3, 7), Player.BLACK, Type.BISHOP))
+        pieces.add(Bishop(Square(2 + i * 3, 0), Player.WHITE))
+        pieces.add(Bishop(Square(2 + i * 3, 7), Player.BLACK))
     }
 
     for (i in 0 until 8) {
-        pieces.add(Pawn(Square(i, 1), Player.WHITE, Type.PAWN))
-        pieces.add(Pawn(Square(i, 6), Player.BLACK, Type.PAWN))
+        pieces.add(Pawn(Square(i, 1), Player.WHITE))
+        pieces.add(Pawn(Square(i, 6), Player.BLACK))
     }
 
-    pieces.add(Queen(Square(3, 0), Player.WHITE, Type.QUEEN))
-    pieces.add(Venom(Square(3, 7), Player.BLACK, Type.VENOM))
-    pieces.add(King(Square(4, 0), Player.WHITE, Type.KING))
-    pieces.add(King(Square(4, 7), Player.BLACK, Type.KING))
+    pieces.add(Queen(Square(3, 0), Player.WHITE))
+    pieces.add(Venom(Square(3, 7), Player.BLACK))
+    pieces.add(King(Square(4, 0), Player.WHITE))
+    pieces.add(King(Square(4, 7), Player.BLACK))
 
     return pieces
 }

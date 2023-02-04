@@ -6,7 +6,9 @@ const val WHITE_DIRECTION = 1
 const val BLACK_DIRECTION = -1
 const val MAX_START_MOVES = 2
 
-class Pawn(square: Square, player: Player, type: Type) : BasePiece(square, player, type) {
+class Pawn(square: Square, player: Player) : BasePiece(square, player) {
+    override val type = Type.PAWN
+
     var direction = WHITE_DIRECTION
     var moved = false // specifies whether the pawn has been moved from its starting square
 

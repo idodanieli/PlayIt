@@ -19,7 +19,9 @@ interface Piece {
     fun onEat(eatenPiece: Piece)
 }
 
-open class BasePiece(override var square: Square, override val player: Player, override val type: Type): Piece {
+open class BasePiece(override var square: Square, override val player: Player): Piece {
+    override val type = Type.NONE
+
     override fun onMove() {
         return
     }
@@ -63,6 +65,7 @@ open class BasePiece(override var square: Square, override val player: Player, o
 }
 
 enum class Type {
+    NONE,
     KING,
     QUEEN,
     ROOK,

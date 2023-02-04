@@ -4,7 +4,8 @@ import com.idodanieli.playit.games.chess.*
 
 private val moveOffsets = arrayOf(1, 2, -1, -2)
 
-class Knight(square: Square, player: Player, type: Type) : BasePiece(square, player, type) {
+class Knight(square: Square, player: Player) : BasePiece(square, player) {
+    override val type = Type.KNIGHT
 
     override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
