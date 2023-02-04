@@ -6,10 +6,6 @@ private val moveOffsets = arrayOf(1, -1, 0)
 
 class Queen(square: Square, player: Player, type: Type) : BasePiece(square, player, type) {
 
-    override fun canMove(destination: Square, board: Board): Boolean {
-        return canQueenMove(this.square, destination, board)
-    }
-
     override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
@@ -29,8 +25,4 @@ class Queen(square: Square, player: Player, type: Type) : BasePiece(square, play
 
         return moves
     }
-}
-
-fun canQueenMove(source: Square, destination: Square, board: Board): Boolean {
-    return canRookMove(source, destination, board) || canBishopMove(source, destination, board)
 }

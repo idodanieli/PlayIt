@@ -7,10 +7,6 @@ private val moveOffsets = arrayOf(1, -1)
 
 class Bishop(square: Square, player: Player, type: Type) : BasePiece(square, player, type) {
 
-    override fun canMove(destination: Square, board: Board): Boolean {
-       return canBishopMove(this.square, destination, board)
-    }
-
     override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
@@ -29,11 +25,4 @@ class Bishop(square: Square, player: Player, type: Type) : BasePiece(square, pla
 
         return moves
     }
-}
-
-fun canBishopMove(source: Square, destination: Square, board: Board): Boolean {
-    if (abs(source.col - destination.col) == abs(source.row - destination.row)) {
-        return board.isClearDiagonally(source, destination)
-    }
-    return false
 }

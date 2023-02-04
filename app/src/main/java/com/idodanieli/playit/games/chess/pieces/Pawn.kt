@@ -17,20 +17,6 @@ class Pawn(square: Square, player: Player, type: Type) : BasePiece(square, playe
         }
     }
 
-    override fun canMove(destination: Square, board: Board): Boolean {
-        // Pawn can only move up in a given column
-        if (square.col != destination.col) {
-            return false
-        }
-
-        // if not moved, pawn can move two squares
-        if (!moved) {
-            return abs(square.row - destination.row) <= MAX_START_MOVES
-        }
-
-        return square.row + direction == destination.row
-    }
-
     override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
         if (!moved) {
@@ -52,6 +38,7 @@ class Pawn(square: Square, player: Player, type: Type) : BasePiece(square, playe
         return moves
     }
 
+    // TODO: Remove this and make a isOnStartingSquare function instead...
     override fun onMove() {
         super.onMove()
 

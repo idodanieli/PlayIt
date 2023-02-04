@@ -51,7 +51,7 @@ class Board(private var piecesBox: MutableSet<Piece>, private var size: Int) {
         }
         val movingPiece = pieceAt(from) ?: return false
 
-        return movingPiece.canMove(to, this)
+        return to in movingPiece.availableSquares(this)
     }
 
     // pieceAt returns the piece at the given square. if there is none - returns null
