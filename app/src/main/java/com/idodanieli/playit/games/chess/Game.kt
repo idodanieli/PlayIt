@@ -50,7 +50,7 @@ fun classicPiecesSet(): MutableSet<Piece> {
     }
 
     pieces.add(Queen(Square(3, 0), Player.WHITE))
-    pieces.add(Venom(Square(3, 7), Player.BLACK))
+    pieces.add(Queen(Square(3, 7), Player.BLACK))
     pieces.add(King(Square(4, 0), Player.WHITE))
     pieces.add(King(Square(4, 7), Player.BLACK))
 
