@@ -2,7 +2,7 @@ package com.idodanieli.playit.games.chess
 
 import com.idodanieli.playit.games.chess.pieces.*
 
-data class Game(private var pieces: MutableSet<Piece>, var size: Int) {
+data class Game(var name: String, private var pieces: MutableSet<Piece>, var size: Int) {
     val board = Board(pieces, size)
     var currentPlayer = Player.WHITE // white always starts in chess
 

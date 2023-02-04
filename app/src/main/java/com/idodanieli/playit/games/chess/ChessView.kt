@@ -13,7 +13,7 @@ import com.idodanieli.playit.games.chess.pieces.Type
 import com.idodanieli.playit.games.chess.pieces.Piece
 import kotlin.math.min
 
-private const val CHESSBOARD_SIZE = 8
+const val CHESSBOARD_SIZE = 8
 
 var BITMAPS: MutableMap<Player, MutableMap<Type, Bitmap>> = mutableMapOf()
 
@@ -25,7 +25,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var currentlyTouchedSquare: Square? = null
     private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
-    private var game: Game = Game(classicPiecesSet(), CHESSBOARD_SIZE)
+    var game: Game = Game("stam", mutableSetOf<Piece>(), CHESSBOARD_SIZE)
 
     init {
         loadBitmaps(resources)
