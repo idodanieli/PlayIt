@@ -16,7 +16,12 @@ class Queen(square: Square, player: Player, type: Type) : BasePiece(square, play
                 var col = square.col + i
                 var row = square.row + j
                 while (board.isIn(Square(col, row))) {
-                    moves.add(Square(col, row))
+                    val move = Square(col, row)
+
+                    // stops this direction if a piece is blocking
+                    if (!board.isFree(move)) { break }
+
+                    moves.add(move)
                     col += i
                     row += j
                 }

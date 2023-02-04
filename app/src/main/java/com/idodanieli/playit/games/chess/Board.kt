@@ -70,6 +70,11 @@ class Board(private var piecesBox: MutableSet<Piece>, private var size: Int) {
         return square.col in 0..this.size && square.row in 0..this.size
     }
 
+    // isFree returns true if the given square doesn't contain a piece
+    fun isFree(square: Square): Boolean {
+        return pieceAt(square) == null
+    }
+
     override fun toString(): String {
         var desc = " \n"
         for (row in 7 downTo 0) {

@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.*
-import kotlin.math.abs
 
 private val moveOffsets = arrayOf(-1, 0, 1)
 
@@ -14,8 +13,9 @@ class King(square: Square, player: Player, type: Type) : BasePiece(square, playe
             for (j in moveOffsets) {
                 if (i == 0 && j == 0) { continue }
 
-                val move = Square(square.col + i, square.col + j)
-                if (board.isIn(move)) {
+                val move = Square(square.col + i, square.row + j)
+
+                if (board.isIn(move) && board.isFree(move)) {
                     moves.add(move)
                 }
             }

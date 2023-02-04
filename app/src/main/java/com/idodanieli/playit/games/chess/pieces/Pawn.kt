@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.*
-import java.lang.Math.abs
 
 const val WHITE_DIRECTION = 1
 const val BLACK_DIRECTION = -1
