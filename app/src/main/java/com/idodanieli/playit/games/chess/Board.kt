@@ -2,7 +2,7 @@ package com.idodanieli.playit.games.chess
 
 import com.idodanieli.playit.games.chess.pieces.*
 
-class Board(private var piecesBox: MutableSet<Piece>, private var size: Int) {
+class Board(var pieces: MutableSet<Piece>, private var size: Int) {
 
     fun canMove(from: Square, to: Square): Boolean {
         if (from == to) {
@@ -15,13 +15,18 @@ class Board(private var piecesBox: MutableSet<Piece>, private var size: Int) {
 
     // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
-        for (piece in piecesBox) {
+        for (piece in pieces) {
             if (square == piece.square) {
                 return  piece
             }
         }
 
         return null
+    }
+
+    // playerAt returns the player at the given square
+    fun playerAt(square: Square): Player? {
+        return pieceAt(square)?.player
     }
 
     // isIn returns true if the given square is in the boards borders
@@ -32,10 +37,5 @@ class Board(private var piecesBox: MutableSet<Piece>, private var size: Int) {
     // isFree returns true if the given square doesn't contain a piece
     fun isFree(square: Square): Boolean {
         return pieceAt(square) == null
-    }
-
-    // playerAt returns the player at the given square
-    fun playerAt(square: Square): Player? {
-        return pieceAt(square)?.player
     }
 }

@@ -16,7 +16,7 @@ class King(square: Square, player: Player) : BasePiece(square, player) {
 
                 val move = Square(square.col + i, square.row + j)
 
-                if (board.isIn(move) && board.playerAt(move) != player) {
+                if (board.isIn(move) && board.playerAt(move) != player && !isThreatened(move, board)) {
                     moves.add(move)
                 }
             }
@@ -25,4 +25,20 @@ class King(square: Square, player: Player) : BasePiece(square, player) {
         return moves
     }
 
+    // isThreatened returns true if the square is threatened by another piece
+    private fun isThreatened(square: Square, board: Board): Boolean {
+        val enemyPieces = board.pieces.filter { it.player == player.opposite() }
+        for (piece in enemyPieces) {
+            if (piece.type == Type.KING) { // To avoid recursion
+                if (piece.square.isNear(square)) return true
+                continue
+            }
+
+            if (square in piece.availableSquares(board)) {
+                return true
+            }
+        }
+
+        return false
+    }
 }

@@ -34,6 +34,10 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return
     }
 
+    override fun toString(): String {
+        return "$player $type at (${square.col}, ${square.row})"
+    }
+
     // getAllAvailableMovesInDirection returns all the available moves in the given direction
     // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
     fun getAllAvailableMovesInDirection(board: Board, direction: Square, max_steps: Int = 0): List<Square> {

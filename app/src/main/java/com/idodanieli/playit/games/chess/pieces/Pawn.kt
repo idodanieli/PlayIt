@@ -21,15 +21,12 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
         if (!moved) {
-            moves.add(Square(square.col, square.row + direction * MAX_START_MOVES))
+            val move = Square(square.col, square.row + direction * MAX_START_MOVES)
+            if (board.isFree(move)) { moves.add(move) }
         }
 
         val defaultMove = Square(square.col, square.row + direction)
-        if (board.isIn(defaultMove)) { moves.add(defaultMove) }
-
-        for (move in moves) {
-            if (!board.isFree(move)) { moves.remove(move) }
-        }
+        if (board.isIn(defaultMove) && board.isFree(defaultMove)) { moves.add(defaultMove) }
 
         val eatMove1 = Square(square.col - 1, square.row + direction)
         val eatMove2 = Square(square.col + 1, square.row + direction)
