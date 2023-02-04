@@ -14,11 +14,12 @@ data class Game(private var pieces: MutableSet<Piece>, var size: Int) {
         if (from == to) return
         val movingPiece = this.board.pieceAt(from) ?: return
 
-        this.board.pieceAt(to)?.let {
-            if (it.player == movingPiece.player) {
+        this.board.pieceAt(to)?.let { enemyPiece ->
+            if (enemyPiece.player == movingPiece.player) {
                 return
             }
-            pieces.remove(it)
+            pieces.remove(enemyPiece)
+            movingPiece.onEat(enemyPiece)
         }
 
         movingPiece.square = to
@@ -49,7 +50,7 @@ fun classicPiecesSet(): MutableSet<Piece> {
     }
 
     pieces.add(Queen(Square(3, 0), Player.WHITE, Type.QUEEN))
-    pieces.add(Queen(Square(3, 7), Player.BLACK, Type.QUEEN))
+    pieces.add(Venom(Square(3, 7), Player.BLACK, Type.VENOM))
     pieces.add(King(Square(4, 0), Player.WHITE, Type.KING))
     pieces.add(King(Square(4, 7), Player.BLACK, Type.KING))
 

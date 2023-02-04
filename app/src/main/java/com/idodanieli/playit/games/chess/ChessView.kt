@@ -134,7 +134,8 @@ private fun loadBitmaps(resources: Resources) {
         Type.ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_white),
         Type.BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_white),
         Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_white),
-        Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_white)
+        Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_white),
+        Type.VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_white)
     )
 
     BITMAPS[Player.BLACK] = mutableMapOf(
@@ -143,6 +144,7 @@ private fun loadBitmaps(resources: Resources) {
         Type.ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_black),
         Type.BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_black),
         Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
-        Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black)
+        Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black),
+        Type.VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_black)
     )
 }

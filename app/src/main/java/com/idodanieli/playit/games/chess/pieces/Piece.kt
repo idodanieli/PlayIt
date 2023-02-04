@@ -14,6 +14,9 @@ interface Piece {
 
     // onMove adds logic to piece after they have been moved
     fun onMove()
+
+    // onEat adds logic to piece after they have eaten another piece
+    fun onEat(eatenPiece: Piece)
 }
 
 open class BasePiece(override var square: Square, override val player: Player, override val type: Type): Piece {
@@ -25,13 +28,18 @@ open class BasePiece(override var square: Square, override val player: Player, o
         TODO("Not yet implemented")
     }
 
+    override fun onEat(eatenPiece: Piece) {
+        return
+    }
+
     // getAllAvailableMovesInDirection returns all the available moves in the given direction
     // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
-    fun getAllAvailableMovesInDirection(board: Board, direction: Square): List<Square> {
+    fun getAllAvailableMovesInDirection(board: Board, direction: Square, max_steps: Int = 0): List<Square> {
         val moves = arrayListOf<Square>()
         var move = square + direction
+        var steps = 0
 
-        while (board.isIn(move)) {
+        while (board.isIn(move) && (max_steps == 0 || steps < max_steps)) {
             when(board.playerAt(move)) {
                 // a piece as same as the bishop
                 player -> {
@@ -45,6 +53,7 @@ open class BasePiece(override var square: Square, override val player: Player, o
                 else -> {
                     moves.add(move)
                     move += direction
+                    steps += 1
                 }
             }
         }
@@ -60,4 +69,5 @@ enum class Type {
     BISHOP,
     KNIGHT,
     PAWN,
+    VENOM, // TODO: Change to parasite?
 }
