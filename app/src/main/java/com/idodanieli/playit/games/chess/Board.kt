@@ -5,46 +5,6 @@ import kotlin.math.abs
 
 class Board(private var piecesBox: MutableSet<Piece>, private var size: Int) {
 
-    fun isClearVerticallyBetween(from: Square, to: Square): Boolean {
-        if (from.col != to.col) return false
-        val gap = abs(from.row - to.row) - 1
-        if (gap == 0 ) return true
-        for (i in 1..gap) {
-            val nextRow = if (to.row > from.row) from.row + i else from.row - i
-            if (pieceAt(Square(from.col, nextRow)) != null) {
-                return false
-            }
-        }
-        return true
-    }
-
-    fun isClearHorizontallyBetween(from: Square, to: Square): Boolean {
-        if (from.row != to.row) return false
-        val gap = abs(from.col - to.col) - 1
-        if (gap == 0 ) return true
-        for (i in 1..gap) {
-            val nextCol = if (to.col > from.col) from.col + i else from.col - i
-            if (pieceAt(Square(nextCol, from.row)) != null) {
-                return false
-            }
-        }
-        return true
-    }
-
-    fun isClearDiagonally(from: Square, to: Square): Boolean {
-        if (abs(from.col - to.col) != abs(from.row - to.row)) return false
-        val gap = abs(from.col - to.col) - 1
-        for (i in 1..gap) {
-            val nextCol = if (to.col > from.col) from.col + i else from.col - i
-            val nextRow = if (to.row > from.row) from.row + i else from.row - i
-            val nextSquare = Square(nextCol, nextRow)
-            if (pieceAt(nextSquare) != null) {
-                return false
-            }
-        }
-        return true
-    }
-
     fun canMove(from: Square, to: Square): Boolean {
         if (from == to) {
             return  false
