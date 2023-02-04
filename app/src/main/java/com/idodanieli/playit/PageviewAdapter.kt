@@ -17,7 +17,7 @@ class PageviewAdapter (private val mList: List<Game>) : RecyclerView.Adapter<Pag
         // inflates the card_view_design view
         // that is used to hold list item
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.video_container, parent, false)
+            .inflate(R.layout.chessview_container, parent, false)
 
         return ViewHolder(view)
     }
@@ -39,6 +39,6 @@ class PageviewAdapter (private val mList: List<Game>) : RecyclerView.Adapter<Pag
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val chessView: ChessView = itemView.findViewById(R.id.chess_view)
-        val gameTitle: TextView = itemView.findViewById(R.id.videoTitle)
+        val gameTitle: TextView = itemView.findViewById(R.id.gameName)
     }
 }

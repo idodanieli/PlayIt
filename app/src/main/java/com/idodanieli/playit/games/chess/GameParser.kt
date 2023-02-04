@@ -6,7 +6,7 @@ import org.json.JSONObject
 private const val NAME = "name"
 private const val BOARD = "board"
 private const val EMPTY_SQUARE = '.'
-private const val OPPONENT_LAST_ROW = 2
+private const val WHITE_LAST_ROW = 2
 
 class GameParser {
     fun parse(json: JSONObject): Game {
@@ -24,7 +24,7 @@ class GameParser {
                 val char = board[col + row * CHESSBOARD_SIZE]
                 if (char != EMPTY_SQUARE) {
                     val square = Square(col, row)
-                    val player = if (row < OPPONENT_LAST_ROW) Player.BLACK else Player.WHITE
+                    val player = if (row < WHITE_LAST_ROW) Player.WHITE else Player.BLACK
                     pieces.add(pieceFromCharacter(char, square, player))
                 }
             }
