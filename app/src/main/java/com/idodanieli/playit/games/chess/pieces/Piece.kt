@@ -79,6 +79,8 @@ enum class Type {
     VENOM, // TODO: Change to parasite?
 }
 
+// https://en.wikipedia.org/wiki/Fairy_chess_piece
+
 /////// PIECES IDEAS \\\\\\\\
 //----- SIMPLE PIECES -----\\
 // - "The Duke":   A piece that resembles a pawn, but has a unique ability to only move one square forward diagonally
