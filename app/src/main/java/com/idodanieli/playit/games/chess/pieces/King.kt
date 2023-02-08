@@ -7,7 +7,7 @@ private val moveOffsets = arrayOf(-1, 0, 1)
 class King(square: Square, player: Player) : BasePiece(square, player) {
     override val type = Type.KING
 
-    override fun availableSquares(board: Board): List<Square> {
+    override fun possibleMoves(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in moveOffsets) {
@@ -34,7 +34,7 @@ class King(square: Square, player: Player) : BasePiece(square, player) {
                 continue
             }
 
-            if (square in piece.availableSquares(board)) {
+            if (square in piece.validMoves(board)) {
                 return true
             }
         }

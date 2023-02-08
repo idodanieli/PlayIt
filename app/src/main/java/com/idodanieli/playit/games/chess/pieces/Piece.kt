@@ -9,8 +9,8 @@ interface Piece {
     val player: Player
     val type: Type
 
-    // availableSquares returns a list of the squares the piece can move to
-    fun availableSquares(board: Board): List<Square>
+    // validMoves returns a list of the squares the piece can move to
+    fun validMoves(board: Board): List<Square>
 
     // onMove adds logic to piece after they have been moved
     fun onMove()
@@ -22,12 +22,21 @@ interface Piece {
 open class BasePiece(override var square: Square, override val player: Player): Piece {
     override val type = Type.NONE
 
-    override fun onMove() {
-        return
+    // possibleMoves returns all the squares a piece can move to, without taking general logic
+    // into consideration like pinning, etc.
+    protected open fun possibleMoves(board: Board): List<Square> {
+        // To be overridden by child classes
+        return emptyList()
     }
 
-    override fun availableSquares(board: Board): List<Square> {
-        TODO("Not yet implemented")
+    // validMoves filters the Piece possibleMoves with general game logic like pinning, etc.
+    override fun validMoves(board: Board): List<Square> {
+        val isPinned = false
+        return if(isPinned) emptyList() else possibleMoves(board)
+    }
+
+    override fun onMove() {
+        return
     }
 
     override fun onEat(eatenPiece: Piece) {

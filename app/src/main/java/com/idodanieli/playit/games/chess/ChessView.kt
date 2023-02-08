@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.idodanieli.playit.R
-import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.pieces.Type
 import com.idodanieli.playit.games.chess.pieces.Piece
 import kotlin.math.min
@@ -84,7 +83,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                     }
 
                     movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!, it.player)
-                    availableSquares = it.availableSquares(game.board)
+                    availableSquares = it.validMoves(game.board)
                 }
             }
             MotionEvent.ACTION_MOVE -> {

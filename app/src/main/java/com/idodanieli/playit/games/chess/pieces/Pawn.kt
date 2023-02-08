@@ -18,7 +18,7 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         }
     }
 
-    override fun availableSquares(board: Board): List<Square> {
+    override fun possibleMoves(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
         if (!moved) {
             val move = Square(square.col, square.row + direction * MAX_START_MOVES)

@@ -22,7 +22,7 @@ class Venom(square: Square, player: Player) : BasePiece(square, player) {
         maxSteps++
     }
 
-    override fun availableSquares(board: Board): List<Square> {
+    override fun possibleMoves(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in MOVE_OFFSETS) {

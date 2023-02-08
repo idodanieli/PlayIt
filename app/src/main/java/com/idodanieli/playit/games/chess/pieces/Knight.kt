@@ -7,7 +7,7 @@ private val moveOffsets = arrayOf(1, 2, -1, -2)
 class Knight(square: Square, player: Player) : BasePiece(square, player) {
     override val type = Type.KNIGHT
 
-    override fun availableSquares(board: Board): List<Square> {
+    override fun possibleMoves(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in moveOffsets) {
