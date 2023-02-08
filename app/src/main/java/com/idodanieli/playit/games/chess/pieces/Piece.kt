@@ -150,6 +150,8 @@ enum class Type {
     KNIGHT,
     PAWN,
     DUKE,
+    GIRAFFE,
+    ZEBRA,
     VENOM, // TODO: Change to parasite?
 }
 
@@ -166,7 +168,7 @@ enum class MovementType {
 
 /////// PIECES IDEAS \\\\\\\\
 //----- SIMPLE PIECES -----\\
-// - "The Duke":   A piece that resembles a pawn, but has a unique ability to only move one square forward diagonally
+// V "The Duke":   A piece that resembles a pawn, but has a unique ability to only move one square forward diagonally
 // - "Jumper":     A piece that can jump over an enemy piece to capture it, similar to a knight.
 // - "Centaur":    A piece that can move as a knight or as a pawn.
 // - "Splitter":   A piece that can split into two smaller pieces when captured, each of which can move and capture like pawns.

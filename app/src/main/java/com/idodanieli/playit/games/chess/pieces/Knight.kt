@@ -2,11 +2,12 @@ package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.*
 
-private val moveOffsets = arrayOf(1, 2, -1, -2)
+private val KNIGHT_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 
-class Knight(square: Square, player: Player) : BasePiece(square, player) {
+open class Knight(square: Square, player: Player) : BasePiece(square, player) {
     override val type = Type.KNIGHT
     override val movementType = MovementType.LEAPER
+    open val moveOffsets = KNIGHT_MOVE_OFFSETS
 
     override fun possibleMoves(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
