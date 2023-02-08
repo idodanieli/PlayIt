@@ -4,6 +4,8 @@ import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
 
+const val NO_MAX_STEPS = 0
+
 interface Piece {
     var square: Square
     val player: Player
@@ -63,12 +65,12 @@ open class BasePiece(override var square: Square, override val player: Player): 
 
     // getAllAvailableMovesInDirection returns all the available moves in the given direction
     // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
-    fun getAllAvailableMovesInDirection(board: Board, direction: Square, max_steps: Int = 0): List<Square> {
+    fun getAllAvailableMovesInDirection(board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
         val moves = arrayListOf<Square>()
         var move = square + direction
         var steps = 0
 
-        while (board.isIn(move) && (max_steps == 0 || steps < max_steps)) {
+        while (board.isIn(move) && (max_steps == NO_MAX_STEPS || steps < max_steps)) {
             when(board.playerAt(move)) {
                 // a piece as same as the bishop
                 player -> {
@@ -90,7 +92,7 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return moves
     }
 
-    fun getXrayMovesInDirection(board: Board, direction: Square, max_steps: Int = 0): List<Square> {
+    fun getXrayMovesInDirection(board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
         val moves = arrayListOf<Square>()
         var move = square + direction
         var steps = 0

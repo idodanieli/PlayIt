@@ -13,7 +13,7 @@ private const val STARTING_MAX_STEPS = 1
 //
 // In this variant, Venom piece adds an extra layer of strategy and tactical considerations, as players must weigh the risk and reward of capturing pieces with Venom.
 // Will you use Venom to absorb your opponent's pieces and gain the advantage, or will you protect your pieces and limit Venom's movement options? The choice is yours!
-class Venom(square: Square, player: Player) : BasePiece(square, player) {
+class Venom(square: Square, player: Player) : Rider(square, player) {
     override val type = Type.VENOM
     override val movementType = MovementType.RIDER
     
@@ -23,15 +23,7 @@ class Venom(square: Square, player: Player) : BasePiece(square, player) {
         maxSteps++
     }
 
-    override fun xrayPossibleMove(board: Board): List<Square> {
-        return possibleMoves(board, ::getXrayMovesInDirection)
-    }
-
-    override fun possibleMoves(board: Board): List<Square> {
-        return possibleMoves(board, ::getAllAvailableMovesInDirection)
-    }
-
-    private fun possibleMoves(board: Board, getMovesInDirection: (board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
+    override fun possibleMoves(board: Board, getMovesInDirection: (board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in MOVE_OFFSETS) {
