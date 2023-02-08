@@ -42,6 +42,7 @@ class GameParser {
             'K' -> return King(square, player)
             'P' -> return Pawn(square, player)
             'V' -> return Venom(square, player)
+            'D' -> return Duke(square, player)
         }
 
         return BasePiece(square, player)

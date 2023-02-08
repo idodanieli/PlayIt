@@ -2,9 +2,9 @@ package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.*
 
-const val WHITE_DIRECTION = 1
-const val BLACK_DIRECTION = -1
-const val MAX_START_MOVES = 2
+private const val WHITE_DIRECTION = 1
+private const val BLACK_DIRECTION = -1
+private const val MAX_START_MOVES = 2
 
 class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     override val type = Type.PAWN

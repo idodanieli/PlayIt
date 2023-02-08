@@ -149,6 +149,7 @@ enum class Type {
     BISHOP,
     KNIGHT,
     PAWN,
+    DUKE,
     VENOM, // TODO: Change to parasite?
 }
 
@@ -159,6 +160,8 @@ enum class MovementType {
     HOPPER
 }
 
+// https://en.wikipedia.org/wiki/Giraffe_%28chess%29
+// https://spuf.org/2018/10/12/my-7-favorite-fairy-chess-pieces/
 // https://en.wikipedia.org/wiki/Fairy_chess_piece
 
 /////// PIECES IDEAS \\\\\\\\

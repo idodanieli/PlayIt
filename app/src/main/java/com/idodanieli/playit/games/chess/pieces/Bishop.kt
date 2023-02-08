@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.*
-import kotlin.math.max
 
 private val moveOffsets = arrayOf(1, -1)
 
