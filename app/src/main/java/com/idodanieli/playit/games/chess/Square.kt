@@ -17,6 +17,19 @@ class Square(val col: Int, val row: Int) {
 
     operator fun plus(other: Square) = Square(col + other.col, row + other.row)
 
+    operator fun minus(other: Square) = Square(col - other.col, row - other.row)
+
+    fun directionTo(other: Square): Square {
+        val colDiff = other.col - col
+        val rowDiff = other.row - row
+        val gcd = greatestCommonDivider(Math.abs(colDiff), Math.abs(rowDiff))
+        return Square(colDiff / gcd, rowDiff / gcd)
+    }
+
+    fun copy(): Square {
+        return Square(col, row)
+    }
+
     fun isDark(): Boolean {
         return (col + row) % 2 == 1
     }
@@ -24,5 +37,12 @@ class Square(val col: Int, val row: Int) {
     fun isNear(other: Square, maxDistance: Int = 1): Boolean {
         return (Math.abs(col - other.col) <= maxDistance) && (Math.abs(row - other.row) <= maxDistance)
     }
+
+    fun isValid(size: Int): Boolean {
+        return col in 0..size && row in 0..size
+    }
 }
 
+fun greatestCommonDivider(a: Int, b: Int): Int {
+    return if (b == 0) a else greatestCommonDivider(b, a % b)
+}

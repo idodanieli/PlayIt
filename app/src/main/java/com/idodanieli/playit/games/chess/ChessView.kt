@@ -8,8 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.idodanieli.playit.R
-import com.idodanieli.playit.games.chess.pieces.Type
-import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
 
 const val CHESSBOARD_SIZE = 8

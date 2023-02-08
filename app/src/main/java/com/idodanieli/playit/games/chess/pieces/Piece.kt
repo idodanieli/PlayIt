@@ -8,6 +8,13 @@ interface Piece {
     var square: Square
     val player: Player
     val type: Type
+    val movementType: MovementType
+
+    fun xrayPossibleMove(board: Board): List<Square>
+
+    // possibleMoves returns all the squares a piece can move to, without taking general logic
+    // into consideration like pinning, etc.
+    fun possibleMoves(board: Board): List<Square>
 
     // validMoves returns a list of the squares the piece can move to
     fun validMoves(board: Board): List<Square>
@@ -17,22 +24,29 @@ interface Piece {
 
     // onEat adds logic to piece after they have eaten another piece
     fun onEat(eatenPiece: Piece)
+
+    // canBeCaptured returns true if this piece could be captured by another piece on the board
+    fun canBeCaptured(board: Board): Boolean
 }
 
 open class BasePiece(override var square: Square, override val player: Player): Piece {
     override val type = Type.NONE
+    override val movementType = MovementType.NONE
 
     // possibleMoves returns all the squares a piece can move to, without taking general logic
     // into consideration like pinning, etc.
-    protected open fun possibleMoves(board: Board): List<Square> {
+    override fun possibleMoves(board: Board): List<Square> {
         // To be overridden by child classes
         return emptyList()
     }
 
-    // validMoves filters the Piece possibleMoves with general game logic like pinning, etc.
+    override fun xrayPossibleMove(board: Board): List<Square> {
+        return emptyList()
+    }
+
+    // validMoves returns a list of the squares the piece can move to
     override fun validMoves(board: Board): List<Square> {
-        val isPinned = false
-        return if(isPinned) emptyList() else possibleMoves(board)
+        return if(isPinned(board)) emptyList() else possibleMoves(board)
     }
 
     override fun onMove() {
@@ -75,6 +89,54 @@ open class BasePiece(override var square: Square, override val player: Player): 
 
         return moves
     }
+
+    fun getXrayMovesInDirection(board: Board, direction: Square, max_steps: Int = 0): List<Square> {
+        val moves = arrayListOf<Square>()
+        var move = square + direction
+        var steps = 0
+
+        while (board.isIn(move) && (max_steps == 0 || steps < max_steps)) {
+            moves.add(move)
+            move += direction
+            steps += 1
+        }
+
+        return moves
+    }
+
+    // isPinned returns true if the piece is pinned to the king
+    private fun isPinned(board: Board): Boolean {
+        if (type == Type.KING) { return false } // TODO: Make this more general
+
+        val king = board.piece(Type.KING, this.player) ?: return false
+        if (!king.square.isNear(square)) { return false }
+
+        val direction = king.square.directionTo(square)
+
+        var square = square.copy()
+        while (square.isValid(board.size)) {
+            square += direction
+
+            board.pieceAt(square)?.let {
+                if(it.player == player) { return false }
+                if(king.square in it.xrayPossibleMove(board)) {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+
+    // canBeCaptured returns true if this piece could be captured by another piece on the board
+    override fun canBeCaptured(board: Board): Boolean {
+        val enemyPieces = board.pieces.filter { it.player == player.opposite() }
+        for (enemyPiece in enemyPieces) {
+            if (this.square in enemyPiece.validMoves(board)) { return true }
+        }
+
+        return false
+    }
 }
 
 enum class Type {
@@ -86,6 +148,13 @@ enum class Type {
     KNIGHT,
     PAWN,
     VENOM, // TODO: Change to parasite?
+}
+
+enum class MovementType {
+    NONE,
+    LEAPER,
+    RIDER,
+    HOPPER
 }
 
 // https://en.wikipedia.org/wiki/Fairy_chess_piece

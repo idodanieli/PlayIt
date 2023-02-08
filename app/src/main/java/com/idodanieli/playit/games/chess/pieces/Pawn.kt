@@ -8,6 +8,7 @@ const val MAX_START_MOVES = 2
 
 class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     override val type = Type.PAWN
+    override val movementType = MovementType.LEAPER
 
     var direction = WHITE_DIRECTION
     var moved = false // specifies whether the pawn has been moved from its starting square

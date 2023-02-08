@@ -6,6 +6,7 @@ private val moveOffsets = arrayOf(-1, 0, 1)
 
 class King(square: Square, player: Player) : BasePiece(square, player) {
     override val type = Type.KING
+    override val movementType = MovementType.LEAPER
 
     override fun possibleMoves(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
@@ -16,29 +17,12 @@ class King(square: Square, player: Player) : BasePiece(square, player) {
 
                 val move = Square(square.col + i, square.row + j)
 
-                if (board.isIn(move) && board.playerAt(move) != player && !isThreatened(move, board)) {
+                if (board.isIn(move) && board.playerAt(move) != player && !board.isThreatened(move, player.opposite())) {
                     moves.add(move)
                 }
             }
         }
 
         return moves
-    }
-
-    // isThreatened returns true if the square is threatened by another piece
-    private fun isThreatened(square: Square, board: Board): Boolean {
-        val enemyPieces = board.pieces.filter { it.player == player.opposite() }
-        for (piece in enemyPieces) {
-            if (piece.type == Type.KING) { // To avoid recursion
-                if (piece.square.isNear(square)) return true
-                continue
-            }
-
-            if (square in piece.validMoves(board)) {
-                return true
-            }
-        }
-
-        return false
     }
 }
