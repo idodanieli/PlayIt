@@ -152,6 +152,7 @@ enum class Type {
     BEROLINA,
     GIRAFFE,
     ZEBRA,
+    CENTAUR,
     VENOM, // TODO: Change to parasite?
 }
 

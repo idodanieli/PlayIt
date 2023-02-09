@@ -67,6 +67,27 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return false
     }
 
+    private val MOVE_OFFSETS = arrayOf(-1, 0, 1)
+
+    // getNeighborSquares returns all the squares near the given piece
+    fun getAvailableNeighborSquares(piece: Piece): List<Square> {
+        val squares = arrayListOf<Square>()
+
+        for (i in MOVE_OFFSETS) {
+            for (j in MOVE_OFFSETS) {
+                if (i == 0 && j == 0) { continue }
+
+                val square = Square(piece.square.col + i, piece.square.row + j)
+
+                if (isIn(square) && playerAt(square) != piece.player) {
+                    squares.add(square)
+                }
+            }
+        }
+
+        return squares
+    }
+
     fun copy(): Board {
         return Board(pieces.toMutableSet(), size)
     }
