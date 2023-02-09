@@ -149,7 +149,7 @@ enum class Type {
     BISHOP,
     KNIGHT,
     PAWN,
-    DUKE,
+    BEROLINA,
     GIRAFFE,
     ZEBRA,
     VENOM, // TODO: Change to parasite?

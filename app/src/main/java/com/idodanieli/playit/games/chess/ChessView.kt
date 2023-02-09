@@ -134,7 +134,7 @@ private fun loadBitmaps(resources: Resources) {
         Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_white),
         Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_white),
         Type.VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_white),
-        Type.DUKE to BitmapFactory.decodeResource(resources, R.drawable.duke_white),
+        Type.BEROLINA to BitmapFactory.decodeResource(resources, R.drawable.berolina_white),
         Type.GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_white),
         Type.ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_white),
     )
@@ -147,7 +147,7 @@ private fun loadBitmaps(resources: Resources) {
         Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
         Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black),
         Type.VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_black),
-        Type.DUKE to BitmapFactory.decodeResource(resources, R.drawable.duke_black),
+        Type.BEROLINA to BitmapFactory.decodeResource(resources, R.drawable.berolina_black),
         Type.GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_black),
         Type.ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_black),
     )
