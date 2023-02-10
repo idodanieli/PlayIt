@@ -5,6 +5,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.games.chess.GameParser
+import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field
 
@@ -38,8 +39,12 @@ class MainActivity : AppCompatActivity() {
         fields.forEach {
             val resourceID = it.getInt(it)
             val file = resources.openRawResource(resourceID).bufferedReader(Charsets.UTF_8).use { it.readText() }
-            val json = JSONObject(file)
-            files.add(json)
+            try {
+                val json = JSONObject(file)
+                files.add(json)
+            } catch (e: JSONException) {
+                // do nothing
+            }
         }
 
         return files

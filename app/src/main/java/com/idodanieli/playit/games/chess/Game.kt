@@ -10,6 +10,16 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         return this.pieces
     }
 
+    fun canMove(from: Square, to: Square): Boolean {
+        if (from == to) {
+            return  false
+        }
+        val movingPiece = board.pieceAt(from) ?: return false
+        if (movingPiece.player != currentPlayer) { return false }
+
+        return to in movingPiece.validMoves(this.board)
+    }
+
     fun movePiece(from: Square, to: Square) {
         if (from == to) return
         val movingPiece = this.board.pieceAt(from) ?: return

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +18,8 @@ var BITMAPS: MutableMap<Player, MutableMap<Type, Bitmap>> = mutableMapOf()
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, COLOR_LIGHT, COLOR_DARK)
+    private val moveSound = MediaPlayer.create(context, R.raw.sound_chess_move)
+
     private var squareSize = 0f
     private var movingPiece: MovingPiece? = null
     private var previousTouchedSquare: Square = Square(-1, -1)
@@ -72,6 +75,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                if (previousTouchedSquare.isValid(game.size) && previousTouchedSquare != touchedSquare) {
+                    if (tryToMovePiece(touchedSquare)) {
+                        invalidate()
+                        return true
+                    }
+                }
+
                 previousTouchedSquare = touchedSquare
                 currentlyTouchedSquare = touchedSquare
                 touchedPiece = game.board.pieceAt(touchedSquare)
@@ -95,17 +105,26 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 invalidate() // calls onDraw
             }
             MotionEvent.ACTION_UP -> {
-                if (previousTouchedSquare != touchedSquare &&
-                    game.board.canMove(previousTouchedSquare, touchedSquare)) {
-                    game.movePiece(previousTouchedSquare, touchedSquare)
-                    touchedPiece = null
-                }
+                tryToMovePiece(touchedSquare)
                 movingPiece = null
                 currentlyTouchedSquare = null
                 invalidate() // calls onDraw
             }
         }
         return true
+    }
+
+    private fun tryToMovePiece(touchedSquare: Square): Boolean {
+        if (previousTouchedSquare != touchedSquare &&
+            game.canMove(previousTouchedSquare, touchedSquare)) {
+            game.movePiece(previousTouchedSquare, touchedSquare)
+            touchedPiece = null
+            moveSound.start()
+            return true
+        }
+
+        previousTouchedSquare = touchedSquare
+        return false
     }
 
     // getSquareTouched returns the square touched by the position in the MotionEvent

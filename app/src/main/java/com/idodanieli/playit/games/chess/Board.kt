@@ -4,15 +4,6 @@ import com.idodanieli.playit.games.chess.pieces.*
 
 class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
-    fun canMove(from: Square, to: Square): Boolean {
-        if (from == to) {
-            return  false
-        }
-        val movingPiece = pieceAt(from) ?: return false
-
-        return to in movingPiece.validMoves(this)
-    }
-
     fun movePiece(piece: Piece, dst: Square) {
         this.pieceAt(dst)?.let { enemyPiece ->
             if (enemyPiece.player == piece.player) {
