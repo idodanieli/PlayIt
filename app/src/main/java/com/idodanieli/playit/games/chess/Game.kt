@@ -25,7 +25,17 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         val movingPiece = this.board.pieceAt(from) ?: return
 
         board.movePiece(movingPiece, to)
-
-        this.currentPlayer = currentPlayer.opposite()
     }
+
+    fun isOver(): Boolean {
+        if (board.isChecked(currentPlayer.opposite())) {
+            for (piece in board.pieces.filter { it.player != currentPlayer}) {
+                if (!piece.possibleCheckBlockingMoves(board).isEmpty()) { return false }
+            }
+
+            return true
+        }
+
+        return false
+   }
 }

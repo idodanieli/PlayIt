@@ -8,6 +8,7 @@ import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
@@ -19,6 +20,7 @@ var BITMAPS: MutableMap<Player, MutableMap<Type, Bitmap>> = mutableMapOf()
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, COLOR_LIGHT, COLOR_DARK)
     private val moveSound = MediaPlayer.create(context, R.raw.sound_chess_move)
+    private val gameOverSound = MediaPlayer.create(context, R.raw.sound_game_over)
 
     private var squareSize = 0f
     private var movingPiece: MovingPiece? = null
@@ -70,6 +72,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
+        if (game.isOver()) { return false }
 
         val touchedSquare = getTouchedSquare(event)
 
@@ -119,7 +122,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             game.canMove(previousTouchedSquare, touchedSquare)) {
             game.movePiece(previousTouchedSquare, touchedSquare)
             touchedPiece = null
-            moveSound.start()
+
+            if (game.isOver()) {
+                context.toast("${game.currentPlayer} Won!")
+                gameOverSound.start()
+            } else {
+                moveSound.start()
+                game.currentPlayer = game.currentPlayer.opposite()
+            }
             return true
         }
 
@@ -173,3 +183,6 @@ private fun loadBitmaps(resources: Resources) {
         Type.CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_black),
     )
 }
+
+fun Context.toast(message: CharSequence) =
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
