@@ -26,6 +26,18 @@ class Square(val col: Int, val row: Int) {
         return Square(colDiff / gcd, rowDiff / gcd)
     }
 
+    // squaresBetween returns all the squares between this square and the other square
+    fun squaresBetween(other: Square): List<Square> {
+        val squares = mutableListOf<Square>()
+        val direction = directionTo(other)
+        var current = this.copy()
+        while (current != other) {
+            current += direction
+            squares.add(current)
+        }
+        return squares
+    }
+
     fun copy(): Square {
         return Square(col, row)
     }

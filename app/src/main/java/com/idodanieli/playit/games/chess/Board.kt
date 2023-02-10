@@ -13,6 +13,19 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return to in movingPiece.validMoves(this)
     }
 
+    fun movePiece(piece: Piece, dst: Square) {
+        this.pieceAt(dst)?.let { enemyPiece ->
+            if (enemyPiece.player == piece.player) {
+                return
+            }
+            pieces.remove(enemyPiece)
+            piece.onEat(enemyPiece)
+        }
+
+        piece.square = dst
+        piece.onMove()
+    }
+
     // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
         for (piece in pieces) {
@@ -40,6 +53,14 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return null
     }
 
+    // isChecked returns true if the given player is checked
+    fun isChecked(player: Player): Boolean {
+        val king = piece(Type.KING, player)
+        king?.let { return it.isChecked(this) }
+
+        return false
+    }
+
     // isIn returns true if the given square is in the boards borders
     fun isIn(square: Square): Boolean {
         return square.col in 0..this.size && square.row in 0..this.size
@@ -59,7 +80,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
                 continue
             }
 
-            if (square in piece.validMoves(this)) {
+            if (square in piece.validMoves(this, ignoreCheck = true)) {
                 return true
             }
         }
@@ -86,6 +107,28 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         }
 
         return squares
+    }
+
+    // getPinner returns the piece that pins the current piece
+    fun getPinner(piece: Piece) : Piece? {
+        if (piece.type == Type.KING) { return null } // TODO: Make this more general
+
+        val king = piece(Type.KING, piece.player) ?: return null
+        val direction = king.square.directionTo(piece.square)
+
+        var square = piece.square.copy()
+        while (square.isValid(size)) {
+            square += direction
+
+            pieceAt(square)?.let {
+                if(it.player == piece.player) { return null }
+                if(king.square in it.xrayPossibleMove(this)) {
+                    return it
+                }
+            }
+        }
+
+        return null
     }
 
     fun copy(): Board {

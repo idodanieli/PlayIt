@@ -19,7 +19,7 @@ interface Piece {
     fun possibleMoves(board: Board): List<Square>
 
     // validMoves returns a list of the squares the piece can move to
-    fun validMoves(board: Board): List<Square>
+    fun validMoves(board: Board, ignoreCheck: Boolean = false): List<Square>
 
     // onMove adds logic to piece after they have been moved
     fun onMove()
@@ -27,13 +27,29 @@ interface Piece {
     // onEat adds logic to piece after they have eaten another piece
     fun onEat(eatenPiece: Piece)
 
-    // canBeCaptured returns true if this piece could be captured by another piece on the board
-    fun canBeCaptured(board: Board): Boolean
+    // isChecked returns true if this piece could be captured by another piece on the board
+    fun isChecked(board: Board): Boolean
 }
 
 open class BasePiece(override var square: Square, override val player: Player): Piece {
     override val type = Type.NONE
     override val movementType = MovementType.NONE
+
+    // validMoves returns a list of the squares the piece can move to
+    override fun validMoves(board: Board, ignoreCheck: Boolean): List<Square> {
+        val pinner = board.getPinner(this)
+
+        if(!ignoreCheck && board.isChecked(player)) {
+            pinner?.let { return emptyList() }
+            return possibleCheckBlockingMoves(board)
+        }
+
+        pinner?.let {
+            return possibleMoves(board).intersect(square.squaresBetween(pinner.square).toSet()).toList()
+        }
+
+        return possibleMoves(board)
+    }
 
     // possibleMoves returns all the squares a piece can move to, without taking general logic
     // into consideration like pinning, etc.
@@ -46,9 +62,14 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return emptyList()
     }
 
-    // validMoves returns a list of the squares the piece can move to
-    override fun validMoves(board: Board): List<Square> {
-        return if(isPinned(board)) emptyList() else possibleMoves(board)
+    // possibleCheckBlockingMoves returns all the moves that block a check
+    fun possibleCheckBlockingMoves(board: Board): List<Square> {
+        return possibleMoves(board).filter { move ->
+            val tmpBoard = board.copy()
+            tmpBoard.pieces.remove(this)
+            tmpBoard.pieces.add(BasePiece(move, player))
+            !tmpBoard.isChecked(player)
+        }
     }
 
     override fun onMove() {
@@ -92,6 +113,8 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return moves
     }
 
+    // getXrayMovesInDirection returns all the moves in the given direction like an xray
+    // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
     fun getXrayMovesInDirection(board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
         val moves = arrayListOf<Square>()
         var move = square + direction
@@ -106,35 +129,13 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return moves
     }
 
-    // isPinned returns true if the piece is pinned to the king
-    private fun isPinned(board: Board): Boolean {
-        if (type == Type.KING) { return false } // TODO: Make this more general
-
-        val king = board.piece(Type.KING, this.player) ?: return false
-        if (!king.square.isNear(square)) { return false }
-
-        val direction = king.square.directionTo(square)
-
-        var square = square.copy()
-        while (square.isValid(board.size)) {
-            square += direction
-
-            board.pieceAt(square)?.let {
-                if(it.player == player) { return false }
-                if(king.square in it.xrayPossibleMove(board)) {
-                    return true
-                }
-            }
-        }
-
-        return false
-    }
-
     // canBeCaptured returns true if this piece could be captured by another piece on the board
-    override fun canBeCaptured(board: Board): Boolean {
+    override fun isChecked(board: Board): Boolean {
         val enemyPieces = board.pieces.filter { it.player == player.opposite() }
         for (enemyPiece in enemyPieces) {
-            if (this.square in enemyPiece.validMoves(board)) { return true }
+            if (this.square in enemyPiece.validMoves(board, ignoreCheck = true)) {
+                return true
+            }
         }
 
         return false
