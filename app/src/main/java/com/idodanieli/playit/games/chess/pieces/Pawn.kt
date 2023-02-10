@@ -40,7 +40,7 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         return moves
     }
 
-    override fun eatMoves(board: Board): List<Square> {
+    override fun eatMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
         val eatMove1 = Square(square.col - 1, square.row + direction)
         val eatMove2 = Square(square.col + 1, square.row + direction)
         return listOf(eatMove1, eatMove2).filter { it.isValid(board.size) }

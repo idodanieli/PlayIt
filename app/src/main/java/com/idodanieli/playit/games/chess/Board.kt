@@ -71,7 +71,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
                 continue
             }
 
-            if (square in piece.eatMoves(this)) {
+            if (square in piece.eatMoves(this, ignoreSamePlayer = true)) {
                 return true
             }
         }
@@ -105,6 +105,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         if (piece.type == Type.KING) { return null } // TODO: Make this more general
 
         val king = piece(Type.KING, piece.player) ?: return null
+        if (king.square == piece.square) { return null }
         val direction = king.square.directionTo(piece.square)
 
         var square = piece.square.copy()

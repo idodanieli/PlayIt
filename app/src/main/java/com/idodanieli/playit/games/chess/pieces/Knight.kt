@@ -20,7 +20,7 @@ open class Knight(square: Square, player: Player) : BasePiece(square, player) {
                 val move2 = Square(this.square.col + j, this.square.row + i)
 
                 for (move in listOf(move1, move2)) {
-                    if (board.isIn(move) && board.playerAt(move) != player) { moves.add(move) }
+                    if (board.isIn(move)) { moves.add(move) }
                 }
             }
         }

@@ -44,7 +44,7 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
         return possibleMoves
     }
 
-    override fun eatMoves(board: Board): List<Square> {
+    override fun eatMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
         return listOf(eatMove()).filter { it.isValid(board.size) }
     }
 

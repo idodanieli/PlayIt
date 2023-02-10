@@ -95,7 +95,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                     }
 
                     movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!, it.player)
-                    availableSquares = it.validMoves(game.board)
+                    availableSquares = it.validMoves(game.board, ignoreSamePlayer = false)
                 }
             }
             MotionEvent.ACTION_MOVE -> {

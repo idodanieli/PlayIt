@@ -16,7 +16,7 @@ interface Piece {
 
     // eatMoves returns all the squares the piece can eat in (most of the times it will be like
     // possibleMoves, except for special cases like Pawns, etc.)
-    fun eatMoves(board: Board): List<Square>
+    fun eatMoves(board: Board, ignoreSamePlayer: Boolean = false): List<Square>
 
     // possibleMoves returns all the squares a piece can move to, without taking general logic
     // into consideration like pinning, etc.
@@ -26,7 +26,7 @@ interface Piece {
     fun possibleCheckBlockingMoves(board: Board): List<Square>
 
     // validMoves returns a list of the squares the piece can move to
-    fun validMoves(board: Board, ignoreCheck: Boolean = false): List<Square>
+    fun validMoves(board: Board, ignoreCheck: Boolean = false, ignoreSamePlayer: Boolean = false): List<Square>
 
     // onMove adds logic to piece after they have been moved
     fun onMove()
@@ -43,7 +43,7 @@ open class BasePiece(override var square: Square, override val player: Player): 
     override val movementType = MovementType.NONE
 
     // validMoves returns a list of the squares the piece can move to
-    override fun validMoves(board: Board, ignoreCheck: Boolean): List<Square> {
+    override fun validMoves(board: Board, ignoreCheck: Boolean, ignoreSamePlayer: Boolean): List<Square> {
         val pinner = board.getPinner(this)
 
         if(!ignoreCheck && board.isChecked(player)) {
@@ -51,11 +51,17 @@ open class BasePiece(override var square: Square, override val player: Player): 
             return possibleCheckBlockingMoves(board)
         }
 
-        pinner?.let {
-            return possibleMoves(board).intersect(square.squaresBetween(pinner.square).toSet()).toList()
+        val moves = possibleMoves(board)
+
+        if (!ignoreSamePlayer) {
+            return moves.filterNot { board.playerAt(it) == player }
         }
 
-        return possibleMoves(board)
+        pinner?.let {
+            return moves.intersect(square.squaresBetween(pinner.square).toSet()).toList()
+        }
+
+        return moves
     }
 
     // possibleMoves returns all the squares a piece can move to, without taking general logic
@@ -69,8 +75,8 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return emptyList()
     }
 
-    override fun eatMoves(board: Board): List<Square> {
-        return validMoves(board, ignoreCheck = true)
+    override fun eatMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
+        return validMoves(board, ignoreCheck = true, ignoreSamePlayer = ignoreSamePlayer)
     }
 
     // possibleCheckBlockingMoves returns all the moves that block a check
@@ -110,6 +116,7 @@ open class BasePiece(override var square: Square, override val player: Player): 
             when(board.playerAt(move)) {
                 // a piece as same as the bishop
                 player -> {
+                    moves.add(move)
                     break
                 }
                 // an enemy piece

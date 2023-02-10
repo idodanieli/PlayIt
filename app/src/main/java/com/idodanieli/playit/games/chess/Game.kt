@@ -17,7 +17,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         val movingPiece = board.pieceAt(from) ?: return false
         if (movingPiece.player != currentPlayer) { return false }
 
-        return to in movingPiece.validMoves(this.board)
+        return to in movingPiece.validMoves(this.board, ignoreSamePlayer = false)
     }
 
     fun movePiece(from: Square, to: Square) {
