@@ -71,7 +71,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
                 continue
             }
 
-            if (square in piece.validMoves(this, ignoreCheck = true)) {
+            if (square in piece.eatMoves(this)) {
                 return true
             }
         }

@@ -29,9 +29,8 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         val defaultMove = Square(square.col, square.row + direction)
         if (board.isIn(defaultMove) && board.isFree(defaultMove)) { moves.add(defaultMove) }
 
-        val eatMove1 = Square(square.col - 1, square.row + direction)
-        val eatMove2 = Square(square.col + 1, square.row + direction)
-        for (move in listOf(eatMove1, eatMove2)) {
+
+        for (move in eatMoves(board)) {
             // There is an enemy piece at the given square
             board.pieceAt(move)?.let {
                 if (it.player != player) { moves.add(move) }
@@ -39,6 +38,12 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         }
 
         return moves
+    }
+
+    override fun eatMoves(board: Board): List<Square> {
+        val eatMove1 = Square(square.col - 1, square.row + direction)
+        val eatMove2 = Square(square.col + 1, square.row + direction)
+        return listOf(eatMove1, eatMove2).filter { it.isValid(board.size) }
     }
 
     // TODO: Remove this and make a isOnStartingSquare function instead...

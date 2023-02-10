@@ -35,13 +35,21 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
         possibleMoves.addAll(moves.filter { board.isIn(it) && board.isFree(it) })
 
 
-        val eatMove = Square(square.col, square.row + direction)
+        val eatMove = eatMove()
         // There is an enemy piece at the given square
         board.pieceAt(eatMove)?.let {
             if (it.player != player) { possibleMoves.add(eatMove) }
         }
 
         return possibleMoves
+    }
+
+    override fun eatMoves(board: Board): List<Square> {
+        return listOf(eatMove()).filter { it.isValid(board.size) }
+    }
+
+    private fun eatMove(): Square {
+        return Square(square.col, square.row + direction)
     }
 
     // TODO: Remove this and make a isOnStartingSquare function instead...

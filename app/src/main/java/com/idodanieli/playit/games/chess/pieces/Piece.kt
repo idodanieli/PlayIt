@@ -14,6 +14,10 @@ interface Piece {
 
     fun xrayPossibleMove(board: Board): List<Square>
 
+    // eatMoves returns all the squares the piece can eat in (most of the times it will be like
+    // possibleMoves, except for special cases like Pawns, etc.)
+    fun eatMoves(board: Board): List<Square>
+
     // possibleMoves returns all the squares a piece can move to, without taking general logic
     // into consideration like pinning, etc.
     fun possibleMoves(board: Board): List<Square>
@@ -62,11 +66,19 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return emptyList()
     }
 
+    override fun eatMoves(board: Board): List<Square> {
+        return validMoves(board, ignoreCheck = true)
+    }
+
     // possibleCheckBlockingMoves returns all the moves that block a check
-    fun possibleCheckBlockingMoves(board: Board): List<Square> {
+    private fun possibleCheckBlockingMoves(board: Board): List<Square> {
         return possibleMoves(board).filter { move ->
             val tmpBoard = board.copy()
             tmpBoard.pieces.remove(this)
+            tmpBoard.pieceAt(move)?.let {
+                if(it.player != player) { tmpBoard.pieces.remove(it) }
+            }
+
             tmpBoard.pieces.add(BasePiece(move, player))
             !tmpBoard.isChecked(player)
         }
