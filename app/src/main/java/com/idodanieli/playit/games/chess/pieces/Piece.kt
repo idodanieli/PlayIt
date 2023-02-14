@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
+import android.util.Log
 import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
@@ -47,20 +48,26 @@ open class BasePiece(override var square: Square, override val player: Player): 
         val pinner = board.getPinner(this)
 
         if(!ignoreCheck && board.isChecked(player)) {
-            pinner?.let { return emptyList() }
-            return possibleCheckBlockingMoves(board)
+            var blockingMoves = possibleCheckBlockingMoves(board)
+            pinner?.let { blockingMoves = blockingMoves.intersect(square.squaresBetween(pinner.square).toSet()).toList() }
+
+            Log.d("<$this> validMoves()", "checked & pinned - $blockingMoves")
+            return blockingMoves
         }
 
-        val moves = possibleMoves(board)
+        var moves = possibleMoves(board)
 
         if (!ignoreSamePlayer) {
-            return moves.filterNot { board.playerAt(it) == player }
+            Log.d("<$this> validMoves()", "filtered moves of squares already occupied by players pieces")
+            moves = moves.filterNot { board.playerAt(it) == player }
         }
 
         pinner?.let {
-            return moves.intersect(square.squaresBetween(pinner.square).toSet()).toList()
+            Log.d("<$this> validMoves()", "pinned - filtered moves")
+            moves = moves.intersect(square.squaresBetween(pinner.square).toSet()).toList()
         }
 
+        Log.d("<$this> validMoves()", "returned - $moves")
         return moves
     }
 
