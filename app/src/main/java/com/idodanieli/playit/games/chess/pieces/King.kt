@@ -11,9 +11,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     override fun possibleMoves(board: Board): List<Square> {
-        val moves = board.getAvailableNeighborSquares(this).
-        filter { !board.isThreatened(it, player.opposite()) }
-
-        return moves
+        return board.getAvailableNeighborSquares(this)
+            .filter { !board.isThreatened(it, player.opposite()) }
     }
 }

@@ -156,8 +156,7 @@ fun getPieceBitmap(piece: Piece): Bitmap? {
 }
 
 private fun loadBitmaps(resources: Resources) {
-    if (!BITMAPS.isEmpty()) { return }
-    Log.d("loadBitmaps()", "called")
+    if (BITMAPS.isNotEmpty()) { return }
 
     BITMAPS[Player.WHITE] = mutableMapOf(
         Type.KING to BitmapFactory.decodeResource(resources, R.drawable.king_white),

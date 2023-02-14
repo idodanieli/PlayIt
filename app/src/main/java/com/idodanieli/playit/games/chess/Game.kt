@@ -34,7 +34,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
 
             for (piece in board.pieces.filter { it.player != currentPlayer}) {
                 val blockingMoves = piece.possibleCheckBlockingMoves(board)
-                if (!blockingMoves.isEmpty()) {
+                if (blockingMoves.isNotEmpty()) {
                     Log.d("isOver()", "FALSE - $piece can block the check - $blockingMoves")
                     return false
                 }
