@@ -167,6 +167,7 @@ private fun loadBitmaps(resources: Resources) {
         Type.GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_white),
         Type.ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_white),
         Type.CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_white),
+        Type.ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_white),
     )
 
     BITMAPS[Player.BLACK] = mutableMapOf(
@@ -181,6 +182,7 @@ private fun loadBitmaps(resources: Resources) {
         Type.GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_black),
         Type.ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_black),
         Type.CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_black),
+        Type.ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_black),
     )
 }
 

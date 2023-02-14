@@ -176,6 +176,7 @@ enum class Type {
     GIRAFFE,
     ZEBRA,
     CENTAUR,
+    ELEPHANT,
     VENOM, // TODO: Change to parasite?
 }
 
@@ -194,7 +195,7 @@ enum class MovementType {
 //----- SIMPLE PIECES -----\\
 // V "The Duke":   A piece that resembles a pawn, but has a unique ability to only move one square forward diagonally
 // - "Jumper":     A piece that can jump over an enemy piece to capture it, similar to a knight.
-// - "Centaur":    A piece that can move as a knight or as a pawn.
+// V "Centaur":    A piece that can move as a knight or as a pawn.
 // - "Splitter":   A piece that can split into two smaller pieces when captured, each of which can move and capture like pawns.
 // - "Bomber":     A piece that can be captured like a normal piece, but explodes and capture all surrounding pieces when it is captured.
 // - "Slider":     A piece that can move in a straight line any number of squares, but must be blocked by another piece or reach the edge of the board to stop.
