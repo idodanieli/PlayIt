@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
+import android.util.Log
 import com.idodanieli.playit.games.chess.*
 
 open class King(square: Square, player: Player) : BasePiece(square, player) {
@@ -11,7 +12,9 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     override fun possibleMoves(board: Board): List<Square> {
-        return board.getAvailableNeighborSquares(this).
+        val moves = board.getAvailableNeighborSquares(this).
         filter { !board.isThreatened(it, player.opposite()) }
+
+        return moves
     }
 }

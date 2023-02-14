@@ -88,7 +88,9 @@ open class BasePiece(override var square: Square, override val player: Player): 
 
     // possibleCheckBlockingMoves returns all the moves that block a check
     override fun possibleCheckBlockingMoves(board: Board): List<Square> {
-        return possibleMoves(board).filter { move ->
+        val moves = possibleMoves(board).filter { board.playerAt(it) != player }
+
+        return moves.filter { move ->
             val tmpBoard = board.copy()
             tmpBoard.pieces.remove(this)
             tmpBoard.pieceAt(move)?.let {

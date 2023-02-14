@@ -54,7 +54,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // isIn returns true if the given square is in the boards borders
     fun isIn(square: Square): Boolean {
-        return square.col in 0..this.size && square.row in 0..this.size
+        return square.col in 0 until this.size && square.row in 0 until this.size
     }
 
     // isFree returns true if the given square doesn't contain a piece
