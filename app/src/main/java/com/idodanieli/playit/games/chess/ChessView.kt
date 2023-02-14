@@ -6,7 +6,6 @@ import android.content.res.Resources
 import android.graphics.*
 import android.media.MediaPlayer
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -16,7 +15,7 @@ import kotlin.math.min
 
 const val CHESSBOARD_SIZE = 8
 
-var BITMAPS: MutableMap<Player, MutableMap<Type, Bitmap>> = mutableMapOf()
+var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, COLOR_LIGHT, COLOR_DARK)
@@ -159,35 +158,35 @@ private fun loadBitmaps(resources: Resources) {
     if (BITMAPS.isNotEmpty()) { return }
 
     BITMAPS[Player.WHITE] = mutableMapOf(
-        Type.KING to BitmapFactory.decodeResource(resources, R.drawable.king_white),
-        Type.QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_white),
-        Type.ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_white),
-        Type.BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_white),
-        Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_white),
-        Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_white),
-        Type.VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_white),
-        Type.BEROLINA to BitmapFactory.decodeResource(resources, R.drawable.berolina_white),
-        Type.GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_white),
-        Type.ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_white),
-        Type.CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_white),
-        Type.ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_white),
-        Type.GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_white),
+        TYPE_KING to BitmapFactory.decodeResource(resources, R.drawable.king_white),
+        TYPE_QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_white),
+        TYPE_ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_white),
+        TYPE_BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_white),
+        TYPE_KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_white),
+        TYPE_PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_white),
+        TYPE_VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_white),
+        TYPE_BEROLINA_PAWN to BitmapFactory.decodeResource(resources, R.drawable.berolina_white),
+        TYPE_GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_white),
+        TYPE_ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_white),
+        TYPE_CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_white),
+        TYPE_ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_white),
+        TYPE_GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_white),
     )
 
     BITMAPS[Player.BLACK] = mutableMapOf(
-        Type.KING to BitmapFactory.decodeResource(resources, R.drawable.king_black),
-        Type.QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_black),
-        Type.ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_black),
-        Type.BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_black),
-        Type.KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
-        Type.PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black),
-        Type.VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_black),
-        Type.BEROLINA to BitmapFactory.decodeResource(resources, R.drawable.berolina_black),
-        Type.GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_black),
-        Type.ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_black),
-        Type.CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_black),
-        Type.ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_black),
-        Type.GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_black),
+        TYPE_KING to BitmapFactory.decodeResource(resources, R.drawable.king_black),
+        TYPE_QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_black),
+        TYPE_ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_black),
+        TYPE_BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_black),
+        TYPE_KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
+        TYPE_PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black),
+        TYPE_VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_black),
+        TYPE_BEROLINA_PAWN to BitmapFactory.decodeResource(resources, R.drawable.berolina_black),
+        TYPE_GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_black),
+        TYPE_ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_black),
+        TYPE_CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_black),
+        TYPE_ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_black),
+        TYPE_GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_black),
     )
 }
 

@@ -25,7 +25,7 @@ class GameParser {
                 if (char != EMPTY_SQUARE) {
                     val square = Square(col, row)
                     val player = if (row < WHITE_LAST_ROW) Player.WHITE else Player.BLACK
-                    pieces.add(pieceFromCharacter(char, square, player))
+                    pieces.add(pieceFromCharacter(char.toString(), square, player))
                 }
             }
         }
@@ -33,21 +33,21 @@ class GameParser {
         return pieces
     }
 
-    private fun pieceFromCharacter(char: Char, square: Square, player: Player): Piece {
+    private fun pieceFromCharacter(char: String, square: Square, player: Player): Piece {
         when(char){
-            'R' -> return Rook(square, player)
-            'k' -> return Knight(square, player)
-            'B' -> return Bishop(square, player)
-            'Q' -> return Queen(square, player)
-            'K' -> return King(square, player)
-            'P' -> return Pawn(square, player)
-            'V' -> return Venom(square, player)
-            'b' -> return BerolinaPawn(square, player)
-            'G' -> return Giraffe(square, player)
-            'Z' -> return Zebra(square, player)
-            'C' -> return Centaur(square, player)
-            'E' -> return Elephant(square, player)
-            'g' -> return Grasshopper(square, player)
+            TYPE_ROOK -> return Rook(square, player)
+            TYPE_KNIGHT -> return Knight(square, player)
+            TYPE_BISHOP -> return Bishop(square, player)
+            TYPE_QUEEN -> return Queen(square, player)
+            TYPE_KING -> return King(square, player)
+            TYPE_PAWN -> return Pawn(square, player)
+            TYPE_VENOM -> return Venom(square, player)
+            TYPE_BEROLINA_PAWN -> return BerolinaPawn(square, player)
+            TYPE_GIRAFFE -> return Giraffe(square, player)
+            TYPE_ZEBRA -> return Zebra(square, player)
+            TYPE_CENTAUR -> return Centaur(square, player)
+            TYPE_ELEPHANT -> return Elephant(square, player)
+            TYPE_GRASSHOPPER -> return Grasshopper(square, player)
         }
 
         return BasePiece(square, player)

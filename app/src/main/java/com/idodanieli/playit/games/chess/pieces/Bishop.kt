@@ -3,9 +3,10 @@ package com.idodanieli.playit.games.chess.pieces
 import com.idodanieli.playit.games.chess.*
 
 private val moveOffsets = arrayOf(1, -1)
+const val TYPE_BISHOP = "B"
 
 class Bishop(square: Square, player: Player) : Rider(square, player) {
-    override val type = Type.BISHOP
+    override val type = TYPE_BISHOP
     override val movementType = MovementType.RIDER
 
     override fun possibleMoves(board: Board, getMovesInDirection: (board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {

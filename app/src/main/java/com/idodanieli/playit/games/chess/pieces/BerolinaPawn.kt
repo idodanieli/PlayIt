@@ -5,9 +5,10 @@ import com.idodanieli.playit.games.chess.*
 private const val WHITE_DIRECTION = 1
 private const val BLACK_DIRECTION = -1
 private const val MAX_START_MOVES = 2
+const val TYPE_BEROLINA_PAWN = "b"
 
 class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
-    override val type = Type.BEROLINA
+    override val type = TYPE_BEROLINA_PAWN
     override val movementType = MovementType.LEAPER
 
     var direction = WHITE_DIRECTION

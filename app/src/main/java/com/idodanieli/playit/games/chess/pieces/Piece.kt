@@ -10,7 +10,7 @@ const val NO_MAX_STEPS = 0
 interface Piece {
     var square: Square
     val player: Player
-    val type: Type
+    val type: String
     val movementType: MovementType
 
     fun xrayPossibleMove(board: Board): List<Square>
@@ -40,7 +40,7 @@ interface Piece {
 }
 
 open class BasePiece(override var square: Square, override val player: Player): Piece {
-    override val type = Type.NONE
+    override val type = ""
     override val movementType = MovementType.NONE
 
     // validMoves returns a list of the squares the piece can move to
@@ -173,23 +173,6 @@ open class BasePiece(override var square: Square, override val player: Player): 
     }
 }
 
-enum class Type {
-    NONE,
-    KING,
-    QUEEN,
-    ROOK,
-    BISHOP,
-    KNIGHT,
-    PAWN,
-    BEROLINA,
-    GIRAFFE,
-    ZEBRA,
-    CENTAUR,
-    ELEPHANT,
-    GRASSHOPPER,
-    VENOM, // TODO: Change to parasite?
-}
-
 enum class MovementType {
     NONE,
     LEAPER,
@@ -202,10 +185,22 @@ enum class MovementType {
 // https://en.wikipedia.org/wiki/Fairy_chess_piece
 
 /////// PIECES IDEAS \\\\\\\\
+
+// - FAIRY CHESS PIECES - \\
+// -- LEAPERS
+// V "Girrafe"
+// V "Zebra"
+// V "Centaur":     A piece that can move as a knight or as a pawn.
+// V "Camel"
+// -- HOPPERS
+// V "Grasshopper"
+// V "Elephant"
+// -- OTHER
+// V "Berolina Pawn"
+
 //----- SIMPLE PIECES -----\\
 // V "The Duke":   A piece that resembles a pawn, but has a unique ability to only move one square forward diagonally
 // - "Jumper":     A piece that can jump over an enemy piece to capture it, similar to a knight.
-// V "Centaur":    A piece that can move as a knight or as a pawn.
 // - "Splitter":   A piece that can split into two smaller pieces when captured, each of which can move and capture like pawns.
 // - "Bomber":     A piece that can be captured like a normal piece, but explodes and capture all surrounding pieces when it is captured.
 // - "Slider":     A piece that can move in a straight line any number of squares, but must be blocked by another piece or reach the edge of the board to stop.

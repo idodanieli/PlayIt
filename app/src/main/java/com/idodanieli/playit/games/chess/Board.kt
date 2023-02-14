@@ -34,7 +34,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     }
 
     // piece returns the first it finds that if of the given players and of the given type
-    fun piece(type: Type, player: Player): Piece? {
+    fun piece(type: String, player: Player): Piece? {
         for (piece in pieces) {
             if (piece.player == player && piece.type == type) {
                 return piece
@@ -46,7 +46,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // isChecked returns true if the given player is checked
     fun isChecked(player: Player): Boolean {
-        val king = piece(Type.KING, player)
+        val king = piece(TYPE_KING, player)
         king?.let { return it.isChecked(this) }
 
         return false
@@ -66,7 +66,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     fun isThreatened(square: Square, enemy: Player): Boolean {
         val enemyPieces = this.pieces.filter { it.player == enemy }
         for (piece in enemyPieces) {
-            if (piece.type == Type.KING) { // To avoid recursion
+            if (piece.type == TYPE_KING) { // To avoid recursion
                 if (piece.square.isNear(square)) return true
                 continue
             }
@@ -102,9 +102,9 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // getPinner returns the piece that pins the current piece
     fun getPinner(piece: Piece) : Piece? {
-        if (piece.type == Type.KING) { return null } // TODO: Make this more general
+        if (piece.type == TYPE_KING) { return null } // TODO: Make this more general
 
-        val king = piece(Type.KING, piece.player) ?: return null
+        val king = piece(TYPE_KING, piece.player) ?: return null
         if (king.square == piece.square) { return null }
         val direction = king.square.directionTo(piece.square)
 

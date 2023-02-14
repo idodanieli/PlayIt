@@ -3,9 +3,10 @@ package com.idodanieli.playit.games.chess.pieces
 import com.idodanieli.playit.games.chess.*
 
 private val KNIGHT_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
+const val TYPE_KNIGHT = "k"
 
 open class Knight(square: Square, player: Player) : BasePiece(square, player) {
-    override val type = Type.KNIGHT
+    override val type = TYPE_KNIGHT
     override val movementType = MovementType.LEAPER
     open val moveOffsets = KNIGHT_MOVE_OFFSETS
 

@@ -1,5 +1,16 @@
 package com.idodanieli.playit.games.chess
 
+val DIRECTIONS = mutableMapOf<String, Square>(
+    "W" to Square(1 ,0),
+    "E" to Square(-1 ,0),
+    "N" to Square(0 ,1),
+    "S" to Square(0 ,-1),
+    "SW" to Square(1 ,-1),
+    "NW" to Square(1 ,1),
+    "SE" to Square(-1 ,-1),
+    "NE" to Square(-1 ,1),
+)
+
 class Square(val col: Int, val row: Int) {
 
     override fun equals(other: Any?): Boolean =
@@ -24,6 +35,10 @@ class Square(val col: Int, val row: Int) {
         val rowDiff = other.row - row
         val gcd = greatestCommonDivider(Math.abs(colDiff), Math.abs(rowDiff))
         return Square(colDiff / gcd, rowDiff / gcd)
+    }
+
+    fun opposite(): Square {
+        return Square(-1 * col, -1 * row)
     }
 
     // squaresBetween returns all the squares between this square and the other square
@@ -55,6 +70,10 @@ class Square(val col: Int, val row: Int) {
 
     fun isValid(size: Int): Boolean {
         return col in 0..size && row in 0..size
+    }
+
+    fun isDiagonalDirection(): Boolean {
+        return Math.abs(col) == Math.abs(row)
     }
 }
 
