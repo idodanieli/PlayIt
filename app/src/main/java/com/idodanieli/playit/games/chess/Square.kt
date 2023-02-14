@@ -27,7 +27,7 @@ class Square(val col: Int, val row: Int) {
     }
 
     // squaresBetween returns all the squares between this square and the other square
-    fun squaresBetween(other: Square): List<Square> {
+    fun squaresBetween(other: Square, excludeOther: Boolean = false): List<Square> {
         val squares = mutableListOf<Square>()
         val direction = directionTo(other)
         var current = this.copy()
@@ -35,6 +35,9 @@ class Square(val col: Int, val row: Int) {
             current += direction
             squares.add(current)
         }
+
+        if (excludeOther) { squares.remove(current) } // excludes the last squares from the moves
+
         return squares
     }
 

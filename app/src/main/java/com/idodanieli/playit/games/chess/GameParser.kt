@@ -47,6 +47,7 @@ class GameParser {
             'Z' -> return Zebra(square, player)
             'C' -> return Centaur(square, player)
             'E' -> return Elephant(square, player)
+            'g' -> return Grasshopper(square, player)
         }
 
         return BasePiece(square, player)

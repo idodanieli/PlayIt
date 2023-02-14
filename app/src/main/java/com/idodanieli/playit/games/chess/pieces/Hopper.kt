@@ -12,19 +12,23 @@ abstract class Hopper(square: Square, player: Player) : BasePiece(square, player
     override val movementType = MovementType.HOPPER
 
     // The direction the Hopper hops in
-    abstract val direction: Square
+    abstract val directions: List<Square>
 
     // The size of the hop the hopper makes
     abstract val hop: Int
 
     override fun possibleMoves(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
-                
-        moves.add(Square(square.col + direction.col * hop, square.row + direction.row * hop))
-        moves.add(Square(square.col - direction.col * hop, square.row + direction.row * hop))
-        moves.add(Square(square.col + direction.col * hop, square.row - direction.row * hop))
-        moves.add(Square(square.col - direction.col * hop, square.row - direction.row * hop))
+
+        for (direction in directions) {
+            moves.add(Square(square.col + direction.col * hop, square.row + direction.row * hop))
+        }
 
         return moves.filter { board.isIn(it) }
+    }
+
+    // isAHopOverOtherPiece checks if the given move hops over another move
+    fun isAHopOverAPiece(move: Square, board: Board): Boolean {
+        return square.squaresBetween(move, excludeOther = true).any { board.pieceAt(it) != null }
     }
 }

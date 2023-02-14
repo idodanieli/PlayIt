@@ -186,6 +186,7 @@ enum class Type {
     ZEBRA,
     CENTAUR,
     ELEPHANT,
+    GRASSHOPPER,
     VENOM, // TODO: Change to parasite?
 }
 

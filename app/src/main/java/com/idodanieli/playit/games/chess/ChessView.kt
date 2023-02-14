@@ -171,6 +171,7 @@ private fun loadBitmaps(resources: Resources) {
         Type.ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_white),
         Type.CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_white),
         Type.ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_white),
+        Type.GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_white),
     )
 
     BITMAPS[Player.BLACK] = mutableMapOf(
@@ -186,6 +187,7 @@ private fun loadBitmaps(resources: Resources) {
         Type.ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_black),
         Type.CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_black),
         Type.ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_black),
+        Type.GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_black),
     )
 }
 
