@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.pieces
 
-import android.util.Log
 import com.idodanieli.playit.games.chess.*
 
 open class King(square: Square, player: Player) : BasePiece(square, player) {

@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.*
 import android.media.MediaPlayer
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -155,6 +156,9 @@ fun getPieceBitmap(piece: Piece): Bitmap? {
 }
 
 private fun loadBitmaps(resources: Resources) {
+    if (!BITMAPS.isEmpty()) { return }
+    Log.d("loadBitmaps()", "called")
+
     BITMAPS[Player.WHITE] = mutableMapOf(
         Type.KING to BitmapFactory.decodeResource(resources, R.drawable.king_white),
         Type.QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_white),
