@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess
 
 import android.graphics.*
+import android.util.Log
 import com.idodanieli.playit.games.chess.pieces.Piece
 
 val COLOR_LIGHT = Color.parseColor("#ffe9c5")

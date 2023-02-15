@@ -174,6 +174,7 @@ private fun loadBitmaps(resources: Resources) {
         TYPE_CAMEL to BitmapFactory.decodeResource(resources, R.drawable.camel_white),
         TYPE_WILDBEAST to BitmapFactory.decodeResource(resources, R.drawable.wildbeast_white),
         TYPE_AMAZON to BitmapFactory.decodeResource(resources, R.drawable.amazon_white),
+        TYPE_EMPRESS to BitmapFactory.decodeResource(resources, R.drawable.empress_white),
     )
 
     BITMAPS[Player.BLACK] = mutableMapOf(
@@ -193,6 +194,7 @@ private fun loadBitmaps(resources: Resources) {
         TYPE_CAMEL to BitmapFactory.decodeResource(resources, R.drawable.camel_black),
         TYPE_WILDBEAST to BitmapFactory.decodeResource(resources, R.drawable.wildbeast_black),
         TYPE_AMAZON to BitmapFactory.decodeResource(resources, R.drawable.amazon_black),
+        TYPE_EMPRESS to BitmapFactory.decodeResource(resources, R.drawable.empress_black),
     )
 }
 

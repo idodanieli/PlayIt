@@ -50,6 +50,8 @@ class GameParser {
             TYPE_GRASSHOPPER -> return Grasshopper(square, player)
             TYPE_CAMEL -> return Camel(square, player)
             TYPE_WILDBEAST -> return WildBeast(square, player)
+            TYPE_AMAZON -> return Amazon(square, player)
+            TYPE_EMPRESS -> return Empress(square, player)
         }
 
         return BasePiece(square, player)
