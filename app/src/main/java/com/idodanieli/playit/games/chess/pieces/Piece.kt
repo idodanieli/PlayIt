@@ -187,19 +187,26 @@ enum class MovementType {
 /////// PIECES IDEAS \\\\\\\\
 
 // - FAIRY CHESS PIECES - \\
+
 // -- LEAPERS
 // V "Girrafe"
 // V "Zebra"
 // V "Centaur":     A piece that can move as a knight or as a pawn.
-// V "Camel"
+// V "Camel"        (3, 1) Knight
+
 // -- HOPPERS
 // V "Grasshopper"
 // V "Elephant"
+
+// -- COMPOUND
+// V "WildBeast":   Knight + Camel
+// V "Amazon":      Knight + Queen
+// V "Empress":     Knight + Rook
+
 // -- OTHER
 // V "Berolina Pawn"
 
-//----- SIMPLE PIECES -----\\
-// V "The Duke":   A piece that resembles a pawn, but has a unique ability to only move one square forward diagonally
+//----- SPECIAL PIECES -----\\
 // - "Jumper":     A piece that can jump over an enemy piece to capture it, similar to a knight.
 // - "Splitter":   A piece that can split into two smaller pieces when captured, each of which can move and capture like pawns.
 // - "Bomber":     A piece that can be captured like a normal piece, but explodes and capture all surrounding pieces when it is captured.
