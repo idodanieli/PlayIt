@@ -1,11 +1,12 @@
 package com.idodanieli.playit.games.chess
 
+import android.R
 import android.graphics.*
-import android.util.Log
+
 import com.idodanieli.playit.games.chess.pieces.Piece
 
 val COLOR_LIGHT = Color.parseColor("#ffe9c5")
-val COLOR_DARK = Color.parseColor("#855E42")
+val COLOR_DARK = Color.parseColor("#A37568")
 val COLOR_TOUCHED = Color.parseColor("#CBC3E3")
 val COLOR_LIGHT_AVAILABLE_SQUARE = Color.parseColor("#FF7276")
 val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
