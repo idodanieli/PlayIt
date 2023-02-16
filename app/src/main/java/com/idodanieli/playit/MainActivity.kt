@@ -1,6 +1,7 @@
 package com.idodanieli.playit
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val gameParser = GameParser()
-        val games = getGameJSONS().map { gameParser.parse(it) }
+        val games = getGameJSONS().map { gameParser.parse(it) }.shuffled()
 
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         viewPager.adapter = PageviewAdapter(games)
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getGameJSONS(): List<JSONObject> {
+    private fun getGameJSONS(): List<JSONObject> {
         val files = arrayListOf<JSONObject>()
         val fields: Array<Field> = R.raw::class.java.fields
         fields.forEach {
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 files.add(json)
             } catch (e: JSONException) {
                 // do nothing
+                Log.d("JsonException()", e.toString())
             }
         }
 

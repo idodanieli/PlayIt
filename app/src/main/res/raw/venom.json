@@ -1,4 +1,5 @@
 {
   "name": "Venom",
-  "board": "RkBVKBkRPPPPPPPP................................PPPPPPPPRkBVKBkR"
+  "board": "RkBVKBkRPPPPPPPP................................PPPPPPPPRkBVKBkR",
+  "description": "Venom is a powerful and sturdy piece that can move only one square at a time, but grows in power by capturing opponent's pieces. As it captures more pieces, it becomes more difficult for the opponent to capture, making it a formidable piece to contend with."
 }

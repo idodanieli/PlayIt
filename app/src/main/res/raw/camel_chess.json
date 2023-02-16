@@ -1,4 +1,5 @@
 {
   "name": "Camel Chess",
-  "board": "RcBQKBcRPPPPPPPP................................PPPPPPPPRcBQKBcR"
+  "board": "RcBQKBcRPPPPPPPP................................PPPPPPPPRcBQKBcR",
+  "description": "The Camel moves like the knight, but moves (3,1) instead of (4, 1)"
 }

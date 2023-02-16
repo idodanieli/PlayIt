@@ -4,6 +4,7 @@ import com.idodanieli.playit.games.chess.pieces.*
 import org.json.JSONObject
 
 private const val NAME = "name"
+private const val DESCRIPTION = "description"
 private const val BOARD = "board"
 private const val EMPTY_SQUARE = '.'
 private const val WHITE_LAST_ROW = 2
@@ -11,9 +12,13 @@ private const val WHITE_LAST_ROW = 2
 class GameParser {
     fun parse(json: JSONObject): Game {
         val name = json.getString(NAME)
+        val desc = json.optString(DESCRIPTION)
         val board = json.getString(BOARD)
 
-        return Game(name, parseBoardPieces(board), CHESSBOARD_SIZE)
+        val game = Game(name, parseBoardPieces(board), CHESSBOARD_SIZE)
+        game.description = desc
+
+        return game
     }
 
     private fun parseBoardPieces(board: String): MutableSet<Piece> {

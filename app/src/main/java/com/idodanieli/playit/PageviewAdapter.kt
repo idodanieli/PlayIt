@@ -10,7 +10,8 @@ import com.idodanieli.playit.games.chess.ChessView
 import com.idodanieli.playit.games.chess.Game
 
 
-class PageviewAdapter (private val mList: List<Game>) : RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
+class PageviewAdapter(private val mList: List<Game>) :
+    RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +29,7 @@ class PageviewAdapter (private val mList: List<Game>) : RecyclerView.Adapter<Pag
         val game = mList[position]
 
         holder.gameTitle.text = game.name
+        holder.gameDescription.text = game.description
         holder.chessView.game = game
     }
 
@@ -40,5 +42,6 @@ class PageviewAdapter (private val mList: List<Game>) : RecyclerView.Adapter<Pag
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val chessView: ChessView = itemView.findViewById(R.id.chess_view)
         val gameTitle: TextView = itemView.findViewById(R.id.gameName)
+        val gameDescription: TextView = itemView.findViewById(R.id.gameDescription)
     }
 }

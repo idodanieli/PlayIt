@@ -1,4 +1,5 @@
 {
   "name": "Classic",
-  "board": "RkBQKBkRPPPPPPPP................................PPPPPPPPRkBQKBkR"
+  "board": "RkBQKBkRPPPPPPPP................................PPPPPPPPRkBQKBkR",
+  "description": "The classic chess game we all know and love"
 }
