@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
+import android.util.Log
 import com.idodanieli.playit.games.chess.*
 
 private val XIANGQI_HORSE_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
@@ -18,7 +19,11 @@ open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, play
                 if (Math.abs(i) == Math.abs(j)) { continue }
                 
                 val move = Square(i, j)
-                if(!isMoveBlockedByOtherPiece(move, board)) { moves.add(move) }
+                val destination = square + move
+
+                if(board.isIn(destination) && !isMoveBlockedByOtherPiece(move, board)) {
+                    moves.add(destination)
+                }
             }
         }
 
@@ -26,7 +31,15 @@ open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, play
     }
     
     private fun isMoveBlockedByOtherPiece(move: Square, board: Board): Boolean {
-        for (square in square.squaresPassedInMove(move, excludeDestination = true)) {
+        var isBlocked = false
+        for (square in square.squaresPassedInMove(move, moveByRowFirst = true, excludeDestination = true)) {
+            board.pieceAt(square)?.let {
+                isBlocked = true
+            }
+        }
+
+        if (!isBlocked) { return false }
+        for (square in square.squaresPassedInMove(move, moveByRowFirst = false, excludeDestination = true)) {
             board.pieceAt(square)?.let {
                 return true
             }

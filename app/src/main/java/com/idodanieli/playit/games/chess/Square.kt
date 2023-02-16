@@ -1,5 +1,7 @@
 package com.idodanieli.playit.games.chess
 
+import android.util.Log
+
 val DIRECTIONS = mutableMapOf<String, Square>(
     "W" to Square(1 ,0),
     "E" to Square(-1 ,0),
@@ -59,19 +61,34 @@ class Square(val col: Int, val row: Int) {
 
     // squaresPassedInMove returns all the squares between this square and the other square
     // if the direction is (2, 1) it will jump return (1, 0) (2, 0) (2, 1)
-    fun squaresPassedInMove(move: Square, excludeDestination: Boolean = false): List<Square> {
+    fun squaresPassedInMove(move: Square, moveByRowFirst: Boolean, excludeDestination: Boolean = false): List<Square> {
         var current = this.copy()
-        var squares = mutableListOf<Square>()
-        for (mCol in 1..move.col) {
-            current = Square(current.col + mCol, current.row)
-            squares.add(current)
+        val squares = mutableListOf<Square>()
+
+        if (moveByRowFirst) {
+            for (mRow in 1..move.row) {
+                current = Square(current.col, current.row + 1)
+                squares.add(current)
+            }
         }
-        for (mRow in 1..move.row) {
-            current = Square(current.col, current.row + mRow)
+
+        for (mCol in 1..move.col) {
+            current = Square(current.col + 1, current.row)
             squares.add(current)
         }
 
+        if (!moveByRowFirst) {
+            for (mRow in 1..move.row) {
+                current = Square(current.col, current.row + 1)
+                squares.add(current)
+            }
+        }
+
         if (excludeDestination) { squares.remove(current) } // excludes the last squares from the moves
+
+        if (move == Square(1, 2)) {
+            Log.d("blah1", "$moveByRowFirst, $squares")
+        }
 
         return squares
     }
