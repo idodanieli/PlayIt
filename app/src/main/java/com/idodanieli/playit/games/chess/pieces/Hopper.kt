@@ -29,6 +29,6 @@ abstract class Hopper(square: Square, player: Player) : BasePiece(square, player
 
     // isAHopOverOtherPiece checks if the given move hops over another move
     fun isAHopOverAPiece(move: Square, board: Board): Boolean {
-        return square.squaresBetween(move, excludeOther = true).any { board.pieceAt(it) != null }
+        return square.squaresBetween(move, excludeDestination = true).any { board.pieceAt(it) != null }
     }
 }

@@ -42,16 +42,36 @@ class Square(val col: Int, val row: Int) {
     }
 
     // squaresBetween returns all the squares between this square and the other square
-    fun squaresBetween(other: Square, excludeOther: Boolean = false): List<Square> {
+    // if the direction os (2, 1) it will jump (2, 1) between iterations
+    fun squaresBetween(destination: Square, excludeDestination: Boolean = false): List<Square> {
         val squares = mutableListOf<Square>()
-        val direction = directionTo(other)
+        val direction = directionTo(destination)
         var current = this.copy()
-        while (current != other) {
+        while (current != destination) {
             current += direction
             squares.add(current)
         }
 
-        if (excludeOther) { squares.remove(current) } // excludes the last squares from the moves
+        if (excludeDestination) { squares.remove(current) } // excludes the last squares from the moves
+
+        return squares
+    }
+
+    // squaresPassedInMove returns all the squares between this square and the other square
+    // if the direction is (2, 1) it will jump return (1, 0) (2, 0) (2, 1)
+    fun squaresPassedInMove(move: Square, excludeDestination: Boolean = false): List<Square> {
+        var current = this.copy()
+        var squares = mutableListOf<Square>()
+        for (mCol in 1..move.col) {
+            current = Square(current.col + mCol, current.row)
+            squares.add(current)
+        }
+        for (mRow in 1..move.row) {
+            current = Square(current.col, current.row + mRow)
+            squares.add(current)
+        }
+
+        if (excludeDestination) { squares.remove(current) } // excludes the last squares from the moves
 
         return squares
     }

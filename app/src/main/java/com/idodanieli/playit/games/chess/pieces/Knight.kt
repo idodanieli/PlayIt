@@ -17,6 +17,7 @@ open class Knight(square: Square, player: Player) : BasePiece(square, player) {
             for (j in moveOffsets) {
                 if (Math.abs(i) == Math.abs(j)) { continue }
 
+                // TODO: Fix This -> Its redundant
                 val move1 = Square(this.square.col + i, this.square.row + j)
                 val move2 = Square(this.square.col + j, this.square.row + i)
 

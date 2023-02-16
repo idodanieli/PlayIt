@@ -41,7 +41,7 @@ interface Piece {
 
 open class BasePiece(override var square: Square, override val player: Player): Piece {
     override val type = ""
-    override val movementType = MovementType.NONE
+    override val movementType = MovementType.REGULAR
 
     // validMoves returns a list of the squares the piece can move to
     override fun validMoves(board: Board, ignoreCheck: Boolean, ignoreSamePlayer: Boolean): List<Square> {
@@ -174,7 +174,7 @@ open class BasePiece(override var square: Square, override val player: Player): 
 }
 
 enum class MovementType {
-    NONE,
+    REGULAR,
     LEAPER,
     RIDER,
     HOPPER
@@ -202,6 +202,9 @@ enum class MovementType {
 // V "WildBeast":   Knight + Camel
 // V "Amazon":      Knight + Queen
 // V "Empress":     Knight + Rook
+
+// -- RIDERS
+// V "Xiangqi Horse": Knight that cant leap
 
 // -- OTHER
 // V "Berolina Pawn"
