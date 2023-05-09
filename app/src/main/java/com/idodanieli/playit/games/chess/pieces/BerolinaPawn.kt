@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.*
 private const val WHITE_DIRECTION = 1
 private const val BLACK_DIRECTION = -1
 private const val MAX_START_MOVES = 2
-const val TYPE_BEROLINA_PAWN = "b"
+const val TYPE_BEROLINA_PAWN = "V"
 
 class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_BEROLINA_PAWN

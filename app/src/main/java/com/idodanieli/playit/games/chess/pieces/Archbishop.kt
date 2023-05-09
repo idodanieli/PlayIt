@@ -3,7 +3,7 @@ package com.idodanieli.playit.games.chess.pieces
 import com.idodanieli.playit.games.chess.*
 
 
-const val TYPE_ARCHBISHOP = "@"
+const val TYPE_ARCHBISHOP = "X"
 
 class Archbishop(square: Square, player: Player) : Compound(square, player) {
     override val type = TYPE_ARCHBISHOP

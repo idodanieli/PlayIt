@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.*
 
 private val MOVE_OFFSETS = arrayOf(1, -1, 0)
 private const val STARTING_MAX_STEPS = 1
-const val TYPE_VENOM = "V"
+const val TYPE_VENOM = "U"
 
 // Venom is a slow-moving but powerful piece that moves one square at a time in any direction (horizontally, vertically, or diagonally).
 // When Venom captures an opponent's piece, it absorbs that piece's power and gains the ability to move an additional square in any direction for each subsequent move.

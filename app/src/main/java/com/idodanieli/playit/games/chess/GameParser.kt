@@ -29,8 +29,8 @@ class GameParser {
                 val char = board[col + row * CHESSBOARD_SIZE]
                 if (char != EMPTY_SQUARE) {
                     val square = Square(col, row)
-                    val player = if (row < WHITE_LAST_ROW) Player.WHITE else Player.BLACK
-                    pieces.add(pieceFromCharacter(char.toString(), square, player))
+                    val player = if (char.isUpperCase()) Player.WHITE else Player.BLACK
+                    pieces.add(pieceFromCharacter(char.uppercase(), square, player))
                 }
             }
         }

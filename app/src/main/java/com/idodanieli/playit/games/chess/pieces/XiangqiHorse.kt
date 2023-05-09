@@ -4,7 +4,7 @@ import android.util.Log
 import com.idodanieli.playit.games.chess.*
 
 private val XIANGQI_HORSE_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
-const val TYPE_XIANGQI_HORSE = "U"
+const val TYPE_XIANGQI_HORSE = "O"
 
 // TODO: FIX THIS CLASS, THE MOVEMENT IS WRONG
 open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, player) {

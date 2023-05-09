@@ -3,7 +3,7 @@ package com.idodanieli.playit.games.chess.pieces
 import com.idodanieli.playit.games.chess.*
 
 
-const val TYPE_EMPRESS = "e"
+const val TYPE_EMPRESS = "M"
 
 class Empress(square: Square, player: Player) : Compound(square, player) {
     override val type = TYPE_EMPRESS

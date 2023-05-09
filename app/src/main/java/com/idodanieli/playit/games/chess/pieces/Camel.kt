@@ -3,7 +3,7 @@ package com.idodanieli.playit.games.chess.pieces
 import com.idodanieli.playit.games.chess.*
 
 private val MOVE_OFFSETS = arrayOf(1, 3, -1, -3)
-const val TYPE_CAMEL = "c"
+const val TYPE_CAMEL = "C"
 
 // The camel or long knight is a fairy chess piece with an elongated knight move.
 // It can jump three squares horizontally and one square vertically or three squares vertically and one square horizontally,

@@ -3,7 +3,7 @@ package com.idodanieli.playit.games.chess.pieces
 import com.idodanieli.playit.games.chess.*
 
 private val KNIGHT_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
-const val TYPE_KNIGHT = "k"
+const val TYPE_KNIGHT = "N"
 
 open class Knight(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_KNIGHT

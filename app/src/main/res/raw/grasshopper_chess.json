@@ -1,5 +1,5 @@
 {
   "name": "Grasshopper Chess",
-  "board": "RkgQKgkRPPPPPPPP................................PPPPPPPPRkgQKgkR",
+  "board": "RNHQKHNRPPPPPPPP................................pppppppprngqkgnr",
   "description": "The Grasshopper is a chess piece that moves like a queen along rank, file, and diagonal, but when capturing an opponent's piece, it jumps over it to the next square in the same direction. The Grasshopper cannot move in a direction if there is no piece to hop over, which can limit its mobility."
 }

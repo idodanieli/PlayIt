@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
 
-const val TYPE_CENTAUR = "C"
+const val TYPE_CENTAUR = "S"
 
 class Centaur(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_CENTAUR

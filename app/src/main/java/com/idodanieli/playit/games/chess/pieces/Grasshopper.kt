@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.DIRECTIONS
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
 
-const val TYPE_GRASSHOPPER = "g"
+const val TYPE_GRASSHOPPER = "H"
 
 // The grasshopper is a fairy chess piece that moves along ranks, files, and diagonals (as a queen)
 // but only by hopping over another piece. The piece to be hopped may be any distance away,
