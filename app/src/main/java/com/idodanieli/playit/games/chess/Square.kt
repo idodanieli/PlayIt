@@ -14,6 +14,11 @@ val DIRECTIONS = mutableMapOf<String, Square>(
 )
 
 class Square(val col: Int, val row: Int) {
+    companion object {
+        fun from_bitboard(bitboard: ULong): Square {
+            return Square(BitBoard.getFile(bitboard), BitBoard.getRank(bitboard))
+        }
+    }
 
     override fun equals(other: Any?): Boolean =
         (other is Square) && this.col == other.col && this.row == other.row
@@ -111,6 +116,10 @@ class Square(val col: Int, val row: Int) {
 
     fun isDiagonalDirection(): Boolean {
         return Math.abs(col) == Math.abs(row)
+    }
+
+    fun bitboard(): ULong {
+        return BitBoard.squareBitboard(row * 8 + col) // TODO: 8 should be BOARD_SIZE
     }
 }
 

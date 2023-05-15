@@ -30,7 +30,7 @@ class BitBoard {
 
         // This mask can be used in bitwise operations to isolate or manipulate specific ranks on a bitboard representation of a chessboard.
         // By applying this mask to a bitboard, you can extract the bits corresponding to the ranks and perform operations on them.
-        private val RANK_MASKS = ULongArray(BOARD_SIZE) { 0xFFUL shl (it * BOARD_SIZE) }
+        val RANK_MASKS = ULongArray(BOARD_SIZE) { 0xFFUL shl (it * BOARD_SIZE) }
 
         // 1 0 0 0 0 0 0 0   0 1 0 0 0 0 0 0   0 0 1 0 0 0 0 0   0 0 0 1 0 0 0 0
         // 1 0 0 0 0 0 0 0   0 1 0 0 0 0 0 0   0 0 1 0 0 0 0 0   0 0 0 1 0 0 0 0
@@ -41,7 +41,13 @@ class BitBoard {
         // 1 0 0 0 0 0 0 0   0 1 0 0 0 0 0 0   0 0 1 0 0 0 0 0   0 0 0 1 0 0 0 0
         // 1 0 0 0 0 0 0 0   0 1 0 0 0 0 0 0   0 0 1 0 0 0 0 0   0 0 0 1 0 0 0 0
 
-        private val FILE_MASKS = ULongArray(BOARD_SIZE) { 0x0101010101010101UL shl it }
+        val FILE_MASKS = ULongArray(BOARD_SIZE) { 0x0101010101010101UL shl it }
+
+        // A bitboard representing the file that is outside the valid range of files on a chessboard.
+        //  It is used as a sentinel value or as a mask to filter out moves outside the board boundaries.
+        val NOT_A_FILE: ULong = 0xFFFE_FFFE_FFFE_FFFEu
+
+        val NOT_H_FILE: ULong = 0xFFFF_FFFF_FFFF_FFFEu
 
         // Function to get the bitboard for a specific square
         fun squareBitboard(square: Int): ULong {
@@ -72,6 +78,16 @@ class BitBoard {
                 }
                 println()
             }
+        }
+
+        fun getRank(bitboard: ULong): Int {
+            // TODO: Change to board size
+            return bitboard.countTrailingZeroBits() / 8
+        }
+
+        fun getFile(bitboard: ULong): Int {
+            // TODO: Change to board size
+            return bitboard.countTrailingZeroBits() % 8
         }
     }
 }

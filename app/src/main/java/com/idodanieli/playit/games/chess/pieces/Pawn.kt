@@ -42,9 +42,14 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     override fun eatMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
-        val eatMove1 = Square(square.col - 1, square.row + direction)
-        val eatMove2 = Square(square.col + 1, square.row + direction)
-        return listOf(eatMove1, eatMove2).filter { it.isValid(board.size) }
+        val origin = square.bitboard()
+
+        val eatMoveLeft = origin shl (8 - 1) and BitBoard.NOT_A_FILE
+        val eatMoveRight = origin shl (8 + 1) and BitBoard.NOT_H_FILE
+
+        return listOf(eatMoveLeft, eatMoveRight)
+            .map { Square.from_bitboard(it) }
+            .filter { it.isValid(board.size) }
     }
 
     // TODO: Remove this and make a isOnStartingSquare function instead...
