@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.*
 import android.media.MediaPlayer
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast

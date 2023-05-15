@@ -42,7 +42,9 @@ class MainActivity : AppCompatActivity() {
             val file = resources.openRawResource(resourceID).bufferedReader(Charsets.UTF_8).use { it.readText() }
             try {
                 val json = JSONObject(file)
-                files.add(json)
+                if (json["name"] == "Classic") {
+                    files.add(json)
+                }
             } catch (e: JSONException) {
                 // do nothing
                 Log.d("JsonException()", e.toString())

@@ -7,7 +7,6 @@ private const val NAME = "name"
 private const val DESCRIPTION = "description"
 private const val BOARD = "board"
 private const val EMPTY_SQUARE = '.'
-private const val WHITE_LAST_ROW = 2
 
 class GameParser {
     fun parse(json: JSONObject): Game {
