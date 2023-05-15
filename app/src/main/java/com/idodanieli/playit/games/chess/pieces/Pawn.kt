@@ -20,15 +20,35 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         }
     }
 
+    // TODO: Change 8 -> BOARD_SIZE
+    // TODO: INSTEAD OF IS_IN USE BITBOARDS
+    // TODO: CHECK IF THERE IS AN ENEMY PIECE WITH BITBOARDS
     override fun possibleMoves(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
-        if (!moved) {
-            val move = Square(square.col, square.row + direction * MAX_START_MOVES)
-            if (board.isFree(move)) { moves.add(move) }
+
+        val origin = square.bitboard()
+
+        val defaultMove: Square
+        val startingMove: Square
+
+        when(player) {
+            Player.WHITE -> {
+                defaultMove = Square.from_bitboard( origin shl 8 )
+                startingMove = Square.from_bitboard( origin shl 8 * MAX_START_MOVES )
+            }
+            Player.BLACK -> {
+                defaultMove = Square.from_bitboard( origin shr 8 )
+                startingMove = Square.from_bitboard( origin shr 8 * MAX_START_MOVES )
+            }
         }
 
-        val defaultMove = Square(square.col, square.row + direction)
+        // Single square forward move
         if (board.isIn(defaultMove) && board.isFree(defaultMove)) { moves.add(defaultMove) }
+
+        // Double square forward move from the starting position
+        if (!moved) {
+            if (board.isFree(startingMove)) { moves.add(startingMove) }
+        }
 
 
         for (move in eatMoves(board)) {
@@ -43,12 +63,22 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
 
     override fun eatMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
         val origin = square.bitboard()
+        val eatMoveLeft: Square
+        val eatMoveRight: Square
 
-        val eatMoveLeft = origin shl (8 - 1) and BitBoard.NOT_A_FILE
-        val eatMoveRight = origin shl (8 + 1) and BitBoard.NOT_H_FILE
+        when(player) {
+            Player.WHITE -> {
+                eatMoveLeft = Square.from_bitboard( origin shl (8 - 1) and BitBoard.NOT_A_FILE )
+                eatMoveRight = Square.from_bitboard( origin shl (8 + 1) and BitBoard.NOT_H_FILE )
+            }
+            Player.BLACK -> {
+                eatMoveLeft = Square.from_bitboard( origin shr (8 - 1) and BitBoard.NOT_A_FILE )
+                eatMoveRight = Square.from_bitboard( origin shr (8 + 1) and BitBoard.NOT_H_FILE )
+            }
+        }
+
 
         return listOf(eatMoveLeft, eatMoveRight)
-            .map { Square.from_bitboard(it) }
             .filter { it.isValid(board.size) }
     }
 
