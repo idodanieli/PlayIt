@@ -111,7 +111,7 @@ class Square(val col: Int, val row: Int) {
     }
 
     fun isValid(size: Int): Boolean {
-        return col in 0..size && row in 0..size
+        return col in 0 until size && row in 0 until size
     }
 
     fun isDiagonalDirection(): Boolean {

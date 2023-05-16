@@ -43,11 +43,31 @@ class BitBoard {
 
         val FILE_MASKS = ULongArray(BOARD_SIZE) { 0x0101010101010101UL shl it }
 
+        val A_FILE: ULong = 0b0000000100000001000000010000000100000001000000010000000100000001u
+        val H_FILE: ULong = 0b1000000010000000100000001000000010000000100000001000000010000000u
+
+        //           A  B  C  D  E  F  G  H
+        //         +-----------------------+
+        //        8| .  x  x  x  x  x  x  x |
+        //        7| .  x  x  x  x  x  x  x |
+        //        6| .  x  x  x  x  x  x  x |
+        //        5| .  x  x  x  x  x  x  x |
+        //        4| .  x  x  x  x  x  x  x |
+        //        3| .  x  x  x  x  x  x  x |
+        //        2| .  x  x  x  x  x  x  x |
+        //        1| .  x  x  x  x  x  x  x |
+        //         +-----------------------+
+
         // A bitboard representing the file that is outside the valid range of files on a chessboard.
         //  It is used as a sentinel value or as a mask to filter out moves outside the board boundaries.
-        val NOT_A_FILE: ULong = 0xFFFE_FFFE_FFFE_FFFEu
+        val NOT_A_FILE: ULong = A_FILE.inv()
+        val NOT_H_FILE: ULong = H_FILE.inv()
 
-        val NOT_H_FILE: ULong = 0xFFFF_FFFF_FFFF_FFFEu
+        val ZERO_RANK: ULong = 0b000000000000000000000000000000000000000000000000000000011111111u
+        val EIGHTH_RANK: ULong = 0b1111111100000000000000000000000000000000000000000000000000000000u
+
+        val NOT_ZERO_RANK: ULong = ZERO_RANK.inv()
+        val NOT_EIGHTH_RANK: ULong = EIGHTH_RANK.inv()
 
         // Function to get the bitboard for a specific square
         fun squareBitboard(square: Int): ULong {

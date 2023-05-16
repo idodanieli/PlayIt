@@ -19,6 +19,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
+        // TODO: This can be way more efficient with a map instead of a list
         for (piece in pieces) {
             if (square == piece.square) {
                 return  piece
