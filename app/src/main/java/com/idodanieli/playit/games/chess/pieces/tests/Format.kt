@@ -10,3 +10,8 @@ fun wrongMovesFormat(piece: Piece, board: Board, moves: List<Square>, msg: Strin
             "${board}\n" +
             "${piece} -> ${moves}"
 }
+
+fun errorFormat(board: Board, msg: String): String {
+    return "${msg}" +
+            "${board}\n"
+}

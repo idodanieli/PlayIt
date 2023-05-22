@@ -35,8 +35,8 @@ interface Piece {
     // onEat adds logic to piece after they have eaten another piece
     fun onEat(eatenPiece: Piece)
 
-    // isChecked returns true if this piece could be captured by another piece on the board
-    fun isChecked(board: Board): Boolean
+    // canBeCaptured returns true if this piece could be captured by another piece on the board
+    fun canBeCaptured(board: Board): Boolean
 }
 
 open class BasePiece(override var square: Square, override val player: Player): Piece {
@@ -51,23 +51,19 @@ open class BasePiece(override var square: Square, override val player: Player): 
             var blockingMoves = possibleCheckBlockingMoves(board)
             pinner?.let { blockingMoves = blockingMoves.intersect(square.squaresBetween(pinner.square).toSet()).toList() }
 
-            Log.d("<$this> validMoves()", "checked & pinned - $blockingMoves")
             return blockingMoves
         }
 
         var moves = possibleMoves(board)
 
         if (!ignoreSamePlayer) {
-            Log.d("<$this> validMoves()", "filtered moves of squares already occupied by players pieces")
             moves = moves.filterNot { board.playerAt(it) == player }
         }
 
         pinner?.let {
-            Log.d("<$this> validMoves()", "pinned - filtered moves")
             moves = moves.intersect(square.squaresBetween(pinner.square).toSet()).toList()
         }
 
-        Log.d("<$this> validMoves()", "returned - $moves")
         return moves
     }
 
@@ -162,10 +158,10 @@ open class BasePiece(override var square: Square, override val player: Player): 
     }
 
     // canBeCaptured returns true if this piece could be captured by another piece on the board
-    override fun isChecked(board: Board): Boolean {
+    override fun canBeCaptured(board: Board): Boolean {
         val enemyPieces = board.pieces.filter { it.player == player.opposite() }
         for (enemyPiece in enemyPieces) {
-            if (this.square in enemyPiece.validMoves(board, ignoreCheck = true)) {
+            if (this.square in enemyPiece.eatMoves(board)) {
                 return true
             }
         }

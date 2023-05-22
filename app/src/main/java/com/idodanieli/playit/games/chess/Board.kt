@@ -45,14 +45,14 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return null
     }
 
-    fun pieces(type: String, player: Player): MutableSet<Piece> {
-        return  pieces.filter { it.type == type && it.player == player }.toMutableSet()
+    fun pieces(type: String, player: Player): List<Piece> {
+        return  pieces.filter { it.type == type && it.player == player }
     }
 
     // isChecked returns true if the given player is checked
     fun isChecked(player: Player): Boolean {
         val king = piece(TYPE_KING, player)
-        king?.let { return it.isChecked(this) }
+        king?.let { return it.canBeCaptured(this) }
 
         return false
     }
@@ -140,7 +140,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return Board(pieces.toMutableSet(), size)
     }
 
-    private fun flatString(pieces: MutableSet<Piece>) : String {
+    private fun flatString(pieces: List<Piece>) : String {
         val flatBoardCharcters = ".".repeat(size * size).toCharArray()
         for (piece in pieces) {
             val type = if (piece.player == Player.WHITE) piece.type else piece.type.lowercase()
@@ -166,7 +166,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     }
 
     override fun toString() : String {
-        return flatToPrettyPrint(flatString(pieces))
+        return flatToPrettyPrint(flatString(pieces.toList()))
     }
 
     fun getBitboard(type: String, player: Player) : String {
