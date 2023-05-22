@@ -24,7 +24,7 @@ class Venom(square: Square, player: Player) : Rider(square, player) {
         maxSteps++
     }
 
-    override fun possibleMoves(board: Board, getMovesInDirection: (board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
+    override fun possibleMoves(board: Board, getMovesInDirection: (piece: Piece, board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in MOVE_OFFSETS) {
@@ -32,7 +32,7 @@ class Venom(square: Square, player: Player) : Rider(square, player) {
                 if (i == 0 && j == 0) { continue }
 
                 val direction = Square(i, j)
-                moves.addAll(getMovesInDirection(board, direction, maxSteps))
+                moves.addAll(getMovesInDirection(this, board, direction, maxSteps))
             }
         }
 

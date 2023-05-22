@@ -4,6 +4,7 @@ import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
 import com.idodanieli.playit.games.chess.pieces.Pawn
+import com.idodanieli.playit.games.chess.pieces.Queen
 import org.junit.Test
 
 class PieceTest {
@@ -11,7 +12,7 @@ class PieceTest {
     @Test // Tests that the canBeCaptured function works
     fun testCanBeCaptured() {
         val pawn = Pawn(Square(0, 6), Player.BLACK)
-        val enemy = Pawn(Square(1, 5), Player.WHITE)
+        val enemy = Queen(Square(0, 0), Player.WHITE)
         val farAwayEnemy = Pawn(Square(1, 0), Player.WHITE)
 
         val canBeCapturedBoard = Board(mutableSetOf(pawn, enemy), 8)

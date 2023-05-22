@@ -9,13 +9,13 @@ class Bishop(square: Square, player: Player) : Rider(square, player) {
     override val type = TYPE_BISHOP
     override val movementType = MovementType.RIDER
 
-    override fun possibleMoves(board: Board, getMovesInDirection: (board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
+    override fun possibleMoves(board: Board, getMovesInDirection: (piece: Piece,board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in moveOffsets) {
             for (j in moveOffsets) {
                 val direction = Square(i, j)
-                moves.addAll(getMovesInDirection(board, direction, NO_MAX_STEPS))
+                moves.addAll(getMovesInDirection(this, board, direction, NO_MAX_STEPS))
             }
         }
 

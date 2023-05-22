@@ -66,21 +66,6 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return moves
     }
 
-    // possibleMoves returns all the squares a piece can move to, without taking general logic
-    // into consideration like pinning, etc.
-    override fun possibleMoves(board: Board): List<Square> {
-        // To be overridden by child classes
-        return emptyList()
-    }
-
-    override fun xrayPossibleMove(board: Board): List<Square> {
-        return emptyList()
-    }
-
-    override fun captureMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
-        return validMoves(board, ignoreCheck = true, ignoreSamePlayer = ignoreSamePlayer)
-    }
-
     // possibleCheckBlockingMoves returns all the moves that block a check
     // TODO: I DONT LIKE THIS FUNCTION, the piece shouldn't be aware of the state of the game
     override fun possibleCheckBlockingMoves(board: Board): List<Square> {
@@ -98,6 +83,33 @@ open class BasePiece(override var square: Square, override val player: Player): 
         }
     }
 
+    // canBeCaptured returns true if this piece could be captured by another piece on the board
+    override fun canBeCaptured(board: Board): Boolean {
+        val enemyPieces = if (player == Player.BLACK) board.whitePieces else board.blackPieces
+        for (enemyPiece in enemyPieces) {
+            if (this.square in enemyPiece.captureMoves(board)) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    // possibleMoves returns all the squares a piece can move to, without taking general logic
+    // into consideration like pinning, etc.
+    override fun possibleMoves(board: Board): List<Square> {
+        // To be overridden by child classes
+        return emptyList()
+    }
+
+    override fun xrayPossibleMove(board: Board): List<Square> {
+        return emptyList()
+    }
+
+    override fun captureMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
+        return validMoves(board, ignoreCheck = true, ignoreSamePlayer = ignoreSamePlayer)
+    }
+
     override fun onMove() {
         return
     }
@@ -109,64 +121,6 @@ open class BasePiece(override var square: Square, override val player: Player): 
     override fun toString(): String {
         val type = if (player == Player.WHITE) type else type.lowercase()
         return "$player $type at (${square.col}, ${square.row})"
-    }
-
-    // getAllAvailableMovesInDirection returns all the available moves in the given direction
-    // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
-    fun getAllAvailableMovesInDirection(board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
-        val moves = arrayListOf<Square>()
-        var move = square + direction
-        var steps = 0
-
-        while (board.isIn(move) && (max_steps == NO_MAX_STEPS || steps < max_steps)) {
-            when(board.playerAt(move)) {
-                // a piece as same as the bishop
-                player -> {
-                    moves.add(move)
-                    break
-                }
-                // an enemy piece
-                player.opposite() -> {
-                    moves.add(move)
-                    break
-                }
-                else -> {
-                    moves.add(move)
-                    move += direction
-                    steps += 1
-                }
-            }
-        }
-
-        return moves
-    }
-
-    // getXrayMovesInDirection returns all the moves in the given direction like an xray
-    // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
-    fun getXrayMovesInDirection(board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
-        val moves = arrayListOf<Square>()
-        var move = square + direction
-        var steps = 0
-
-        while (board.isIn(move) && (max_steps == NO_MAX_STEPS || steps < max_steps)) {
-            moves.add(move)
-            move += direction
-            steps += 1
-        }
-
-        return moves
-    }
-
-    // canBeCaptured returns true if this piece could be captured by another piece on the board
-    override fun canBeCaptured(board: Board): Boolean {
-        val enemyPieces = if (player == Player.BLACK) board.whitePieces else board.blackPieces
-        for (enemyPiece in enemyPieces) {
-            if (this.square in enemyPiece.captureMoves(board)) {
-                return true
-            }
-        }
-
-        return false
     }
 }
 
