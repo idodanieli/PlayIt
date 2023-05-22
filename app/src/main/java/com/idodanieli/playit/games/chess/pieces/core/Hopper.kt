@@ -1,8 +1,10 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.core
 
 import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
+import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.MovementType
 
 // A hopper is a piece that moves by jumping over another piece (called a hurdle).
 // The hurdle can be any piece of any color. Unless it can jump over a piece, a hopper cannot move.

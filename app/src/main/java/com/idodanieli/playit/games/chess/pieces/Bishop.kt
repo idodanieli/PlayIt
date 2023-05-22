@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.core.Rider
 
 private val moveOffsets = arrayOf(1, -1)
 const val TYPE_BISHOP = "B"

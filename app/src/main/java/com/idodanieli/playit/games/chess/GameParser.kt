@@ -1,6 +1,8 @@
 package com.idodanieli.playit.games.chess
 
 import com.idodanieli.playit.games.chess.pieces.*
+import com.idodanieli.playit.games.chess.pieces.hoppers.*
+import com.idodanieli.playit.games.chess.pieces.riders.*
 import org.json.JSONObject
 
 private const val NAME = "name"

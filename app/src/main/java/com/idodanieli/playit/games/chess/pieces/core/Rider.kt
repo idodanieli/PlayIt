@@ -1,10 +1,11 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.core
 
 import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
-import com.idodanieli.playit.games.chess.pieces.core.allMovesInDirecton
-import com.idodanieli.playit.games.chess.pieces.core.xrayMovesInDirection
+import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.MovementType
+import com.idodanieli.playit.games.chess.pieces.Piece
 
 abstract class Rider(square: Square, player: Player) : BasePiece(square, player) {
     override val movementType = MovementType.RIDER

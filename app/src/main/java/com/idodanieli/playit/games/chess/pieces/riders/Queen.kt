@@ -1,6 +1,9 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.riders
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.NO_MAX_STEPS
+import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.core.Rider
 
 private val moveOffsets = arrayOf(1, -1, 0)
 const val TYPE_QUEEN = "Q"

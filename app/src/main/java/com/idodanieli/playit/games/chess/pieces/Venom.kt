@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.core.Rider
 
 private val MOVE_OFFSETS = arrayOf(1, -1, 0)
 private const val STARTING_MAX_STEPS = 1

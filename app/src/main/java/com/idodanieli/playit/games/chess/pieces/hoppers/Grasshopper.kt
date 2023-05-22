@@ -1,9 +1,10 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.hoppers
 
 import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.DIRECTIONS
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
+import com.idodanieli.playit.games.chess.pieces.core.Hopper
 
 const val TYPE_GRASSHOPPER = "H"
 
