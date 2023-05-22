@@ -36,11 +36,11 @@ class PawnTest {
 
         val board = Board(mutableSetOf(pawn, enemy), 8)
 
-        assert(enemy.square in pawn.eatMoves(board))
+        assert(enemy.square in pawn.captureMoves(board))
 
         board.pieces.remove(enemy)
 
-        assert(enemy.square !in pawn.eatMoves(board)) {"The pawn at ${pawn.square} could eat " +
+        assert(enemy.square !in pawn.captureMoves(board)) {"The pawn at ${pawn.square} could eat " +
                 "the enemy at ${enemy.square} even though its not in the board!"}
     }
 

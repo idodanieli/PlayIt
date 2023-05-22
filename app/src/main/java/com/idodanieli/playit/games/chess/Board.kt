@@ -3,6 +3,9 @@ package com.idodanieli.playit.games.chess
 import com.idodanieli.playit.games.chess.pieces.*
 
 class Board(var pieces: MutableSet<Piece>, var size: Int) {
+    var map = pieces.associateBy { it.square }.toMutableMap()
+    var whitePieces = pieces.filter { it.player == Player.WHITE }
+    var blackPieces = pieces.filter { it.player == Player.BLACK }
 
     fun movePiece(piece: Piece, dst: Square) {
         this.pieceAt(dst)?.let { enemyPiece ->
@@ -84,7 +87,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
                 continue
             }
 
-            if (square in piece.eatMoves(this, ignoreSamePlayer = true)) {
+            if (square in piece.captureMoves(this, ignoreSamePlayer = true)) {
                 return true
             }
         }

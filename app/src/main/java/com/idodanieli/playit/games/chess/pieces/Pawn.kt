@@ -45,23 +45,23 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         return moves.filter{it.isValid(board.size)}
     }
 
-    override fun eatMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
+    override fun captureMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
         val origin = square.bitboard()
-        val eatMoveLeft: Square
-        val eatMoveRight: Square
+        val captureMoveLeft: Square
+        val captureMoveRight: Square
 
         when(player) {
             Player.WHITE -> {
-                eatMoveLeft = Square.from_bitboard( (origin and NOT_A_FILE) shl (8 - 1))
-                eatMoveRight = Square.from_bitboard( (origin and NOT_H_FILE) shl (8 + 1))
+                captureMoveLeft = Square.from_bitboard( (origin and NOT_A_FILE) shl (8 - 1))
+                captureMoveRight = Square.from_bitboard( (origin and NOT_H_FILE) shl (8 + 1))
             }
             Player.BLACK -> {
-                eatMoveLeft = Square.from_bitboard( (origin and NOT_H_FILE) shr (8 - 1))
-                eatMoveRight = Square.from_bitboard( (origin and NOT_A_FILE) shr (8 + 1))
+                captureMoveLeft = Square.from_bitboard( (origin and NOT_H_FILE) shr (8 - 1))
+                captureMoveRight = Square.from_bitboard( (origin and NOT_A_FILE) shr (8 + 1))
             }
         }
 
-        return listOf(eatMoveLeft, eatMoveRight)
+        return listOf(captureMoveLeft, captureMoveRight)
             .filter { it.isValid(board.size) && board.playerAt(it) == player.opposite()}
     }
 

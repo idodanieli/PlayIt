@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.pieces
 
-import android.util.Log
 import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
@@ -15,9 +14,9 @@ interface Piece {
 
     fun xrayPossibleMove(board: Board): List<Square>
 
-    // eatMoves returns all the squares the piece can eat in (most of the times it will be like
+    // captureMoves returns all the squares the piece can capture in (most of the times it will be like
     // possibleMoves, except for special cases like Pawns, etc.)
-    fun eatMoves(board: Board, ignoreSamePlayer: Boolean = false): List<Square>
+    fun captureMoves(board: Board, ignoreSamePlayer: Boolean = false): List<Square>
 
     // possibleMoves returns all the squares a piece can move to, without taking general logic
     // into consideration like pinning, etc.
@@ -78,11 +77,12 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return emptyList()
     }
 
-    override fun eatMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
+    override fun captureMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
         return validMoves(board, ignoreCheck = true, ignoreSamePlayer = ignoreSamePlayer)
     }
 
     // possibleCheckBlockingMoves returns all the moves that block a check
+    // TODO: I DONT LIKE THIS FUNCTION, the piece shouldn't be aware of the state of the game
     override fun possibleCheckBlockingMoves(board: Board): List<Square> {
         val moves = possibleMoves(board).filter { board.playerAt(it) != player }
 
@@ -148,7 +148,7 @@ open class BasePiece(override var square: Square, override val player: Player): 
         var move = square + direction
         var steps = 0
 
-        while (board.isIn(move) && (max_steps == 0 || steps < max_steps)) {
+        while (board.isIn(move) && (max_steps == NO_MAX_STEPS || steps < max_steps)) {
             moves.add(move)
             move += direction
             steps += 1
@@ -159,9 +159,9 @@ open class BasePiece(override var square: Square, override val player: Player): 
 
     // canBeCaptured returns true if this piece could be captured by another piece on the board
     override fun canBeCaptured(board: Board): Boolean {
-        val enemyPieces = board.pieces.filter { it.player == player.opposite() }
+        val enemyPieces = if (player == Player.BLACK) board.whitePieces else board.blackPieces
         for (enemyPiece in enemyPieces) {
-            if (this.square in enemyPiece.eatMoves(board)) {
+            if (this.square in enemyPiece.captureMoves(board)) {
                 return true
             }
         }

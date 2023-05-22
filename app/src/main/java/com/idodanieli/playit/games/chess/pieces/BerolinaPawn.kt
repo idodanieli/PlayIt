@@ -36,20 +36,20 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
         possibleMoves.addAll(moves.filter { board.isIn(it) && board.isFree(it) })
 
 
-        val eatMove = eatMove()
+        val captureMove = captureMove()
         // There is an enemy piece at the given square
-        board.pieceAt(eatMove)?.let {
-            if (it.player != player) { possibleMoves.add(eatMove) }
+        board.pieceAt(captureMove)?.let {
+            if (it.player != player) { possibleMoves.add(captureMove) }
         }
 
         return possibleMoves
     }
 
-    override fun eatMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
-        return listOf(eatMove()).filter { it.isValid(board.size) }
+    override fun captureMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
+        return listOf(captureMove()).filter { it.isValid(board.size) }
     }
 
-    private fun eatMove(): Square {
+    private fun captureMove(): Square {
         return Square(square.col, square.row + direction)
     }
 
