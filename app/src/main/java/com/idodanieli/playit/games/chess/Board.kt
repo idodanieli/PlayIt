@@ -67,6 +67,14 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return pieceAt(square) == null
     }
 
+    fun isFree(squares: List<Square>): Boolean {
+        for(square in squares) {
+            if (!isFree(square)) { return false }
+        }
+
+        return true
+    }
+
     // isThreatened returns true if the square is threatened by another piece
     fun isThreatened(square: Square, enemy: Player): Boolean {
         val enemyPieces = this.pieces.filter { it.player == enemy }

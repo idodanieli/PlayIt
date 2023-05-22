@@ -40,7 +40,7 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         if (board.isFree(defaultMove)) { moves.add(defaultMove) }
 
         // Double square forward move from the starting position
-        if (!moved and board.isFree(startingMove)) { moves.add(startingMove) }
+        if (!moved and board.isFree(listOf(defaultMove, startingMove))) { moves.add(startingMove) }
 
         return moves.filter{it.isValid(board.size)}
     }
