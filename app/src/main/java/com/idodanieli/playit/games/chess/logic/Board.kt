@@ -99,7 +99,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
                 continue
             }
 
-            if (square in piece.captureMoves(this, ignoreSamePlayer = true)) {
+            if (square in piece.captureMoves(this)) {
                 return true
             }
         }

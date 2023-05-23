@@ -51,7 +51,7 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         return moves.filter{it.isValid(board.size)}
     }
 
-    override fun captureMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
+    override fun captureMoves(board: Board): List<Square> {
         val origin = square.bitboard()
         val captureMoveLeft: Square
         val captureMoveRight: Square

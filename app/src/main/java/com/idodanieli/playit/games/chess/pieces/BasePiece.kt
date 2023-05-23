@@ -73,8 +73,8 @@ open class BasePiece(override var square: Square, override val player: Player): 
         return emptyList()
     }
 
-    override fun captureMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
-        return validMoves(board, ignoreCheck = true, ignoreSamePlayer = ignoreSamePlayer)
+    override fun captureMoves(board: Board): List<Square> {
+        return validMoves(board, ignoreCheck = true, ignoreSamePlayer = true)
     }
 
     override fun onMove() {
