@@ -42,7 +42,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
     fun isOver(): Boolean {
         if (isChecked(currentPlayer)) {
             for (piece in board.pieces(currentPlayer)) {
-                val blockingMoves = filterBlockingMoves(piece, piece.validMoves(board))
+                val blockingMoves = validMoves(piece)
                 if (blockingMoves.isNotEmpty()) {
                     return false
                 }
@@ -60,6 +60,11 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         king?.let { return board.canBeCaptured(it) }
 
         return false
+    }
+
+    fun validMoves(piece: Piece): List<Square> {
+        // TODO: Move logic from piece.validMoves here
+        return filterBlockingMoves(piece, piece.validMoves(board))
     }
 
     fun filterBlockingMoves(piece: Piece, moves: List<Square>): List<Square> {
