@@ -52,7 +52,7 @@ open class BasePiece(override var square: Square, override val player: Player): 
 
     // canBeCaptured returns true if this piece could be captured by another piece on the board
     override fun canBeCaptured(board: Board): Boolean {
-        val enemyPieces = if (player == Player.BLACK) board.whitePieces.keys else board.blackPieces.keys
+        val enemyPieces = board.pieces(player.opposite())
         for (enemyPiece in enemyPieces) {
             if (this.square in enemyPiece.captureMoves(board)) {
                 return true

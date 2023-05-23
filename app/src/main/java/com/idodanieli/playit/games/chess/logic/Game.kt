@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.logic
 
-import android.util.Log
 import com.idodanieli.playit.games.chess.pieces.*
 
 data class Game(var name: String, private var pieces: MutableSet<Piece>, var size: Int) {
@@ -35,22 +34,17 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
     }
 
     fun isOver(): Boolean {
-        if (board.isChecked(currentPlayer.opposite())) {
-            Log.d("isOver()", "${currentPlayer.opposite()} is checked")
-
-            for (piece in board.pieces.filter { it.player != currentPlayer}) {
+        if (board.isChecked(currentPlayer)) {
+            for (piece in board.pieces(currentPlayer)) {
                 val blockingMoves = piece.possibleCheckBlockingMoves(board)
                 if (blockingMoves.isNotEmpty()) {
-                    Log.d("isOver()", "FALSE - $piece can block the check - $blockingMoves")
                     return false
                 }
             }
 
-            Log.d("isOver()", "TRUE - ${currentPlayer.opposite()} cant move!")
             return true
         }
 
-        Log.d("isOver()", "FALSE - ${currentPlayer.opposite()} is not checked...")
         return false
    }
 }
