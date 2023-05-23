@@ -62,6 +62,48 @@ class GameTest {
         assert(!unfinishedGame.isOver()) { errorFormat(unfinishedGame.board, "test returned that the game was over even though it wasn't") }
     }
 
+    @Test
+    fun testFilterBlockingMoves() {
+        val bBishopOriginSquare = Square(2, 0)
+
+        val bKing = King(Square(0,0 ), Player.BLACK)
+        val bBishop = Bishop(bBishopOriginSquare, Player.BLACK)
+        val wQueen = Queen(Square(2, 2), Player.WHITE)
+
+        // Bishop could move to (1, 1) to block the check
+        // k . b . . . . .
+        // . . . . . . . .
+        // . . Q . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        val game = Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen), CHESSBOARD_SIZE)
+        val blockingMove = Square(1, 1)
+
+        assert(blockingMove in game.filterBlockingMoves(bBishop, bBishop.validMoves(game.board)))
+        { errorFormat(game.board, "test result concluded that $bBishop couldn't block the check even though it could") }
+
+        assert(bBishop.square == bBishopOriginSquare) { "bishops origin square change after test from: $bBishopOriginSquare to ${bBishop.square}" }
+
+        // Bishop could NOT move to (1, 1) to block the check
+        // k . b . . . . .
+        // . . . . . . . .
+        // R . Q . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        val wRook = Rook(Square(0, 1), Player.WHITE)
+        val game2 = Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE)
+        val blockingMoves = game2.filterBlockingMoves(bBishop, bBishop.validMoves(game2.board))
+
+        assert(blockingMoves.isEmpty())
+        { errorFormat(game2.board, "test result concluded that $blockingMoves could block the check even though it couldn't") }
+    }
+
     companion object {
         private const val TEST_GAME_NAME = "test"
     }

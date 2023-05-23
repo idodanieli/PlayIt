@@ -184,10 +184,6 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return null
     }
 
-    fun copy(): Board {
-        return Board(pieces.toMutableSet(), size)
-    }
-
     private fun flatString(pieces: List<Piece>) : String {
         val flatBoardCharcters = ".".repeat(size * size).toCharArray()
         for (piece in pieces) {

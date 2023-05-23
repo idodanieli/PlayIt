@@ -62,16 +62,15 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         return false
     }
 
-    private fun filterBlockingMoves(piece: Piece, moves: List<Square>): List<Square> {
+    fun filterBlockingMoves(piece: Piece, moves: List<Square>): List<Square> {
         return moves.filter { move ->
-            val tmpBoard = board.copy()
-            tmpBoard.remove(piece)
-            tmpBoard.pieceAt(move)?.let {
-                if(it.player != piece.player) { tmpBoard.remove(it) }
-            }
-
-            tmpBoard.pieces.add(BasePiece(move, piece.player))
-            !isChecked(piece.player)
+            val tmpGame = copy()
+            tmpGame.movePiece(piece.square, move)
+            !tmpGame.isChecked(piece.player)
         }
+    }
+
+    private fun copy(): Game {
+        return Game(name, deepCopyPieces(pieces), size)
     }
 }
