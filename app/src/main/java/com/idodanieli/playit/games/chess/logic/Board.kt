@@ -129,21 +129,43 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     }
 
     // getPinner returns the piece that pins the current piece
-    fun getPinner(piece: Piece) : Piece? {
-        if (piece.type == TYPE_KING) { return null } // TODO: Make this more general
+    fun getPinner(pinned: Piece) : Piece? {
+        if (pinned.type == TYPE_KING) { return null } // TODO: Make this more general
 
-        val king = piece(TYPE_KING, piece.player) ?: return null
-        if (king.square == piece.square) { return null }
-        val direction = king.square.directionTo(piece.square)
+        val king = piece(TYPE_KING, pinned.player) ?: return null
+        val direction = king.square.directionTo(pinned.square)
 
-        var square = piece.square.copy()
-        while (square.isValid(size)) {
-            square += direction
+        var currentSquare = king.square.copy()
+        var passedPinnedPieceSquare = false
 
-            pieceAt(square)?.let {
-                if(it.player == piece.player) { return null }
-                if(king.square in it.xrayPossibleMove(this)) {
-                    return it
+        while (currentSquare.isValid(size)) {
+            currentSquare += direction
+
+            pieceAt(currentSquare)?.let {currentPiece ->
+                if (!passedPinnedPieceSquare) {
+                    if (currentPiece == pinned) { passedPinnedPieceSquare = true }
+                    else {
+                        // EXAMPLE: k . b p . . . R . ( the bishop blocks the pin for the pawn )
+                        // Another piece blocks the pin ( before )
+                        return null
+                    }
+                } else {
+                    // Here we are after the pinned piece ( no piece blocks before )
+                    if (currentPiece.player == pinned.player) {
+                        // EXAMPLE: K . . p b . . R . ( the bishop blocks the pin for the pawn )
+                        // Another piece blocks the pin ( afterwards )
+                        return null
+                    }
+
+                    if(king.square in currentPiece.xrayPossibleMove(this)) {
+                        // The piece is pinned to the currentPiece
+                        // Example: k . . p . . . R . ( the pawn is pinned by the rook )
+                        return currentPiece
+                    }
+
+                    // EXAMPLE: K . . p b . . R . ( the bishop blocks the pin for the pawn )
+                    // Another piece blocks the pin ( afterwards )
+                    return  null
                 }
             }
         }

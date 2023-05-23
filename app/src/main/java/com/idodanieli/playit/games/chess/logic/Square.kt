@@ -44,10 +44,6 @@ class Square(val col: Int, val row: Int) {
         return Square(colDiff / gcd, rowDiff / gcd)
     }
 
-    fun opposite(): Square {
-        return Square(-1 * col, -1 * row)
-    }
-
     // squaresBetween returns all the squares between this square and the other square
     // if the direction os (2, 1) it will jump (2, 1) between iterations
     fun squaresBetween(destination: Square, excludeDestination: Boolean = false): List<Square> {
