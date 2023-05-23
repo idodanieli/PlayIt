@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.logic
 
 import com.idodanieli.playit.games.chess.pieces.*
+import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
 data class Game(var name: String, private var pieces: MutableSet<Piece>, var size: Int) {
     val board = Board(pieces, size)
@@ -34,7 +35,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
     }
 
     fun isOver(): Boolean {
-        if (board.isChecked(currentPlayer)) {
+        if (isChecked(currentPlayer)) {
             for (piece in board.pieces(currentPlayer)) {
                 val blockingMoves = piece.possibleCheckBlockingMoves(board)
                 if (blockingMoves.isNotEmpty()) {
@@ -47,4 +48,12 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
 
         return false
    }
+
+    // isChecked returns true if the given player is checked
+    private fun isChecked(player: Player): Boolean {
+        val king = board.piece(TYPE_KING, player)
+        king?.let { return board.canBeCaptured(it) }
+
+        return false
+    }
 }

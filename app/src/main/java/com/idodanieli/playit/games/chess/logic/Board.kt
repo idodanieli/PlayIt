@@ -71,14 +71,6 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         blackPieces.remove(piece)
     }
 
-    // isChecked returns true if the given player is checked
-    fun isChecked(player: Player): Boolean {
-        val king = piece(TYPE_KING, player)
-        king?.let { return canBeCaptured(it) }
-
-        return false
-    }
-
     // isIn returns true if the given square is in the boards borders
     fun isIn(square: Square): Boolean {
         return square.col in 0 until this.size && square.row in 0 until this.size
