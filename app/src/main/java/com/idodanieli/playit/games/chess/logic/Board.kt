@@ -2,6 +2,7 @@ package com.idodanieli.playit.games.chess.logic
 
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 class Board(var pieces: MutableSet<Piece>, var size: Int) {
     var map = pieces.associateBy { it.square }.toMutableMap()
@@ -157,7 +158,8 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
                         return null
                     }
 
-                    if(king.square in currentPiece.xrayPossibleMove(this)) {
+                    if(currentPiece.movementType == MovementType.RIDER &&
+                        king.square in currentPiece.xrayPossibleMove(this)) {
                         // The piece is pinned to the currentPiece
                         // Example: k . . p . . . R . ( the pawn is pinned by the rook )
                         return currentPiece
