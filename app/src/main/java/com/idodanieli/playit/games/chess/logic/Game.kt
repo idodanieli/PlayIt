@@ -12,29 +12,26 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         return this.pieces
     }
 
-    fun canMove(from: Square, to: Square): Boolean {
-        if (from == to) {
+    fun canMove(origin: Square, dst: Square): Boolean {
+        if (origin == dst) {
             return  false
         }
-        val movingPiece = board.pieceAt(from) ?: return false
+        val movingPiece = board.pieceAt(origin) ?: return false
         if (movingPiece.player != currentPlayer) { return false }
 
-        return to in movingPiece.validMoves(this.board, ignoreSamePlayer = false)
+        return dst in movingPiece.validMoves(this.board, ignoreSamePlayer = false)
     }
 
-    fun movePiece(from: Square, dst: Square) {
-        // TODO: Move this checks?
-        if (from == dst) return
-        val movingPiece = this.board.pieceAt(from) ?: return
-        // TODO: Move this checks?
+    fun movePiece(origin: Square, dst: Square) {
+        val piece = this.board.pieceAt(origin) ?: return
 
-        val enemyPiece = board.pieceAt(dst, movingPiece.player.opposite())
+        val enemyPiece = board.pieceAt(dst, piece.player.opposite())
         enemyPiece?.let {
             board.remove(enemyPiece)
-            movingPiece.onEat(enemyPiece)
+            piece.onEat(enemyPiece)
         }
 
-        board.move(movingPiece, dst)
+        board.move(piece, dst)
     }
 
     fun isOver(): Boolean {
