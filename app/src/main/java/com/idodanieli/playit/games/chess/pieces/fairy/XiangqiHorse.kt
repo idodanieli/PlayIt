@@ -1,7 +1,7 @@
-package com.idodanieli.playit.games.chess.pieces
-
-import android.util.Log
+package com.idodanieli.playit.games.chess.pieces.fairy
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 private val XIANGQI_HORSE_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_XIANGQI_HORSE = "O"

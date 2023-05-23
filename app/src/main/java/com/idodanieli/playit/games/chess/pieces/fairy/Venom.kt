@@ -1,6 +1,8 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
+import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.Rider
 
 private val MOVE_OFFSETS = arrayOf(1, -1, 0)

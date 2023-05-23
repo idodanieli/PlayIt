@@ -1,7 +1,10 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
 import com.idodanieli.playit.games.chess.pieces.core.Compound
+import com.idodanieli.playit.games.chess.pieces.classic.Bishop
+import com.idodanieli.playit.games.chess.pieces.classic.Knight
 
 
 const val TYPE_ARCHBISHOP = "X"

@@ -1,6 +1,9 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.classic
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
+import com.idodanieli.playit.games.chess.pieces.NO_MAX_STEPS
+import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.Rider
 
 private val moveOffsets = arrayOf(1, -1)
@@ -10,7 +13,7 @@ class Bishop(square: Square, player: Player) : Rider(square, player) {
     override val type = TYPE_BISHOP
     override val movementType = MovementType.RIDER
 
-    override fun possibleMoves(board: Board, getMovesInDirection: (piece: Piece,board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
+    override fun possibleMoves(board: Board, getMovesInDirection: (piece: Piece, board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in moveOffsets) {

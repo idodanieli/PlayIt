@@ -6,12 +6,13 @@ import android.content.res.Resources
 import android.graphics.*
 import android.media.MediaPlayer
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.pieces.*
+import com.idodanieli.playit.games.chess.pieces.classic.*
+import com.idodanieli.playit.games.chess.pieces.fairy.*
 import kotlin.math.min
 
 const val CHESSBOARD_SIZE = 8

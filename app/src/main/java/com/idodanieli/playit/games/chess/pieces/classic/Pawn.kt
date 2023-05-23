@@ -1,10 +1,12 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.classic
 
 import com.idodanieli.playit.games.chess.*
 import com.idodanieli.playit.games.chess.BitBoard.Companion.NOT_A_FILE
 import com.idodanieli.playit.games.chess.BitBoard.Companion.NOT_EIGHTH_RANK
 import com.idodanieli.playit.games.chess.BitBoard.Companion.NOT_H_FILE
 import com.idodanieli.playit.games.chess.BitBoard.Companion.NOT_ZERO_RANK
+import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 private const val MAX_START_MOVES = 2
 const val TYPE_PAWN = "P"

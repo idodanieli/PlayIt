@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess
 
 import com.idodanieli.playit.games.chess.pieces.*
+import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
 class Board(var pieces: MutableSet<Piece>, var size: Int) {
     var map = pieces.associateBy { it.square }.toMutableMap()

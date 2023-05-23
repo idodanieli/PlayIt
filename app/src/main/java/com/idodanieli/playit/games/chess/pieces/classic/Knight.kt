@@ -1,6 +1,8 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.classic
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 private val KNIGHT_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_KNIGHT = "N"

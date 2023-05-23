@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess.pieces.riders
+package com.idodanieli.playit.games.chess.pieces.classic
 
 import com.idodanieli.playit.games.chess.*
 import com.idodanieli.playit.games.chess.pieces.NO_MAX_STEPS

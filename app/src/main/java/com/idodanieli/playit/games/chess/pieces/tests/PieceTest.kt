@@ -3,8 +3,8 @@ package com.idodanieli.playit.games.chess.pieces.tests
 import com.idodanieli.playit.games.chess.Board
 import com.idodanieli.playit.games.chess.Player
 import com.idodanieli.playit.games.chess.Square
-import com.idodanieli.playit.games.chess.pieces.Pawn
-import com.idodanieli.playit.games.chess.pieces.riders.Queen
+import com.idodanieli.playit.games.chess.pieces.classic.Pawn
+import com.idodanieli.playit.games.chess.pieces.classic.Queen
 import org.junit.Test
 
 class PieceTest {

@@ -1,6 +1,7 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.classic.Knight
 
 private val MOVE_OFFSETS = arrayOf(2, 3, -2, -3)
 const val TYPE_ZEBRA = "Z"

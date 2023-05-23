@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.games.chess.DIRECTIONS
 import com.idodanieli.playit.games.chess.Player

@@ -1,6 +1,8 @@
-package com.idodanieli.playit.games.chess.pieces
+package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.games.chess.*
+import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 private const val WHITE_DIRECTION = 1
 private const val BLACK_DIRECTION = -1
