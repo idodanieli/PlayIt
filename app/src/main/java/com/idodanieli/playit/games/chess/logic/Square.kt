@@ -106,7 +106,7 @@ class Square(val col: Int, val row: Int) {
         return (Math.abs(col - other.col) <= maxDistance) && (Math.abs(row - other.row) <= maxDistance)
     }
 
-    fun isValid(size: Int): Boolean {
+    fun inBorder(size: Int): Boolean {
         return col in 0 until size && row in 0 until size
     }
 

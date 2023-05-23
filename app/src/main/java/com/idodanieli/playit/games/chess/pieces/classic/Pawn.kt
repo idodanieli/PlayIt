@@ -48,7 +48,7 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
 
         moves += captureMoves(board)
 
-        return moves.filter{it.isValid(board.size)}
+        return moves.filter{it.inBorder(board.size)}
     }
 
     override fun captureMoves(board: Board): List<Square> {

@@ -148,7 +148,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         var currentSquare = king.square.copy()
         var passedPinnedPieceSquare = false
 
-        while (currentSquare.isValid(size)) {
+        while (currentSquare.inBorder(size)) {
             currentSquare += direction
 
             pieceAt(currentSquare)?.let {currentPiece ->

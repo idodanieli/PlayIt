@@ -75,17 +75,20 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
-        if (game.isOver()) { return false }
+        if (game.isOver()) {
+            context.toast("${game.currentPlayer} Won!")
+            gameOverSound.start()
+            return true
+        }
 
         val touchedSquare = getTouchedSquare(event)
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (previousTouchedSquare.isValid(game.size) && previousTouchedSquare != touchedSquare) {
-                    if (tryToMovePiece(touchedSquare)) {
-                        invalidate()
-                        return true
-                    }
+                if (playerTriesToMove(touchedSquare) && game.canMove(previousTouchedSquare, touchedSquare)) {
+                    movePiece(touchedSquare)
+                    invalidate()
+                    return true
                 }
 
                 previousTouchedSquare = touchedSquare
@@ -111,7 +114,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 invalidate() // calls onDraw
             }
             MotionEvent.ACTION_UP -> {
-                tryToMovePiece(touchedSquare)
+                if (game.canMove(previousTouchedSquare, touchedSquare)) {
+                    movePiece(touchedSquare)
+                }
+
                 movingPiece = null
                 currentlyTouchedSquare = null
                 invalidate() // calls onDraw
@@ -120,24 +126,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         return true
     }
 
-    private fun tryToMovePiece(touchedSquare: Square): Boolean {
-        if (previousTouchedSquare != touchedSquare &&
-            game.canMove(previousTouchedSquare, touchedSquare)) {
-            game.movePiece(previousTouchedSquare, touchedSquare)
-            touchedPiece = null
+    private fun movePiece(touchedSquare: Square) {
+        game.movePiece(previousTouchedSquare, touchedSquare)
+        touchedPiece = null
 
-            if (game.isOver()) {
-                context.toast("${game.currentPlayer} Won!")
-                gameOverSound.start()
-            } else {
-                moveSound.start()
-                game.currentPlayer = game.currentPlayer.opposite()
-            }
-            return true
-        }
-
-        previousTouchedSquare = touchedSquare
-        return false
+        moveSound.start()
+        game.currentPlayer = game.currentPlayer.opposite()
     }
 
     // getSquareTouched returns the square touched by the position in the MotionEvent
@@ -146,6 +140,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         val touchedRow = 7 - (event.y / squareSize).toInt()
 
         return Square(touchedColumn, touchedRow)
+    }
+
+    // playerTriesToMove returns true if the player made a move inside of the board
+    private fun playerTriesToMove(touchedSquare: Square): Boolean {
+        return previousTouchedSquare.inBorder(game.size)
+                && touchedSquare.inBorder(game.size)
+                && previousTouchedSquare != touchedSquare
     }
 }
 
