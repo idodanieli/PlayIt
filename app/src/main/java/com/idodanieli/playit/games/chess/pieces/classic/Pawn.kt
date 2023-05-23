@@ -46,6 +46,8 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         // Double square forward move from the starting position
         if (!moved and board.isFree(listOf(defaultMove, startingMove))) { moves.add(startingMove) }
 
+        moves += captureMoves(board)
+
         return moves.filter{it.isValid(board.size)}
     }
 
@@ -66,7 +68,7 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         }
 
         return listOf(captureMoveLeft, captureMoveRight)
-            .filter { it.isValid(board.size) && board.playerAt(it) == player.opposite()}
+            .filter { board.playerAt(it) == player.opposite()}
     }
 
     // TODO: Remove this and make a isOnStartingSquare function instead...

@@ -35,8 +35,9 @@ class PawnTest {
         val enemy = Pawn(Square(1, 5), Player.WHITE)
 
         val board = Board(mutableSetOf(pawn, enemy), 8)
+        val moves = pawn.possibleMoves(board)
 
-        assert(enemy.square in pawn.captureMoves(board))
+        assert(enemy.square in moves) { wrongMovesFormat(pawn, board, moves, "The black pawn could not eat the white pawn!") }
 
         board.pieces.remove(enemy)
 
