@@ -22,11 +22,19 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         return to in movingPiece.validMoves(this.board, ignoreSamePlayer = false)
     }
 
-    fun movePiece(from: Square, to: Square) {
-        if (from == to) return
+    fun movePiece(from: Square, dst: Square) {
+        // TODO: Move this checks?
+        if (from == dst) return
         val movingPiece = this.board.pieceAt(from) ?: return
+        // TODO: Move this checks?
 
-        board.movePiece(movingPiece, to)
+        val enemyPiece = board.pieceAt(dst, movingPiece.player.opposite())
+        enemyPiece?.let {
+            board.remove(enemyPiece)
+            movingPiece.onEat(enemyPiece)
+        }
+
+        board.move(movingPiece, dst)
     }
 
     fun isOver(): Boolean {
