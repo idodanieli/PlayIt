@@ -8,6 +8,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     var whitePieces = pieces.filter { it.player == Player.WHITE }.associateWith { true }.toMutableMap()
     var blackPieces = pieces.filter { it.player == Player.BLACK }.associateWith { true }.toMutableMap()
 
+    // TODO: Move logic to Game Class
     fun movePiece(piece: Piece, dst: Square) {
         this.pieceAt(dst)?.let { enemyPiece ->
             if (enemyPiece.player == piece.player) {
@@ -17,8 +18,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
             piece.onEat(enemyPiece)
         }
 
-        piece.square = dst
-        piece.onMove()
+        move(piece, dst)
     }
 
     // pieceAt returns the piece at the given square. if there is none - returns null
@@ -53,6 +53,16 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return  pieces.filter { it.type == type && it.player == player }
     }
 
+    // moves the piece to the destination
+    private fun move(piece: Piece, dst: Square) {
+        map.remove(piece.square)
+        map[dst] = piece
+
+        piece.square = dst
+        piece.onMove()
+    }
+
+    // removes a piece from the board
     fun remove(piece: Piece) {
         pieces.remove(piece)
         map.remove(piece.square)
