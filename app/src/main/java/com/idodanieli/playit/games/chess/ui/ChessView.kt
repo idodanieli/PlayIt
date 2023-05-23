@@ -25,6 +25,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, COLOR_LIGHT, COLOR_DARK)
     private val moveSound = MediaPlayer.create(context, R.raw.sound_chess_move)
     private val gameOverSound = MediaPlayer.create(context, R.raw.sound_game_over)
+    private var gameListener: GameListener? = null
 
     private var squareSize = 0f
     private var movingPiece: MovingPiece? = null
@@ -102,8 +103,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
     private fun onGameOver() {
-        context.showDialog("${game.currentPlayer} Won!")
         gameOverSound.start()
+        gameListener?.onGameOver()
     }
 
     private fun onTouchUp(touchedSquare: Square) {
@@ -184,6 +185,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 && touchedSquare.inBorder(game.size)
                 && previousTouchedSquare != touchedSquare
     }
+
+
+    fun setGameListener(listener: GameListener) {
+        gameListener = listener
+    }
 }
 
 data class MovingPiece(val piece: Piece, var x: Float, var y: Float, val bitmap: Bitmap, var player: Player)
@@ -244,27 +250,3 @@ private fun loadBitmaps(resources: Resources) {
 
 fun Context.toast(message: CharSequence) =
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
-fun Context.showDialog(winner: String) {
-    val dialogBuilder = AlertDialog.Builder(this)
-
-    // Set dialog title and message
-    dialogBuilder.setTitle("GAME OVER")
-    dialogBuilder.setMessage(winner)
-
-    // Set positive button with click listener
-    dialogBuilder.setPositiveButton("NEW GAME") { dialog, _ ->
-        // Handle positive button click
-        dialog.dismiss()
-    }
-
-    // Set negative button with click listener
-    dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
-        // Handle negative button click
-        dialog.dismiss()
-    }
-
-    // Create and show the dialog
-    val dialog = dialogBuilder.create()
-    dialog.show()
-}
