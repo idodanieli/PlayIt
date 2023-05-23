@@ -19,7 +19,12 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         val movingPiece = board.pieceAt(origin) ?: return false
         if (movingPiece.player != currentPlayer) { return false }
 
-        return dst in movingPiece.validMoves(this.board, ignoreSamePlayer = false)
+        var moves = movingPiece.validMoves(this.board)
+        if (isChecked(movingPiece.player)) {
+            moves = filterBlockingMoves(movingPiece, moves)
+        }
+
+        return dst in moves
     }
 
     fun movePiece(origin: Square, dst: Square) {
@@ -37,7 +42,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
     fun isOver(): Boolean {
         if (isChecked(currentPlayer)) {
             for (piece in board.pieces(currentPlayer)) {
-                val blockingMoves = piece.possibleCheckBlockingMoves(board)
+                val blockingMoves = filterBlockingMoves(piece, piece.validMoves(board))
                 if (blockingMoves.isNotEmpty()) {
                     return false
                 }
@@ -55,5 +60,18 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         king?.let { return board.canBeCaptured(it) }
 
         return false
+    }
+
+    private fun filterBlockingMoves(piece: Piece, moves: List<Square>): List<Square> {
+        return moves.filter { move ->
+            val tmpBoard = board.copy()
+            tmpBoard.remove(piece)
+            tmpBoard.pieceAt(move)?.let {
+                if(it.player != piece.player) { tmpBoard.remove(it) }
+            }
+
+            tmpBoard.pieces.add(BasePiece(move, piece.player))
+            !isChecked(piece.player)
+        }
     }
 }

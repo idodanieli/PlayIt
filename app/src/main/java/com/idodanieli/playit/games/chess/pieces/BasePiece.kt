@@ -12,14 +12,6 @@ open class BasePiece(override var square: Square, override val player: Player): 
     // validMoves returns a list of the squares the piece can move to
     override fun validMoves(board: Board, ignoreCheck: Boolean, ignoreSamePlayer: Boolean): List<Square> {
         val pinner = board.getPinner(this)
-
-        if(!ignoreCheck && board.isChecked(player)) {
-            var blockingMoves = possibleCheckBlockingMoves(board)
-            pinner?.let { blockingMoves = blockingMoves.intersect(square.squaresBetween(pinner.square).toSet()).toList() }
-
-            return blockingMoves
-        }
-
         var moves = possibleMoves(board)
 
         if (!ignoreSamePlayer) {
@@ -31,23 +23,6 @@ open class BasePiece(override var square: Square, override val player: Player): 
         }
 
         return moves
-    }
-
-    // possibleCheckBlockingMoves returns all the moves that block a check
-    // TODO: I DONT LIKE THIS FUNCTION, the piece shouldn't be aware of the state of the game
-    override fun possibleCheckBlockingMoves(board: Board): List<Square> {
-        val moves = possibleMoves(board).filter { board.playerAt(it) != player }
-
-        return moves.filter { move ->
-            val tmpBoard = board.copy()
-            tmpBoard.remove(this)
-            tmpBoard.pieceAt(move)?.let {
-                if(it.player != player) { tmpBoard.remove(it) }
-            }
-
-            tmpBoard.pieces.add(BasePiece(move, player))
-            !tmpBoard.isChecked(player)
-        }
     }
 
     // possibleMoves returns all the squares a piece can move to, without taking general logic

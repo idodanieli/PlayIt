@@ -23,9 +23,6 @@ interface Piece {
     // into consideration like pinning, etc.
     fun possibleMoves(board: Board): List<Square>
 
-    // possibleCheckBlockingMoves returns all the squares a piece can move to, that blocks the check
-    fun possibleCheckBlockingMoves(board: Board): List<Square>
-
     // validMoves returns a list of the squares the piece can move to
     fun validMoves(board: Board, ignoreCheck: Boolean = false, ignoreSamePlayer: Boolean = false): List<Square>
 
