@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/dark_wood">
 
-    <com.idodanieli.playit.games.chess.ChessView
+    <com.idodanieli.playit.games.chess.ui.ChessView
         android:id="@+id/chess_view"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"

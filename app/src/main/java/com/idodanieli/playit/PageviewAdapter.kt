@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.idodanieli.playit.games.chess.ChessView
-import com.idodanieli.playit.games.chess.Game
+import com.idodanieli.playit.games.chess.logic.Game
+import com.idodanieli.playit.games.chess.ui.ChessView
 
 
 class PageviewAdapter(private val mList: List<Game>) :

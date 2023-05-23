@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess
+package com.idodanieli.playit.games.chess.logic
 
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING

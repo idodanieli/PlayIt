@@ -1,8 +1,8 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 
-import com.idodanieli.playit.games.chess.Board
-import com.idodanieli.playit.games.chess.Player
-import com.idodanieli.playit.games.chess.Square
+import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.core.MovementType

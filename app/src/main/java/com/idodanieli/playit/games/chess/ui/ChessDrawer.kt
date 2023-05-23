@@ -1,8 +1,8 @@
-package com.idodanieli.playit.games.chess
+package com.idodanieli.playit.games.chess.ui
 
-import android.R
 import android.graphics.*
-
+import com.idodanieli.playit.games.chess.logic.Game
+import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 
 val COLOR_LIGHT = Color.parseColor("#ffe9c5")

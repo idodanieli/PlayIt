@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess
+package com.idodanieli.playit.games.chess.logic
 
 import android.util.Log
 import com.idodanieli.playit.games.chess.pieces.*

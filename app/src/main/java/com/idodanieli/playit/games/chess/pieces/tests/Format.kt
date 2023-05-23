@@ -1,7 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces.tests
 
-import com.idodanieli.playit.games.chess.Board
-import com.idodanieli.playit.games.chess.Square
+import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 
 // Contains the format that test failures will output

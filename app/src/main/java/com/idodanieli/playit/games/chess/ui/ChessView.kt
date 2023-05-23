@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess
+package com.idodanieli.playit.games.chess.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,6 +10,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import com.idodanieli.playit.R
+import com.idodanieli.playit.games.chess.logic.Game
+import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.fairy.*

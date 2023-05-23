@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess
+package com.idodanieli.playit.games.chess.logic
 
 
 enum class Player {

@@ -5,7 +5,7 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.idodanieli.playit.games.chess.GameParser
+import com.idodanieli.playit.games.chess.logic.GameParser
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field

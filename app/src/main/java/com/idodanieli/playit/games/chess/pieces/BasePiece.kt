@@ -1,8 +1,8 @@
 package com.idodanieli.playit.games.chess.pieces
 
-import com.idodanieli.playit.games.chess.Board
-import com.idodanieli.playit.games.chess.Player
-import com.idodanieli.playit.games.chess.Square
+import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 open class BasePiece(override var square: Square, override val player: Player): Piece {
