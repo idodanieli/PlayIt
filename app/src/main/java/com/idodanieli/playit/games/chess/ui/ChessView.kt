@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
@@ -75,10 +76,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
-        if (game.isOver()) {
-            onGameOver()
-            return true
-        }
 
         val touchedSquare = getTouchedSquare(event)
 
@@ -105,7 +102,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
     private fun onGameOver() {
-        context.toast("${game.currentPlayer} Won!")
+        context.showDialog("${game.currentPlayer} Won!")
         gameOverSound.start()
     }
 
@@ -115,6 +112,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             if (currentlyTouchedSquare != previousTouchedSquare) {
                 if (playerTriesToMove(touchedSquare) && game.canMove(previousTouchedSquare, touchedSquare)) {
                     movePiece(previousTouchedSquare, touchedSquare)
+
+                    if (game.isOver()) {
+                        onGameOver()
+                    }
                 }
                 resetVisuals()
             }
@@ -243,3 +244,27 @@ private fun loadBitmaps(resources: Resources) {
 
 fun Context.toast(message: CharSequence) =
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+fun Context.showDialog(winner: String) {
+    val dialogBuilder = AlertDialog.Builder(this)
+
+    // Set dialog title and message
+    dialogBuilder.setTitle("GAME OVER")
+    dialogBuilder.setMessage(winner)
+
+    // Set positive button with click listener
+    dialogBuilder.setPositiveButton("NEW GAME") { dialog, _ ->
+        // Handle positive button click
+        dialog.dismiss()
+    }
+
+    // Set negative button with click listener
+    dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
+        // Handle negative button click
+        dialog.dismiss()
+    }
+
+    // Create and show the dialog
+    val dialog = dialogBuilder.create()
+    dialog.show()
+}
