@@ -39,7 +39,7 @@ class PawnTest {
 
         assert(enemy.square in moves) { wrongMovesFormat(pawn, board, moves, "The black pawn could not eat the white pawn!") }
 
-        board.pieces.remove(enemy)
+        board.remove(enemy)
 
         assert(enemy.square !in pawn.captureMoves(board)) {"The pawn at ${pawn.square} could eat " +
                 "the enemy at ${enemy.square} even though its not in the board!"}

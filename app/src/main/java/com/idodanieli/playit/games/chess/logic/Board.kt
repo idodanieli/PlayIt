@@ -5,15 +5,15 @@ import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
 class Board(var pieces: MutableSet<Piece>, var size: Int) {
     var map = pieces.associateBy { it.square }.toMutableMap()
-    var whitePieces = pieces.filter { it.player == Player.WHITE }
-    var blackPieces = pieces.filter { it.player == Player.BLACK }
+    var whitePieces = pieces.filter { it.player == Player.WHITE }.associateWith { true }.toMutableMap()
+    var blackPieces = pieces.filter { it.player == Player.BLACK }.associateWith { true }.toMutableMap()
 
     fun movePiece(piece: Piece, dst: Square) {
         this.pieceAt(dst)?.let { enemyPiece ->
             if (enemyPiece.player == piece.player) {
                 return
             }
-            pieces.remove(enemyPiece)
+            remove(enemyPiece)
             piece.onEat(enemyPiece)
         }
 
@@ -51,6 +51,18 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     fun pieces(type: String, player: Player): List<Piece> {
         return  pieces.filter { it.type == type && it.player == player }
+    }
+
+    fun remove(piece: Piece) {
+        pieces.remove(piece)
+        map.remove(piece.square)
+
+        if (piece.player == Player.WHITE) {
+            whitePieces.remove(piece)
+            return
+        }
+
+        blackPieces.remove(piece)
     }
 
     // isChecked returns true if the given player is checked
