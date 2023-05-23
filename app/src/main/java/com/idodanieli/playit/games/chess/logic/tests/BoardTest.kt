@@ -81,4 +81,26 @@ class BoardTest {
         val cantBeCapturedBoard = Board(mutableSetOf(pawn, farAwayEnemy), 8)
         assert(!cantBeCapturedBoard.canBeCaptured(pawn)) { errorFormat(cantBeCapturedBoard, "Evaluated that $pawn can be captured") }
     }
+
+    @Test
+    fun testGetPotentialEaters() {
+        val bPawn = Pawn(Square(0, 6), Player.BLACK)
+
+        val safeBoard = Board(mutableSetOf(bPawn), CHESSBOARD_SIZE)
+        var potentialEaters = safeBoard.getPotentialEaters(bPawn)
+
+        assert(potentialEaters.isEmpty()) { errorFormat(safeBoard, "$potentialEaters could eat $bPawn") }
+
+        val wQueen = Queen(Square(0, 7), Player.WHITE)
+        val unsafeBoard = Board(mutableSetOf(bPawn, wQueen), CHESSBOARD_SIZE)
+        potentialEaters = unsafeBoard.getPotentialEaters(bPawn)
+
+        assert(potentialEaters.size == 1) { errorFormat(unsafeBoard, "$potentialEaters could eat $bPawn") }
+
+        val wRook = Rook(Square(6, 6), Player.WHITE)
+        val superUnsafeBoard = Board(mutableSetOf(bPawn, wQueen, wRook), CHESSBOARD_SIZE)
+        potentialEaters = superUnsafeBoard.getPotentialEaters(bPawn)
+
+        assert(potentialEaters.size == 2) { errorFormat(superUnsafeBoard, "$potentialEaters could eat $bPawn") }
+    }
 }

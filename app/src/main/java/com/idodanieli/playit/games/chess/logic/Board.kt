@@ -115,13 +115,14 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // canBeCaptured returns true if this piece could be captured by another piece on the board
     fun canBeCaptured(piece: Piece): Boolean {
-        for (enemyPiece in pieces(piece.player.opposite())) {
-            if (piece.square in enemyPiece.captureMoves(this)) {
-                return true
-            }
-        }
+        return getPotentialEaters(piece).isNotEmpty()
+    }
 
-        return false
+    // getPotentialEaters returns all the pieces that can capture the given piece on the next move
+    fun getPotentialEaters(piece: Piece): List<Piece> {
+        return pieces(piece.player.opposite()).filter {
+            piece.square in it.captureMoves(this)
+        }
     }
 
     private val MOVE_OFFSETS = arrayOf(-1, 0, 1)
