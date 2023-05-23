@@ -27,7 +27,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     private var squareSize = 0f
     private var movingPiece: MovingPiece? = null
-    private var previousTouchedSquare: Square = Square(-1, -1)
+    private var previousTouchedSquare: Square? = null
     private var currentlyTouchedSquare: Square? = null
     private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
@@ -76,62 +76,97 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
         if (game.isOver()) {
-            context.toast("${game.currentPlayer} Won!")
-            gameOverSound.start()
+            onGameOver()
             return true
         }
 
         val touchedSquare = getTouchedSquare(event)
 
         when (event.action) {
+            // This action occurs when the user initially presses down on the screen
             MotionEvent.ACTION_DOWN -> {
-                if (playerTriesToMove(touchedSquare) && game.canMove(previousTouchedSquare, touchedSquare)) {
-                    movePiece(touchedSquare)
-                    invalidate()
-                    return true
-                }
-
-                previousTouchedSquare = touchedSquare
-                currentlyTouchedSquare = touchedSquare
-                touchedPiece = game.board.pieceAt(touchedSquare)
-
-                touchedPiece?.let {
-                    if (game.currentPlayer != it.player) {
-                        return false
-                    }
-
-                    movingPiece = MovingPiece(it, event.x, event.y, getPieceBitmap(it)!!, it.player)
-                    availableSquares = game.validMoves(it)
-                }
+                onTouchDown(touchedSquare)
             }
+
+            // This action occurs when the user moves their finger on the screen after pressing down.
             MotionEvent.ACTION_MOVE -> {
-                currentlyTouchedSquare = touchedSquare
-                movingPiece?.let {
-                    it.x = event.x
-                    it.y = event.y
-                }
-
-                invalidate() // calls onDraw
+                // onTouchMove(event, touchedSquare)
             }
-            MotionEvent.ACTION_UP -> {
-                if (game.canMove(previousTouchedSquare, touchedSquare)) {
-                    movePiece(touchedSquare)
-                }
 
-                movingPiece = null
-                currentlyTouchedSquare = null
-                invalidate() // calls onDraw
+            //  This action occurs when the user releases their finger or lifts the stylus from the screen
+            MotionEvent.ACTION_UP -> {
+                onTouchUp(touchedSquare)
+                invalidate()
             }
         }
+
         return true
     }
 
-    private fun movePiece(touchedSquare: Square) {
-        game.movePiece(previousTouchedSquare, touchedSquare)
-        touchedPiece = null
+    //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
+    private fun onGameOver() {
+        context.toast("${game.currentPlayer} Won!")
+        gameOverSound.start()
+    }
+
+    private fun onTouchUp(touchedSquare: Square) {
+        currentlyTouchedSquare = touchedSquare
+        previousTouchedSquare?.let { previousTouchedSquare ->
+            if (currentlyTouchedSquare != previousTouchedSquare) {
+                if (playerTriesToMove(touchedSquare) && game.canMove(previousTouchedSquare, touchedSquare)) {
+                    movePiece(previousTouchedSquare, touchedSquare)
+                }
+                resetVisuals()
+            }
+            return
+        }
+
+        // Previous Square is null
+        previousTouchedSquare = touchedSquare
+
+        touchedPiece = game.board.pieceAt(touchedSquare)
+        touchedPiece?.let {
+            if (game.currentPlayer != it.player) {
+                resetVisuals()
+                return
+            }
+
+            availableSquares = game.validMoves(it)
+        }
+    }
+
+    private fun onTouchDown(touchedSquare: Square) {
+        previousTouchedSquare?.let { previousTouchedSquare ->
+            if (playerTriesToMove(touchedSquare) && !game.canMove(previousTouchedSquare, touchedSquare)) {
+                resetVisuals()
+            }
+        }
+    }
+
+    private fun onTouchMove(event: MotionEvent, touchedSquare: Square) {
+        currentlyTouchedSquare = touchedSquare
+        movingPiece?.let {
+            it.x = event.x
+            it.y = event.y
+        }
+
+        invalidate() // calls onDraw
+    }
+
+    //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
+
+    private fun movePiece(previousSquare: Square, touchedSquare: Square) {
+        game.movePiece(previousSquare, touchedSquare)
+        game.currentPlayer = game.currentPlayer.opposite()
 
         moveSound.start()
-        game.currentPlayer = game.currentPlayer.opposite()
+    }
+
+    private fun resetVisuals() {
+        touchedPiece = null
+        movingPiece = null
+        currentlyTouchedSquare = null
+        previousTouchedSquare = null
     }
 
     // getSquareTouched returns the square touched by the position in the MotionEvent
@@ -144,7 +179,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     // playerTriesToMove returns true if the player made a move inside of the board
     private fun playerTriesToMove(touchedSquare: Square): Boolean {
-        return previousTouchedSquare.inBorder(game.size)
+        return previousTouchedSquare != null
                 && touchedSquare.inBorder(game.size)
                 && previousTouchedSquare != touchedSquare
     }
