@@ -34,9 +34,6 @@ interface Piece {
 
     // onEat adds logic to piece after they have eaten another piece
     fun onEat(eatenPiece: Piece)
-
-    // canBeCaptured returns true if this piece could be captured by another piece on the board
-    fun canBeCaptured(board: Board): Boolean
 }
 
 // https://en.wikipedia.org/wiki/Giraffe_%28chess%29

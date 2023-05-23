@@ -62,4 +62,23 @@ class BoardTest {
         assert(bBishopPinner == null) { errorFormat(board,
             "$bBishop pinned by $bBishopPinner | instead of null") }
     }
+
+    @Test // Tests that the canBeCaptured function works
+    fun testCanBeCaptured() {
+        val pawn = Pawn(Square(0, 6), Player.BLACK)
+
+        // Tests that the pawn can be captured when threatened
+        val enemy = Queen(Square(0, 0), Player.WHITE)
+        val canBeCapturedBoard = Board(mutableSetOf(pawn, enemy), 8)
+        assert(canBeCapturedBoard.canBeCaptured(pawn)) { errorFormat(canBeCapturedBoard, "Evaluated that $pawn can't be captured") }
+
+        // Tests that the pawn CANT be captured after the threatening queen has been removed
+        canBeCapturedBoard.remove(enemy)
+        assert(!canBeCapturedBoard.canBeCaptured(pawn)) { errorFormat(canBeCapturedBoard, "Evaluated that $pawn can be captured, even after the queen was removed") }
+
+        // Tests that the pawn can't be captured when not threatened
+        val farAwayEnemy = Pawn(Square(1, 0), Player.WHITE)
+        val cantBeCapturedBoard = Board(mutableSetOf(pawn, farAwayEnemy), 8)
+        assert(!cantBeCapturedBoard.canBeCaptured(pawn)) { errorFormat(cantBeCapturedBoard, "Evaluated that $pawn can be captured") }
+    }
 }

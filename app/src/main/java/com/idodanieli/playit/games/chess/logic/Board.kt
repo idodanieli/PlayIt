@@ -74,7 +74,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     // isChecked returns true if the given player is checked
     fun isChecked(player: Player): Boolean {
         val king = piece(TYPE_KING, player)
-        king?.let { return it.canBeCaptured(this) }
+        king?.let { return canBeCaptured(it) }
 
         return false
     }
@@ -99,14 +99,24 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // isThreatened returns true if the square is threatened by another piece
     fun isThreatened(square: Square, enemy: Player): Boolean {
-        val enemyPieces = this.pieces.filter { it.player == enemy }
-        for (piece in enemyPieces) {
+        for (piece in pieces(enemy)) {
             if (piece.type == TYPE_KING) { // To avoid recursion
                 if (piece.square.isNear(square)) return true
                 continue
             }
 
             if (square in piece.captureMoves(this)) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    // canBeCaptured returns true if this piece could be captured by another piece on the board
+    fun canBeCaptured(piece: Piece): Boolean {
+        for (enemyPiece in pieces(piece.player.opposite())) {
+            if (piece.square in enemyPiece.captureMoves(this)) {
                 return true
             }
         }
