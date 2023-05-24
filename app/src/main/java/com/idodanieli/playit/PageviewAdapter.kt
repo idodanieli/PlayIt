@@ -1,8 +1,6 @@
 package com.idodanieli.playit
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +31,7 @@ class PageviewAdapter(private val mList: List<Game>, private val gameListener: G
 
         holder.gameTitle.text = game.name
         holder.gameDescription.text = game.description
+        holder.gameId.text = game.id
         holder.chessView.game = game
         holder.chessView.setGameListener(gameListener)
     }
@@ -47,5 +46,6 @@ class PageviewAdapter(private val mList: List<Game>, private val gameListener: G
         val chessView: ChessView = itemView.findViewById(R.id.chess_view)
         val gameTitle: TextView = itemView.findViewById(R.id.gameName)
         val gameDescription: TextView = itemView.findViewById(R.id.gameDescription)
+        val gameId: TextView = itemView.findViewById(R.id.gameId)
     }
 }

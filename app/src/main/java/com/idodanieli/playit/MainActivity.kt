@@ -8,7 +8,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.clients.GameClient
-import com.idodanieli.playit.clients.HTTPClient
+import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.GameParser
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.ui.GameListener
@@ -23,10 +23,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val context = this
 
+        val client = GameClient("http://192.168.1.33:5000")
+        val games = arrayListOf<Game>()
+        createGames(games, client)
+
+        initializeViewPager(context, games)
+
         val thread = Thread {
             try {
-                val client = GameClient("http://192.168.1.33:5000")
-
                 val game_id = client.create()
                 Log.d("GameClient", "created game $game_id")
 
@@ -39,9 +43,9 @@ class MainActivity : AppCompatActivity() {
         }
         thread.start()
 
-        val gameParser = GameParser()
-        val games = getGameJSONS().map { gameParser.parse(it) }.shuffled()
+    }
 
+    private fun initializeViewPager(context: Context, games: List<Game>) {
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         val gameListener = object : GameListener {
             override fun onGameOver(winner: Player) {
@@ -63,6 +67,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // creates all the games from the resources directory
+    private fun createGames(games: ArrayList<Game>, client: GameClient) {
+        val thread = Thread {
+            val gameParser = GameParser(client)
+            val newGames = getGameJSONS().map { gameParser.parse(it) }.shuffled()
+            games.addAll(newGames)
+        }
+        // TODO: Show each game when its creation is finished instead of waiting for all games to finish
+        thread.start() // To bypass NetworkOnMainThreadException
+        thread.join() // Wait for thread to end
+    }
+
+    // getGameJsons gets the jsons of the game from the resources directory
     private fun getGameJSONS(): List<JSONObject> {
         val files = arrayListOf<JSONObject>()
         val fields: Array<Field> = R.raw::class.java.fields
