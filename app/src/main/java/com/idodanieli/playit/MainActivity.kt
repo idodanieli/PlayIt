@@ -7,6 +7,8 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.idodanieli.playit.clients.GameClient
+import com.idodanieli.playit.clients.HTTPClient
 import com.idodanieli.playit.games.chess.logic.GameParser
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.ui.GameListener
@@ -23,11 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         val thread = Thread {
             try {
-                val client = HTTPClient("http://192.168.1.33:5000")
-                val response = client.get("/print")
-                val json = JSONObject()
-                json.put("name", "ido")
-                client.post("/submit", json.toString())
+                val client = GameClient("http://192.168.1.33:5000")
+
+                val game_id = client.create()
+                Log.d("GameClient", "created game $game_id")
+
+                client.join("uptown-funk")
+                client.join(game_id)
 
             } catch (e: java.lang.Exception) {
                 Log.e("IDO", e.stackTraceToString())

@@ -1,4 +1,4 @@
-package com.idodanieli.playit
+package com.idodanieli.playit.clients
 
 import java.io.BufferedReader
 import java.io.DataOutputStream
@@ -17,12 +17,13 @@ class HTTPClient(private val address: String) {
     }
 
     // initializes the connection ( we are not connected yet )
-    private fun init(uri: String): HttpURLConnection {
-        return URL(address + uri).openConnection() as HttpURLConnection
+    private fun init(url: URL): HttpURLConnection {
+        return url.openConnection() as HttpURLConnection
     }
 
-    fun get(uri: String): String {
-        val conn = init(uri)
+    fun get(uri: String, params: Map<String, String>? = null): String {
+        val url = url(uri, params)
+        val conn = init(url)
         conn.requestMethod = METHOD_GET
 
         val responseCode = conn.send()
@@ -33,8 +34,9 @@ class HTTPClient(private val address: String) {
         }
     }
 
-    fun post(uri: String, body: String): String {
-        val conn = init(uri)
+    fun post(uri: String, body: String, params: Map<String, String>? = null): String {
+        val url = url(uri, params)
+        val conn = init(url)
 
         conn.requestMethod = METHOD_POST
         conn.setRequestProperty(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON)
@@ -46,6 +48,22 @@ class HTTPClient(private val address: String) {
         } else {
             throw Exception("HTTP POST request failed with status code: $responseCode")
         }
+    }
+
+    fun url(uri: String, queryParams: Map<String, String>?): URL {
+        val urlBuilder = StringBuilder(address + uri)
+
+        queryParams?.let {
+            if (queryParams.isNotEmpty()) {
+                urlBuilder.append("?")
+                queryParams.forEach { (key, value) ->
+                    urlBuilder.append("$key=$value&")
+                }
+                urlBuilder.deleteCharAt(urlBuilder.length - 1) // Remove the trailing '&'
+            }
+        }
+
+        return URL(urlBuilder.toString())
     }
 }
 
