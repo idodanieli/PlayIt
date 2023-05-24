@@ -7,7 +7,6 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.GameParser
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.ui.GameListener
@@ -21,6 +20,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val context = this
+
+        val thread = Thread {
+            try {
+                val client = HTTPClient("http://192.168.1.33:5000")
+                val response = client.get("/print")
+                val json = JSONObject()
+                json.put("name", "ido")
+                client.post("/submit", json.toString())
+
+            } catch (e: java.lang.Exception) {
+                Log.e("IDO", e.stackTraceToString())
+            }
+        }
+        thread.start()
 
         val gameParser = GameParser()
         val games = getGameJSONS().map { gameParser.parse(it) }.shuffled()
