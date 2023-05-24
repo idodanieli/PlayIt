@@ -33,7 +33,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var currentlyTouchedSquare: Square? = null
     private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
-    var game: Game = Game("Default", mutableSetOf(), 0, "")
+    var game: Game = Game("Default", mutableSetOf(), 0)
 
     init {
         loadBitmaps(resources)

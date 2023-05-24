@@ -3,9 +3,9 @@ package com.idodanieli.playit.games.chess.logic
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-data class Game(var name: String, private var pieces: MutableSet<Piece>, var size: Int, val id: String) {
+data class Game(var name: String, private var pieces: MutableSet<Piece>, var size: Int) {
     val board = Board(pieces, size)
-    var currentPlayer = Player.WHITE // white always starts in chess"
+    var currentPlayer = Player.WHITE // white always starts in chess
     var description = ""
 
     fun pieces(): Set<Piece> {
@@ -76,6 +76,6 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
     }
 
     private fun copy(): Game {
-        return Game(name, deepCopyPieces(pieces), size, id)
+        return Game(name, deepCopyPieces(pieces), size)
     }
 }

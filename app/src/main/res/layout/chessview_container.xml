@@ -26,8 +26,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="25sp"
-            android:text="Game Title"/>
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/gameDescription"
@@ -35,19 +34,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:layout_marginTop="10dp"
-            android:text="Game description"/>
+            android:layout_marginTop="10dp" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/gameId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:textStyle="italic"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:text="0XZ3"/>
 
 </RelativeLayout>

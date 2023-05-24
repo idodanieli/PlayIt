@@ -15,7 +15,7 @@ class GameTest {
 
         val pawn = Pawn(origin, Player.BLACK)
         val enemyPawn = Pawn(destination, Player.WHITE)
-        val game = Game(TEST_GAME_NAME, mutableSetOf(pawn, enemyPawn), CHESSBOARD_SIZE, "")
+        val game = Game(TEST_GAME_NAME, mutableSetOf(pawn, enemyPawn), CHESSBOARD_SIZE)
 
         game.movePiece(origin, destination)
 
@@ -51,7 +51,7 @@ class GameTest {
         // . . . . . . . .
         // . . . . . . . .
         // . . . . . . . .
-        val finishedGame = Game(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, wQueen), CHESSBOARD_SIZE, "") // TODO: Split Game and ChessGame becuase id shouldnt be here
+        val finishedGame = Game(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, wQueen), CHESSBOARD_SIZE)
         finishedGame.currentPlayer = Player.BLACK
 
         assert(finishedGame.isOver()) {
@@ -72,7 +72,7 @@ class GameTest {
         // Q . . . . . . .
         val unthreateningWQueen = Queen(Square(0, 7), Player.WHITE)
         val unfinishedGame =
-            Game(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, unthreateningWQueen), CHESSBOARD_SIZE, "")
+            Game(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, unthreateningWQueen), CHESSBOARD_SIZE)
         unfinishedGame.currentPlayer = Player.BLACK
 
         assert(!unfinishedGame.isOver()) {
@@ -101,7 +101,7 @@ class GameTest {
     // . . . . . . . .
     // . . . . . . . .
     private val game =
-        Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, bPawn, wQueen), CHESSBOARD_SIZE, "")
+        Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, bPawn, wQueen), CHESSBOARD_SIZE)
 
     @Test
     fun testFilterBlockingMoves() {
@@ -126,7 +126,7 @@ class GameTest {
         // . . . . . . . .
         val wRook = Rook(Square(0, 1), Player.WHITE)
         val game2 =
-            Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE, "")
+            Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE)
         val blockingMoves = game2.validMoves(bBishop)
 
         assert(blockingMoves.isEmpty())

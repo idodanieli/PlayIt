@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.logic
 
-import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.fairy.*
@@ -12,14 +11,13 @@ private const val DESCRIPTION = "description"
 private const val BOARD = "board"
 private const val EMPTY_SQUARE = '.'
 
-class GameParser(private val client: GameClient) {
+class GameParser {
     fun parse(json: JSONObject): Game {
         val name = json.getString(NAME)
         val desc = json.optString(DESCRIPTION)
         val board = json.getString(BOARD)
-        val game_id = client.create()
 
-        val game = Game(name, parseBoardPieces(board), CHESSBOARD_SIZE, id=game_id)
+        val game = Game(name, parseBoardPieces(board), CHESSBOARD_SIZE)
         game.description = desc
 
         return game
