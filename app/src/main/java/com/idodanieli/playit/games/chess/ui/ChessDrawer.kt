@@ -1,13 +1,17 @@
 package com.idodanieli.playit.games.chess.ui
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
+import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.classic.*
+import com.idodanieli.playit.games.chess.pieces.fairy.*
 
 val COLOR_TOUCHED = Color.parseColor("#CBC3E3")
 val COLOR_LIGHT_AVAILABLE_SQUARE = Color.parseColor("#FF7276")
@@ -22,6 +26,10 @@ class ChessDrawer(private val size: Int, context: Context) : Drawer() {
 
     private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
     private val darkColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorPrimaryDark)
+
+    init {
+        loadBitmaps(context.resources)
+    }
 
     fun setSize(size: Float) {
         this.squareSize = size
@@ -113,4 +121,56 @@ class ChessDrawer(private val size: Int, context: Context) : Drawer() {
             getPaint(color)
         )
     }
+}
+
+private fun getPieceBitmap(piece: Piece): Bitmap? {
+    return BITMAPS[piece.player]?.get(piece.type)
+}
+
+private fun loadBitmaps(resources: Resources) {
+    if (BITMAPS.isNotEmpty()) { return }
+
+    BITMAPS[Player.WHITE] = mutableMapOf(
+        TYPE_KING to BitmapFactory.decodeResource(resources, R.drawable.king_white),
+        TYPE_QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_white),
+        TYPE_ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_white),
+        TYPE_BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_white),
+        TYPE_KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_white),
+        TYPE_PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_white),
+        TYPE_VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_white),
+        TYPE_BEROLINA_PAWN to BitmapFactory.decodeResource(resources, R.drawable.berolina_white),
+        TYPE_GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_white),
+        TYPE_ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_white),
+        TYPE_CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_white),
+        TYPE_ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_white),
+        TYPE_GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_white),
+        TYPE_CAMEL to BitmapFactory.decodeResource(resources, R.drawable.camel_white),
+        TYPE_WILDBEAST to BitmapFactory.decodeResource(resources, R.drawable.wildbeast_white),
+        TYPE_AMAZON to BitmapFactory.decodeResource(resources, R.drawable.amazon_white),
+        TYPE_EMPRESS to BitmapFactory.decodeResource(resources, R.drawable.empress_white),
+        TYPE_ARCHBISHOP to BitmapFactory.decodeResource(resources, R.drawable.archbishop_white),
+        TYPE_XIANGQI_HORSE to BitmapFactory.decodeResource(resources, R.drawable.xiangqi_horse_white),
+    )
+
+    BITMAPS[Player.BLACK] = mutableMapOf(
+        TYPE_KING to BitmapFactory.decodeResource(resources, R.drawable.king_black),
+        TYPE_QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_black),
+        TYPE_ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_black),
+        TYPE_BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_black),
+        TYPE_KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
+        TYPE_PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black),
+        TYPE_VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_black),
+        TYPE_BEROLINA_PAWN to BitmapFactory.decodeResource(resources, R.drawable.berolina_black),
+        TYPE_GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_black),
+        TYPE_ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_black),
+        TYPE_CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_black),
+        TYPE_ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_black),
+        TYPE_GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_black),
+        TYPE_CAMEL to BitmapFactory.decodeResource(resources, R.drawable.camel_black),
+        TYPE_WILDBEAST to BitmapFactory.decodeResource(resources, R.drawable.wildbeast_black),
+        TYPE_AMAZON to BitmapFactory.decodeResource(resources, R.drawable.amazon_black),
+        TYPE_EMPRESS to BitmapFactory.decodeResource(resources, R.drawable.empress_black),
+        TYPE_ARCHBISHOP to BitmapFactory.decodeResource(resources, R.drawable.archbishop_black),
+        TYPE_XIANGQI_HORSE to BitmapFactory.decodeResource(resources, R.drawable.xiangqi_horse_black),
+    )
 }

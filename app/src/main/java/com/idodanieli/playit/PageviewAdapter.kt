@@ -1,8 +1,6 @@
 package com.idodanieli.playit
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,7 @@ import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.GameListener
 
 
-class PageviewAdapter(private val mList: List<Game>, private val gameListener: GameListener) :
+class PageviewAdapter(private val games: List<Game>, private val gameListener: GameListener) :
     RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
 
     // create new views
@@ -29,7 +27,7 @@ class PageviewAdapter(private val mList: List<Game>, private val gameListener: G
     // binds the list items to a view
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val game = mList[position]
+        val game = games[position]
 
         holder.gameTitle.text = game.name
         holder.gameDescription.text = game.description
@@ -39,7 +37,7 @@ class PageviewAdapter(private val mList: List<Game>, private val gameListener: G
 
     // return the number of the items in the list
     override fun getItemCount(): Int {
-        return mList.size
+        return games.size
     }
 
     // Holds the views for adding it to image and text

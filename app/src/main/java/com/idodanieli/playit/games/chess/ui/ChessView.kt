@@ -34,10 +34,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var touchedPiece: Piece? = null
     var game: Game = Game("Default", mutableSetOf(), 0)
 
-    init {
-        loadBitmaps(resources)
-    }
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val smaller = min(widthMeasureSpec, heightMeasureSpec)
@@ -192,60 +188,3 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 }
 
 data class MovingPiece(val piece: Piece, var x: Float, var y: Float, val bitmap: Bitmap, var player: Player)
-
-//// HELPER FUNCTIONS \\\\
-
-fun getPieceBitmap(piece: Piece): Bitmap? {
-    return BITMAPS[piece.player]?.get(piece.type)
-}
-
-private fun loadBitmaps(resources: Resources) {
-    if (BITMAPS.isNotEmpty()) { return }
-
-    BITMAPS[Player.WHITE] = mutableMapOf(
-        TYPE_KING to BitmapFactory.decodeResource(resources, R.drawable.king_white),
-        TYPE_QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_white),
-        TYPE_ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_white),
-        TYPE_BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_white),
-        TYPE_KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_white),
-        TYPE_PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_white),
-        TYPE_VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_white),
-        TYPE_BEROLINA_PAWN to BitmapFactory.decodeResource(resources, R.drawable.berolina_white),
-        TYPE_GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_white),
-        TYPE_ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_white),
-        TYPE_CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_white),
-        TYPE_ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_white),
-        TYPE_GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_white),
-        TYPE_CAMEL to BitmapFactory.decodeResource(resources, R.drawable.camel_white),
-        TYPE_WILDBEAST to BitmapFactory.decodeResource(resources, R.drawable.wildbeast_white),
-        TYPE_AMAZON to BitmapFactory.decodeResource(resources, R.drawable.amazon_white),
-        TYPE_EMPRESS to BitmapFactory.decodeResource(resources, R.drawable.empress_white),
-        TYPE_ARCHBISHOP to BitmapFactory.decodeResource(resources, R.drawable.archbishop_white),
-        TYPE_XIANGQI_HORSE to BitmapFactory.decodeResource(resources, R.drawable.xiangqi_horse_white),
-    )
-
-    BITMAPS[Player.BLACK] = mutableMapOf(
-        TYPE_KING to BitmapFactory.decodeResource(resources, R.drawable.king_black),
-        TYPE_QUEEN to BitmapFactory.decodeResource(resources, R.drawable.queen_black),
-        TYPE_ROOK to BitmapFactory.decodeResource(resources, R.drawable.rook_black),
-        TYPE_BISHOP to BitmapFactory.decodeResource(resources, R.drawable.bishop_black),
-        TYPE_KNIGHT to BitmapFactory.decodeResource(resources, R.drawable.knight_black),
-        TYPE_PAWN to BitmapFactory.decodeResource(resources, R.drawable.pawn_black),
-        TYPE_VENOM to BitmapFactory.decodeResource(resources, R.drawable.venom_black),
-        TYPE_BEROLINA_PAWN to BitmapFactory.decodeResource(resources, R.drawable.berolina_black),
-        TYPE_GIRAFFE to BitmapFactory.decodeResource(resources, R.drawable.giraffe_black),
-        TYPE_ZEBRA to BitmapFactory.decodeResource(resources, R.drawable.zebra_black),
-        TYPE_CENTAUR to BitmapFactory.decodeResource(resources, R.drawable.centaur_black),
-        TYPE_ELEPHANT to BitmapFactory.decodeResource(resources, R.drawable.elephant_black),
-        TYPE_GRASSHOPPER to BitmapFactory.decodeResource(resources, R.drawable.grasshopper_black),
-        TYPE_CAMEL to BitmapFactory.decodeResource(resources, R.drawable.camel_black),
-        TYPE_WILDBEAST to BitmapFactory.decodeResource(resources, R.drawable.wildbeast_black),
-        TYPE_AMAZON to BitmapFactory.decodeResource(resources, R.drawable.amazon_black),
-        TYPE_EMPRESS to BitmapFactory.decodeResource(resources, R.drawable.empress_black),
-        TYPE_ARCHBISHOP to BitmapFactory.decodeResource(resources, R.drawable.archbishop_black),
-        TYPE_XIANGQI_HORSE to BitmapFactory.decodeResource(resources, R.drawable.xiangqi_horse_black),
-    )
-}
-
-fun Context.toast(message: CharSequence) =
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
