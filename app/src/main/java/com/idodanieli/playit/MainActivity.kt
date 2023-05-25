@@ -4,11 +4,12 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.clients.GameClient
-import com.idodanieli.playit.clients.HTTPClient
+import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.GameParser
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.ui.GameListener
@@ -18,10 +19,14 @@ import java.lang.reflect.Field
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var viewPager: ViewPager2
+    private lateinit var playButton: Button
+
+    // Flow starts here
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val context = this
+        findViews()
 
         val thread = Thread {
             try {
@@ -39,31 +44,12 @@ class MainActivity : AppCompatActivity() {
         }
         thread.start()
 
-        val gameParser = GameParser()
-        val games = getGameJSONS().map { gameParser.parse(it) }.shuffled()
+        val games = createGames()
 
-        val viewPager = findViewById<ViewPager2>(R.id.viewPager)
-        val gameListener = object : GameListener {
-            override fun onGameOver(winner: Player) {
-                viewPager.showDialog(context, winner)
-            }
-        }
-
-        viewPager.adapter = PageviewAdapter(games, gameListener)
-
-        val viewPagerControlButton = findViewById<Button>(R.id.pageViewControlButton)
-        viewPagerControlButton.setOnClickListener() {
-            if ( viewPagerControlButton.text == "Disable" ) {
-                viewPagerControlButton.text = "Enable"
-                viewPager.isUserInputEnabled = false
-            } else {
-                viewPagerControlButton.text = "Disable"
-                viewPager.isUserInputEnabled = true
-            }
-        }
+        initUI(games, this)
     }
 
-    private fun getGameJSONS(): List<JSONObject> {
+    private fun createGames(): List<Game> {
         val files = arrayListOf<JSONObject>()
         val fields: Array<Field> = R.raw::class.java.fields
         fields.forEach {
@@ -78,31 +64,56 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        return files
-    }
-}
-
-fun ViewPager2.showDialog(context: Context, winner: Player) {
-    val dialogBuilder = AlertDialog.Builder(context)
-
-    // Set dialog title and message
-    dialogBuilder.setTitle("GAME OVER")
-    dialogBuilder.setMessage("$winner is the winner!")
-
-    // Set positive button with click listener
-    dialogBuilder.setPositiveButton("NEW GAME") { dialog, _ ->
-        // Handle positive button click
-        setCurrentItem(currentItem + 1, true)
-        dialog.dismiss()
+        return files.map { GameParser.parse(it) }.shuffled()
     }
 
-    // Set negative button with click listener
-    dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
-        // Handle negative button click
-        dialog.dismiss()
+    private fun findViews() {
+        viewPager = findViewById(R.id.viewPager)
+        playButton = findViewById(R.id.playButton)
     }
 
-    // Create and show the dialog
-    val dialog = dialogBuilder.create()
-    dialog.show()
+    private fun initUI(games: List<Game>, context: Context) {
+        playButton.setOnClickListener() {
+            disableScrolling()
+        }
+
+        val gameListener = object : GameListener {
+            override fun onGameOver(winner: Player) {
+                showGameOverDialog(context, winner)
+            }
+        }
+
+        viewPager.adapter = PageviewAdapter(games, gameListener)
+    }
+
+    private fun showGameOverDialog(context: Context, winner: Player) {
+        val dialogBuilder = AlertDialog.Builder(context)
+
+        dialogBuilder.setTitle("GAME OVER")
+        dialogBuilder.setMessage("$winner is the winner!")
+
+        dialogBuilder.setPositiveButton("NEW GAME") { dialog, _ ->
+            viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+            enableScrolling()
+
+            dialog.dismiss()
+        }
+
+        dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        // Create and show the dialog
+        val dialog = dialogBuilder.create()
+        dialog.show()
+    }
+
+    private fun disableScrolling() {
+        viewPager.isUserInputEnabled = false
+        playButton.visibility = View.INVISIBLE
+    }
+    private fun enableScrolling() {
+        viewPager.isUserInputEnabled = true
+        playButton.visibility = View.VISIBLE
+    }
 }

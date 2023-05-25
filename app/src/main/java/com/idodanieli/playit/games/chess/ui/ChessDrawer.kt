@@ -1,9 +1,9 @@
 package com.idodanieli.playit.games.chess.ui
 
-import android.R
 import android.content.Context
 import android.graphics.*
 import com.idodanieli.playit.games.chess.MODE_LOCAL
+import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
@@ -18,10 +18,10 @@ private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piec
 
 class ChessDrawer(private val size: Int, context: Context) : Drawer() {
     private var squareSize = 0f
-    private var mode = MODE_LOCAL // TODO: Change this in the future
+    private var mode = MODE_ONLINE // TODO: Change this in the future
 
-    private val lightColor = fetchColorFromAttribute(context, R.attr.colorAccent)
-    private val darkColor = fetchColorFromAttribute(context, R.attr.colorPrimaryDark)
+    private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
+    private val darkColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorPrimaryDark)
 
     fun setSize(size: Float) {
         this.squareSize = size
