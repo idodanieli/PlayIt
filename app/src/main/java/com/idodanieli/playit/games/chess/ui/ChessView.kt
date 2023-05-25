@@ -52,7 +52,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         squareSize = width / this.game.size.toFloat()
 
-        chessDrawer.setCanvas(canvas)
+        chessDrawer.canvas = canvas
         chessDrawer.setSize(squareSize)
 
         chessDrawer.drawChessboard()

@@ -1,7 +1,10 @@
 package com.idodanieli.playit.games.chess.ui
 
 import android.graphics.*
+import com.idodanieli.playit.games.chess.MODE_LOCAL
+import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.logic.Game
+import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 
@@ -14,13 +17,9 @@ val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
 private const val MOVING_PIECE_SCALE = 1.5f
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
 
-class ChessDrawer(private val size: Int, private val lightColor: Int, private val darkColor: Int) {
-    private var canvas = Canvas()
+class ChessDrawer(private val size: Int, private val lightColor: Int, private val darkColor: Int) : Drawer() {
     private var squareSize = 0f
-
-    fun setCanvas(canvas: Canvas) {
-        this.canvas = canvas
-    }
+    private var mode = MODE_LOCAL // TODO: Change this in the future
 
     fun setSize(size: Float) {
         this.squareSize = size
@@ -46,13 +45,20 @@ class ChessDrawer(private val size: Int, private val lightColor: Int, private va
     }
 
     // drawPiece draws the given piece at the right square on the game.board
-    fun drawPiece(piece: Piece) {
-        this.drawBitmapAtSquare(piece.square, getPieceBitmap(piece)!!)
+    private fun drawPiece(piece: Piece) {
+        var pieceBitmap = getPieceBitmap(piece)!!
+
+        // Flip the black players piece in local mode so it would be easier to play
+        if (mode == MODE_LOCAL && piece.player == Player.BLACK) {
+            pieceBitmap = flipBitmap(pieceBitmap, Direction.VERTICAL)!!
+        }
+
+        this.drawBitmapAtSquare(piece.square, pieceBitmap)
     }
 
-    // drawPieceAtPosition draws the piece in the given position on the screen
+    // drawBitmapAtPosition draws the piece in the given position on the screen
     // @param scale = the scaling of the piece
-    fun drawBitmapAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) =
+    private fun drawBitmapAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) =
         canvas.drawBitmap(
             bitmap,
             null,
@@ -66,7 +72,7 @@ class ChessDrawer(private val size: Int, private val lightColor: Int, private va
         )
 
     // drawSquare draws a square
-    fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) =
+    private fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) =
         this.canvas.drawBitmap(
             bitmap,
             null,
@@ -105,12 +111,4 @@ class ChessDrawer(private val size: Int, private val lightColor: Int, private va
             getPaint(color)
         )
     }
-}
-
-// getPaint returns a paint with the given color
-private fun getPaint(color: Int): Paint {
-    val paint = Paint()
-    paint.color = color
-
-    return paint
 }
