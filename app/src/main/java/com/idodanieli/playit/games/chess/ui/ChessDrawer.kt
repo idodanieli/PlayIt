@@ -1,15 +1,14 @@
 package com.idodanieli.playit.games.chess.ui
 
+import android.R
+import android.content.Context
 import android.graphics.*
 import com.idodanieli.playit.games.chess.MODE_LOCAL
-import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 
-val COLOR_LIGHT = Color.parseColor("#ffe9c5")
-val COLOR_DARK = Color.parseColor("#A37568")
 val COLOR_TOUCHED = Color.parseColor("#CBC3E3")
 val COLOR_LIGHT_AVAILABLE_SQUARE = Color.parseColor("#FF7276")
 val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
@@ -17,9 +16,12 @@ val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
 private const val MOVING_PIECE_SCALE = 1.5f
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
 
-class ChessDrawer(private val size: Int, private val lightColor: Int, private val darkColor: Int) : Drawer() {
+class ChessDrawer(private val size: Int, context: Context) : Drawer() {
     private var squareSize = 0f
     private var mode = MODE_LOCAL // TODO: Change this in the future
+
+    private val lightColor = fetchColorFromAttribute(context, R.attr.colorAccent)
+    private val darkColor = fetchColorFromAttribute(context, R.attr.colorPrimaryDark)
 
     fun setSize(size: Float) {
         this.squareSize = size

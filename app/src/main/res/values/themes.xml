@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.PlayIt" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/dark_wood</item>
-        <item name="colorPrimaryVariant">@color/red_wood</item>
-        <item name="colorOnPrimary">@color/light_wood</item>
+        <item name="colorPrimary">@color/darker_wood</item>
+        <item name="colorPrimaryVariant">@color/dark_wood</item>
+        <item name="colorPrimaryDark">@color/red_wood</item>
+        <item name="colorAccent">@color/light_wood</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
 

@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.PlayIt" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/navy1</item>
-        <item name="colorPrimaryVariant">@color/navy2</item>
-        <item name="colorOnPrimary">@color/navy3</item>
+        <item name="colorPrimary">@color/navy1</item>        <!-- TOOLBAR COLOR -->
+        <item name="colorPrimaryVariant">@color/navy2</item> <!-- BACKGROUND COLOR -->
+        <item name="colorPrimaryDark">@color/navy3</item>    <!-- DARK TILE COLOR -->
+        <item name="colorAccent">#4A617C</item>         <!-- LIGHT TILE COLOR -->
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
 

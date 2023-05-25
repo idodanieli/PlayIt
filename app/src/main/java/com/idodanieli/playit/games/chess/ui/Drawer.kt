@@ -1,9 +1,13 @@
 package com.idodanieli.playit.games.chess.ui
 
+import android.R
+import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
+import android.util.TypedValue
 
 
 open class Drawer {
@@ -31,8 +35,20 @@ open class Drawer {
 
 enum class Direction {
     VERTICAL, HORIZONTAL
+
+
 }
 
+// fetchColorFromAttribute in the theme
+fun fetchColorFromAttribute(context: Context, attribute: Int): Int {
+    val typedValue = TypedValue()
+    val a: TypedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(attribute))
+
+    val color = a.getColor(0, 0)
+    a.recycle()
+
+    return color
+}
 
 // getPaint returns a paint with the given color
 fun getPaint(color: Int): Paint {

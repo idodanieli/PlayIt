@@ -13,8 +13,8 @@
     <color name="darker_wood">#3C2F2F</color>
     <color name="red_wood">#A37568</color>
 
-    <color name="navy1">#27374D</color>
-    <color name="navy2">#526D82</color>
-    <color name="navy3">#9DB2BF</color>
-    <color name="navy4">#DDE6ED</color>
+    <color name="navy1">#0d1b2a</color>
+    <color name="navy2">#142133 </color>
+    <color name="navy3">#1b263b</color>
+    <color name="navy4">#415a77 </color>
 </resources>

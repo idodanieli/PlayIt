@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.ui
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
@@ -22,7 +21,7 @@ const val CHESSBOARD_SIZE = 8
 var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, COLOR_LIGHT, COLOR_DARK)
+    private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, context!!)
     private val moveSound = MediaPlayer.create(context, R.raw.sound_chess_move)
     private val gameOverSound = MediaPlayer.create(context, R.raw.sound_game_over)
     private var gameListener: GameListener? = null
