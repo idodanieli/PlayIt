@@ -1,7 +1,6 @@
 package com.idodanieli.playit
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
+import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_listener.GameListener
-import com.idodanieli.playit.games.chess.game_listener.OnlineChessGameListener
 import com.idodanieli.playit.games.chess.logic.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -20,7 +19,8 @@ import java.lang.reflect.Field
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
-    private lateinit var playButton: Button
+    private lateinit var localPlayButton: Button
+    private lateinit var onlinePlayButton: Button
 
     // Flow starts here
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         GameClient.initialize("http://192.168.1.33:5000")
 
-        initUI(games, this)
+        initUI(games)
     }
 
     private fun createGames(): List<Game> {
@@ -55,16 +55,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun findViews() {
         viewPager = findViewById(R.id.viewPager)
-        playButton = findViewById(R.id.playButton)
+        localPlayButton = findViewById(R.id.localPlayButton)
+        onlinePlayButton = findViewById(R.id.onlinePlayButton)
     }
 
-    private fun initUI(games: List<Game>, context: Context) {
-        playButton.setOnClickListener() {
-            disableScrolling()
+    private fun playButtonOnClick(mode: String) {
+        disableScrolling()
 
-            val chessView = viewPager.currentChessview()
-            chessView.setMode(MODE_LOCAL)
-            chessView.invalidate()
+        val chessView = viewPager.currentChessview()
+        chessView.setMode(mode)
+        chessView.invalidate()
+    }
+
+    private fun initUI(games: List<Game>) {
+        localPlayButton.setOnClickListener() {
+            playButtonOnClick(MODE_LOCAL)
+        }
+
+        onlinePlayButton.setOnClickListener {
+            playButtonOnClick(MODE_ONLINE)
         }
 
         val gameListener = object : GameListener {
@@ -100,10 +109,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun disableScrolling() {
         viewPager.isUserInputEnabled = false
-        playButton.visibility = View.INVISIBLE
+        localPlayButton.visibility = View.INVISIBLE
+        onlinePlayButton.visibility = View.INVISIBLE
     }
     private fun enableScrolling() {
         viewPager.isUserInputEnabled = true
-        playButton.visibility = View.VISIBLE
+        localPlayButton.visibility = View.VISIBLE
+        onlinePlayButton.visibility = View.INVISIBLE
     }
 }
