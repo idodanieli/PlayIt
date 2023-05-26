@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 interface ChessGameListener {
-    fun onGameStarted()
+    fun onGameStarted(chessView: ChessView)
     fun onPieceMoved(move: Move)
     fun onTurnSwitched(chessview: ChessView)
 }

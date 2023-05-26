@@ -3,12 +3,16 @@ package com.idodanieli.playit.games.chess.game_listener
 import android.util.Log
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.logic.Move
+import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 object OnlineChessGameListener: ChessGameListener {
-    override fun onGameStarted() {
+    override fun onGameStarted(chessView: ChessView) {
         val gameID = GameClient.getInstance().create()
         Log.d("GameClient", "Created game: $gameID")
+
+        val player = if (GameClient.getInstance().join(gameID) == "WHITE") Player.WHITE else Player.BLACK
+        chessView.setHero(player)
     }
 
     override fun onPieceMoved(move: Move) {

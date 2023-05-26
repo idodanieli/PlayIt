@@ -46,18 +46,20 @@ class GameClient private constructor(address: String) {
         return gameID
     }
 
-    fun join(game_id: String): Boolean {
-        val response = client.get(
-            uri = URI_JOIN_GAME,
-            params = mapOf(PARAM_GAME_ID to game_id)
-        )
+    fun join(game_id: String): String {
+        var response = ""
 
-        if (response == STATUS_SUCCESS) {
-            return true
+        val thread = Thread {
+            response = client.get(
+                uri = URI_JOIN_GAME,
+                params = mapOf(PARAM_GAME_ID to game_id)
+            )
         }
 
-        Log.d("GameClient", response)
-        return false
+        thread.start()
+        thread.join()
+
+        return response
     }
 
     fun movePiece(move: Move) {
@@ -79,7 +81,7 @@ class GameClient private constructor(address: String) {
             lastMove = client.get(
                 uri = URI_GAME_LAST_MOVE,
                 params = mapOf(PARAM_GAME_ID to gameID)
-            ) // TODO: Add game_id as query param
+            )
         }
 
         thread.start()

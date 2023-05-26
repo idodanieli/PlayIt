@@ -37,7 +37,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var gameStarted: Boolean = false
 
     fun startGame() {
-        chessGameListener?.onGameStarted()
+        chessGameListener?.onGameStarted(this)
         gameStarted = true
     }
 
@@ -205,6 +205,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun setMode(mode: String) {
         chessDrawer.mode = mode
         chessGameListener = CHESS_GAME_LISTENER[mode]
+    }
+
+    fun setHero(hero: Player) {
+        chessDrawer.setHero(hero)
     }
 }
 

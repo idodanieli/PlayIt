@@ -26,12 +26,17 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
     private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
     private val darkColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorPrimaryDark)
 
+    private var hero = Player.WHITE // By default the player is white
+
     init {
         loadBitmaps(context.resources)
     }
 
     fun setSize(size: Float) {
         this.squareSize = size
+    }
+    fun setHero(hero: Player) {
+        this.hero = hero
     }
 
     // drawPieces draws all the pieces on the game.board
@@ -120,10 +125,16 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
             getPaint(color)
         )
     }
-}
 
-private fun getPieceBitmap(piece: Piece): Bitmap? {
-    return BITMAPS[piece.player]?.get(piece.type)
+    private fun getPieceBitmap(piece: Piece): Bitmap? {
+        var color = piece.player
+
+        if (hero == Player.BLACK) {
+            color = color.opposite()
+        }
+
+        return BITMAPS[color]?.get(piece.type)
+    }
 }
 
 private fun loadBitmaps(resources: Resources) {

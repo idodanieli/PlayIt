@@ -116,6 +116,6 @@ class MainActivity : AppCompatActivity() {
     private fun enableScrolling() {
         viewPager.isUserInputEnabled = true
         localPlayButton.visibility = View.VISIBLE
-        onlinePlayButton.visibility = View.INVISIBLE
+        onlinePlayButton.visibility = View.VISIBLE
     }
 }
