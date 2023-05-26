@@ -27,6 +27,7 @@ class HTTPClient(private val address: String) {
         conn.requestMethod = METHOD_GET
 
         val responseCode = conn.send()
+
         if (responseCode == HttpURLConnection.HTTP_OK) {
             return conn.readResponse()
         } else {
@@ -43,6 +44,7 @@ class HTTPClient(private val address: String) {
         conn.setRequestBody(body)
 
         val responseCode = conn.send()
+
         if (responseCode == HttpURLConnection.HTTP_OK) {
             return conn.readResponse()
         } else {
@@ -70,29 +72,48 @@ class HTTPClient(private val address: String) {
 // OutputStream object that allows you to write data
 // to the server when making a request with methods like POST or PUT.
 private fun HttpURLConnection.setRequestBody(body: String) {
-    doOutput = true
+    val thread = Thread {
+        doOutput = true
 
-    val outputStream = DataOutputStream(outputStream)
-    outputStream.writeBytes(body)
-    outputStream.flush()
-    outputStream.close()
+        val outputStream = DataOutputStream(outputStream)
+        outputStream.writeBytes(body)
+        outputStream.flush()
+        outputStream.close()
+    }
+
+    thread.start()
+    thread.join()
 }
 
 // send the request in the connection ; returns status-code
 private fun HttpURLConnection.send(): Int {
-    return responseCode
+    var code = 0
+    val thread = Thread { // To avoid NetworkOnMainThreadException
+        code = responseCode
+    }
+
+    thread.start()
+    thread.join()// wait for thread to finish
+
+    return code
 }
 
 // readResponse from a connection ( must be after a request has be sent )
 private fun HttpURLConnection.readResponse(): String {
-    val reader = BufferedReader(InputStreamReader(inputStream))
     val response = StringBuilder()
 
-    var line: String?
-    while (reader.readLine().also { line = it } != null) {
-        response.append(line)
+    val thread = Thread { // To avoid NetworkOnMainThreadException
+        val reader = BufferedReader(InputStreamReader(inputStream))
+
+        var line: String?
+        while (reader.readLine().also { line = it } != null) {
+            response.append(line)
+        }
+        reader.close()
     }
-    reader.close()
+
+    thread.start()
+    thread.join() // wait for thread to finish
 
     return response.toString()
 }

@@ -33,13 +33,7 @@ class GameClient private constructor(address: String) {
 
     // create a new game and return it's game_id
     fun create(): String {
-        var gameID = ""
-        val thread = Thread {
-            gameID = client.get(URI_CREATE_GAME)
-        }
-
-        thread.start()
-        thread.join()
+        val gameID = client.get(URI_CREATE_GAME)
 
         this.gameID = gameID // Sets the game_id for the client
 
@@ -47,45 +41,27 @@ class GameClient private constructor(address: String) {
     }
 
     fun join(game_id: String): String {
-        var response = ""
-
-        val thread = Thread {
-            response = client.get(
-                uri = URI_JOIN_GAME,
-                params = mapOf(PARAM_GAME_ID to game_id)
-            )
-        }
-
-        thread.start()
-        thread.join()
-
-        return response
+        return client.get(
+            uri = URI_JOIN_GAME,
+            params = mapOf(PARAM_GAME_ID to game_id)
+        )
     }
 
     fun movePiece(move: Move) {
-        Thread {
-            val response = client.post(
-                uri = URI_GAME_MOVE,
-                body = move.toJson(),
-                params = mapOf(PARAM_GAME_ID to gameID)
-            )
+        val response = client.post(
+            uri = URI_GAME_MOVE,
+            body = move.toJson(),
+            params = mapOf(PARAM_GAME_ID to gameID)
+        )
 
-            Log.d("GameClient", response)
-        }.start()
+        Log.d("GameClient", response)
     }
 
     fun getLastMove(): Move {
-        var lastMove = ""
-
-        val thread = Thread {
-            lastMove = client.get(
-                uri = URI_GAME_LAST_MOVE,
-                params = mapOf(PARAM_GAME_ID to gameID)
-            )
-        }
-
-        thread.start()
-        thread.join() // Wait for thread to end
+        val lastMove = client.get(
+            uri = URI_GAME_LAST_MOVE,
+            params = mapOf(PARAM_GAME_ID to gameID)
+        )
 
         return Move.fromJSON(lastMove)
     }

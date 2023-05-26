@@ -34,9 +34,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
 
+    private var gameStarted: Boolean = false
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
-    var gameStarted: Boolean = false
 
     fun startGame() {
         chessGameListener?.onGameStarted(this)
