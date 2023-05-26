@@ -6,6 +6,11 @@ import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 object OnlineChessGameListener: ChessGameListener {
+    override fun onGameStarted() {
+        val gameID = GameClient.getInstance().create()
+        Log.d("GameClient", "Created game: $gameID")
+    }
+
     override fun onPieceMoved(move: Move) {
         GameClient.getInstance().movePiece(move)
     }

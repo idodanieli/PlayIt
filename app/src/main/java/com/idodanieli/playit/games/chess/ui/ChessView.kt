@@ -36,6 +36,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var game: Game = Game("Default", mutableSetOf(), 0)
     var gameStarted: Boolean = false
 
+    fun startGame() {
+        chessGameListener?.onGameStarted()
+        gameStarted = true
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val smaller = min(widthMeasureSpec, heightMeasureSpec)

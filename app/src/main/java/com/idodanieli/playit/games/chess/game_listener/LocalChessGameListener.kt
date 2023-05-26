@@ -6,6 +6,9 @@ import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 object LocalChessGameListener: ChessGameListener {
+    override fun onGameStarted() {
+        // Nothing
+    }
 
     override fun onPieceMoved(move: Move) {
         // Nothing
