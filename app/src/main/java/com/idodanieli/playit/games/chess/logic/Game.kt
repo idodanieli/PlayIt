@@ -12,11 +12,12 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         return this.pieces
     }
 
-    fun canMove(origin: Square, dst: Square): Boolean {
-        if (origin == dst) {
+    // canMove returns true if the move is valid
+    fun canMove(move: Move): Boolean {
+        if (move.origin == move.dest) {
             return  false
         }
-        val movingPiece = board.pieceAt(origin) ?: return false
+        val movingPiece = board.pieceAt(move.origin) ?: return false
         if (movingPiece.player != currentPlayer) { return false }
 
         var moves = movingPiece.validMoves(this.board)
@@ -24,7 +25,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
             moves = filterBlockingMoves(movingPiece, moves)
         }
 
-        return dst in moves
+        return move.dest in moves
     }
 
     fun movePiece(origin: Square, dst: Square) {
@@ -65,6 +66,10 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
     fun validMoves(piece: Piece): List<Square> {
         // TODO: Move logic from piece.validMoves here
         return filterBlockingMoves(piece, piece.validMoves(board))
+    }
+
+    fun switchTurn() {
+        currentPlayer = currentPlayer.opposite()
     }
 
     private fun filterBlockingMoves(piece: Piece, moves: List<Square>): List<Square> {

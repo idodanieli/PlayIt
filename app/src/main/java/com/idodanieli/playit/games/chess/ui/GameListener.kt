@@ -1,9 +1,10 @@
 package com.idodanieli.playit.games.chess.ui
 
+import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
-import com.idodanieli.playit.games.chess.logic.Square
 
 interface GameListener {
-    fun onPieceMoved(origin: Square, dst: Square)
+    fun onPieceMoved(move: Move)
+    fun onTurnSwitched(chessview: ChessView)
     fun onGameOver(winner: Player)
 }

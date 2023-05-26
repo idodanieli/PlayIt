@@ -1,6 +1,7 @@
 package com.idodanieli.playit.clients
 
 import android.util.Log
+import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Square
 import org.json.JSONObject
 
@@ -10,7 +11,8 @@ class GameClient private constructor(address: String) {
     companion object {
         private const val URI_CREATE_GAME = "/create"
         private const val URI_JOIN_GAME = "/join"
-        private const val URI__GAME_MOVE = "/game/move"
+        private const val URI_GAME_MOVE = "/game/move"
+        private const val URI_GAME_LAST_MOVE = "/game/last_move"
 
         private const val PARAM_GAME_ID = "game_id"
 
@@ -45,16 +47,24 @@ class GameClient private constructor(address: String) {
         return false
     }
 
-    fun movePiece(origin: Square, dest: Square) {
-        val body = JSONObject()
-        body.put("origin", origin)
-        body.put("dest", dest)
-
+    fun movePiece(move: Move) {
         Thread {
-
-            val response = client.post(URI__GAME_MOVE, body.toString()) // TODO: Add game_id as query param
+            val response = client.post(URI_GAME_MOVE, move.toJson()) // TODO: Add game_id as query param
             Log.d("GameClient", response)
 
         }.start()
+    }
+
+    fun getLastMove(): Move {
+        var lastMove = ""
+
+        val thread = Thread {
+            lastMove = client.get(URI_GAME_LAST_MOVE) // TODO: Add game_id as query param
+        }
+
+        thread.start()
+        thread.join() // Wait for thread to end
+
+        return Move.fromJSON(lastMove)
     }
 }

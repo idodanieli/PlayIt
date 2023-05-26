@@ -2,18 +2,15 @@ package com.idodanieli.playit.games.chess.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.*
 import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import com.idodanieli.playit.R
+import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
-import com.idodanieli.playit.games.chess.pieces.classic.*
-import com.idodanieli.playit.games.chess.pieces.fairy.*
 import kotlin.math.min
 
 const val CHESSBOARD_SIZE = 8
@@ -21,7 +18,8 @@ const val CHESSBOARD_SIZE = 8
 var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, context!!)
+    private var mode = MODE_ONLINE // TODO: Change this in the future
+    private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, mode, context!!)
     private val moveSound = MediaPlayer.create(context, R.raw.sound_chess_move)
     private val gameOverSound = MediaPlayer.create(context, R.raw.sound_game_over)
     private var gameListener: GameListener? = null
@@ -105,14 +103,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun onTouchUp(touchedSquare: Square) {
         currentlyTouchedSquare = touchedSquare
         previousTouchedSquare?.let { previousTouchedSquare ->
-            if (currentlyTouchedSquare != previousTouchedSquare) {
-                if (playerTriesToMove(touchedSquare) && game.canMove(previousTouchedSquare, touchedSquare)) {
-                    movePiece(previousTouchedSquare, touchedSquare)
+            val move = Move(previousTouchedSquare, touchedSquare)
 
-                    if (game.isOver()) {
-                        onGameOver()
-                    }
-                }
+            if (playerMadeAMove(touchedSquare) && game.canMove(move)) {
+                movePiece(move)
+                switchTurn()
                 resetVisuals()
             }
             return
@@ -134,7 +129,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     private fun onTouchDown(touchedSquare: Square) {
         previousTouchedSquare?.let { previousTouchedSquare ->
-            if (playerTriesToMove(touchedSquare) && !game.canMove(previousTouchedSquare, touchedSquare)) {
+            val move = Move(previousTouchedSquare, touchedSquare)
+            if (playerMadeAMove(touchedSquare) && !game.canMove(move)) {
                 resetVisuals()
             }
         }
@@ -152,13 +148,22 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
 
-    private fun movePiece(previousSquare: Square, touchedSquare: Square) {
-        game.movePiece(previousSquare, touchedSquare)
-        game.currentPlayer = game.currentPlayer.opposite()
+    private fun movePiece(move: Move) {
+        game.movePiece(move.origin, move.dest)
 
-        gameListener?.onPieceMoved(previousSquare, touchedSquare)
+        gameListener?.onPieceMoved(move)
 
         moveSound.start()
+    }
+
+    private fun switchTurn() {
+        game.switchTurn()
+
+        if (game.isOver()) {
+            onGameOver()
+        }
+
+        gameListener?.onTurnSwitched(this)
     }
 
     private fun resetVisuals() {
@@ -177,7 +182,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     // playerTriesToMove returns true if the player made a move inside of the board
-    private fun playerTriesToMove(touchedSquare: Square): Boolean {
+    private fun playerMadeAMove(touchedSquare: Square): Boolean {
         return previousTouchedSquare != null
                 && touchedSquare.inBorder(game.size)
                 && previousTouchedSquare != touchedSquare

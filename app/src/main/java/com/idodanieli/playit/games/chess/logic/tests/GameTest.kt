@@ -141,14 +141,17 @@ class GameTest {
     @Test
     fun testCanMove() {
         game.currentPlayer = Player.BLACK
+        var move = Move(bPawn.square, Square(6, 2))
 
-        assert(!game.canMove(bPawn.square, Square(6, 2))) {
+        assert(!game.canMove(move)) {
             errorFormat(
                 game.board,
                 "$bPawn could move even though the king is in check"
             )
         }
-        assert(game.canMove(bBishop.square, Square(1, 1))) {
+
+        move = Move(bBishop.square, Square(1, 1))
+        assert(game.canMove(move)) {
             errorFormat(
                 game.board,
                 "$bBishop couldn't move even though it could block the check"

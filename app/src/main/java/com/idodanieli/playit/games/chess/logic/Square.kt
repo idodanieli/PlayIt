@@ -1,6 +1,10 @@
 package com.idodanieli.playit.games.chess.logic
 
 import android.util.Log
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 val DIRECTIONS = mutableMapOf<String, Square>(
     "W" to Square(1 ,0),
@@ -13,7 +17,12 @@ val DIRECTIONS = mutableMapOf<String, Square>(
     "NE" to Square(-1 ,1),
 )
 
-class Square(val col: Int, val row: Int) {
+
+@Serializable
+data class Square(
+    @SerialName("file") val col: Int,
+    @SerialName("rank") val row: Int
+) {
     companion object {
         fun from_bitboard(bitboard: ULong): Square {
             return Square(BitBoard.getFile(bitboard), BitBoard.getRank(bitboard))
@@ -116,6 +125,10 @@ class Square(val col: Int, val row: Int) {
 
     fun bitboard(): ULong {
         return BitBoard.squareBitboard(row * 8 + col) // TODO: 8 should be BOARD_SIZE
+    }
+
+    fun toJson(): String {
+        return  Json.encodeToString(this)
     }
 }
 
