@@ -12,6 +12,7 @@ import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.GameParser
 import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.ui.GameListener
 import org.json.JSONException
 import org.json.JSONObject
@@ -28,23 +29,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         findViews()
 
-        val thread = Thread {
-            try {
-                val client = GameClient("http://192.168.1.33:5000")
-
-                val game_id = client.create()
-                Log.d("GameClient", "created game $game_id")
-
-                client.join("uptown-funk")
-                client.join(game_id)
-
-            } catch (e: java.lang.Exception) {
-                Log.e("IDO", e.stackTraceToString())
-            }
-        }
-        thread.start()
-
         val games = createGames()
+
+        GameClient.initialize("http://192.168.1.33:5000")
 
         initUI(games, this)
     }
@@ -80,6 +67,10 @@ class MainActivity : AppCompatActivity() {
         val gameListener = object : GameListener {
             override fun onGameOver(winner: Player) {
                 showGameOverDialog(context, winner)
+            }
+
+            override fun onPieceMoved(origin: Square, dst: Square) {
+                GameClient.getInstance().movePiece(origin, dst)
             }
         }
 

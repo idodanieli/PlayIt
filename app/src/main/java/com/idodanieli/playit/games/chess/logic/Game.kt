@@ -67,7 +67,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
         return filterBlockingMoves(piece, piece.validMoves(board))
     }
 
-    fun filterBlockingMoves(piece: Piece, moves: List<Square>): List<Square> {
+    private fun filterBlockingMoves(piece: Piece, moves: List<Square>): List<Square> {
         return moves.filter { move ->
             val tmpGame = copy()
             tmpGame.movePiece(piece.square, move)

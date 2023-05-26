@@ -156,6 +156,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         game.movePiece(previousSquare, touchedSquare)
         game.currentPlayer = game.currentPlayer.opposite()
 
+        gameListener?.onPieceMoved(previousSquare, touchedSquare)
+
         moveSound.start()
     }
 
