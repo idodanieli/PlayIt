@@ -34,6 +34,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
     var game: Game = Game("Default", mutableSetOf(), 0)
+    var gameStarted: Boolean = false
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -73,6 +74,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
+        if (!gameStarted) { return true }
 
         val touchedSquare = getTouchedSquare(event)
 
