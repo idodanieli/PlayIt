@@ -9,9 +9,10 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.clients.GameClient
+import com.idodanieli.playit.games.chess.MODE_LOCAL
+import com.idodanieli.playit.games.chess.game_listener.GameListener
+import com.idodanieli.playit.games.chess.game_listener.OnlineChessGameListener
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.GameListener
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field
@@ -60,29 +61,23 @@ class MainActivity : AppCompatActivity() {
     private fun initUI(games: List<Game>, context: Context) {
         playButton.setOnClickListener() {
             disableScrolling()
+
+            val chessView = viewPager.currentChessview()
+            chessView.setMode(MODE_LOCAL)
+            chessView.invalidate()
         }
 
         val gameListener = object : GameListener {
             override fun onGameOver(winner: Player) {
-                showGameOverDialog(context, winner)
-            }
-
-            override fun onPieceMoved(move: Move) {
-                GameClient.getInstance().movePiece(move)
-            }
-
-            override fun onTurnSwitched(chessview: ChessView) {
-                // TODO: For local play do nothing
-                Thread.sleep(5) // TODO: Eliminate race condition
-                val lastMove = GameClient.getInstance().getLastMove()
+                showGameOverDialog(winner)
             }
         }
 
         viewPager.adapter = PageviewAdapter(games, gameListener)
     }
 
-    private fun showGameOverDialog(context: Context, winner: Player) {
-        val dialogBuilder = AlertDialog.Builder(context)
+    private fun showGameOverDialog(winner: Player) {
+        val dialogBuilder = AlertDialog.Builder(this)
 
         dialogBuilder.setTitle("GAME OVER")
         dialogBuilder.setMessage("$winner is the winner!")

@@ -20,7 +20,7 @@ val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
 private const val MOVING_PIECE_SCALE = 1.5f
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
 
-class ChessDrawer(private val size: Int, private val mode: String, context: Context) : Drawer() {
+class ChessDrawer(private val size: Int, var mode: String, context: Context) : Drawer() {
     private var squareSize = 0f
 
     private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)

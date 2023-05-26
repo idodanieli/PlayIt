@@ -8,7 +8,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.idodanieli.playit.R
-import com.idodanieli.playit.games.chess.MODE_ONLINE
+import com.idodanieli.playit.games.chess.CHESS_GAME_LISTENER
+import com.idodanieli.playit.games.chess.MODE_DEFAULT
+import com.idodanieli.playit.games.chess.game_listener.ChessGameListener
+import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
@@ -18,10 +21,10 @@ const val CHESSBOARD_SIZE = 8
 var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    private var mode = MODE_ONLINE // TODO: Change this in the future
-    private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, mode, context!!)
+    private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private val moveSound = MediaPlayer.create(context, R.raw.sound_chess_move)
     private val gameOverSound = MediaPlayer.create(context, R.raw.sound_game_over)
+    private var chessGameListener: ChessGameListener? = null
     private var gameListener: GameListener? = null
 
     private var squareSize = 0f
@@ -151,7 +154,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun movePiece(move: Move) {
         game.movePiece(move.origin, move.dest)
 
-        gameListener?.onPieceMoved(move)
+        chessGameListener?.onPieceMoved(move)
 
         moveSound.start()
     }
@@ -163,7 +166,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             onGameOver()
         }
 
-        gameListener?.onTurnSwitched(this)
+        chessGameListener?.onTurnSwitched(this)
     }
 
     private fun resetVisuals() {
@@ -188,9 +191,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 && previousTouchedSquare != touchedSquare
     }
 
-
     fun setGameListener(listener: GameListener) {
         gameListener = listener
+    }
+
+    fun setMode(mode: String) {
+        chessDrawer.mode = mode
+        chessGameListener = CHESS_GAME_LISTENER[mode]
     }
 }
 

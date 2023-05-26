@@ -8,10 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.GameListener
+import com.idodanieli.playit.games.chess.game_listener.ChessGameListener
+import com.idodanieli.playit.games.chess.game_listener.GameListener
 
 
-class PageviewAdapter(private val games: List<Game>, private val gameListener: GameListener) :
+class PageviewAdapter(
+    private val games: List<Game>,
+    private val gameListener: GameListener
+    ) :
     RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
 
     // create new views
