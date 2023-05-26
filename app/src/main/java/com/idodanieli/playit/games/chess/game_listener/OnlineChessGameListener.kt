@@ -12,7 +12,7 @@ object OnlineChessGameListener: ChessGameListener {
         Log.d("GameClient", "Created game: $gameID")
 
         val player = if (GameClient.getInstance().join(gameID) == "WHITE") Player.WHITE else Player.BLACK
-        chessView.setHero(player)
+        chessView.setGameHero(player)
     }
 
     override fun onPieceMoved(move: Move) {
@@ -24,5 +24,9 @@ object OnlineChessGameListener: ChessGameListener {
         Thread.sleep(5) // TODO: Eliminate race condition
         val lastMove = GameClient.getInstance().getLastMove()
         Log.d("GameClient", "LastMove: $lastMove")
+    }
+
+    override fun canHeroPlay(chessView: ChessView): Boolean {
+        return chessView.game.currentPlayer == chessView.hero
     }
 }

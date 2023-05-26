@@ -7,4 +7,5 @@ interface ChessGameListener {
     fun onGameStarted(chessView: ChessView)
     fun onPieceMoved(move: Move)
     fun onTurnSwitched(chessview: ChessView)
+    fun canHeroPlay(chessView: ChessView): Boolean
 }

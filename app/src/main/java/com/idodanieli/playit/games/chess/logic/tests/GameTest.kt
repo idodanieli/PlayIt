@@ -141,7 +141,7 @@ class GameTest {
     @Test
     fun testCanMove() {
         game.currentPlayer = Player.BLACK
-        var move = Move(bPawn.square, Square(6, 2))
+        var move = Move(bPawn.square, Square(6, 2), Player.BLACK)
 
         assert(!game.canMove(move)) {
             errorFormat(
@@ -150,7 +150,7 @@ class GameTest {
             )
         }
 
-        move = Move(bBishop.square, Square(1, 1))
+        move = Move(bBishop.square, Square(1, 1), Player.BLACK)
         assert(game.canMove(move)) {
             errorFormat(
                 game.board,

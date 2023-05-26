@@ -9,7 +9,8 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class Move(
     @SerialName("origin") val origin: Square,
-    @SerialName("dest")   val dest: Square
+    @SerialName("dest")   val dest: Square,
+    @SerialName("player") val player: Player
 ) {
     companion object {
         fun fromJSON(json: String): Move {
@@ -18,7 +19,7 @@ data class Move(
     }
 
     override fun toString(): String {
-        return "$origin -> $dest"
+        return "$player $origin -> $dest"
     }
 
     fun toJson(): String {

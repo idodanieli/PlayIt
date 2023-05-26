@@ -33,6 +33,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var currentlyTouchedSquare: Square? = null
     private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
+
+    var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
     var gameStarted: Boolean = false
 
@@ -79,7 +81,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
-        if (!gameStarted) { return true }
+        if (!gameStarted || !canHeroPlay()) { return true }
 
         val touchedSquare = getTouchedSquare(event)
 
@@ -113,9 +115,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun onTouchUp(touchedSquare: Square) {
         currentlyTouchedSquare = touchedSquare
         previousTouchedSquare?.let { previousTouchedSquare ->
-            val move = Move(previousTouchedSquare, touchedSquare)
+            val move = Move(previousTouchedSquare, touchedSquare, hero)
 
-            if (playerMadeAMove(touchedSquare) && game.canMove(move)) {
+            if (heroMadeMove(touchedSquare) && game.canMove(move)) {
                 movePiece(move)
                 switchTurn()
                 resetVisuals()
@@ -139,8 +141,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     private fun onTouchDown(touchedSquare: Square) {
         previousTouchedSquare?.let { previousTouchedSquare ->
-            val move = Move(previousTouchedSquare, touchedSquare)
-            if (playerMadeAMove(touchedSquare) && !game.canMove(move)) {
+            val move = Move(previousTouchedSquare, touchedSquare, hero)
+            if (heroMadeMove(touchedSquare) && !game.canMove(move)) {
                 resetVisuals()
             }
         }
@@ -191,8 +193,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         return Square(touchedColumn, touchedRow)
     }
 
+    // cnaHeroMove returns true if the hero can play
+    private fun canHeroPlay(): Boolean {
+        chessGameListener?.let {
+            if (!it.canHeroPlay(this)) { return false }
+        }
+
+        return true
+    }
+
     // playerTriesToMove returns true if the player made a move inside of the board
-    private fun playerMadeAMove(touchedSquare: Square): Boolean {
+    private fun heroMadeMove(touchedSquare: Square): Boolean {
         return previousTouchedSquare != null
                 && touchedSquare.inBorder(game.size)
                 && previousTouchedSquare != touchedSquare
@@ -201,13 +212,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun setGameListener(listener: GameListener) {
         gameListener = listener
     }
-
     fun setMode(mode: String) {
         chessDrawer.mode = mode
         chessGameListener = CHESS_GAME_LISTENER[mode]
     }
-
-    fun setHero(hero: Player) {
+    fun setGameHero(hero: Player) {
+        this.hero = hero
         chessDrawer.setHero(hero)
     }
 }
