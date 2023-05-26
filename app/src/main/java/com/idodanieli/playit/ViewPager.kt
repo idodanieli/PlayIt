@@ -5,7 +5,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 fun ViewPager2.currentPage(): View {
-    return getChildAt(currentItem)
+    return getChildAt(0)
 }
 
 fun ViewPager2.currentChessview(): ChessView {
