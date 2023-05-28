@@ -38,8 +38,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
 
-    fun startGame() {
-        chessGameListener?.onGameStarted(this)
+    fun startGame(gameID: String = "") {
+        chessGameListener?.onGameStarted(this, gameID)
         gameStarted = true
     }
 

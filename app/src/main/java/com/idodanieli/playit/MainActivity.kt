@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.activities.RegisterActivity
@@ -23,7 +23,9 @@ import java.lang.reflect.Field
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var localPlayButton: Button
-    private lateinit var onlinePlayButton: Button
+    private lateinit var createGameButton: Button
+    private lateinit var joinGameButton: Button
+    private lateinit var gameIDEditText: EditText
 
     // Flow starts here
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,15 +67,17 @@ class MainActivity : AppCompatActivity() {
     private fun findViews() {
         viewPager = findViewById(R.id.viewPager)
         localPlayButton = findViewById(R.id.localPlayButton)
-        onlinePlayButton = findViewById(R.id.onlinePlayButton)
+        createGameButton = findViewById(R.id.onlinePlayButton)
+        joinGameButton = findViewById(R.id.joinGameButton)
+        gameIDEditText = findViewById(R.id.gameIDEditText)
     }
 
-    private fun playButtonOnClick(mode: String) {
+    private fun playButtonOnClick(mode: String, gameID: String = "") {
         disableScrolling()
 
         val chessView = viewPager.currentChessview()
         chessView.setMode(mode)
-        chessView.startGame()
+        chessView.startGame(gameID)
         chessView.invalidate()
     }
 
@@ -81,9 +85,13 @@ class MainActivity : AppCompatActivity() {
         localPlayButton.setOnClickListener() {
             playButtonOnClick(MODE_LOCAL)
         }
-
-        onlinePlayButton.setOnClickListener {
-            playButtonOnClick(MODE_ONLINE)
+        createGameButton.setOnClickListener {
+            val gameID = GameClient.getInstance().create()
+            playButtonOnClick(MODE_ONLINE, gameID)
+        }
+        joinGameButton.setOnClickListener {
+            val gameID = gameIDEditText.text.toString()
+            playButtonOnClick(MODE_ONLINE, gameID)
         }
 
         val gameListener = object : GameListener {
@@ -120,12 +128,14 @@ class MainActivity : AppCompatActivity() {
     private fun disableScrolling() {
         viewPager.isUserInputEnabled = false
         localPlayButton.visibility = View.INVISIBLE
-        onlinePlayButton.visibility = View.INVISIBLE
+        createGameButton.visibility = View.INVISIBLE
+        joinGameButton.visibility = View.INVISIBLE
     }
     private fun enableScrolling() {
         viewPager.isUserInputEnabled = true
         localPlayButton.visibility = View.VISIBLE
-        onlinePlayButton.visibility = View.VISIBLE
+        createGameButton.visibility = View.VISIBLE
+        joinGameButton.visibility = View.VISIBLE
     }
 
     private fun isRegistered(): Boolean {

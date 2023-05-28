@@ -16,6 +16,7 @@ class GameClient private constructor(address: String) {
 
         private const val PARAM_GAME_ID = "game_id"
         private const val PARAM_CREATOR = "creator"
+        private const val PARAM_USERNAME = "username"
 
         const val PLAYER_WHITE = "WHITE"
 
@@ -46,9 +47,13 @@ class GameClient private constructor(address: String) {
     }
 
     fun join(game_id: String): String {
+        val username = SharedPrefsManager.getInstance().getUsername()
         return client.get(
             uri = URI_JOIN_GAME,
-            params = mapOf(PARAM_GAME_ID to game_id)
+            params = mapOf(
+                PARAM_GAME_ID to game_id,
+                PARAM_USERNAME to username
+            )
         )
     }
 

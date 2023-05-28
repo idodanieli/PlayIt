@@ -12,6 +12,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical" />
 
+    <EditText
+        android:id="@+id/gameIDEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/joinGameButton"
+        android:hint="Game ID"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/joinGameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/onlinePlayButton"
+        android:theme="@style/AppTheme.Button"
+        android:text="Join" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/onlinePlayButton"
         android:layout_width="wrap_content"

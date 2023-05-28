@@ -9,9 +9,8 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 object OnlineChessGameListener: ChessGameListener {
-    override fun onGameStarted(chessView: ChessView) {
-        val gameID = GameClient.getInstance().create()
-
+    override fun onGameStarted(chessView: ChessView, gameID: String) {
+        // TODO: Move out of here to main activity
         val player = if (GameClient.getInstance().join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
         chessView.setGameHero(player)
 
