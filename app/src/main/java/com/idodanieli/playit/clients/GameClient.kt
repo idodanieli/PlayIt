@@ -1,6 +1,7 @@
 package com.idodanieli.playit.clients
 
 import android.util.Log
+import com.idodanieli.playit.SharedPrefsManager
 import com.idodanieli.playit.games.chess.logic.Move
 
 class GameClient private constructor(address: String) {
@@ -14,8 +15,7 @@ class GameClient private constructor(address: String) {
         private const val URI_GAME_LAST_MOVE = "/game/last_move"
 
         private const val PARAM_GAME_ID = "game_id"
-
-        private const val STATUS_SUCCESS = "SUCCESS"
+        private const val PARAM_CREATOR = "creator"
 
         @Volatile
         private var instance: GameClient? = null
@@ -33,7 +33,10 @@ class GameClient private constructor(address: String) {
 
     // create a new game and return it's game_id
     fun create(): String {
-        val gameID = client.get(URI_CREATE_GAME)
+        val username = SharedPrefsManager.getInstance().getUsername()
+        val gameID = client.get(URI_CREATE_GAME, params = mapOf(
+            PARAM_CREATOR to username
+        ))
 
         this.gameID = gameID // Sets the game_id for the client
 
