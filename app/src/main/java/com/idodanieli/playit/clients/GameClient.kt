@@ -17,6 +17,8 @@ class GameClient private constructor(address: String) {
         private const val PARAM_GAME_ID = "game_id"
         private const val PARAM_CREATOR = "creator"
 
+        const val PLAYER_WHITE = "WHITE"
+
         @Volatile
         private var instance: GameClient? = null
 
