@@ -20,7 +20,6 @@ object OnlineChessGameListener: ChessGameListener {
     }
 
     override fun onTurnSwitched(chessview: ChessView) {
-        // TODO: For local play do nothing
         Thread.sleep(5) // TODO: Eliminate race condition
         val lastMove = GameClient.getInstance().getLastMove()
         Log.d("GameClient", "LastMove: $lastMove")

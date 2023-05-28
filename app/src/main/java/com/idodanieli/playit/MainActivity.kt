@@ -1,12 +1,15 @@
 package com.idodanieli.playit
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.idodanieli.playit.activities.RegisterActivity
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
@@ -26,11 +29,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         findViews()
 
         val games = createGames()
 
         GameClient.initialize("http://192.168.1.33:5000")
+        SharedPrefsManager.initialize(baseContext)
+
+        if ( !isRegistered() ) {
+            openRegisterActivity()
+        }
 
         initUI(games)
     }
@@ -117,5 +126,13 @@ class MainActivity : AppCompatActivity() {
         viewPager.isUserInputEnabled = true
         localPlayButton.visibility = View.VISIBLE
         onlinePlayButton.visibility = View.VISIBLE
+    }
+
+    private fun isRegistered(): Boolean {
+        return SharedPrefsManager.getInstance().getUsername() != SharedPrefsManager.USERNAME_DEFAULT_VALUE
+    }
+    private fun openRegisterActivity() {
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 }
