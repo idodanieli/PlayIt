@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
-open class BasePiece(override var square: Square, override val player: Player): Piece {
+open class BasePiece(override var square: Square, override var player: Player): Piece {
     override val type = ""
     override val movementType = MovementType.REGULAR
 

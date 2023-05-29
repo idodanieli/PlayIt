@@ -54,6 +54,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     // waitForOpponent waits for the opponents moves
+    // TODO: Move to listener so local would work
     private fun waitForOpponent(interval: Long) {
         while (true) {
             if (game.currentPlayer != hero) {
@@ -63,7 +64,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                         return
                     }
 
-                    movePiece(lastMove)
+                    movePiece(game.board.flipMoveVertically(lastMove))
                 }
             }
             Thread.sleep(interval)
@@ -193,6 +194,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         switchTurn()
         resetVisuals()
+        invalidate()
     }
 
     private fun switchTurn() {
@@ -243,7 +245,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
     fun setGameHero(hero: Player) {
         this.hero = hero
-        chessDrawer.setHero(hero)
+
+        // Flips the pieces color if the hero is black
+        if (hero == Player.BLACK) {
+            for (piece in game.board.pieces) {
+                piece.player = piece.player.opposite()
+            }
+        }
     }
 }
 

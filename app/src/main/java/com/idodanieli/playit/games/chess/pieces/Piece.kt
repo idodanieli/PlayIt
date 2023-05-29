@@ -9,7 +9,7 @@ const val NO_MAX_STEPS = 0
 
 interface Piece {
     var square: Square
-    val player: Player
+    var player: Player
     val type: String
     val movementType: MovementType
 

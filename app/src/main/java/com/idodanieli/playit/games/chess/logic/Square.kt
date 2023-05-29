@@ -130,6 +130,12 @@ data class Square(
     fun toJson(): String {
         return  Json.encodeToString(this)
     }
+
+    // flipsVertically flips the square vertically
+    fun flipVertically(boardSize: Int): Square {
+        val flippedRow = boardSize - (row + 1)
+        return Square(col, flippedRow)
+    }
 }
 
 fun greatestCommonDivider(a: Int, b: Int): Int {

@@ -213,6 +213,14 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return flatToPrettyPrint(flatString(pieces.toList()))
     }
 
+    fun flipMoveVertically(move: Move): Move {
+        return Move(
+            origin= move.origin.flipVertically(size),
+            dest = move.dest.flipVertically(size),
+            player= move.player
+        )
+    }
+
     fun getBitboard(type: String, player: Player) : String {
         return flatToPrettyPrint(flatString(pieces(type, player)))
     }
