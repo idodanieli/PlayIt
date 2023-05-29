@@ -60,9 +60,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         chessDrawer.drawChessboard()
 
-        this.drawTouchEvents()
+        drawTouchEvents()
 
-        chessDrawer.drawPieces(game, movingPiece)
+        chessDrawer.drawPieces(game, hero, movingPiece)
     }
 
     private fun drawTouchEvents() {
@@ -81,7 +81,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         event ?: return false
         if (!game.started || !canHeroPlay()) { return true }
 
-        val touchedSquare = getTouchedSquare(event)
+        var touchedSquare = getTouchedSquare(event)
+        currentlyTouchedSquare = touchedSquare
+
+        // When the player is black the screen is flipped vertically
+        if (hero == Player.BLACK) {
+            touchedSquare = touchedSquare.flipVertically(game.size)
+        }
 
         when (event.action) {
             // This action occurs when the user initially presses down on the screen
@@ -111,7 +117,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun onTouchUp(touchedSquare: Square) {
-        currentlyTouchedSquare = touchedSquare
         previousTouchedSquare?.let { previousTouchedSquare ->
             val move = Move(previousTouchedSquare, touchedSquare, hero)
 
@@ -132,7 +137,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 return
             }
 
-            availableSquares = game.validMoves(it)
+            availableSquares = getAvailableSquares(it)
         }
     }
 
@@ -146,7 +151,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun onTouchMove(event: MotionEvent, touchedSquare: Square) {
-        currentlyTouchedSquare = touchedSquare
         movingPiece?.let {
             it.x = event.x
             it.y = event.y
@@ -190,6 +194,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         return Square(touchedColumn, touchedRow)
     }
 
+    private fun getAvailableSquares(piece: Piece): List<Square> {
+        val squares = game.validMoves(piece)
+
+        // When the player is black the screen is flipped vertically
+        if (hero == Player.BLACK) {
+            return squares.map { it.flipVertically(game.size) }
+        }
+
+        return squares
+    }
+
     // cnaHeroMove returns true if the hero can play
     private fun canHeroPlay(): Boolean {
         chessGameListener?.let {
@@ -222,10 +237,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
     fun setGameHero(hero: Player) {
         this.hero = hero
-
-        if (hero == Player.BLACK) {
-            game.board = flipPieces(game.board)
-        }
     }
 }
 

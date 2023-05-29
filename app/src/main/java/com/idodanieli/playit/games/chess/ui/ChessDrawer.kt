@@ -36,10 +36,10 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
 
     // drawPieces draws all the pieces on the game.board
     // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
-    fun drawPieces(game: Game, movingPiece: MovingPiece?) {
+    fun drawPieces(game: Game, hero: Player, movingPiece: MovingPiece?) {
         game.pieces().forEach { piece ->
             if (movingPiece == null || piece != movingPiece.piece) {
-                this.drawPiece(piece)
+                this.drawPiece(piece, hero)
             }
         }
 
@@ -54,7 +54,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
     }
 
     // drawPiece draws the given piece at the right square on the game.board
-    private fun drawPiece(piece: Piece) {
+    private fun drawPiece(piece: Piece, hero: Player) {
         var pieceBitmap = getPieceBitmap(piece)!!
 
         // Flip the black players piece in local mode so it would be easier to play
@@ -62,7 +62,12 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
             pieceBitmap = flipBitmap(pieceBitmap, Direction.VERTICAL)!!
         }
 
-        this.drawBitmapAtSquare(piece.square, pieceBitmap)
+        if (hero == Player.BLACK) {
+            drawBitmapAtSquare(piece.square.flipVertically(size), pieceBitmap)
+            return
+        }
+
+        drawBitmapAtSquare(piece.square, pieceBitmap)
     }
 
     // drawBitmapAtPosition draws the piece in the given position on the screen
