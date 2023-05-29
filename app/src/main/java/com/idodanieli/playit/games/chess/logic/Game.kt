@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
 data class Game(var name: String, private var pieces: MutableSet<Piece>, var size: Int) {
-    val board = Board(pieces, size)
+    var board = Board(pieces, size)
     var currentPlayer = Player.WHITE // white always starts in chess
     var description = ""
 

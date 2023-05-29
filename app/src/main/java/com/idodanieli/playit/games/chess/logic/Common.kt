@@ -12,3 +12,12 @@ fun deepCopyPieces(pieces: MutableSet<Piece>): MutableSet<Piece> {
 
     return copiedPieces
 }
+
+// flipPieces flips the pieces color (white -> black, white -> black)
+fun flipPieces(board: Board): Board {
+    for (piece in board.pieces) {
+        piece.square = piece.square.flipVertically(board.size)
+    }
+
+    return Board(board.pieces, board.size) // To reinitialize the board with the correct values (map, whitePieces, blackPieces)
+}

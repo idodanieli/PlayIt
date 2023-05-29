@@ -42,33 +42,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun startGame(gameID: String = "") {
         chessGameListener?.onGameStarted(this, gameID)
         gameStarted = true
-
-        val thread = Thread {
-            while (true) {
-                if (game.currentPlayer != hero) {
-                    waitForOpponent(500)
-                }
-            }
-        }
-        thread.start()
-    }
-
-    // waitForOpponent waits for the opponents moves
-    // TODO: Move to listener so local would work
-    private fun waitForOpponent(interval: Long) {
-        while (true) {
-            if (game.currentPlayer != hero) {
-                val lastMove = GameClient.getInstance().getLastMove()
-                lastMove?.let {
-                    if (lastMove.player == hero) {
-                        return
-                    }
-
-                    movePiece(game.board.flipMoveVertically(lastMove))
-                }
-            }
-            Thread.sleep(interval)
-        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -188,7 +161,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
 
     // movePiece in the game, will be shown in the UI
-    private fun movePiece(move: Move) {
+    fun movePiece(move: Move) {
         game.movePiece(move.origin, move.dest)
         moveSound.start()
 
@@ -236,6 +209,16 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 && previousTouchedSquare != touchedSquare
     }
 
+    // isHerosTurn returns true if its the hero turn to play
+    private fun isHerosTurn(): Boolean {
+        return game.currentPlayer == hero
+    }
+
+    // isOpponentsTurn returns true if its the opponents turn and not the heros
+    fun isOpponentsTurn(): Boolean {
+        return !isHerosTurn()
+    }
+
     fun setGameListener(listener: GameListener) {
         gameListener = listener
     }
@@ -246,11 +229,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun setGameHero(hero: Player) {
         this.hero = hero
 
-        // Flips the pieces color if the hero is black
         if (hero == Player.BLACK) {
-            for (piece in game.board.pieces) {
-                piece.player = piece.player.opposite()
-            }
+            game.board = flipPieces(game.board)
         }
     }
 }

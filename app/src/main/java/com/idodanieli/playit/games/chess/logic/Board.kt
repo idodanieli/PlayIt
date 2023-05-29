@@ -39,11 +39,6 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return null
     }
 
-    // pieces returns all the pieces of the given type and of the given player
-    fun pieces(type: String, player: Player): List<Piece> {
-        return pieces.filter { it.type == type && it.player == player }
-    }
-
     // pieces returns all the pieces of the given player
     fun pieces(player: Player): MutableSet<Piece> {
         return if (player == Player.WHITE) whitePieces.keys else blackPieces.keys
@@ -219,9 +214,5 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
             dest = move.dest.flipVertically(size),
             player= move.player
         )
-    }
-
-    fun getBitboard(type: String, player: Player) : String {
-        return flatToPrettyPrint(flatString(pieces(type, player)))
     }
 }
