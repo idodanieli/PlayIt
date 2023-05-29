@@ -21,12 +21,6 @@ object OnlineChessGameListener: ChessGameListener {
         GameClient.getInstance().movePiece(move)
     }
 
-    override fun onTurnSwitched(chessview: ChessView) {
-        Thread.sleep(5) // TODO: Eliminate race condition
-        val lastMove = GameClient.getInstance().getLastMove()
-        Log.d("GameClient", "LastMove: $lastMove")
-    }
-
     override fun canHeroPlay(chessView: ChessView): Boolean {
         return chessView.game.currentPlayer == chessView.hero
     }

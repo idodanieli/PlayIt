@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.idodanieli.playit.R
+import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.CHESS_GAME_LISTENER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.game_listener.ChessGameListener
@@ -41,6 +42,32 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun startGame(gameID: String = "") {
         chessGameListener?.onGameStarted(this, gameID)
         gameStarted = true
+
+        val thread = Thread {
+            while (true) {
+                if (game.currentPlayer != hero) {
+                    waitForOpponent(500)
+                }
+            }
+        }
+        thread.start()
+    }
+
+    // waitForOpponent waits for the opponents moves
+    private fun waitForOpponent(interval: Long) {
+        while (true) {
+            if (game.currentPlayer != hero) {
+                val lastMove = GameClient.getInstance().getLastMove()
+                lastMove?.let {
+                    if (lastMove.player == hero) {
+                        return
+                    }
+
+                    movePiece(lastMove)
+                }
+            }
+            Thread.sleep(interval)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -119,8 +146,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
             if (heroMadeMove(touchedSquare) && game.canMove(move)) {
                 movePiece(move)
-                switchTurn()
-                resetVisuals()
+                chessGameListener?.onPieceMoved(move)
             }
             return
         }
@@ -160,12 +186,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
 
+    // movePiece in the game, will be shown in the UI
     private fun movePiece(move: Move) {
         game.movePiece(move.origin, move.dest)
-
-        chessGameListener?.onPieceMoved(move)
-
         moveSound.start()
+
+        switchTurn()
+        resetVisuals()
     }
 
     private fun switchTurn() {
@@ -174,8 +201,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         if (game.isOver()) {
             onGameOver()
         }
-
-        chessGameListener?.onTurnSwitched(this)
     }
 
     private fun resetVisuals() {

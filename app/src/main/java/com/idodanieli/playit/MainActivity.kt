@@ -130,12 +130,14 @@ class MainActivity : AppCompatActivity() {
         localPlayButton.visibility = View.INVISIBLE
         createGameButton.visibility = View.INVISIBLE
         joinGameButton.visibility = View.INVISIBLE
+        gameIDEditText.visibility = View.INVISIBLE
     }
     private fun enableScrolling() {
         viewPager.isUserInputEnabled = true
         localPlayButton.visibility = View.VISIBLE
         createGameButton.visibility = View.VISIBLE
         joinGameButton.visibility = View.VISIBLE
+        gameIDEditText.visibility = View.VISIBLE
     }
 
     private fun isRegistered(): Boolean {

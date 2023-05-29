@@ -18,6 +18,8 @@ class GameClient private constructor(address: String) {
         private const val PARAM_CREATOR = "creator"
         private const val PARAM_USERNAME = "username"
 
+        private const val STATUS_NO_MOVES = "NO_MOVES"
+
         const val PLAYER_WHITE = "WHITE"
 
         @Volatile
@@ -48,6 +50,9 @@ class GameClient private constructor(address: String) {
 
     fun join(game_id: String): String {
         val username = SharedPrefsManager.getInstance().getUsername()
+
+        this.gameID = game_id
+
         return client.get(
             uri = URI_JOIN_GAME,
             params = mapOf(
@@ -67,11 +72,15 @@ class GameClient private constructor(address: String) {
         Log.d("GameClient", response)
     }
 
-    fun getLastMove(): Move {
+    fun getLastMove(): Move? {
         val lastMove = client.get(
             uri = URI_GAME_LAST_MOVE,
             params = mapOf(PARAM_GAME_ID to gameID)
         )
+
+        if (lastMove == STATUS_NO_MOVES) {
+            return null
+        }
 
         return Move.fromJSON(lastMove)
     }
