@@ -104,7 +104,12 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         }
     }
 
-    fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
+    // drawAvailableSquares draw the squares available by a piece to move to in a red color
+    fun drawAvailableSquares(squares: List<Square>) {
+        drawSquares(squares, COLOR_LIGHT_AVAILABLE_SQUARE, COLOR_DARK_AVAILABLE_SQUARE)
+    }
+
+    private fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
         for (square in squares) {
             this.drawSquare(square, if (square.isDark()) darkColor else lightColor)
         }

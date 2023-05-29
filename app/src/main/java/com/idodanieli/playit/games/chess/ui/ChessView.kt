@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.idodanieli.playit.R
-import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.CHESS_GAME_LISTENER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.game_listener.ChessGameListener
@@ -23,10 +22,10 @@ var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
-    private val moveSound = MediaPlayer.create(context, R.raw.sound_chess_move)
-    private val gameOverSound = MediaPlayer.create(context, R.raw.sound_game_over)
+    private val soundMove = MediaPlayer.create(context, R.raw.sound_chess_move)
+    private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
     private var chessGameListener: ChessGameListener? = null
-    private var gameListener: GameListener? = null
+    var gameListener: GameListener? = null
 
     private var squareSize = 0f
     private var movingPiece: MovingPiece? = null
@@ -35,13 +34,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
 
-    private var gameStarted: Boolean = false
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
 
     fun startGame(gameID: String = "") {
         chessGameListener?.onGameStarted(this, gameID)
-        gameStarted = true
+        game.started = true
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -74,15 +72,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
 
         touchedPiece?.let {
-            chessDrawer.drawSquare(it.square, COLOR_TOUCHED)
-            chessDrawer.drawSquares(availableSquares, COLOR_LIGHT_AVAILABLE_SQUARE, COLOR_DARK_AVAILABLE_SQUARE)
+            chessDrawer.drawAvailableSquares(availableSquares)
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
-        if (!gameStarted || !canHeroPlay()) { return true }
+        if (!game.started || !canHeroPlay()) { return true }
 
         val touchedSquare = getTouchedSquare(event)
 
@@ -109,7 +106,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
     private fun onGameOver() {
-        gameOverSound.start()
+        soundGameOver.start()
         gameListener?.onGameOver(game.currentPlayer.opposite())
     }
 
@@ -163,7 +160,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // movePiece in the game, will be shown in the UI
     fun movePiece(move: Move) {
         game.movePiece(move.origin, move.dest)
-        moveSound.start()
+        soundMove.start()
 
         switchTurn()
         resetVisuals()
@@ -213,15 +210,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun isHerosTurn(): Boolean {
         return game.currentPlayer == hero
     }
-
     // isOpponentsTurn returns true if its the opponents turn and not the heros
+
     fun isOpponentsTurn(): Boolean {
         return !isHerosTurn()
     }
 
-    fun setGameListener(listener: GameListener) {
-        gameListener = listener
-    }
     fun setMode(mode: String) {
         chessDrawer.mode = mode
         chessGameListener = CHESS_GAME_LISTENER[mode]

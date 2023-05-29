@@ -7,6 +7,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
     var board = Board(pieces, size)
     var currentPlayer = Player.WHITE // white always starts in chess
     var description = ""
+    var started = false
 
     fun pieces(): Set<Piece> {
         return this.pieces

@@ -36,7 +36,7 @@ class PageviewAdapter(
         holder.gameTitle.text = game.name
         holder.gameDescription.text = game.description
         holder.chessView.game = game
-        holder.chessView.setGameListener(gameListener)
+        holder.chessView.gameListener = gameListener
     }
 
     // return the number of the items in the list
