@@ -107,8 +107,13 @@ data class Square(
         return Square(col, row)
     }
 
-    fun isDark(): Boolean {
-        return (col + row) % 2 == 1
+    fun isDark(hero: Player): Boolean {
+        var shouldBeBlack = (col + row) % 2 == 1
+        if (hero == Player.BLACK) { // Orientation is reversed for black
+            shouldBeBlack = !shouldBeBlack
+        }
+
+        return shouldBeBlack
     }
 
     fun isNear(other: Square, maxDistance: Int = 1): Boolean {

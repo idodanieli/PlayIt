@@ -66,7 +66,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         drawTouchEvents()
 
-        chessDrawer.drawPieces(game, hero, movingPiece)
+        chessDrawer.drawPieces(game, movingPiece)
 
         drawCurrentPlayer()
     }
@@ -254,6 +254,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
     fun setGameHero(hero: Player) {
         this.hero = hero
+        this.chessDrawer.hero = hero
     }
 }
 

@@ -26,6 +26,8 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
     private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
     private val darkColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorPrimaryDark)
 
+    var hero = Player.WHITE
+
     init {
         loadBitmaps(context.resources)
     }
@@ -36,10 +38,10 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
 
     // drawPieces draws all the pieces on the game.board
     // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
-    fun drawPieces(game: Game, hero: Player, movingPiece: MovingPiece?) {
+    fun drawPieces(game: Game, movingPiece: MovingPiece?) {
         game.pieces().forEach { piece ->
             if (movingPiece == null || piece != movingPiece.piece) {
-                this.drawPiece(piece, hero)
+                this.drawPiece(piece)
             }
         }
 
@@ -54,7 +56,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
     }
 
     // drawPiece draws the given piece at the right square on the game.board
-    private fun drawPiece(piece: Piece, hero: Player) {
+    private fun drawPiece(piece: Piece) {
         var pieceBitmap = getPieceBitmap(piece)!!
 
         // Flip the black players piece in local mode so it would be easier to play
@@ -104,7 +106,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         for (row in 0 until size) {
             for (col in 0 until size) {
                 val square = Square(col, row)
-                this.drawSquare(square, if (square.isDark()) darkColor else lightColor)
+                this.drawSquare(square, if (square.isDark(hero)) darkColor else lightColor)
             }
         }
     }
@@ -116,7 +118,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
 
     private fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
         for (square in squares) {
-            this.drawSquare(square, if (square.isDark()) darkColor else lightColor)
+            this.drawSquare(square, if (square.isDark(hero)) darkColor else lightColor)
         }
     }
 
