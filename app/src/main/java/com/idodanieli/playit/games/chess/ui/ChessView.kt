@@ -130,6 +130,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun onGameOver() {
         soundGameOver.start()
         gameListener?.onGameOver(game.currentPlayer.opposite())
+        chessGameListener?.onGameOver()
     }
 
     private fun onTouchUp(touchedSquare: Square) {
