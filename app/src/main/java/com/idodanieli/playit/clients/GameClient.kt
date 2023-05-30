@@ -13,8 +13,10 @@ class GameClient private constructor(address: String) {
         private const val URI_JOIN_GAME = "/join"
         private const val URI_GAME_MOVE = "/game/move"
         private const val URI_GAME_LAST_MOVE = "/game/last_move"
+        private const val URI_FIND_GAME = "/find_game"
 
         private const val PARAM_GAME_ID = "game_id"
+        private const val PARAM_GAME_NAME = "game_name"
         private const val PARAM_CREATOR = "creator"
         private const val PARAM_USERNAME = "username"
 
@@ -75,7 +77,10 @@ class GameClient private constructor(address: String) {
     fun getLastMove(): Move? {
         val lastMove = client.get(
             uri = URI_GAME_LAST_MOVE,
-            params = mapOf(PARAM_GAME_ID to gameID)
+            params = mapOf(
+                PARAM_GAME_ID to gameID,
+                PARAM_USERNAME to SharedPrefsManager.getInstance().getUsername()
+            )
         )
 
         if (lastMove == STATUS_NO_MOVES) {
@@ -83,5 +88,15 @@ class GameClient private constructor(address: String) {
         }
 
         return Move.fromJSON(lastMove)
+    }
+
+    fun findGame(gameName: String): String {
+        return client.get( // Game ID
+            uri = URI_FIND_GAME,
+            params = mapOf(
+                PARAM_USERNAME to SharedPrefsManager.getInstance().getUsername(),
+                PARAM_GAME_NAME to gameName
+            )
+        )
     }
 }

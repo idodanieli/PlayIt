@@ -97,7 +97,9 @@ class MainActivity : AppCompatActivity() {
             playButtonOnClick(MODE_ONLINE, gameID)
         }
         findGameButton.setOnClickListener {
-            Toast.makeText(this, "FIND GAME", Toast.LENGTH_SHORT).show()
+            val chessView = viewPager.currentChessview()
+            val gameID = GameClient.getInstance().findGame(chessView.game.name)
+            playButtonOnClick(MODE_ONLINE, gameID)
         }
 
         val gameListener = object : GameListener {
