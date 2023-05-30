@@ -38,4 +38,12 @@
             android:layout_marginTop="10dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/currentPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chess_view"
+        android:textColor="@color/white"
+        android:text="Current Player" />
+
 </RelativeLayout>

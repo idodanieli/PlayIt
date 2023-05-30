@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.CHESS_GAME_LISTENER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
@@ -37,6 +38,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
 
+    // TODO: Delete this later
+    var currentPlayer: TextView? = null
+
     fun startGame(gameID: String = "") {
         chessGameListener?.onGameStarted(this, gameID)
         game.started = true
@@ -63,6 +67,18 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         drawTouchEvents()
 
         chessDrawer.drawPieces(game, hero, movingPiece)
+
+        drawCurrentPlayer()
+    }
+
+    private fun drawCurrentPlayer() {
+        currentPlayer?.let {
+            if (game.currentPlayer == Player.BLACK) {
+                it.setTextColor(resources.getColor(R.color.black))
+            } else {
+                it.setTextColor(resources.getColor(R.color.white))
+            }
+        }
     }
 
     private fun drawTouchEvents() {

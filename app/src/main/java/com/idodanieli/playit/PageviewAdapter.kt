@@ -37,6 +37,8 @@ class PageviewAdapter(
         holder.gameDescription.text = game.description
         holder.chessView.game = game
         holder.chessView.gameListener = gameListener
+
+        holder.chessView.currentPlayer = holder.currentPlayer
     }
 
     // return the number of the items in the list
@@ -49,5 +51,7 @@ class PageviewAdapter(
         val chessView: ChessView = itemView.findViewById(R.id.chess_view)
         val gameTitle: TextView = itemView.findViewById(R.id.gameName)
         val gameDescription: TextView = itemView.findViewById(R.id.gameDescription)
+
+        val currentPlayer: TextView = itemView.findViewById(R.id.currentPlayer)
     }
 }
