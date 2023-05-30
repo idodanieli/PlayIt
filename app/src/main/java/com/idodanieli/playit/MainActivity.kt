@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.activities.RegisterActivity
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var localPlayButton: Button
     private lateinit var createGameButton: Button
     private lateinit var joinGameButton: Button
+    private lateinit var findGameButton: Button
     private lateinit var gameIDEditText: EditText
 
     // Flow starts here
@@ -67,8 +69,9 @@ class MainActivity : AppCompatActivity() {
     private fun findViews() {
         viewPager = findViewById(R.id.viewPager)
         localPlayButton = findViewById(R.id.localPlayButton)
-        createGameButton = findViewById(R.id.onlinePlayButton)
+        createGameButton = findViewById(R.id.createGameButton)
         joinGameButton = findViewById(R.id.joinGameButton)
+        findGameButton = findViewById(R.id.findGameButton)
         gameIDEditText = findViewById(R.id.gameIDEditText)
     }
 
@@ -92,6 +95,9 @@ class MainActivity : AppCompatActivity() {
         joinGameButton.setOnClickListener {
             val gameID = gameIDEditText.text.toString()
             playButtonOnClick(MODE_ONLINE, gameID)
+        }
+        findGameButton.setOnClickListener {
+            Toast.makeText(this, "FIND GAME", Toast.LENGTH_SHORT).show()
         }
 
         val gameListener = object : GameListener {
@@ -130,6 +136,7 @@ class MainActivity : AppCompatActivity() {
         localPlayButton.visibility = View.INVISIBLE
         createGameButton.visibility = View.INVISIBLE
         joinGameButton.visibility = View.INVISIBLE
+        findGameButton.visibility = View.INVISIBLE
         gameIDEditText.visibility = View.INVISIBLE
     }
     private fun enableScrolling() {
@@ -137,6 +144,7 @@ class MainActivity : AppCompatActivity() {
         localPlayButton.visibility = View.VISIBLE
         createGameButton.visibility = View.VISIBLE
         joinGameButton.visibility = View.VISIBLE
+        findGameButton.visibility = View.VISIBLE
         gameIDEditText.visibility = View.VISIBLE
     }
 
