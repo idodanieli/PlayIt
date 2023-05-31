@@ -36,7 +36,7 @@ class PageviewAdapter(
         holder.gameTitle.text = game.name
         holder.gameDescription.text = game.description
         holder.chessView.game = game
-        holder.chessView.gameListener = gameListener
+        holder.chessView.setGameListener(gameListener)
 
         holder.chessView.currentPlayer = holder.currentPlayer
     }

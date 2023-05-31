@@ -22,16 +22,20 @@ const val CHESSBOARD_SIZE = 8
 var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
+    // --- For Drawing ------------------------------------------------------------------------- \\
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
+    private var touchedPiece: Piece? = null
+    private var movingPiece: MovingPiece? = null
+    private var squareSize = 0f
+
+    // --- For Sounds ------------------------------------------------------------------------- \\
     private val soundMove = MediaPlayer.create(context, R.raw.sound_chess_move)
     private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
-    private var chessGameListener: ChessGameListener? = null
-    var gameListener: GameListener? = null
 
-    private var squareSize = 0f
-    private var movingPiece: MovingPiece? = null
+    // --- For Logic ------------------------------------------------------------------------- \\
+    private var chessGameListener: ChessGameListener? = null
+    private var gameListener: GameListener? = null
     private var previousTouchedSquare: Square? = null
-    private var touchedPiece: Piece? = null
 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
@@ -76,13 +80,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun drawTouchedPiece() {
-        touchedPiece?.let {
-            // If the touched piece is not of the current player - display nothing
-            if (game.currentPlayer != it.player) { return }
+        touchedPiece ?: return
 
-            chessDrawer.drawSquare(it.square, COLOR_TOUCHED)
-            chessDrawer.drawAvailableSquares(getAvailableSquares(it))
-        }
+        // If the touched piece is not of the current player - display nothing
+        if (game.currentPlayer != touchedPiece!!.player) { return }
+
+        chessDrawer.drawSquare(touchedPiece!!.square, COLOR_TOUCHED)
+        chessDrawer.drawAvailableSquares(getAvailableSquares(touchedPiece!!))
     }
 
     private fun resetVisuals() {
@@ -233,6 +237,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun setGameHero(hero: Player) {
         this.hero = hero
         this.chessDrawer.hero = hero
+    }
+    fun setGameListener(gameListener: GameListener) {
+        this.gameListener = gameListener
     }
 }
 
