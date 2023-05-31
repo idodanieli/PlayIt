@@ -31,8 +31,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var squareSize = 0f
     private var movingPiece: MovingPiece? = null
     private var previousTouchedSquare: Square? = null
-    private var currentlyTouchedSquare: Square? = null
-    private var availableSquares: List<Square> = listOf()
     private var touchedPiece: Piece? = null
 
     var hero = Player.WHITE
@@ -60,7 +58,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         chessDrawer.drawChessboard()
 
-        drawTouchEvents()
+        drawTouchedPiece()
 
         chessDrawer.drawPieces(game, movingPiece)
 
@@ -77,21 +75,19 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
     }
 
-    private fun drawTouchEvents() {
-        // if a square / piece is touched, it will be highlighted purple for indication
-        currentlyTouchedSquare?.let {
-            chessDrawer.drawSquare(it, COLOR_TOUCHED)
-        }
-
+    private fun drawTouchedPiece() {
         touchedPiece?.let {
-            chessDrawer.drawAvailableSquares(availableSquares)
+            // If the touched piece is not of the current player - display nothing
+            if (game.currentPlayer != it.player) { return }
+
+            chessDrawer.drawSquare(it.square, COLOR_TOUCHED)
+            chessDrawer.drawAvailableSquares(getAvailableSquares(it))
         }
     }
 
     private fun resetVisuals() {
         touchedPiece = null
         movingPiece = null
-        currentlyTouchedSquare = null
         previousTouchedSquare = null
     }
 
@@ -102,7 +98,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         if (!game.started || !canHeroPlay()) { return true }
 
         var touchedSquare = getTouchedSquare(event)
-        currentlyTouchedSquare = touchedSquare
 
         // When the player is black the screen is flipped vertically
         if (hero.isBlack()) {
@@ -169,14 +164,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         previousTouchedSquare = touchedSquare
 
         touchedPiece = game.board.pieceAt(touchedSquare)
-        touchedPiece?.let {
-            if (game.currentPlayer != it.player) {
-                resetVisuals()
-                return
-            }
-
-            availableSquares = getAvailableSquares(it)
-        }
     }
 
     // getSquareTouched returns the square touched by the position in the MotionEvent
