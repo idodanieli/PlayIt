@@ -5,3 +5,4 @@ A fairy-chess online game
 - [ ] Online - Delete game when over
 - [ ] Online - Matchmaking
 - [ ] UI - Last move
+- [ ] BUG - Berolina Pawn can hop :(
