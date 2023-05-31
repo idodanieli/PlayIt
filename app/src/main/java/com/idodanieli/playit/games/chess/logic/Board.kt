@@ -112,25 +112,11 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         }
     }
 
-    private val MOVE_OFFSETS = arrayOf(-1, 0, 1)
-
-    // getNeighborSquares returns all the squares near the given piece
-    fun getAvailableNeighborSquares(piece: Piece): List<Square> {
-        val squares = arrayListOf<Square>()
-
-        for (i in MOVE_OFFSETS) {
-            for (j in MOVE_OFFSETS) {
-                if (i == 0 && j == 0) { continue }
-
-                val square = Square(piece.square.col + i, piece.square.row + j)
-
-                if (isIn(square) && playerAt(square) != piece.player) {
-                    squares.add(square)
-                }
-            }
+    // neighborSquares returns all the available squares near the given piece
+    fun neighborSquares(piece: Piece): List<Square> {
+        return piece.square.neighbors().filter {
+            isIn(it) && playerAt(it) != piece.player
         }
-
-        return squares
     }
 
     // getPinner returns the piece that pins the current piece

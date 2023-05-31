@@ -15,6 +15,6 @@ class Centaur(square: Square, player: Player) : BasePiece(square, player) {
     override val movementType = MovementType.LEAPER
 
     override fun possibleMoves(board: Board): List<Square> {
-        return Knight(square, player).possibleMoves(board) + board.getAvailableNeighborSquares(this)
+        return Knight(square, player).possibleMoves(board) + board.neighborSquares(this)
     }
 }

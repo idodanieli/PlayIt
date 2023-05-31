@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.logic
 
 import android.util.Log
+import com.idodanieli.playit.games.chess.pieces.Piece
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -98,6 +99,23 @@ data class Square(
 
         if (move == Square(1, 2)) {
             Log.d("blah1", "$moveByRowFirst, $squares")
+        }
+
+        return squares
+    }
+
+    // neighbors returns all the squares near the given piece
+    fun neighbors(): List<Square> {
+        val squares = arrayListOf<Square>()
+
+        for (i in arrayOf(-1, 0, 1)) {
+            for (j in arrayOf(-1, 0, 1)) {
+                if (i == 0 && j == 0) { continue }
+
+                val square = Square(col + i, row + j)
+
+                squares.add(square)
+            }
         }
 
         return squares
