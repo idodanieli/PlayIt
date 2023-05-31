@@ -108,7 +108,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         when (event.action) {
             // This action occurs when the user initially presses down on the screen
             MotionEvent.ACTION_DOWN -> {
-                onTouchDown(touchedSquare)
+                onPressed(touchedSquare)
             }
 
             // This action occurs when the user moves their finger on the screen after pressing down.
@@ -118,7 +118,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
             //  This action occurs when the user releases their finger or lifts the stylus from the screen
             MotionEvent.ACTION_UP -> {
-                onTouchUp(touchedSquare)
+                onReleased(touchedSquare)
                 invalidate()
             }
         }
@@ -133,7 +133,25 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         chessGameListener?.onGameOver()
     }
 
-    private fun onTouchUp(touchedSquare: Square) {
+    private fun onPressed(touchedSquare: Square) {
+        previousTouchedSquare?.let { previousTouchedSquare ->
+            val move = Move(previousTouchedSquare, touchedSquare, hero)
+            if (heroMadeMove(touchedSquare) && !game.canMove(move)) {
+                resetVisuals()
+            }
+        }
+    }
+
+    private fun onDragged(event: MotionEvent, touchedSquare: Square) {
+        movingPiece?.let {
+            it.x = event.x
+            it.y = event.y
+        }
+
+        invalidate() // calls onDraw
+    }
+
+    private fun onReleased(touchedSquare: Square) {
         previousTouchedSquare?.let { previousTouchedSquare ->
             val move = Move(previousTouchedSquare, touchedSquare, hero)
 
@@ -156,24 +174,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
             availableSquares = getAvailableSquares(it)
         }
-    }
-
-    private fun onTouchDown(touchedSquare: Square) {
-        previousTouchedSquare?.let { previousTouchedSquare ->
-            val move = Move(previousTouchedSquare, touchedSquare, hero)
-            if (heroMadeMove(touchedSquare) && !game.canMove(move)) {
-                resetVisuals()
-            }
-        }
-    }
-
-    private fun onTouchMove(event: MotionEvent, touchedSquare: Square) {
-        movingPiece?.let {
-            it.x = event.x
-            it.y = event.y
-        }
-
-        invalidate() // calls onDraw
     }
 
     //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
