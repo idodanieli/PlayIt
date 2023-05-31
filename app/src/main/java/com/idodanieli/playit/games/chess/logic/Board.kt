@@ -6,8 +6,8 @@ import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 class Board(var pieces: MutableSet<Piece>, var size: Int) {
     var map: MutableMap<Square, Piece> = pieces.associateBy { it.square }.toMutableMap()
-    var whitePieces = pieces.filter { it.player == Player.WHITE }.associateWith { true }.toMutableMap()
-    var blackPieces = pieces.filter { it.player == Player.BLACK }.associateWith { true }.toMutableMap()
+    var whitePieces = pieces.filter { it.player.isWhite() }.associateWith { true }.toMutableMap()
+    var blackPieces = pieces.filter { it.player.isBlack() }.associateWith { true }.toMutableMap()
 
     // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
@@ -41,7 +41,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // pieces returns all the pieces of the given player
     fun pieces(player: Player): MutableSet<Piece> {
-        return if (player == Player.WHITE) whitePieces.keys else blackPieces.keys
+        return if (player.isWhite()) whitePieces.keys else blackPieces.keys
     }
 
     // moves the piece to the destination
@@ -197,7 +197,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     private fun flatString(pieces: List<Piece>) : String {
         val flatBoardCharcters = ".".repeat(size * size).toCharArray()
         for (piece in pieces) {
-            val type = if (piece.player == Player.WHITE) piece.type else piece.type.lowercase()
+            val type = if (piece.player.isWhite()) piece.type else piece.type.lowercase()
             flatBoardCharcters[piece.square.row * size + piece.square.col] = type[0]
         }
 

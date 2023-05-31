@@ -60,11 +60,11 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         var pieceBitmap = getPieceBitmap(piece)!!
 
         // Flip the black players piece in local mode so it would be easier to play
-        if (mode == MODE_LOCAL && piece.player == Player.BLACK) {
+        if (mode == MODE_LOCAL && piece.player.isBlack()) {
             pieceBitmap = flipBitmap(pieceBitmap, Direction.VERTICAL)!!
         }
 
-        if (hero == Player.BLACK) {
+        if (hero.isBlack()) {
             drawBitmapAtSquare(piece.square.flipVertically(size), pieceBitmap)
             return
         }

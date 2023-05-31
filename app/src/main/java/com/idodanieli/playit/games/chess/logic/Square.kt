@@ -127,7 +127,7 @@ data class Square(
 
     fun isDark(hero: Player): Boolean {
         var shouldBeBlack = (col + row) % 2 == 1
-        if (hero == Player.BLACK) { // Orientation is reversed for black
+        if (hero.isBlack()) { // Orientation is reversed for black
             shouldBeBlack = !shouldBeBlack
         }
 

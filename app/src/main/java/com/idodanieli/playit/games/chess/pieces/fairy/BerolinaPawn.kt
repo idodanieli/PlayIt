@@ -18,7 +18,7 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
     var direction = WHITE_DIRECTION
 
     init {
-        if (player == Player.BLACK) {
+        if (player.isBlack()) {
             direction = BLACK_DIRECTION
         }
     }

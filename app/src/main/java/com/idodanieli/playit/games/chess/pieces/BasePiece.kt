@@ -50,7 +50,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
     }
 
     override fun toString(): String {
-        val type = if (player == Player.WHITE) type else type.lowercase()
+        val type = if (player.isWhite()) type else type.lowercase()
         return "$player $type at (${square.col}, ${square.row})"
     }
 }

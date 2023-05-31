@@ -73,7 +73,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     private fun drawCurrentPlayer() {
         currentPlayer?.let {
-            if (game.currentPlayer == Player.BLACK) {
+            if (game.currentPlayer.isBlack()) {
                 it.setTextColor(resources.getColor(R.color.black))
             } else {
                 it.setTextColor(resources.getColor(R.color.white))
@@ -101,7 +101,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         currentlyTouchedSquare = touchedSquare
 
         // When the player is black the screen is flipped vertically
-        if (hero == Player.BLACK) {
+        if (hero.isBlack()) {
             touchedSquare = touchedSquare.flipVertically(game.size)
         }
 
@@ -215,7 +215,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         val squares = game.validMoves(piece)
 
         // When the player is black the screen is flipped vertically
-        if (hero == Player.BLACK) {
+        if (hero.isBlack()) {
             return squares.map { it.flipVertically(game.size) }
         }
 
