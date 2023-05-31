@@ -41,17 +41,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // TODO: Delete this later
     var currentPlayer: TextView? = null
 
-    fun startGame(gameID: String = "") {
-        chessGameListener?.onGameStarted(this, gameID)
-        game.started = true
-    }
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val smaller = min(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(smaller, smaller)
     }
 
+    // --- onDraw ------------------------------------------------------------------------------ \\
     // onDraw is called everytime invalidate() is called
     // the order of the draw functions inside is crucial
     override fun onDraw(canvas: Canvas?) {
@@ -92,6 +88,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
     }
 
+    private fun resetVisuals() {
+        touchedPiece = null
+        movingPiece = null
+        currentlyTouchedSquare = null
+        previousTouchedSquare = null
+    }
+
+    // --- OnTouch ----------------------------------------------------------------------------- \\
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
@@ -126,7 +130,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         return true
     }
 
-    //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
     private fun onGameOver() {
         soundGameOver.start()
         gameListener?.onGameOver(game.currentPlayer.opposite())
@@ -176,39 +179,33 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
     }
 
-    //////////////////////// OnTouch Functions \\\\\\\\\\\\\\\\\\\\\\\\
-
-    // movePiece in the game, will be shown in the UI
-    fun movePiece(move: Move) {
-        game.movePiece(move.origin, move.dest)
-        soundMove.start()
-
-        switchTurn()
-        resetVisuals()
-        invalidate()
-    }
-
-    private fun switchTurn() {
-        game.switchTurn()
-
-        if (game.isOver()) {
-            onGameOver()
-        }
-    }
-
-    private fun resetVisuals() {
-        touchedPiece = null
-        movingPiece = null
-        currentlyTouchedSquare = null
-        previousTouchedSquare = null
-    }
-
     // getSquareTouched returns the square touched by the position in the MotionEvent
     private fun getTouchedSquare(event: MotionEvent): Square {
         val touchedColumn = (event.x / squareSize).toInt()
         val touchedRow = 7 - (event.y / squareSize).toInt()
 
         return Square(touchedColumn, touchedRow)
+    }
+
+    // --- View Game Logic --------------------------------------------------------------------- \\
+
+    fun startGame(gameID: String = "") {
+        chessGameListener?.onGameStarted(this, gameID)
+        game.started = true
+    }
+
+    // movePiece in the game, will be shown in the UI
+    fun movePiece(move: Move) {
+        game.movePiece(move.origin, move.dest)
+        soundMove.start()
+
+        game.switchTurn()
+        if (game.isOver()) {
+            onGameOver()
+        }
+
+        resetVisuals()
+        invalidate()
     }
 
     private fun getAvailableSquares(piece: Piece): List<Square> {
@@ -222,6 +219,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         return squares
     }
 
+    // playerTriesToMove returns true if the player made a move inside of the board
+    private fun heroMadeMove(touchedSquare: Square): Boolean {
+        return previousTouchedSquare != null && previousTouchedSquare != touchedSquare
+    }
+
     // cnaHeroMove returns true if the hero can play
     private fun canHeroPlay(): Boolean {
         chessGameListener?.let {
@@ -231,23 +233,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         return true
     }
 
-    // playerTriesToMove returns true if the player made a move inside of the board
-    private fun heroMadeMove(touchedSquare: Square): Boolean {
-        return previousTouchedSquare != null
-                && touchedSquare.inBorder(game.size)
-                && previousTouchedSquare != touchedSquare
-    }
-
-    // isHerosTurn returns true if its the hero turn to play
-    private fun isHerosTurn(): Boolean {
-        return game.currentPlayer == hero
-    }
     // isOpponentsTurn returns true if its the opponents turn and not the heros
-
     fun isOpponentsTurn(): Boolean {
-        return !isHerosTurn()
+        return game.currentPlayer != hero
     }
 
+    // --- General ----------------------------------------------------------------------------- \\
     fun setMode(mode: String) {
         chessDrawer.mode = mode
         chessGameListener = CHESS_GAME_LISTENER[mode]
