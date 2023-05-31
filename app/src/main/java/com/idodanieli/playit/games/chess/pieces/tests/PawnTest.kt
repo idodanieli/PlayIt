@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.classic.Pawn
-import com.idodanieli.playit.games.chess.ui.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import org.junit.Test
 
 class PawnTest {

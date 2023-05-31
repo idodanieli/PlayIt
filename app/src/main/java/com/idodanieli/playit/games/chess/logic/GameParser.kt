@@ -3,7 +3,7 @@ package com.idodanieli.playit.games.chess.logic
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.fairy.*
-import com.idodanieli.playit.games.chess.ui.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import org.json.JSONObject
 
 class GameParser {

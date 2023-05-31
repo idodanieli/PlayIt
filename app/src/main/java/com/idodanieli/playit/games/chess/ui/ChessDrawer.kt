@@ -13,6 +13,9 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.fairy.*
 
+
+var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
+
 val COLOR_TOUCHED = Color.parseColor("#CBC3E3")
 val COLOR_LIGHT_AVAILABLE_SQUARE = Color.parseColor("#FF7276")
 val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")

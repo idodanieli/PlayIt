@@ -7,7 +7,7 @@ import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.classic.Queen
 import com.idodanieli.playit.games.chess.pieces.classic.Rook
-import com.idodanieli.playit.games.chess.ui.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import org.junit.Test
 
 class KingTest {

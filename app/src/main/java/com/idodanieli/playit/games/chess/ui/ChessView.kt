@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import com.idodanieli.playit.R
+import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.CHESS_GAME_LISTENER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.game_listener.ChessGameListener
@@ -16,10 +17,6 @@ import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
-
-const val CHESSBOARD_SIZE = 8
-
-var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     // --- For Drawing ------------------------------------------------------------------------- \\
