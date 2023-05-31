@@ -17,8 +17,6 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_PAWN
     override val movementType = MovementType.LEAPER
 
-    var moved = false // specifies whether the pawn has been moved from its starting square
-
     // TODO: Change 8 -> BOARD_SIZE
     // TODO: INSTEAD OF IS_IN USE BITBOARDS
     // TODO: CHECK IF THERE IS AN ENEMY PIECE WITH BITBOARDS
@@ -69,12 +67,5 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
 
         return listOf(captureMoveLeft, captureMoveRight)
             .filter { board.playerAt(it) == player.opposite()}
-    }
-
-    // TODO: Remove this and make a isOnStartingSquare function instead...
-    override fun onMove() {
-        super.onMove()
-
-        this.moved = true
     }
 }

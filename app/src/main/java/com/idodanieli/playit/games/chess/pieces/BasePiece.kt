@@ -8,6 +8,7 @@ import com.idodanieli.playit.games.chess.pieces.core.MovementType
 open class BasePiece(override var square: Square, override var player: Player): Piece {
     override val type = ""
     override val movementType = MovementType.REGULAR
+    override var moved = false
 
     // validMoves returns a list of the squares the piece can move to
     override fun validMoves(board: Board, ignoreCheck: Boolean, ignoreSamePlayer: Boolean): List<Square> {
@@ -41,7 +42,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
     }
 
     override fun onMove() {
-        return
+        this.moved = true
     }
 
     override fun onEat(eatenPiece: Piece) {

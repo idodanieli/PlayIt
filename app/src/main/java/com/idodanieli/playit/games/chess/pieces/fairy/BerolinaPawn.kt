@@ -16,7 +16,6 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
     override val movementType = MovementType.LEAPER
 
     var direction = WHITE_DIRECTION
-    var moved = false // specifies whether the pawn has been moved from its starting square
 
     init {
         if (player == Player.BLACK) {
@@ -55,12 +54,5 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
 
     private fun captureMove(): Square {
         return Square(square.col, square.row + direction)
-    }
-
-    // TODO: Remove this and make a isOnStartingSquare function instead...
-    override fun onMove() {
-        super.onMove()
-
-        this.moved = true
     }
 }

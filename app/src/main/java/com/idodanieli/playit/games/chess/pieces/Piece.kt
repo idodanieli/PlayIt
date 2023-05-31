@@ -10,6 +10,7 @@ const val NO_MAX_STEPS = 0
 interface Piece {
     var square: Square
     var player: Player
+    var moved: Boolean
     val type: String
     val movementType: MovementType
 

@@ -19,6 +19,8 @@ abstract class Compound(square: Square, player: Player) : BasePiece(square, play
     }
 
     override fun onMove() {
+        super.onMove()
+
         for (piece in pieces) { piece.square = square }
     }
 }

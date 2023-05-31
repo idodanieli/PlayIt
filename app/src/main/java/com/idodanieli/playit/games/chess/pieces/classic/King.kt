@@ -20,4 +20,8 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
         return board.getAvailableNeighborSquares(this)
             .filter { !board.isThreatened(it, player.opposite()) }
     }
+
+    fun getCastlingMoves(board: Board) {
+
+    }
 }
