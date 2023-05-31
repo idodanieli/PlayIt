@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 class Board(var pieces: MutableSet<Piece>, var size: Int) {
-    var map = pieces.associateBy { it.square }.toMutableMap()
+    var map: MutableMap<Square, Piece> = pieces.associateBy { it.square }.toMutableMap()
     var whitePieces = pieces.filter { it.player == Player.WHITE }.associateWith { true }.toMutableMap()
     var blackPieces = pieces.filter { it.player == Player.BLACK }.associateWith { true }.toMutableMap()
 
@@ -52,18 +52,41 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         piece.square = dst
         piece.onMove()
     }
+    fun move(move: Move) {
+        pieceAt(move.origin)?.let {
+            move(it, move.dest)
+        }
+    }
+    fun move(moves: List<Move>) {
+        for (move in moves) {
+            this.move(move)
+        }
+    }
 
     // removes a piece from the board
     fun remove(piece: Piece) {
         pieces.remove(piece)
         map.remove(piece.square)
 
-        if (piece.player == Player.WHITE) {
+        if (piece.player.isWhite()) {
             whitePieces.remove(piece)
             return
         }
 
         blackPieces.remove(piece)
+    }
+
+    // add a piece to the board
+    fun add(piece: Piece) {
+        pieces.add(piece)
+        map[piece.square] = piece
+
+        if (piece.player.isWhite()) {
+            whitePieces[piece] = true
+            return
+        }
+
+        blackPieces[piece] = true
     }
 
     // isIn returns true if the given square is in the boards borders
@@ -98,6 +121,11 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         }
 
         return false
+    }
+
+    // isFreeAndSafe returns true if the square isFree and not isThreatened
+    fun isFreeAndSafe(square: Square, enemy: Player): Boolean {
+        return isFree(square) && !isThreatened(square, enemy)
     }
 
     // canBeCaptured returns true if this piece could be captured by another piece on the board
@@ -165,6 +193,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
         return null
     }
 
+    //----------------- FOR PRINTING THE BOARD ------------------ \\
     private fun flatString(pieces: List<Piece>) : String {
         val flatBoardCharcters = ".".repeat(size * size).toCharArray()
         for (piece in pieces) {
@@ -192,5 +221,10 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     override fun toString() : String {
         return flatToPrettyPrint(flatString(pieces.toList()))
+    }
+    // --------------------------------------------------------- \\
+
+    fun copy(): Board {
+        return Board(deepCopyPieces(pieces), size)
     }
 }

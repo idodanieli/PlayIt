@@ -7,10 +7,18 @@ enum class Player {
 
     // opposite returns the opposite player of this
     fun opposite(): Player {
-        if (this == WHITE) {
+        if (this.isWhite()) {
             return BLACK
         }
 
         return WHITE
+    }
+
+    fun isWhite(): Boolean {
+        return this == WHITE
+    }
+
+    fun isBlack(): Boolean {
+        return this == BLACK
     }
 }
