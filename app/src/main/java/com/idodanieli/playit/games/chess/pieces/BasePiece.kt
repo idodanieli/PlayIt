@@ -44,7 +44,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
         this.moved = true
     }
 
-    override fun onEat(eatenPiece: Piece) {
+    override fun onCaptured(capturedPiece: Piece) {
         return
     }
 

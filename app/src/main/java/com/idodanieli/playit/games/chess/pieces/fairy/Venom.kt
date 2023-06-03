@@ -25,7 +25,7 @@ class Venom(square: Square, player: Player) : Rider(square, player) {
     
     private var maxSteps = STARTING_MAX_STEPS // specifies how much steps the piece can make in each direction
 
-    override fun onEat(eatenPiece: Piece) {
+    override fun onCaptured(capturedPiece: Piece) {
         maxSteps++
     }
 

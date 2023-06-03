@@ -30,8 +30,8 @@ interface Piece {
     // onMove adds logic to piece after they have been moved
     fun onMove()
 
-    // onEat adds logic to piece after they have eaten another piece
-    fun onEat(eatenPiece: Piece)
+    // onCaptured adds logic to piece after they have captured another piece
+    fun onCaptured(capturedPiece: Piece)
 }
 
 // https://en.wikipedia.org/wiki/Giraffe_%28chess%29

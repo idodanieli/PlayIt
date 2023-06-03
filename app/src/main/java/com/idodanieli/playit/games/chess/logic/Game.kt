@@ -35,7 +35,7 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         val enemyPiece = board.pieceAt(dst, piece.player.opposite())
         enemyPiece?.let {
             board.remove(enemyPiece)
-            piece.onEat(enemyPiece)
+            piece.onCaptured(enemyPiece)
         }
 
         board.move(piece, dst)
