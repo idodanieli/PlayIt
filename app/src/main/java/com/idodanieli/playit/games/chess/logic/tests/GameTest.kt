@@ -105,7 +105,7 @@ class GameTest {
 
     @Test
     fun testFilterBlockingMoves() {
-        assert(game.validMoves(bBishop).size == 1)
+        assert(game.getPieceValidMoves(bBishop).size == 1)
         {
             errorFormat(
                 game.board,
@@ -127,7 +127,7 @@ class GameTest {
         val wRook = Rook(Square(0, 1), Player.WHITE)
         val game2 =
             Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE)
-        val blockingMoves = game2.validMoves(bBishop)
+        val blockingMoves = game2.getPieceValidMoves(bBishop)
 
         assert(blockingMoves.isEmpty())
         {

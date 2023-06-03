@@ -25,7 +25,7 @@ interface Piece {
     fun possibleMoves(board: Board): List<Square>
 
     // validMoves returns a list of the squares the piece can move to
-    fun validMoves(board: Board, ignoreCheck: Boolean = false, ignoreSamePlayer: Boolean = false): List<Square>
+    fun validMoves(board: Board, ignoreSamePlayer: Boolean = false): List<Square>
 
     // onMove adds logic to piece after they have been moved
     fun onMove()

@@ -44,7 +44,7 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
     fun isOver(): Boolean {
         if (isChecked(currentPlayer)) {
             for (piece in board.pieces(currentPlayer)) {
-                val blockingMoves = validMoves(piece)
+                val blockingMoves = getPieceValidMoves(piece)
                 if (blockingMoves.isNotEmpty()) {
                     return false
                 }
@@ -64,7 +64,7 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         return false
     }
 
-    fun validMoves(piece: Piece): List<Square> {
+    fun getPieceValidMoves(piece: Piece): List<Square> {
         // TODO: Move logic from piece.validMoves here
         return filterBlockingMoves(piece, piece.validMoves(board))
     }

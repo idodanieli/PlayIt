@@ -197,7 +197,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun getAvailableSquares(piece: Piece): List<Square> {
-        val squares = game.validMoves(piece)
+        val squares = game.getPieceValidMoves(piece)
 
         // When the player is black the screen is flipped vertically
         if (hero.isBlack()) {
