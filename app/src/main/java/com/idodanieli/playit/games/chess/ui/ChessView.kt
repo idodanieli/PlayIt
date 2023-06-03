@@ -88,6 +88,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun resetVisuals() {
         touchedPiece = null
         movingPiece = null
+
+        invalidate()
     }
 
     // --- OnTouch ----------------------------------------------------------------------------- \\
@@ -179,7 +181,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     // movePiece in the game, will be shown in the UI
     fun movePiece(move: Move) {
-        game.movePiece(move.origin, move.dest)
+        game.movePiece(move)
         soundMove.start()
 
         game.switchTurn()
@@ -188,7 +190,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
 
         resetVisuals()
-        invalidate()
     }
 
     private fun getAvailableSquares(piece: Piece): List<Square> {
@@ -202,7 +203,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         return squares
     }
 
-    // playerTriesToMove returns true if the player made a move inside of the board
+    // heroMadeMove returns true if the player made a move inside of the board
     private fun heroMadeMove(touchedSquare: Square): Boolean {
         touchedPiece ?: return false
 

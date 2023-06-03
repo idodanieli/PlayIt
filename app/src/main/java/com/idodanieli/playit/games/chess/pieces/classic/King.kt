@@ -10,6 +10,8 @@ import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 const val TYPE_KING = "K"
 
+private const val CASTLE_MOVE_AMOUNT = 2
+
 open class King(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_KING
     override val movementType = MovementType.LEAPER
@@ -44,11 +46,11 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
         val rookDest: Square
 
         if (rook.square.col > square.col) {
-            kingDest = kingOrigin + Square(2, 0)
+            kingDest = kingOrigin + Square(CASTLE_MOVE_AMOUNT, 0)
             rookDest = kingDest - Square(1, 0)
 
         } else {
-            kingDest = kingOrigin - Square(2, 0)
+            kingDest = kingOrigin - Square(CASTLE_MOVE_AMOUNT, 0)
             rookDest = kingDest + Square(1, 0)
         }
 

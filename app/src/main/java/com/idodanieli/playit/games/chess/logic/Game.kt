@@ -10,16 +10,16 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
     var started = false
 
     // --- Functions that change the game's state ---------------------------------------------- \\
-    fun movePiece(origin: Square, dst: Square) {
-        val piece = this.board.pieceAt(origin) ?: return
+    fun movePiece(move: Move) {
+        val piece = this.board.pieceAt(move.origin) ?: return
 
-        val enemyPiece = board.pieceAt(dst, piece.player.opposite())
+        val enemyPiece = board.pieceAt(move.dest, piece.player.opposite())
         enemyPiece?.let {
             board.remove(enemyPiece)
             piece.onCaptured(enemyPiece)
         }
 
-        board.move(piece, dst)
+        board.move(piece, move.dest)
     }
 
     fun switchTurn() {
@@ -94,9 +94,9 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
 
     // removeIllegalMoves that leave the player in check
     private fun removeIllegalMoves(piece: Piece, moves: List<Square>): List<Square> {
-        return moves.filterNot { move ->
+        return moves.filterNot { dest ->
             val tmpGame = copy()
-            tmpGame.movePiece(piece.square, move)
+            tmpGame.movePiece(Move(piece.square, dest, piece.player))
             tmpGame.isPlayerChecked(piece.player)
         }
     }
