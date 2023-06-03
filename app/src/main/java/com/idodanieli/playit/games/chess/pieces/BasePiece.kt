@@ -11,7 +11,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
     override var moved = false
 
     // validMoves returns a list of the squares the piece can move to
-    override fun validMoves(board: Board, ignoreSamePlayer: Boolean): List<Square> {
+    override fun validMoves(board: Board): List<Square> {
         val pinner = board.getPinner(this)
         var moves = possibleMoves(board)
 
