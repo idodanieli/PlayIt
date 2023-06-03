@@ -15,9 +15,8 @@ open class BasePiece(override var square: Square, override var player: Player): 
         val pinner = board.getPinner(this)
         var moves = possibleMoves(board)
 
-        if (!ignoreSamePlayer) {
-            moves = moves.filterNot { board.playerAt(it) == player }
-        }
+        // Remove moves that their destination is a friendly piece ( avoid friendly fire )
+        moves = moves.filterNot { board.playerAt(it) == player }
 
         pinner?.let {
             moves = moves.intersect(square.squaresBetween(pinner.square).toSet()).toList()
@@ -38,7 +37,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
     }
 
     override fun captureMoves(board: Board): List<Square> {
-        return validMoves(board, ignoreSamePlayer = true)
+        return validMoves(board)
     }
 
     override fun onMove() {
