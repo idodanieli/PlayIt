@@ -9,26 +9,7 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
     var description = ""
     var started = false
 
-    fun pieces(): Set<Piece> {
-        return this.board.pieces()
-    }
-
-    // canMove returns true if the move is valid
-    fun canMove(move: Move): Boolean {
-        if (move.origin == move.dest) {
-            return  false
-        }
-        val movingPiece = board.pieceAt(move.origin) ?: return false
-        if (movingPiece.player != currentPlayer) { return false }
-
-        var moves = getPieceValidMoves(movingPiece)
-        if (isChecked(movingPiece.player)) {
-            moves = removeIllegalMoves(movingPiece, moves)
-        }
-
-        return move.dest in moves
-    }
-
+    // --- Functions that change the game's state ---------------------------------------------- \\
     fun movePiece(origin: Square, dst: Square) {
         val piece = this.board.pieceAt(origin) ?: return
 
@@ -41,10 +22,15 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         board.move(piece, dst)
     }
 
+    fun switchTurn() {
+        currentPlayer = currentPlayer.opposite()
+    }
+
+    // --- Functions that check the game's state ----------------------------------------------- \\
     fun isOver(): Boolean {
-        if (isChecked(currentPlayer)) {
+        if (isPlayerChecked(currentPlayer)) {
             for (piece in board.pieces(currentPlayer)) {
-                val blockingMoves = getPieceValidMoves(piece)
+                val blockingMoves = getLegalMovesForPiece(piece)
                 if (blockingMoves.isNotEmpty()) {
                     return false
                 }
@@ -57,22 +43,34 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
    }
 
     // isChecked returns true if the given player is checked
-    private fun isChecked(player: Player): Boolean {
+    private fun isPlayerChecked(player: Player): Boolean {
         val king = board.getPiece(TYPE_KING, player)
         king?.let { return board.canBeCaptured(it) }
 
         return false
     }
 
-    fun switchTurn() {
-        currentPlayer = currentPlayer.opposite()
+    // canMove returns true if the move is legal
+    fun isLegalMove(move: Move): Boolean {
+        if (move.origin == move.dest) {
+            return  false
+        }
+        val movingPiece = board.pieceAt(move.origin) ?: return false
+        if (movingPiece.player != currentPlayer) { return false }
+
+        var moves = getLegalMovesForPiece(movingPiece)
+        if (isPlayerChecked(movingPiece.player)) {
+            moves = removeIllegalMoves(movingPiece, moves)
+        }
+
+        return move.dest in moves
     }
 
     // --- Move Filtering Function ------------------------------------------------------------- \\
 
     // getPieceValidMoves returns all the squares a piece can move to, while taking general logic
     // into consideration like pinning, friendly-fire etc.
-    fun getPieceValidMoves(piece: Piece): List<Square> {
+    fun getLegalMovesForPiece(piece: Piece): List<Square> {
         var moves = piece.possibleMoves(board)
 
         moves = filterLegalMovesIfPinned(piece, moves)
@@ -99,11 +97,14 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         return moves.filterNot { move ->
             val tmpGame = copy()
             tmpGame.movePiece(piece.square, move)
-            tmpGame.isChecked(piece.player)
+            tmpGame.isPlayerChecked(piece.player)
         }
     }
 
     // --- General ----------------------------------------------------------------------------- \\
+    fun pieces(): Set<Piece> {
+        return this.board.pieces()
+    }
 
     private fun copy(): Game {
         return Game(name, deepCopyPieces(startingPieces), size)

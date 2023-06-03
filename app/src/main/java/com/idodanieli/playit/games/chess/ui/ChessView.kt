@@ -135,7 +135,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun onPressed(touchedSquare: Square) {
         previousTouchedSquare?.let { previousTouchedSquare ->
             val move = Move(previousTouchedSquare, touchedSquare, hero)
-            if (heroMadeMove(touchedSquare) && !game.canMove(move)) {
+            if (heroMadeMove(touchedSquare) && !game.isLegalMove(move)) {
                 resetVisuals()
             }
         }
@@ -154,7 +154,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         previousTouchedSquare?.let { previousTouchedSquare ->
             val move = Move(previousTouchedSquare, touchedSquare, hero)
 
-            if (heroMadeMove(touchedSquare) && game.canMove(move)) {
+            if (heroMadeMove(touchedSquare) && game.isLegalMove(move)) {
                 movePiece(move)
                 chessGameListener?.onPieceMoved(move)
             }
@@ -197,7 +197,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun getAvailableSquares(piece: Piece): List<Square> {
-        val squares = game.getPieceValidMoves(piece)
+        val squares = game.getLegalMovesForPiece(piece)
 
         // When the player is black the screen is flipped vertically
         if (hero.isBlack()) {

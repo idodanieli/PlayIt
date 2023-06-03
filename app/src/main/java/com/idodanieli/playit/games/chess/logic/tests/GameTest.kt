@@ -105,7 +105,7 @@ class GameTest {
 
     @Test
     fun testFilterBlockingMoves() {
-        assert(game.getPieceValidMoves(bBishop).size == 1)
+        assert(game.getLegalMovesForPiece(bBishop).size == 1)
         {
             errorFormat(
                 game.board,
@@ -127,7 +127,7 @@ class GameTest {
         val wRook = Rook(Square(0, 1), Player.WHITE)
         val game2 =
             Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE)
-        val blockingMoves = game2.getPieceValidMoves(bBishop)
+        val blockingMoves = game2.getLegalMovesForPiece(bBishop)
 
         assert(blockingMoves.isEmpty())
         {
@@ -143,7 +143,7 @@ class GameTest {
         game.currentPlayer = Player.BLACK
         var move = Move(bPawn.square, Square(6, 2), Player.BLACK)
 
-        assert(!game.canMove(move)) {
+        assert(!game.isLegalMove(move)) {
             errorFormat(
                 game.board,
                 "$bPawn could move even though the king is in check"
@@ -151,7 +151,7 @@ class GameTest {
         }
 
         move = Move(bBishop.square, Square(1, 1), Player.BLACK)
-        assert(game.canMove(move)) {
+        assert(game.isLegalMove(move)) {
             errorFormat(
                 game.board,
                 "$bBishop couldn't move even though it could block the check"
