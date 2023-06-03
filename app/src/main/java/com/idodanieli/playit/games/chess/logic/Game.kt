@@ -23,7 +23,7 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
 
         var moves = movingPiece.validMoves(this.board)
         if (isChecked(movingPiece.player)) {
-            moves = filterBlockingMoves(movingPiece, moves)
+            moves = removeIllegalMoves(movingPiece, moves)
         }
 
         return move.dest in moves
@@ -64,22 +64,43 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         return false
     }
 
-    fun getPieceValidMoves(piece: Piece): List<Square> {
-        // TODO: Move logic from piece.validMoves here
-        return filterBlockingMoves(piece, piece.validMoves(board))
-    }
-
     fun switchTurn() {
         currentPlayer = currentPlayer.opposite()
     }
 
-    private fun filterBlockingMoves(piece: Piece, moves: List<Square>): List<Square> {
-        return moves.filter { move ->
+    // --- Move Filtering Function ------------------------------------------------------------- \\
+    fun getPieceValidMoves(piece: Piece): List<Square> {
+        var moves = piece.validMoves(board)
+
+        moves = filterLegalMovesIfPinned(piece, moves)
+        moves = removeFriendlyFireMoves(piece, moves)
+        moves = removeIllegalMoves(piece, moves)
+
+        return moves
+    }
+
+    // filterLegalMovesIfPinned returns all the legal moves the piece can make if being pinned by another piece
+    private fun filterLegalMovesIfPinned(piece: Piece, moves: List<Square>): List<Square> {
+        val pinner = board.getPinner(piece) ?: return moves
+
+        return moves.intersect(piece.square.squaresBetween(pinner.square).toSet()).toList()
+    }
+
+    // removeFriendlyFireMoves removes moves that their destination is a friendly piece ( avoid friendly fire )
+    private fun removeFriendlyFireMoves(piece: Piece, moves: List<Square>): List<Square> {
+        return moves.filterNot { board.playerAt(it) == piece.player }
+    }
+
+    // removeIllegalMoves that leave the player in check
+    private fun removeIllegalMoves(piece: Piece, moves: List<Square>): List<Square> {
+        return moves.filterNot { move ->
             val tmpGame = copy()
             tmpGame.movePiece(piece.square, move)
-            !tmpGame.isChecked(piece.player)
+            tmpGame.isChecked(piece.player)
         }
     }
+
+    // --- General ----------------------------------------------------------------------------- \\
 
     private fun copy(): Game {
         return Game(name, deepCopyPieces(startingPieces), size)
