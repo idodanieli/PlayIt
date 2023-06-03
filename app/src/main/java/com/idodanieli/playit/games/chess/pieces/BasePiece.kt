@@ -10,14 +10,6 @@ open class BasePiece(override var square: Square, override var player: Player): 
     override val movementType = MovementType.REGULAR
     override var moved = false
 
-    // validMoves returns a list of the squares the piece can move to
-    override fun validMoves(board: Board): List<Square> {
-        var moves = possibleMoves(board)
-        return moves
-    }
-
-    // possibleMoves returns all the squares a piece can move to, without taking general logic
-    // into consideration like pinning, etc.
     override fun possibleMoves(board: Board): List<Square> {
         // To be overridden by child classes
         return emptyList()

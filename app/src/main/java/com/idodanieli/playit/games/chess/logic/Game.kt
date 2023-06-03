@@ -21,7 +21,7 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         val movingPiece = board.pieceAt(move.origin) ?: return false
         if (movingPiece.player != currentPlayer) { return false }
 
-        var moves = movingPiece.validMoves(this.board)
+        var moves = getPieceValidMoves(movingPiece)
         if (isChecked(movingPiece.player)) {
             moves = removeIllegalMoves(movingPiece, moves)
         }
@@ -69,8 +69,11 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
     }
 
     // --- Move Filtering Function ------------------------------------------------------------- \\
+
+    // getPieceValidMoves returns all the squares a piece can move to, while taking general logic
+    // into consideration like pinning, friendly-fire etc.
     fun getPieceValidMoves(piece: Piece): List<Square> {
-        var moves = piece.validMoves(board)
+        var moves = piece.possibleMoves(board)
 
         moves = filterLegalMovesIfPinned(piece, moves)
         moves = removeFriendlyFireMoves(piece, moves)
