@@ -4,10 +4,10 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
-class Board(var pieces: MutableSet<Piece>, var size: Int) {
-    var map: MutableMap<Square, Piece> = pieces.associateBy { it.square }.toMutableMap()
-    var whitePieces = pieces.filter { it.player.isWhite() }.associateWith { true }.toMutableMap()
-    var blackPieces = pieces.filter { it.player.isBlack() }.associateWith { true }.toMutableMap()
+class Board(startingPieces: MutableSet<Piece>, val size: Int) {
+    var map: MutableMap<Square, Piece> = startingPieces.associateBy { it.square }.toMutableMap()
+    var whitePieces = startingPieces.filter { it.player.isWhite() }.associateWith { true }.toMutableMap()
+    var blackPieces = startingPieces.filter { it.player.isBlack() }.associateWith { true }.toMutableMap()
 
     // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
@@ -29,19 +29,20 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     }
 
     // piece returns the first it finds that if of the given players and of the given type
-    fun piece(type: String, player: Player): Piece? {
-        for (piece in pieces) {
-            if (piece.player == player && piece.type == type) {
-                return piece
-            }
+    fun getPiece(type: String, player: Player): Piece? {
+        return when (player) {
+            Player.BLACK -> getPieceByType(blackPieces, type)
+            Player.WHITE -> getPieceByType(whitePieces, type)
         }
-
-        return null
     }
 
     // pieces returns all the pieces of the given player
     fun pieces(player: Player): MutableSet<Piece> {
         return if (player.isWhite()) whitePieces.keys else blackPieces.keys
+    }
+
+    fun pieces(): Set<Piece> {
+        return whitePieces.keys + blackPieces.keys
     }
 
     // moves the piece to the destination
@@ -65,7 +66,6 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // removes a piece from the board
     fun remove(piece: Piece) {
-        pieces.remove(piece)
         map.remove(piece.square)
 
         if (piece.player.isWhite()) {
@@ -78,7 +78,6 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
 
     // add a piece to the board
     fun add(piece: Piece) {
-        pieces.add(piece)
         map[piece.square] = piece
 
         if (piece.player.isWhite()) {
@@ -151,7 +150,7 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     fun getPinner(pinned: Piece) : Piece? {
         if (pinned.type == TYPE_KING) { return null } // TODO: Make this more general
 
-        val king = piece(TYPE_KING, pinned.player) ?: return null
+        val king = getPiece(TYPE_KING, pinned.player) ?: return null
         val direction = king.square.directionTo(pinned.square)
 
         var currentSquare = king.square.copy()
@@ -220,11 +219,13 @@ class Board(var pieces: MutableSet<Piece>, var size: Int) {
     }
 
     override fun toString() : String {
-        return flatToPrettyPrint(flatString(pieces.toList()))
+        val flatGameRepresentation = flatString(this.pieces().toList())
+        return flatToPrettyPrint(flatGameRepresentation)
     }
     // --------------------------------------------------------- \\
 
     fun copy(): Board {
-        return Board(deepCopyPieces(pieces), size)
+        val copiedPieces = deepCopyPieces(this.pieces())
+        return Board(copiedPieces, size)
     }
 }

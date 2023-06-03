@@ -3,14 +3,14 @@ package com.idodanieli.playit.games.chess.logic
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-data class Game(var name: String, private var pieces: MutableSet<Piece>, var size: Int) {
-    var board = Board(pieces, size)
+data class Game(var name: String, private val startingPieces: MutableSet<Piece>, var size: Int) {
+    var board = Board(startingPieces, size)
     var currentPlayer = Player.WHITE // white always starts in chess
     var description = ""
     var started = false
 
     fun pieces(): Set<Piece> {
-        return this.pieces
+        return this.board.pieces()
     }
 
     // canMove returns true if the move is valid
@@ -58,7 +58,7 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
 
     // isChecked returns true if the given player is checked
     private fun isChecked(player: Player): Boolean {
-        val king = board.piece(TYPE_KING, player)
+        val king = board.getPiece(TYPE_KING, player)
         king?.let { return board.canBeCaptured(it) }
 
         return false
@@ -82,6 +82,6 @@ data class Game(var name: String, private var pieces: MutableSet<Piece>, var siz
     }
 
     private fun copy(): Game {
-        return Game(name, deepCopyPieces(pieces), size)
+        return Game(name, deepCopyPieces(startingPieces), size)
     }
 }

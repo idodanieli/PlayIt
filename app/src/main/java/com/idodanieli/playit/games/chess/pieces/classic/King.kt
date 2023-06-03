@@ -15,12 +15,11 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     override val movementType = MovementType.LEAPER
 
     override fun validMoves(board: Board, ignoreCheck: Boolean, ignoreSamePlayer: Boolean): List<Square> {
-        return possibleMoves(board)
+        return possibleMoves(board).filter { !board.isThreatened(it, player.opposite()) }
     }
 
     override fun possibleMoves(board: Board): List<Square> {
         return board.neighborSquares(this)
-            .filter { !board.isThreatened(it, player.opposite()) }
     }
 
     fun getCastlingMoves(board: Board): List<List<Move>> {
