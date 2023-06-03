@@ -18,6 +18,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
         return board.neighborSquares(this).filter { !board.isThreatened(it, player.opposite()) }
     }
 
+    // --- Castling Logic ---------------------------------------------------------------------- \\
     fun getCastlingMoves(board: Board): List<List<Move>> {
         // Cant castle if has been moved
         if (moved) { return arrayListOf() }
@@ -58,7 +59,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     // canCastleWith returns true if the king can castle with the given piece
-    fun canCastleWith(piece: Piece, board: Board): Boolean {
+    private fun canCastleWith(piece: Piece, board: Board): Boolean {
         // Cant castle with a piece that has already been moved
         if(piece.moved) { return false }
 

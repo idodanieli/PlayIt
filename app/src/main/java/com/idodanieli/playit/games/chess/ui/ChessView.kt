@@ -32,7 +32,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // --- For Logic ------------------------------------------------------------------------- \\
     private var chessGameListener: ChessGameListener? = null
     private var gameListener: GameListener? = null
-    private var previousTouchedSquare: Square? = null
 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
@@ -89,7 +88,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun resetVisuals() {
         touchedPiece = null
         movingPiece = null
-        previousTouchedSquare = null
     }
 
     // --- OnTouch ----------------------------------------------------------------------------- \\
@@ -133,11 +131,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun onPressed(touchedSquare: Square) {
-        previousTouchedSquare?.let { previousTouchedSquare ->
-            val move = Move(previousTouchedSquare, touchedSquare, hero)
-            if (heroMadeMove(touchedSquare) && !game.isLegalMove(move)) {
-                resetVisuals()
-            }
+        touchedPiece ?: return
+
+        val move = Move(touchedPiece!!.square, touchedSquare, hero)
+        if (heroMadeMove(touchedSquare) && !game.isLegalMove(move)) {
+            resetVisuals()
         }
     }
 
@@ -151,8 +149,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun onReleased(touchedSquare: Square) {
-        previousTouchedSquare?.let { previousTouchedSquare ->
-            val move = Move(previousTouchedSquare, touchedSquare, hero)
+        touchedPiece?.let { touchedPiece ->
+            val move = Move(touchedPiece.square, touchedSquare, hero)
 
             if (heroMadeMove(touchedSquare) && game.isLegalMove(move)) {
                 movePiece(move)
@@ -160,9 +158,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             }
             return
         }
-
-        // Previous Square is null
-        previousTouchedSquare = touchedSquare
 
         touchedPiece = game.board.pieceAt(touchedSquare)
     }
@@ -209,7 +204,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     // playerTriesToMove returns true if the player made a move inside of the board
     private fun heroMadeMove(touchedSquare: Square): Boolean {
-        return previousTouchedSquare != null && previousTouchedSquare != touchedSquare
+        touchedPiece ?: return false
+
+        return touchedPiece!!.square != touchedSquare
     }
 
     // cnaHeroMove returns true if the hero can play

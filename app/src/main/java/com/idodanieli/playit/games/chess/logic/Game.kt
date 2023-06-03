@@ -50,7 +50,7 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         return false
     }
 
-    // canMove returns true if the move is legal
+    // isLegalMove returns true if the move is legal
     fun isLegalMove(move: Move): Boolean {
         if (move.origin == move.dest) {
             return  false
