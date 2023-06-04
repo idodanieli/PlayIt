@@ -50,17 +50,6 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         return false
     }
 
-    // isLegalMove returns true if the move is legal
-    fun isLegalMove(move: Move): Boolean {
-        if (move.origin == move.dest) {
-            return  false
-        }
-        val movingPiece = board.pieceAt(move.origin) ?: return false
-        if (movingPiece.player != currentPlayer) { return false }
-
-        return move.dest in getLegalMovesForPiece(movingPiece)
-    }
-
     // --- Move Filtering Function ------------------------------------------------------------- \\
 
     // getPieceValidMoves returns all the squares a piece can move to, while taking general logic

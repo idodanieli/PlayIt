@@ -139,27 +139,6 @@ class GameTest {
         }
     }
 
-    @Test
-    fun testCanMove() {
-        game.currentPlayer = Player.BLACK
-        var move = Move(bPawn.square, Square(6, 2), Player.BLACK)
-
-        assert(!game.isLegalMove(move)) {
-            errorFormat(
-                game.board,
-                "$bPawn could move even though the king is in check"
-            )
-        }
-
-        move = Move(bBishop.square, Square(1, 1), Player.BLACK)
-        assert(game.isLegalMove(move)) {
-            errorFormat(
-                game.board,
-                "$bBishop couldn't move even though it could block the check"
-            )
-        }
-    }
-
     companion object {
         private const val TEST_GAME_NAME = "test"
     }

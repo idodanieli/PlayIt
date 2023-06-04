@@ -32,6 +32,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // --- For Logic ------------------------------------------------------------------------- \\
     private var chessGameListener: ChessGameListener? = null
     private var gameListener: GameListener? = null
+    private var touchedPieceAvailableSquares = emptyList<Square>()
 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
@@ -81,13 +82,15 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         // If the touched piece is not of the current player - display nothing
         if (game.currentPlayer != touchedPiece!!.player) { return }
 
+        touchedPieceAvailableSquares = getAvailableSquares(touchedPiece!!)
+        chessDrawer.drawAvailableSquares(touchedPieceAvailableSquares)
         chessDrawer.drawSquare(touchedPiece!!.square, COLOR_TOUCHED)
-        chessDrawer.drawAvailableSquares(getAvailableSquares(touchedPiece!!))
     }
 
     private fun resetVisuals() {
         touchedPiece = null
         movingPiece = null
+        touchedPieceAvailableSquares = emptyList()
 
         invalidate()
     }
@@ -136,7 +139,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         touchedPiece ?: return
 
         val move = Move(touchedPiece!!.square, touchedSquare, hero)
-        if (heroMadeMove(touchedSquare) && !game.isLegalMove(move)) {
+        if (heroMadeMove(touchedSquare) && !isLegalMove(move)) {
             resetVisuals()
         }
     }
@@ -154,7 +157,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         touchedPiece?.let { touchedPiece ->
             val move = Move(touchedPiece.square, touchedSquare, hero)
 
-            if (heroMadeMove(touchedSquare) && game.isLegalMove(move)) {
+            if (heroMadeMove(touchedSquare) && isLegalMove(move)) {
                 movePiece(move)
                 chessGameListener?.onPieceMoved(move)
             }
@@ -222,6 +225,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // isOpponentsTurn returns true if its the opponents turn and not the heros
     fun isOpponentsTurn(): Boolean {
         return game.currentPlayer != hero
+    }
+
+    // isLegalMove returns true if the move is legal
+    private fun isLegalMove(move: Move): Boolean {
+        // TODO: Move player check out of here
+        return touchedPiece!!.player != game.currentPlayer &&
+                move.dest in touchedPieceAvailableSquares
     }
 
     // --- General ----------------------------------------------------------------------------- \\
