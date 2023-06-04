@@ -20,6 +20,8 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         }
 
         board.move(piece, move.dest)
+
+        // TODO: Add King Castling Move Explicitly?
     }
 
     fun switchTurn() {
