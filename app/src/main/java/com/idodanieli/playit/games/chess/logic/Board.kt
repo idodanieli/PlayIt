@@ -146,58 +146,13 @@ class Board(startingPieces: MutableSet<Piece>, val size: Int) {
         }
     }
 
-    // getPinner returns the piece that pins the current piece
-    fun getPinner(pinned: Piece) : Piece? {
-        if (pinned.type == TYPE_KING) { return null } // TODO: Make this more general
-
-        val king = getPiece(TYPE_KING, pinned.player) ?: return null
-        val direction = king.square.directionTo(pinned.square)
-
-        var currentSquare = king.square.copy()
-        var passedPinnedPieceSquare = false
-
-        while (currentSquare.inBorder(size)) {
-            currentSquare += direction
-
-            pieceAt(currentSquare)?.let {currentPiece ->
-                if (!passedPinnedPieceSquare) {
-                    if (currentPiece == pinned) { passedPinnedPieceSquare = true }
-                    else {
-                        // EXAMPLE: k . b p . . . R . ( the bishop blocks the pin for the pawn )
-                        // Another piece blocks the pin ( before )
-                        return null
-                    }
-                } else {
-                    // Here we are after the pinned piece ( no piece blocks before )
-                    if (currentPiece.player == pinned.player) {
-                        // EXAMPLE: K . . p b . . R . ( the bishop blocks the pin for the pawn )
-                        // Another piece blocks the pin ( afterwards )
-                        return null
-                    }
-
-                    if(currentPiece.movementType == MovementType.RIDER &&
-                        king.square in currentPiece.xrayPossibleMove(this)) {
-                        // The piece is pinned to the currentPiece
-                        // Example: k . . p . . . R . ( the pawn is pinned by the rook )
-                        return currentPiece
-                    }
-
-                    // EXAMPLE: K . . p b . . R . ( the bishop blocks the pin for the pawn )
-                    // Another piece blocks the pin ( afterwards )
-                    return  null
-                }
-            }
-        }
-
-        return null
-    }
-
     //----------------- FOR PRINTING THE BOARD ------------------ \\
     private fun flatString(pieces: List<Piece>) : String {
         val flatBoardCharcters = ".".repeat(size * size).toCharArray()
         for (piece in pieces) {
             val type = if (piece.player.isWhite()) piece.type else piece.type.lowercase()
-            flatBoardCharcters[piece.square.row * size + piece.square.col] = type[0]
+            val index = (size - (piece.square.row + 1)) * size + piece.square.col
+            flatBoardCharcters[index] = type[0]
         }
 
         return String(flatBoardCharcters)

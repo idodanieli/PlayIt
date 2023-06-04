@@ -61,7 +61,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     // canCastleWith returns true if the king can castle with the given piece
-    private fun canCastleWith(piece: Piece, board: Board): Boolean {
+    fun canCastleWith(piece: Piece, board: Board): Boolean {
         // Cant castle with a piece that has already been moved
         if(piece.moved) { return false }
 

@@ -58,12 +58,7 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
         val movingPiece = board.pieceAt(move.origin) ?: return false
         if (movingPiece.player != currentPlayer) { return false }
 
-        var moves = getLegalMovesForPiece(movingPiece)
-        if (isPlayerChecked(movingPiece.player)) {
-            moves = removeIllegalMoves(movingPiece, moves)
-        }
-
-        return move.dest in moves
+        return move.dest in getLegalMovesForPiece(movingPiece)
     }
 
     // --- Move Filtering Function ------------------------------------------------------------- \\
@@ -73,18 +68,10 @@ data class Game(var name: String, private val startingPieces: MutableSet<Piece>,
     fun getLegalMovesForPiece(piece: Piece): List<Square> {
         var moves = piece.possibleMoves(board)
 
-        moves = filterLegalMovesIfPinned(piece, moves)
         moves = removeFriendlyFireMoves(piece, moves)
         moves = removeIllegalMoves(piece, moves)
 
         return moves
-    }
-
-    // filterLegalMovesIfPinned returns all the legal moves the piece can make if being pinned by another piece
-    private fun filterLegalMovesIfPinned(piece: Piece, moves: List<Square>): List<Square> {
-        val pinner = board.getPinner(piece) ?: return moves
-
-        return moves.intersect(piece.square.squaresBetween(pinner.square).toSet()).toList()
     }
 
     // removeFriendlyFireMoves removes moves that their destination is a friendly piece ( avoid friendly fire )
