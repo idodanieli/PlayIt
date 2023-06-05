@@ -32,4 +32,17 @@ data class Move(
     fun flipVertically(boardSize: Int): Move {
         return Move(origin, dest.flipVertically(boardSize), player)
     }
+
+    // --- Map Key Calculation ---------------------------------------------------------------------
+    override fun hashCode(): Int {
+        return Pair(origin, dest).hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) { return true }
+        if (other !is Move) { return false }
+
+        return this.origin == other.origin &&
+                this.dest == other.dest
+    }
 }

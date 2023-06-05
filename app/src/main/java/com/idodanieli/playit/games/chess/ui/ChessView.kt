@@ -82,7 +82,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         // If the touched piece is not of the current player - display nothing
         if (game.currentPlayer != touchedPiece!!.player) { return }
 
-        touchedPieceAvailableSquares = getAvailableSquares(touchedPiece!!)
         chessDrawer.drawAvailableSquares(touchedPieceAvailableSquares)
         chessDrawer.drawSquare(touchedPiece!!.square, COLOR_TOUCHED)
     }
@@ -165,6 +164,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
 
         touchedPiece = game.board.pieceAt(touchedSquare)
+        touchedPieceAvailableSquares = getAvailableSquares(touchedPiece!!)
     }
 
     // getSquareTouched returns the square touched by the position in the MotionEvent
