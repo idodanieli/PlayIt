@@ -7,6 +7,7 @@ import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.logic.Game
+import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
@@ -114,8 +115,13 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         }
     }
 
+    // drawAvailableMoves draw the squares available by a piece to move to in a red color
+    fun drawAvailableMoves(moves: Set<Move>) {
+        return drawAvailableSquares(moves.map { it.dest })
+    }
+
     // drawAvailableSquares draw the squares available by a piece to move to in a red color
-    fun drawAvailableSquares(squares: List<Square>) {
+    private fun drawAvailableSquares(squares: List<Square>) {
         drawSquares(squares, COLOR_LIGHT_AVAILABLE_SQUARE, COLOR_DARK_AVAILABLE_SQUARE)
     }
 

@@ -32,7 +32,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // --- For Logic ------------------------------------------------------------------------- \\
     private var chessGameListener: ChessGameListener? = null
     private var gameListener: GameListener? = null
-    private var touchedPieceAvailableSquares = emptyList<Square>()
+    private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
@@ -82,14 +82,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         // If the touched piece is not of the current player - display nothing
         if (game.currentPlayer != touchedPiece!!.player) { return }
 
-        chessDrawer.drawAvailableSquares(touchedPieceAvailableSquares)
+        chessDrawer.drawAvailableMoves(touchedPieceAvailableMoves.keys)
         chessDrawer.drawSquare(touchedPiece!!.square, COLOR_TOUCHED)
     }
 
     private fun resetVisuals() {
         touchedPiece = null
         movingPiece = null
-        touchedPieceAvailableSquares = emptyList()
+        touchedPieceAvailableMoves = emptyMap()
 
         invalidate()
     }
@@ -153,18 +153,24 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun onReleased(touchedSquare: Square) {
-        touchedPiece?.let { touchedPiece ->
-            val move = Move(touchedPiece.square, touchedSquare, hero)
+        touchedPiece?.let {
+            val touchedMove = getTouchedMove(touchedSquare)
 
-            if (heroMadeMove(touchedSquare) && isLegalMove(move)) {
-                movePiece(move)
-                chessGameListener?.onPieceMoved(move)
+            if (heroMadeMove(touchedSquare) && isLegalMove(touchedMove)) {
+                movePiece(touchedMove)
+                chessGameListener?.onPieceMoved(touchedMove)
             }
             return
         }
 
         touchedPiece = game.board.pieceAt(touchedSquare)
-        touchedPieceAvailableSquares = getAvailableSquares(touchedPiece!!)
+        touchedPieceAvailableMoves = getAvailableMoves(touchedPiece!!).associateWith { it }
+    }
+
+    private fun getTouchedMove(touchedSquare: Square): Move {
+        val move = Move(touchedPiece!!.square, touchedSquare, hero)
+
+        return touchedPieceAvailableMoves[move]!!
     }
 
     // getSquareTouched returns the square touched by the position in the MotionEvent
@@ -195,7 +201,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         resetVisuals()
     }
 
-    private fun getAvailableSquares(piece: Piece): List<Square> {
+    private fun getAvailableMoves(piece: Piece): List<Move> {
         val squares = game.getLegalMovesForPiece(piece)
 
         // When the player is black the screen is flipped vertically
@@ -230,7 +236,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     // isLegalMove returns true if the move is legal
     private fun isLegalMove(move: Move): Boolean {
-        return move.dest in touchedPieceAvailableSquares
+        return move in touchedPieceAvailableMoves
     }
 
     // --- General ----------------------------------------------------------------------------- \\
