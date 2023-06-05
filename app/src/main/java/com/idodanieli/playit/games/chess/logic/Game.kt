@@ -20,6 +20,10 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         }
 
         board.move(piece, move.dest)
+
+        for (followUpMove in move.followUpMoves) {
+            applyMove(followUpMove)
+        }
     }
 
     fun switchTurn() {

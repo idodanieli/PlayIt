@@ -8,6 +8,7 @@ import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.classic.Queen
 import com.idodanieli.playit.games.chess.pieces.classic.Rook
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.logic.Game
 import org.junit.Test
 
 class KingTest {
@@ -19,23 +20,24 @@ class KingTest {
     @Test // that the getCastlingMoves function works
     fun testCastling() {
         val tmpBoard = board.copy()
+        val game = Game("", board.pieces(), board.size) // TODO: Move name out of game... it's annoying
 
         val blockingKnight = Knight(Square(6, 7), Player.WHITE)
-        board.add(blockingKnight)
+        game.board.add(blockingKnight)
 
-        val castlingMoves = king.getCastlingMoves(board)
-        assert(castlingMoves.size == 1) { errorFormat(board, "function returned ${castlingMoves.size} castling moves instead of 1") }
+        val castlingMoves = king.getCastlingMoves(game.board)
+        assert(castlingMoves.size == 1) { errorFormat(game.board, "function returned ${castlingMoves.size} castling moves instead of 1") }
 
         val expectedKingDest = Square(2, 7)
         val expectedRookDest = Square(3, 7)
-        board.move(castlingMoves[0])
+        game.applyMove(castlingMoves[0])
 
         assert(king.square == expectedKingDest) {
-            errorFormat(board, "king should have been at $expectedKingDest instead of ${king.square} after the castling")
+            errorFormat(game.board, "king should have been at $expectedKingDest instead of ${king.square} after the castling")
         }
 
         assert(leftRook.square == expectedRookDest) {
-            errorFormat(board, "rook should have been at $expectedRookDest instead of ${leftRook.square} after the castling")
+            errorFormat(game.board, "rook should have been at $expectedRookDest instead of ${leftRook.square} after the castling")
         }
 
         board = tmpBoard
