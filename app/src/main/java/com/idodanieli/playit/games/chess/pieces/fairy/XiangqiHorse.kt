@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
@@ -15,8 +14,8 @@ open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, play
     override val movementType = MovementType.REGULAR
     open val moveOffsets = XIANGQI_HORSE_MOVE_OFFSETS
 
-    override fun possibleMoves(board: Board): List<Move> {
-        val moves = arrayListOf<Move>()
+    override fun possibleMoves(board: Board): List<Square> {
+        val moves = arrayListOf<Square>()
 
         for (i in moveOffsets) {
             for (j in moveOffsets) {
@@ -26,8 +25,7 @@ open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, play
                 val destination = square + move
 
                 if(board.isIn(destination) && !isMoveBlockedByOtherPiece(move, board)) {
-                    val move = Move(square, destination, player)
-                    moves.add(move)
+                    moves.add(destination)
                 }
             }
         }

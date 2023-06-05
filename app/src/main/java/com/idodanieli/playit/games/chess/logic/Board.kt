@@ -2,8 +2,9 @@ package com.idodanieli.playit.games.chess.logic
 
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
+import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
-class Board(startingPieces: Set<Piece>, val size: Int) {
+class Board(startingPieces: MutableSet<Piece>, val size: Int) {
     var map: MutableMap<Square, Piece> = startingPieces.associateBy { it.square }.toMutableMap()
     var whitePieces = startingPieces.filter { it.player.isWhite() }.associateWith { true }.toMutableMap()
     var blackPieces = startingPieces.filter { it.player.isBlack() }.associateWith { true }.toMutableMap()
@@ -113,7 +114,7 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
                 continue
             }
 
-            if (square in piece.getCapturableSquares(this)) {
+            if (square in piece.captureMoves(this)) {
                 return true
             }
         }
@@ -134,7 +135,7 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
     // getPotentialEaters returns all the pieces that can capture the given piece on the next move
     fun getPotentialEaters(piece: Piece): List<Piece> {
         return pieces(piece.player.opposite()).filter {
-            piece.square in it.getCapturableSquares(this)
+            piece.square in it.captureMoves(this)
         }
     }
 

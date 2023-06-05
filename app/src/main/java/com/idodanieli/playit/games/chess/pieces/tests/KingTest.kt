@@ -8,7 +8,6 @@ import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.classic.Queen
 import com.idodanieli.playit.games.chess.pieces.classic.Rook
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
-import com.idodanieli.playit.games.chess.logic.Game
 import org.junit.Test
 
 class KingTest {
@@ -19,17 +18,7 @@ class KingTest {
 
     @Test // that the getCastlingMoves function works
     fun testCastling() {
-        // R . . . K . . R          . . K R . . . R
-        // . . . . . . . .          . . . . . . . .
-        // . . . . . . . .          . . . . . . . .
-        // . . . . . . . .   --->   . . . . . . . .
-        // . . . . . . . .          . . . . . . . .
-        // . . . . . . . .          . . . . . . . .
-        // . . . . . . . .          . . . . . . . .
-        // . . . . . . . .          . . . . . . . .
-        
         val tmpBoard = board.copy()
-        val game = Game("", board.pieces(), board.size)
 
         val blockingKnight = Knight(Square(6, 7), Player.WHITE)
         board.add(blockingKnight)
@@ -39,8 +28,7 @@ class KingTest {
 
         val expectedKingDest = Square(2, 7)
         val expectedRookDest = Square(3, 7)
-        print(game.board)
-        game.applyMove(castlingMoves[0])
+        board.move(castlingMoves[0])
 
         assert(king.square == expectedKingDest) {
             errorFormat(board, "king should have been at $expectedKingDest instead of ${king.square} after the castling")

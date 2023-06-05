@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
@@ -24,20 +23,20 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
         }
     }
 
-    override fun possibleMoves(board: Board): List<Move> {
-        val destinations = arrayListOf<Square>()
+    override fun possibleMoves(board: Board): List<Square> {
+        val moves = arrayListOf<Square>()
         if (!moved) {
             val move1 = Square(square.col + direction * MAX_START_MOVES, square.row + direction * MAX_START_MOVES)
             val move2 = Square(square.col - direction * MAX_START_MOVES, square.row + direction * MAX_START_MOVES)
-            destinations.addAll(listOf(move1, move2))
+            moves.addAll(listOf(move1, move2))
         }
 
         val defaultMove1 = Square(square.col + direction, square.row + direction)
         val defaultMove2 = Square(square.col - direction, square.row + direction)
-        destinations.addAll(listOf(defaultMove1, defaultMove2))
+        moves.addAll(listOf(defaultMove1, defaultMove2))
 
         val possibleMoves = arrayListOf<Square>()
-        possibleMoves.addAll(destinations.filter { board.isIn(it) && board.isFree(it) })
+        possibleMoves.addAll(moves.filter { board.isIn(it) && board.isFree(it) })
 
 
         val captureMove = captureMove()
@@ -46,10 +45,10 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
             if (it.player != player) { possibleMoves.add(captureMove) }
         }
 
-        return possibleMoves.map { Move(square, it, player) }
+        return possibleMoves
     }
 
-    override fun getCapturableSquares(board: Board): List<Square> {
+    override fun captureMoves(board: Board): List<Square> {
         return listOf(captureMove()).filter { it.inBorder(board.size) }
     }
 

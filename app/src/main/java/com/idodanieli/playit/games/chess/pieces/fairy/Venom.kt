@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
@@ -30,8 +29,8 @@ class Venom(square: Square, player: Player) : Rider(square, player) {
         maxSteps++
     }
 
-    override fun possibleMoves(board: Board, getMovesInDirection: (piece: Piece, board: Board, direction: Square, max_steps: Int) -> List<Move>): List<Move> {
-        val moves = arrayListOf<Move>()
+    override fun possibleMoves(board: Board, getMovesInDirection: (piece: Piece, board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square> {
+        val moves = arrayListOf<Square>()
 
         for (i in MOVE_OFFSETS) {
             for (j in MOVE_OFFSETS) {

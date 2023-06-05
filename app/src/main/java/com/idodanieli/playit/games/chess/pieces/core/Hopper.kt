@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.core
 
 import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
@@ -19,18 +18,18 @@ abstract class Hopper(square: Square, player: Player) : BasePiece(square, player
     // The size of the hop the hopper makes
     abstract val hop: Int
 
-    override fun possibleMoves(board: Board): List<Move> {
-        val destinations = arrayListOf<Square>()
+    override fun possibleMoves(board: Board): List<Square> {
+        val moves = arrayListOf<Square>()
 
         for (direction in directions) {
-            destinations.add(Square(square.col + direction.col * hop, square.row + direction.row * hop))
+            moves.add(Square(square.col + direction.col * hop, square.row + direction.row * hop))
         }
 
-        return destinations.filter { board.isIn(it) }.map { Move(square, it, player) }
+        return moves.filter { board.isIn(it) }
     }
 
     // isAHopOverOtherPiece checks if the given move hops over another move
-    fun isAHopOverAPiece(move: Move, board: Board): Boolean {
-        return square.squaresBetween(move.dest, excludeDestination = true).any { board.pieceAt(it) != null }
+    fun isAHopOverAPiece(move: Square, board: Board): Boolean {
+        return square.squaresBetween(move, excludeDestination = true).any { board.pieceAt(it) != null }
     }
 }

@@ -58,7 +58,6 @@ object OnlineChessGameListener: ChessGameListener {
     }
 
     private fun isOpponentsMove(hero: Player, move: Move?): Boolean {
-        // TODO: Remove player from move AND apply this logic with game.currentPlayer
         move?.let {
             return move.player != hero
         }
