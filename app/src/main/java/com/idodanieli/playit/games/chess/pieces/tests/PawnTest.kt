@@ -14,10 +14,10 @@ class PawnTest {
         val pawn = Pawn(Square(0, 1), Player.WHITE)
         val board = Board(mutableSetOf(), CHESSBOARD_SIZE)
 
-        val moves = pawn.possibleMoves(board)
+        val destinations = pawn.possibleMoves(board).map { move -> move.dest }
 
-        assert(Square(0, 2) in moves) // Forward move
-        assert(Square(0, 3) in moves) // Double-forward move
+        assert(Square(0, 2) in destinations) // Forward move
+        assert(Square(0, 3) in destinations) // Double-forward move
     }
 
     @Test // Tests that the pawn cant move forward while at the final rank
@@ -36,13 +36,13 @@ class PawnTest {
         val enemy = Pawn(Square(1, 5), Player.WHITE)
 
         val board = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE)
-        val moves = pawn.possibleMoves(board)
+        val destinations = pawn.possibleMoves(board).map { move -> move.dest }
 
-        assert(enemy.square in moves) { wrongMovesFormat(pawn, board, moves, "The black pawn could not eat the white pawn!") }
+        assert(enemy.square in destinations) { wrongMovesFormat(pawn, board, destinations, "The black pawn could not eat the white pawn!") }
 
         board.remove(enemy)
 
-        assert(enemy.square !in pawn.captureMoves(board)) {"The pawn at ${pawn.square} could eat " +
+        assert(enemy.square !in pawn.getCapturableSquares(board)) {"The pawn at ${pawn.square} could eat " +
                 "the enemy at ${enemy.square} even though its not in the board!"}
     }
 
@@ -52,8 +52,8 @@ class PawnTest {
         val enemy = Pawn(Square(0, 5), Player.WHITE)
 
         val board = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE)
-        val possibleMoves = pawn.possibleMoves(board)
+        val destinations = pawn.possibleMoves(board).map { move -> move.dest }
 
-        assert(possibleMoves.isEmpty()) { wrongMovesFormat(pawn, board, possibleMoves, "The pawn managed to leap over another piece when it shouldn't have") }
+        assert(destinations.isEmpty()) { wrongMovesFormat(pawn, board, destinations, "The pawn managed to leap over another piece when it shouldn't have") }
     }
 }

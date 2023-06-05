@@ -5,6 +5,7 @@ import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_EIGHTH_RAN
 import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_H_FILE
 import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_ZERO_RANK
 import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
@@ -20,8 +21,8 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     // TODO: Change 8 -> BOARD_SIZE
     // TODO: INSTEAD OF IS_IN USE BITBOARDS
     // TODO: CHECK IF THERE IS AN ENEMY PIECE WITH BITBOARDS
-    override fun possibleMoves(board: Board): List<Square> {
-        val moves = arrayListOf<Square>()
+    override fun possibleMoves(board: Board): List<Move> {
+        val destinations = arrayListOf<Square>()
         val origin = square.bitboard()
 
         val defaultMove: Square
@@ -39,17 +40,17 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         }
 
         // Single square forward move
-        if (board.isFree(defaultMove)) { moves.add(defaultMove) }
+        if (board.isFree(defaultMove)) { destinations.add(defaultMove) }
 
         // Double square forward move from the starting position
-        if (!moved and board.isFree(listOf(defaultMove, startingMove))) { moves.add(startingMove) }
+        if (!moved and board.isFree(listOf(defaultMove, startingMove))) { destinations.add(startingMove) }
 
-        moves += captureMoves(board)
+        val moves = destinations.filter{it.inBorder(board.size)}.map { Move(square, it, player) }
 
-        return moves.filter{it.inBorder(board.size)}
+        return moves + getCapturableSquares(board).map { Move(square, it, player) }
     }
 
-    override fun captureMoves(board: Board): List<Square> {
+    override fun getCapturableSquares(board: Board): List<Square> {
         val origin = square.bitboard()
         val captureMoveLeft: Square
         val captureMoveRight: Square
@@ -65,7 +66,6 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
             }
         }
 
-        return listOf(captureMoveLeft, captureMoveRight)
-            .filter { board.playerAt(it) == player.opposite()}
+        return listOf(captureMoveLeft, captureMoveRight).filter { board.playerAt(it) == player.opposite()}
     }
 }

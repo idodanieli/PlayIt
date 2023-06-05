@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
@@ -14,15 +15,15 @@ interface Piece {
     val type: String
     val movementType: MovementType
 
-    fun xrayPossibleMove(board: Board): List<Square>
+    fun xrayPossibleMove(board: Board): List<Move>
 
-    // captureMoves returns all the squares the piece can capture in (most of the times it will be like
+    // getCapturableSquares returns all the squares the piece can capture in the board (most of the times it will be like
     // possibleMoves, except for special cases like Pawns, etc.)
-    fun captureMoves(board: Board): List<Square>
+    fun getCapturableSquares(board: Board): List<Square>
 
     // possibleMoves returns all the squares a piece can move to, without taking general logic
     // into consideration like pinning, etc.
-    fun possibleMoves(board: Board): List<Square>
+    fun possibleMoves(board: Board): List<Move>
 
     // onMove adds logic to piece after they have been moved
     fun onMove()

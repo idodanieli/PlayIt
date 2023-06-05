@@ -16,16 +16,26 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_KING
     override val movementType = MovementType.LEAPER
 
-    override fun possibleMoves(board: Board): List<Square> {
-        return board.neighborSquares(this).filter { !board.isThreatened(it, player.opposite()) }
+    // --- Moving Logic ----------------------------------------------------------------------------
+    override fun possibleMoves(board: Board): List<Move> {
+        return getSafeNeighborMoves(board) + getCastlingMoves(board)
     }
 
-    // --- Castling Logic ---------------------------------------------------------------------- \\
-    fun getCastlingMoves(board: Board): List<List<Move>> {
+    private fun getSafeNeighborMoves(board: Board): List<Move> {
+        return getSafeNeighborSquares(board).map { neighborSquare -> Move(square, neighborSquare, player) }
+    }
+
+    private fun getSafeNeighborSquares(board: Board): List<Square> {
+        return board.neighborSquares(this)
+            .filter { !board.isThreatened(it, player.opposite()) }
+    }
+
+    // --- Castling Logic --------------------------------------------------------------------------
+    fun getCastlingMoves(board: Board): List<Move> {
         // Cant castle if has been moved
         if (moved) { return arrayListOf() }
 
-        val moves = mutableListOf<List<Move>>()
+        val moves = mutableListOf<Move>()
 
         val friendlyRooks = board.pieces(player).filter { it.type == TYPE_ROOK }
         for (rook in friendlyRooks) {
@@ -38,7 +48,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     // getCastlingMove returns the square the king would land on after castling with the given piece
-    private fun getCastlingMove(rook: Piece): List<Move> {
+    private fun getCastlingMove(rook: Piece): Move {
         val kingOrigin = square
         val rookOrigin = rook.square
 
@@ -54,10 +64,9 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
             rookDest = kingDest + Square(1, 0)
         }
 
-        val kingMove = Move(kingOrigin, kingDest, player)
         val pieceMove = Move(rookOrigin, rookDest, player)
 
-        return listOf(kingMove, pieceMove)
+        return Move(kingOrigin, kingDest, player, followUpMoves = listOf(pieceMove))
     }
 
     // canCastleWith returns true if the king can castle with the given piece

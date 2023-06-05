@@ -32,7 +32,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // --- For Logic ------------------------------------------------------------------------- \\
     private var chessGameListener: ChessGameListener? = null
     private var gameListener: GameListener? = null
-    private var touchedPieceAvailableSquares = emptyList<Square>()
+    private var touchedPieceAvailableMovesMapping = emptyMap<Square, Move>()
 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
@@ -82,15 +82,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         // If the touched piece is not of the current player - display nothing
         if (game.currentPlayer != touchedPiece!!.player) { return }
 
-        touchedPieceAvailableSquares = getAvailableSquares(touchedPiece!!)
-        chessDrawer.drawAvailableSquares(touchedPieceAvailableSquares)
+        chessDrawer.drawAvailableMoves(touchedPieceAvailableMovesMapping.values)
         chessDrawer.drawSquare(touchedPiece!!.square, COLOR_TOUCHED)
     }
 
     private fun resetVisuals() {
         touchedPiece = null
         movingPiece = null
-        touchedPieceAvailableSquares = emptyList()
+        touchedPieceAvailableMovesMapping = emptyMap()
 
         invalidate()
     }
@@ -165,6 +164,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
 
         touchedPiece = game.board.pieceAt(touchedSquare)
+        touchedPieceAvailableMovesMapping = getAvailableMoves(touchedPiece!!).associateBy { it.dest }
     }
 
     // getSquareTouched returns the square touched by the position in the MotionEvent
@@ -195,15 +195,15 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         resetVisuals()
     }
 
-    private fun getAvailableSquares(piece: Piece): List<Square> {
-        val squares = game.getLegalMovesForPiece(piece)
+    private fun getAvailableMoves(piece: Piece): List<Move> {
+        val moves = game.getLegalMovesForPiece(piece)
 
         // When the player is black the screen is flipped vertically
         if (hero.isBlack()) {
-            return squares.map { it.flipVertically(game.size) }
+            return moves.map { it.flipVertically(game.size) }
         }
 
-        return squares
+        return moves
     }
 
     // heroMadeMove returns true if the player made a move inside of the board
@@ -230,8 +230,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // isLegalMove returns true if the move is legal
     private fun isLegalMove(move: Move): Boolean {
         // TODO: Move player check out of here
-        return touchedPiece!!.player != game.currentPlayer &&
-                move.dest in touchedPieceAvailableSquares
+        return touchedPiece!!.player == game.currentPlayer &&
+                move in touchedPieceAvailableMovesMapping.values
     }
 
     // --- General ----------------------------------------------------------------------------- \\

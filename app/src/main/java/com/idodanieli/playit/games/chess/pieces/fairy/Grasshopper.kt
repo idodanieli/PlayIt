@@ -1,9 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 
-import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.DIRECTIONS
-import com.idodanieli.playit.games.chess.logic.Player
-import com.idodanieli.playit.games.chess.logic.Square
+import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.core.Hopper
 
 const val TYPE_GRASSHOPPER = "H"
@@ -19,7 +16,7 @@ class Grasshopper(square: Square, player: Player) : Hopper(square, player) {
     override val hop: Int = 3
     override val type = TYPE_GRASSHOPPER
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun possibleMoves(board: Board): List<Move> {
         val moves = super.possibleMoves(board)
 
         return moves.filter { isAHopOverAPiece(it, board) }

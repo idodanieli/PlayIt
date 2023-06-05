@@ -28,7 +28,7 @@ class PinningTest {
 
         game.currentPlayer = Player.BLACK
 
-        val blackPawnMoves = game.getLegalMovesForPiece(blackPawn)
+        val blackPawnMoves = game.getLegalMovesForPiece(blackPawn).map { move -> move.dest }
 
         assert(whiteBishop.square in blackPawnMoves) {
             errorFormat(game.board, "$blackPawn could not eat $whiteBishop")

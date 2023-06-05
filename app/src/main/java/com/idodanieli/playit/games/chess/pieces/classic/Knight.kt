@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces.classic
 
 import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
@@ -14,8 +15,8 @@ open class Knight(square: Square, player: Player) : BasePiece(square, player) {
     override val movementType = MovementType.LEAPER
     open val moveOffsets = KNIGHT_MOVE_OFFSETS
 
-    override fun possibleMoves(board: Board): List<Square> {
-        val moves = arrayListOf<Square>()
+    override fun possibleMoves(board: Board): List<Move> {
+        val destinations = arrayListOf<Square>()
 
         for (i in moveOffsets) {
             for (j in moveOffsets) {
@@ -26,11 +27,11 @@ open class Knight(square: Square, player: Player) : BasePiece(square, player) {
                 val move2 = Square(this.square.col + j, this.square.row + i)
 
                 for (move in listOf(move1, move2)) {
-                    if (board.isIn(move)) { moves.add(move) }
+                    if (board.isIn(move)) { destinations.add(move) }
                 }
             }
         }
 
-        return moves
+        return destinations.map { Move(square, it, player) }
     }
 }
