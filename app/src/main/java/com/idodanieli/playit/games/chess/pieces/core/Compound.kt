@@ -10,10 +10,10 @@ abstract class Compound(square: Square, player: Player) : BasePiece(square, play
 
     abstract val pieces: List<Piece>
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
-        for (piece in pieces) { moves += piece.possibleMoves(board) }
+        for (piece in pieces) { moves += piece.availableSquares(board) }
 
         return moves
     }

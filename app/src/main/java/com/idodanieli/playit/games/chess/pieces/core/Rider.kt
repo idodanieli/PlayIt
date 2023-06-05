@@ -11,11 +11,11 @@ abstract class Rider(square: Square, player: Player) : BasePiece(square, player)
 
     abstract fun possibleMoves(board: Board, getMovesInDirection: (self: Piece, board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square>
 
-    override fun xrayPossibleMove(board: Board): List<Square> {
+    override fun xrayAvailableMoves(board: Board): List<Square> {
         return possibleMoves(board, ::xrayMovesInDirection)
     }
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         return possibleMoves(board, ::allMovesInDirecton)
     }
 }

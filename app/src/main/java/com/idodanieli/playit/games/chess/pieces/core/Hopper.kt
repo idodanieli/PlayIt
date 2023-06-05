@@ -18,7 +18,7 @@ abstract class Hopper(square: Square, player: Player) : BasePiece(square, player
     // The size of the hop the hopper makes
     abstract val hop: Int
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (direction in directions) {

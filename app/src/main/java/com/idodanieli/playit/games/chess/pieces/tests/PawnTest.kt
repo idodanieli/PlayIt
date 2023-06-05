@@ -14,7 +14,7 @@ class PawnTest {
         val pawn = Pawn(Square(0, 1), Player.WHITE)
         val board = Board(mutableSetOf(), CHESSBOARD_SIZE)
 
-        val moves = pawn.possibleMoves(board)
+        val moves = pawn.availableSquares(board)
 
         assert(Square(0, 2) in moves) // Forward move
         assert(Square(0, 3) in moves) // Double-forward move
@@ -26,7 +26,7 @@ class PawnTest {
 
         val board = Board(mutableSetOf(), CHESSBOARD_SIZE)
 
-        val moves = pawn.possibleMoves(board)
+        val moves = pawn.availableSquares(board)
         assert(moves.isEmpty())
     }
 
@@ -36,13 +36,13 @@ class PawnTest {
         val enemy = Pawn(Square(1, 5), Player.WHITE)
 
         val board = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE)
-        val moves = pawn.possibleMoves(board)
+        val moves = pawn.availableSquares(board)
 
         assert(enemy.square in moves) { wrongMovesFormat(pawn, board, moves, "The black pawn could not eat the white pawn!") }
 
         board.remove(enemy)
 
-        assert(enemy.square !in pawn.captureMoves(board)) {"The pawn at ${pawn.square} could eat " +
+        assert(enemy.square !in pawn.capturableSquares(board)) {"The pawn at ${pawn.square} could eat " +
                 "the enemy at ${enemy.square} even though its not in the board!"}
     }
 
@@ -52,7 +52,7 @@ class PawnTest {
         val enemy = Pawn(Square(0, 5), Player.WHITE)
 
         val board = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE)
-        val possibleMoves = pawn.possibleMoves(board)
+        val possibleMoves = pawn.availableSquares(board)
 
         assert(possibleMoves.isEmpty()) { wrongMovesFormat(pawn, board, possibleMoves, "The pawn managed to leap over another piece when it shouldn't have") }
     }

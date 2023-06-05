@@ -14,7 +14,7 @@ open class Knight(square: Square, player: Player) : BasePiece(square, player) {
     override val movementType = MovementType.LEAPER
     open val moveOffsets = KNIGHT_MOVE_OFFSETS
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in moveOffsets) {

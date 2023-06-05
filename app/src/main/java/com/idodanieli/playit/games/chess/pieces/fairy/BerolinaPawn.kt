@@ -23,7 +23,7 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
         }
     }
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
         if (!moved) {
             val move1 = Square(square.col + direction * MAX_START_MOVES, square.row + direction * MAX_START_MOVES)
@@ -48,7 +48,7 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
         return possibleMoves
     }
 
-    override fun captureMoves(board: Board): List<Square> {
+    override fun capturableSquares(board: Board): List<Square> {
         return listOf(captureMove()).filter { it.inBorder(board.size) }
     }
 

@@ -19,8 +19,8 @@ class Grasshopper(square: Square, player: Player) : Hopper(square, player) {
     override val hop: Int = 3
     override val type = TYPE_GRASSHOPPER
 
-    override fun possibleMoves(board: Board): List<Square> {
-        val moves = super.possibleMoves(board)
+    override fun availableSquares(board: Board): List<Square> {
+        val moves = super.availableSquares(board)
 
         return moves.filter { isAHopOverAPiece(it, board) }
     }

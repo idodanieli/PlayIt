@@ -10,17 +10,17 @@ open class BasePiece(override var square: Square, override var player: Player): 
     override val movementType = MovementType.REGULAR
     override var moved = false
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         // To be overridden by child classes
         return emptyList()
     }
 
-    override fun xrayPossibleMove(board: Board): List<Square> {
+    override fun xrayAvailableMoves(board: Board): List<Square> {
         return emptyList()
     }
 
-    override fun captureMoves(board: Board): List<Square> {
-        return possibleMoves(board)
+    override fun capturableSquares(board: Board): List<Square> {
+        return availableSquares(board)
     }
 
     override fun onMove() {

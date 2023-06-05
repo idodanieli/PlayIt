@@ -20,7 +20,7 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     // TODO: Change 8 -> BOARD_SIZE
     // TODO: INSTEAD OF IS_IN USE BITBOARDS
     // TODO: CHECK IF THERE IS AN ENEMY PIECE WITH BITBOARDS
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
         val origin = square.bitboard()
 
@@ -44,12 +44,12 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
         // Double square forward move from the starting position
         if (!moved and board.isFree(listOf(defaultMove, startingMove))) { moves.add(startingMove) }
 
-        moves += captureMoves(board)
+        moves += capturableSquares(board)
 
         return moves.filter{it.inBorder(board.size)}
     }
 
-    override fun captureMoves(board: Board): List<Square> {
+    override fun capturableSquares(board: Board): List<Square> {
         val origin = square.bitboard()
         val captureMoveLeft: Square
         val captureMoveRight: Square

@@ -55,7 +55,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     // getPieceValidMoves returns all the squares a piece can move to, while taking general logic
     // into consideration like pinning, friendly-fire etc.
     fun getLegalMovesForPiece(piece: Piece): List<Square> {
-        var moves = piece.possibleMoves(board)
+        var moves = piece.availableSquares(board)
 
         moves = removeFriendlyFireMoves(piece, moves)
         moves = removeIllegalMoves(piece, moves)

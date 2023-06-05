@@ -16,7 +16,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_KING
     override val movementType = MovementType.LEAPER
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         return board.neighborSquares(this).filter { !board.isThreatened(it, player.opposite()) }
     }
 

@@ -14,15 +14,16 @@ interface Piece {
     val type: String
     val movementType: MovementType
 
-    fun xrayPossibleMove(board: Board): List<Square>
+    // availableSquares returns all the squares a piece can move to, without taking general logic
+    // into consideration like pinning, etc.
+    fun availableSquares(board: Board): List<Square>
+
+    // TODO: Should every Piece implement this? Or only Riders?
+    fun xrayAvailableMoves(board: Board): List<Square>
 
     // captureMoves returns all the squares the piece can capture in (most of the times it will be like
     // possibleMoves, except for special cases like Pawns, etc.)
-    fun captureMoves(board: Board): List<Square>
-
-    // possibleMoves returns all the squares a piece can move to, without taking general logic
-    // into consideration like pinning, etc.
-    fun possibleMoves(board: Board): List<Square>
+    fun capturableSquares(board: Board): List<Square>
 
     // onMove adds logic to piece after they have been moved
     fun onMove()

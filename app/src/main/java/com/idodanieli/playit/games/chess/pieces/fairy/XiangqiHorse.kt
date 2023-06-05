@@ -14,7 +14,7 @@ open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, play
     override val movementType = MovementType.REGULAR
     open val moveOffsets = XIANGQI_HORSE_MOVE_OFFSETS
 
-    override fun possibleMoves(board: Board): List<Square> {
+    override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
 
         for (i in moveOffsets) {
