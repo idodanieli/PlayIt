@@ -10,7 +10,10 @@ import kotlinx.serialization.json.Json
 data class Move(
     @SerialName("origin") val origin: Square,
     @SerialName("dest")   val dest: Square,
-    @SerialName("player") val player: Player
+    @SerialName("player") val player: Player,
+
+    // followUpMoves to apply after this move ( Example use: Castling )
+    @SerialName("followUpMoves") val followUpMoves: List<Move> = emptyList()
 ) {
     companion object {
         fun fromJSON(json: String): Move {
@@ -24,5 +27,9 @@ data class Move(
 
     fun toJson(): String {
         return  Json.encodeToString(this)
+    }
+
+    fun flipVertically(boardSize: Int): Move {
+        return Move(origin, dest.flipVertically(boardSize), player)
     }
 }
