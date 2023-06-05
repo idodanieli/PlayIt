@@ -184,7 +184,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     // movePiece in the game, will be shown in the UI
     fun movePiece(move: Move) {
-        game.movePiece(move)
+        game.applyMove(move)
         soundMove.start()
 
         game.switchTurn()

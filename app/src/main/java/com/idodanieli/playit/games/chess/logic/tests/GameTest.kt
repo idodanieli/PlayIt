@@ -18,7 +18,7 @@ class GameTest {
         val game = Game(TEST_GAME_NAME, mutableSetOf(pawn, enemyPawn), CHESSBOARD_SIZE)
 
         val move = Move(origin, destination, pawn.player)
-        game.movePiece(move)
+        game.applyMove(move)
 
         assert(game.board.pieceAt(destination) == pawn)
         assert(enemyPawn !in game.board.whitePieces)
