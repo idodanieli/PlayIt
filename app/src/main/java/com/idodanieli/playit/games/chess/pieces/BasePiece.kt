@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
@@ -10,7 +11,12 @@ open class BasePiece(override var square: Square, override var player: Player): 
     override val movementType = MovementType.REGULAR
     override var moved = false
 
+    override fun availableMoves(board: Board): List<Move> {
+        return availableSquares(board).map { dest -> Move(square, dest, player) }
+    }
+
     override fun availableSquares(board: Board): List<Square> {
+        // TODO: Raise NotImplementedException!
         // To be overridden by child classes
         return emptyList()
     }

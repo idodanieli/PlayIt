@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
@@ -14,8 +15,11 @@ interface Piece {
     val type: String
     val movementType: MovementType
 
-    // availableSquares returns all the squares a piece can move to, without taking general logic
+    // availableMoves returns all the moves a piece can take, without taking general logic
     // into consideration like pinning, etc.
+    fun availableMoves(board: Board): List<Move>
+
+    // availableSquares returns all the squares a piece can move to
     fun availableSquares(board: Board): List<Square>
 
     // TODO: Should every Piece implement this? Or only Riders?
