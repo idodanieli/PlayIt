@@ -139,7 +139,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         touchedPiece ?: return
 
         val move = Move(touchedPiece!!.square, touchedSquare, hero)
-        if (heroMadeMove(touchedSquare) && !isLegalMove(move)) {
+        if (!heroMadeMove(touchedSquare) || !isLegalMove(move)) {
             resetVisuals()
         }
     }
@@ -210,7 +210,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun heroMadeMove(touchedSquare: Square): Boolean {
         touchedPiece ?: return false
 
-        return touchedPiece!!.square != touchedSquare
+        return touchedPiece!!.player == game.currentPlayer &&
+                touchedPiece!!.square != touchedSquare
     }
 
     // cnaHeroMove returns true if the hero can play
@@ -229,9 +230,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     // isLegalMove returns true if the move is legal
     private fun isLegalMove(move: Move): Boolean {
-        // TODO: Move player check out of here
-        return touchedPiece!!.player != game.currentPlayer &&
-                move.dest in touchedPieceAvailableSquares
+        return move.dest in touchedPieceAvailableSquares
     }
 
     // --- General ----------------------------------------------------------------------------- \\

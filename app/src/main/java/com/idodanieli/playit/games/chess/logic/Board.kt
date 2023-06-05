@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
-class Board(startingPieces: MutableSet<Piece>, val size: Int) {
+class Board(startingPieces: Set<Piece>, val size: Int) {
     var map: MutableMap<Square, Piece> = startingPieces.associateBy { it.square }.toMutableMap()
     var whitePieces = startingPieces.filter { it.player.isWhite() }.associateWith { true }.toMutableMap()
     var blackPieces = startingPieces.filter { it.player.isBlack() }.associateWith { true }.toMutableMap()
