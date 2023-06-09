@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -83,6 +82,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         initUI(games)
+
+
     }
 
     private fun createGames(): List<Game> {
@@ -146,6 +147,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewPager.adapter = PageviewAdapter(games, gameListener)
+
+        initDebugButton()
     }
 
     private fun showGameOverDialog(winner: Player) {
@@ -206,5 +209,14 @@ class MainActivity : AppCompatActivity() {
         )
 
         return dialogBuilder.create()
+    }
+
+    private fun initDebugButton() {
+        val printButton = findViewById<Button>(R.id.debugButton)
+        printButton.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(this)
+            dialogBuilder.setMessage(viewPager.currentChessview().game.board.toString())
+            dialogBuilder.create().show()
+        }
     }
 }
