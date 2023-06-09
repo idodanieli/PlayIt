@@ -76,22 +76,46 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         drawBitmapAtSquare(piece.square, pieceBitmap)
     }
 
-    // drawBitmapAtPosition draws the piece in the given position on the screen
-    // @param scale = the scaling of the piece
-    private fun drawBitmapAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) =
-        canvas.drawBitmap(
-            bitmap,
-            null,
-            RectF(
-                x - squareSize * scale / 2,
-                y - squareSize * scale / 2,
-                x + squareSize * scale / 2,
-                y + squareSize * scale / 2
-            ),
-            Paint()
-        )
+    // drawChessboard.board draws the whole chessboard ( without the pieces )
+    fun drawChessboard() {
+        val chessboardSquares = getChessboardSquares()
+        drawSquares(chessboardSquares, lightColor, darkColor)
+    }
 
-    // drawSquare draws a square
+    private fun getChessboardSquares(): List<Square> {
+        return (0..size).flatMap { col ->
+            (0..size).map { row ->
+                Square(col, row)
+            }
+        }
+    }
+
+    // drawAvailableMoves draw the moves available by a piece to move to in a red color
+    fun drawAvailableMoves(moves: Set<Move>) {
+        return drawAvailableSquares(moves.map { it.dest })
+    }
+
+    private fun drawAvailableSquares(squares: List<Square>) {
+        drawSquares(squares, COLOR_LIGHT_AVAILABLE_SQUARE, COLOR_DARK_AVAILABLE_SQUARE)
+    }
+
+    private fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
+        for (square in squares) {
+            drawSquare(square, if (square.isDark(hero)) darkColor else lightColor)
+        }
+    }
+
+    // --- Raw Drawing -----------------------------------------------------------------------------
+    fun drawSquare(square: Square, color: Int) {
+        this.canvas.drawRect(
+            square.col * squareSize,
+            this.canvas.height - square.row * squareSize,
+            (square.col + 1) * squareSize,
+            this.canvas.height - (square.row + 1) * squareSize,
+            getPaint(color)
+        )
+    }
+
     private fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) =
         this.canvas.drawBitmap(
             bitmap,
@@ -105,46 +129,24 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
             Paint()
         )
 
-    // drawChessboard.board draws the whole chessboard ( without the pieces )
-    fun drawChessboard() {
-        for (row in 0 until size) {
-            for (col in 0 until size) {
-                val square = Square(col, row)
-                this.drawSquare(square, if (square.isDark(hero)) darkColor else lightColor)
-            }
-        }
-    }
-
-    // drawAvailableMoves draw the squares available by a piece to move to in a red color
-    fun drawAvailableMoves(moves: Set<Move>) {
-        return drawAvailableSquares(moves.map { it.dest })
-    }
-
-    // drawAvailableSquares draw the squares available by a piece to move to in a red color
-    private fun drawAvailableSquares(squares: List<Square>) {
-        drawSquares(squares, COLOR_LIGHT_AVAILABLE_SQUARE, COLOR_DARK_AVAILABLE_SQUARE)
-    }
-
-    private fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
-        for (square in squares) {
-            drawSquare(square, if (square.isDark(hero)) darkColor else lightColor)
-        }
-    }
-
-    // drawSquare draws the square at the right position on the screen
-    fun drawSquare(square: Square, color: Int) {
-        this.canvas.drawRect(
-            square.col * squareSize,
-            this.canvas.height - square.row * squareSize,
-            (square.col + 1) * squareSize,
-            this.canvas.height - (square.row + 1) * squareSize,
-            getPaint(color)
+    // @param scale = the scaling of the piece
+    private fun drawBitmapAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) =
+        canvas.drawBitmap(
+            bitmap,
+            null,
+            RectF(
+                x - squareSize * scale / 2,
+                y - squareSize * scale / 2,
+                x + squareSize * scale / 2,
+                y + squareSize * scale / 2
+            ),
+            Paint()
         )
-    }
+}
 
-    private fun getPieceBitmap(piece: Piece): Bitmap? {
-        return BITMAPS[piece.player]?.get(piece.type)
-    }
+// --- BITMAPS -------------------------------------------------------------------------------------
+private fun getPieceBitmap(piece: Piece): Bitmap? {
+    return BITMAPS[piece.player]?.get(piece.type)
 }
 
 private fun loadBitmaps(resources: Resources) {

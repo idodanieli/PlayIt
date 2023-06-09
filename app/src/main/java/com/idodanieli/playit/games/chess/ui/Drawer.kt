@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.ui
 
-import android.R
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Bitmap
@@ -35,8 +34,6 @@ open class Drawer {
 
 enum class Direction {
     VERTICAL, HORIZONTAL
-
-
 }
 
 // fetchColorFromAttribute in the theme
