@@ -79,9 +79,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun drawTouchedPiece() {
         touchedPiece ?: return
 
-        // If the touched piece is not of the current player - display nothing
-        if (game.currentPlayer != touchedPiece!!.player) { return }
-
         chessDrawer.drawAvailableMoves(touchedPieceAvailableMoves.keys)
         chessDrawer.drawTouchedSquare(touchedPiece!!.square)
     }
@@ -158,8 +155,21 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             return
         }
 
-        touchedPiece = game.board.pieceAt(touchedSquare)
-        touchedPieceAvailableMoves = getAvailableMoves(touchedPiece!!)
+        touchedPiece = getTouchedPiece(touchedSquare)
+        if (touchedPiece != null) {
+            touchedPieceAvailableMoves = getAvailableMoves(touchedPiece!!)
+        }
+    }
+
+    private fun getTouchedPiece(touchedSquare: Square): Piece? {
+        val touchedPiece = game.board.pieceAt(touchedSquare)
+
+        // If the touched piece is not of the current player - display nothing
+        if (game.currentPlayer != touchedPiece!!.player) {
+            return null
+        }
+
+        return touchedPiece
     }
 
     private fun getTouchedMove(touchedSquare: Square): Move {
