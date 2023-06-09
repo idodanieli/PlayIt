@@ -165,7 +165,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         val touchedPiece = game.board.pieceAt(touchedSquare)
 
         // If the touched piece is not of the current player - display nothing
-        if (game.currentPlayer != touchedPiece!!.player) {
+        if (touchedPiece == null || game.currentPlayer != touchedPiece.player) {
             return null
         }
 
