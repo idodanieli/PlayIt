@@ -149,7 +149,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             val touchedMove = getTouchedMove(touchedSquare)
 
             if (heroMadeMove(touchedSquare) && isLegalMove(touchedMove)) {
-                movePiece(touchedMove)
+                applyMove(touchedMove)
                 chessGameListener?.onPieceMoved(touchedMove)
             }
             return
@@ -204,8 +204,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         game.started = true
     }
 
-    // movePiece in the game, will be shown in the UI
-    fun movePiece(move: Move) {
+    fun applyMove(move: Move) {
         game.applyMove(move)
         soundMove.start()
 

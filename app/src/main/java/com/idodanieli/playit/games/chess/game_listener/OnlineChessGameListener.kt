@@ -52,7 +52,7 @@ object OnlineChessGameListener: ChessGameListener {
         if (isOpponentsMove(chessView.hero, lastMove)) {
             // Post UI-related operations to the main thread
             handler.post {
-                chessView.movePiece(lastMove!!)
+                chessView.applyMove(lastMove!!)
             }
         }
     }
