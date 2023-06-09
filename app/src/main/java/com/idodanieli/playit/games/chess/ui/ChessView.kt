@@ -100,17 +100,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         event ?: return false
         if (!game.started || !canHeroPlay()) { return true }
 
-        var touchedSquare = getTouchedSquare(event)
-
-        // When the player is black the screen is flipped vertically
-        if (hero.isBlack()) {
-            touchedSquare = touchedSquare.flipVertically(game.size)
-        }
+        val touchedSquare = getTouchedSquare(event)
 
         when (event.action) {
             // This action occurs when the user initially presses down on the screen
             MotionEvent.ACTION_DOWN -> {
-                onPressed(touchedSquare)
+                onTouchPressed(touchedSquare)
             }
 
             // This action occurs when the user moves their finger on the screen after pressing down.
@@ -120,7 +115,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
             //  This action occurs when the user releases their finger or lifts the stylus from the screen
             MotionEvent.ACTION_UP -> {
-                onReleased(touchedSquare)
+                onTouchReleased(touchedSquare)
                 invalidate()
             }
         }
@@ -134,7 +129,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         chessGameListener?.onGameOver()
     }
 
-    private fun onPressed(touchedSquare: Square) {
+    private fun onTouchPressed(touchedSquare: Square) {
         touchedPiece ?: return
 
         val move = Move(touchedPiece!!.square, touchedSquare, hero)
@@ -143,7 +138,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
     }
 
-    private fun onDragged(event: MotionEvent, touchedSquare: Square) {
+    private fun onTouchDragged(event: MotionEvent, touchedSquare: Square) {
         movingPiece?.let {
             it.x = event.x
             it.y = event.y
@@ -152,7 +147,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         invalidate() // calls onDraw
     }
 
-    private fun onReleased(touchedSquare: Square) {
+    private fun onTouchReleased(touchedSquare: Square) {
         touchedPiece?.let {
             val touchedMove = getTouchedMove(touchedSquare)
 
@@ -175,8 +170,19 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     // getSquareTouched returns the square touched by the position in the MotionEvent
     private fun getTouchedSquare(event: MotionEvent): Square {
+        var touchedSquare = getSquareFromMoveEvent(event)
+
+        if (hero.isBlack()) {
+            // When the player is black the screen is flipped vertically
+            touchedSquare = touchedSquare.flipVertically(game.size)
+        }
+
+        return touchedSquare
+    }
+
+    private fun getSquareFromMoveEvent(event: MotionEvent): Square {
         val touchedColumn = (event.x / squareSize).toInt()
-        val touchedRow = 7 - (event.y / squareSize).toInt()
+        val touchedRow = (game.size - 1) - (event.y / squareSize).toInt()
 
         return Square(touchedColumn, touchedRow)
     }

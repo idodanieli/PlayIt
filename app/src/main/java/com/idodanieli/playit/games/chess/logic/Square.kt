@@ -97,10 +97,6 @@ data class Square(
 
         if (excludeDestination) { squares.remove(current) } // excludes the last squares from the moves
 
-        if (move == Square(1, 2)) {
-            Log.d("blah1", "$moveByRowFirst, $squares")
-        }
-
         return squares
     }
 

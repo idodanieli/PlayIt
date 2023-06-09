@@ -127,7 +127,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
 
     private fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
         for (square in squares) {
-            this.drawSquare(square, if (square.isDark(hero)) darkColor else lightColor)
+            drawSquare(square, if (square.isDark(hero)) darkColor else lightColor)
         }
     }
 
