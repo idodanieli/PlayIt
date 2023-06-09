@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Looper.getMainLooper
 import android.os.Handler
+import com.idodanieli.playit.SharedPrefsManager
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
@@ -12,15 +13,19 @@ import com.idodanieli.playit.games.chess.ui.ChessView
 object OnlineChessGameListener: ChessGameListener {
     private lateinit var fetchEnemyMovesThread: Thread
 
-    override fun onGameStarted(chessView: ChessView, gameID: String) {
+    override fun onGameSelected(chessView: ChessView, gameID: String) {
         // TODO: Move out of here to main activity
         val player = if (GameClient.getInstance().join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
         chessView.setGameHero(player)
 
+        showGameIDDialog(chessView.context, gameID)
+    }
+
+    override fun onGameStarted(chessView: ChessView, gameID: String) {
         fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=1000) }
         fetchEnemyMovesThread.start()
 
-        showGameIDDialog(chessView.context, gameID)
+        chessView.heroTextView.text = SharedPrefsManager.getInstance().getUsername()
     }
 
     override fun onGameOver() {

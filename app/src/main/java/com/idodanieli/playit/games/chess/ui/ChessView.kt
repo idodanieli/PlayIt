@@ -19,17 +19,17 @@ import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    // --- For Drawing ------------------------------------------------------------------------- \\
+    // --- For Drawing -----------------------------------------------------------------------------
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private var touchedPiece: Piece? = null
     private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
 
-    // --- For Sounds ------------------------------------------------------------------------- \\
+    // --- For Sounds ------------------------------------------------------------------------------
     private val soundMove = MediaPlayer.create(context, R.raw.sound_chess_move)
     private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
 
-    // --- For Logic ------------------------------------------------------------------------- \\
+    // --- For Logic -------------------------------------------------------------------------------
     private var chessGameListener: ChessGameListener? = null
     private var gameListener: GameListener? = null
     private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
@@ -37,8 +37,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
 
-    // TODO: Delete this later
-    var currentPlayer: TextView? = null
+    // --- Views -----------------------------------------------------------------------------------
+
+    lateinit var heroTextView: TextView
+    lateinit var opponentTextView: TextView
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -46,7 +48,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         setMeasuredDimension(smaller, smaller)
     }
 
-    // --- onDraw ------------------------------------------------------------------------------ \\
+    // --- onDraw ----------------------------------------------------------------------------------
     // onDraw is called everytime invalidate() is called
     // the order of the draw functions inside is crucial
     override fun onDraw(canvas: Canvas?) {
@@ -62,18 +64,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         drawTouchedPiece()
 
         chessDrawer.drawPieces(game, movingPiece)
-
-        drawCurrentPlayer()
-    }
-
-    private fun drawCurrentPlayer() {
-        currentPlayer?.let {
-            if (game.currentPlayer.isBlack()) {
-                it.setTextColor(resources.getColor(R.color.black))
-            } else {
-                it.setTextColor(resources.getColor(R.color.white))
-            }
-        }
     }
 
     private fun drawTouchedPiece() {
@@ -200,6 +190,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // --- View Game Logic --------------------------------------------------------------------- \\
 
     fun startGame(gameID: String = "") {
+        chessGameListener?.onGameSelected(this, gameID)
         chessGameListener?.onGameStarted(this, gameID)
         game.started = true
     }

@@ -38,7 +38,8 @@ class PageviewAdapter(
         holder.chessView.game = game
         holder.chessView.setGameListener(gameListener)
 
-        holder.chessView.currentPlayer = holder.currentPlayer
+        holder.chessView.heroTextView = holder.playerHero
+        holder.chessView.opponentTextView = holder.playerOpponent
     }
 
     // return the number of the items in the list
@@ -52,6 +53,7 @@ class PageviewAdapter(
         val gameTitle: TextView = itemView.findViewById(R.id.gameName)
         val gameDescription: TextView = itemView.findViewById(R.id.gameDescription)
 
-        val currentPlayer: TextView = itemView.findViewById(R.id.currentPlayer)
+        val playerHero: TextView = itemView.findViewById(R.id.playerHero)
+        val playerOpponent: TextView = itemView.findViewById(R.id.playerOpponent)
     }
 }
