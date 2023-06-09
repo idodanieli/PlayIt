@@ -13,14 +13,6 @@ import com.idodanieli.playit.games.chess.ui.ChessView
 object OnlineChessGameListener: ChessGameListener {
     private lateinit var fetchEnemyMovesThread: Thread
 
-    override fun onGameSelected(chessView: ChessView, gameID: String) {
-        // TODO: Move out of here to main activity
-        val player = if (GameClient.getInstance().join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
-        chessView.setGameHero(player)
-
-        showGameIDDialog(chessView.context, gameID)
-    }
-
     override fun onGameStarted(chessView: ChessView, gameID: String) {
         fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=1000) }
         fetchEnemyMovesThread.start()
@@ -68,16 +60,5 @@ object OnlineChessGameListener: ChessGameListener {
         }
 
         return false
-    }
-
-    private fun showGameIDDialog(context: Context, gameID: String) {
-        val dialogBuilder = AlertDialog.Builder(context)
-
-        dialogBuilder.setTitle("Game Created")
-        dialogBuilder.setMessage("Game ID: $gameID")
-
-        // Create and show the dialog
-        val dialog = dialogBuilder.create()
-        dialog.show()
     }
 }

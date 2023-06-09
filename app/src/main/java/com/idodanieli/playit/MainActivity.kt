@@ -1,13 +1,13 @@
 package com.idodanieli.playit
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.activities.RegisterActivity
@@ -16,6 +16,7 @@ import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.ui.ChessView
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field
@@ -28,6 +29,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var joinGameButton: Button
     private lateinit var findGameButton: Button
     private lateinit var gameIDEditText: EditText
+
+    private val gameListener = object : GameListener {
+        override fun onGameOver(winner: Player) {
+            showGameOverDialog(winner)
+        }
+
+        override fun onGameSelected(chessView: ChessView, gameID: String) {
+            val player = if (GameClient.getInstance().join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
+            chessView.setGameHero(player)
+
+            showGameIDDialog(chessView.context, gameID)
+        }
+    }
 
     // Flow starts here
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,8 +94,15 @@ class MainActivity : AppCompatActivity() {
 
         val chessView = viewPager.currentChessview()
         chessView.setMode(mode)
-        chessView.startGame(gameID)
+
+        startGame(chessView, gameID)
+
         chessView.invalidate()
+    }
+
+    private fun startGame(chessView: ChessView, gameID: String) {
+        chessView.startGame(gameID)
+        gameListener.onGameSelected(chessView, gameID)
     }
 
     private fun initUI(games: List<Game>) {
@@ -100,12 +121,6 @@ class MainActivity : AppCompatActivity() {
             val chessView = viewPager.currentChessview()
             val gameID = GameClient.getInstance().findGame(chessView.game.name)
             playButtonOnClick(MODE_ONLINE, gameID)
-        }
-
-        val gameListener = object : GameListener {
-            override fun onGameOver(winner: Player) {
-                showGameOverDialog(winner)
-            }
         }
 
         viewPager.adapter = PageviewAdapter(games, gameListener)
@@ -156,5 +171,16 @@ class MainActivity : AppCompatActivity() {
     private fun openRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun showGameIDDialog(context: Context, gameID: String) {
+        val dialogBuilder = AlertDialog.Builder(context)
+
+        dialogBuilder.setTitle("Game Created")
+        dialogBuilder.setMessage("Game ID: $gameID")
+
+        // Create and show the dialog
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 }

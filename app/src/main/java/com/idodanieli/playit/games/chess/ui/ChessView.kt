@@ -190,7 +190,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // --- View Game Logic --------------------------------------------------------------------- \\
 
     fun startGame(gameID: String = "") {
-        chessGameListener?.onGameSelected(this, gameID)
         chessGameListener?.onGameStarted(this, gameID)
         game.started = true
     }
