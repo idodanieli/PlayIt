@@ -159,7 +159,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
 
         touchedPiece = game.board.pieceAt(touchedSquare)
-        touchedPieceAvailableMoves = getAvailableMoves(touchedPiece!!).associateWith { it }
+        touchedPieceAvailableMoves = getAvailableMoves(touchedPiece!!)
     }
 
     private fun getTouchedMove(touchedSquare: Square): Move {
@@ -207,15 +207,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         resetVisuals()
     }
 
-    private fun getAvailableMoves(piece: Piece): List<Move> {
-        val squares = game.getLegalMovesForPiece(piece)
-
-        // When the player is black the screen is flipped vertically
-        if (hero.isBlack()) {
-            return squares.map { it.flipVertically(game.size) }
-        }
-
-        return squares
+    private fun getAvailableMoves(piece: Piece): Map<Move, Move> {
+        return game.getLegalMovesForPiece(piece).associateWith { it }
     }
 
     // heroMadeMove returns true if the player made a move inside of the board

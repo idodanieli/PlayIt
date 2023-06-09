@@ -98,23 +98,29 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
 
     private fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
         for (square in squares) {
-            drawSquare(square, lightColor, darkColor)
+            drawSquareAccordingToHero(square, lightColor, darkColor)
         }
     }
 
-    private fun drawSquare(square: Square, lightColor: Int, darkColor: Int) {
-        val color = if(isSquareDark(square)) darkColor else lightColor
-        drawSquare(square, color)
+    private fun drawSquareAccordingToHero(square: Square, lightColor: Int, darkColor: Int) {
+        val color = getSquareColor(square, lightColor, darkColor)
+
+        // When the player is black the screen is flipped vertically so it's fitting to his perspective
+        val squareAccordingToHero = if(hero.isBlack()) square.flipVertically(size) else square
+
+        drawSquare(squareAccordingToHero, color)
     }
 
-    private fun isSquareDark(square: Square): Boolean {
-        var isDark = (square.col + square.row) % 2 == 1
-        if (hero.isBlack()) {
-            // Orientation is reversed for black
-            isDark = !isDark
+    private fun getSquareColor(square: Square, lightColor: Int, darkColor: Int): Int {
+        if(isDarkSquare(square)) {
+            return darkColor
         }
 
-        return isDark
+        return lightColor
+    }
+
+    private fun isDarkSquare(square: Square): Boolean {
+        return (square.col + square.row) % 2 == 1
     }
 
     // --- Raw Drawing -----------------------------------------------------------------------------

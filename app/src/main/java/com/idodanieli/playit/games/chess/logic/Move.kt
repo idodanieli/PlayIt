@@ -29,10 +29,6 @@ data class Move(
         return  Json.encodeToString(this)
     }
 
-    fun flipVertically(boardSize: Int): Move {
-        return Move(origin, dest.flipVertically(boardSize), player)
-    }
-
     // --- Map Key Calculation ---------------------------------------------------------------------
     override fun hashCode(): Int {
         return Pair(origin, dest).hashCode()
