@@ -83,7 +83,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         if (game.currentPlayer != touchedPiece!!.player) { return }
 
         chessDrawer.drawAvailableMoves(touchedPieceAvailableMoves.keys)
-        chessDrawer.drawSquareAccordingToHero(touchedPiece!!.square, COLOR_TOUCHED)
+        chessDrawer.drawTouchedSquare(touchedPiece!!.square)
     }
 
     private fun resetVisuals() {

@@ -39,6 +39,17 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         this.squareSize = size
     }
 
+    // drawChessboard.board draws the whole chessboard ( without the pieces )
+    fun drawChessboard() {
+        val chessboardSquares = getChessboardSquares()
+        drawSquares(chessboardSquares, lightColor, darkColor)
+    }
+
+    // drawAvailableMoves draw the moves available by a piece to move to in a red color
+    fun drawAvailableMoves(moves: Set<Move>) {
+        return drawAvailableSquares(moves.map { it.dest })
+    }
+
     // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
     fun drawPieces(game: Game, movingPiece: MovingPiece?) {
         game.pieces().forEach { piece ->
@@ -57,6 +68,10 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         }
     }
 
+    fun drawTouchedSquare(square: Square) {
+        drawSquareAccordingToHero(square, COLOR_TOUCHED)
+    }
+
     private fun drawPiece(piece: Piece) {
         var pieceBitmap = getPieceBitmap(piece)!!
 
@@ -73,23 +88,12 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         drawBitmapAtSquare(piece.square, pieceBitmap)
     }
 
-    // drawChessboard.board draws the whole chessboard ( without the pieces )
-    fun drawChessboard() {
-        val chessboardSquares = getChessboardSquares()
-        drawSquares(chessboardSquares, lightColor, darkColor)
-    }
-
     private fun getChessboardSquares(): List<Square> {
         return (0..size).flatMap { col ->
             (0..size).map { row ->
                 Square(col, row)
             }
         }
-    }
-
-    // drawAvailableMoves draw the moves available by a piece to move to in a red color
-    fun drawAvailableMoves(moves: Set<Move>) {
-        return drawAvailableSquares(moves.map { it.dest })
     }
 
     private fun drawAvailableSquares(squares: List<Square>) {
@@ -102,16 +106,16 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         }
     }
 
-    fun drawSquareAccordingToHero(square: Square, color: Int) {
+    private fun drawSquareAccordingToHero(square: Square, lightColor: Int, darkColor: Int) {
+        val color = getSquareColor(square, lightColor, darkColor)
+        drawSquareAccordingToHero(square, color)
+    }
+
+    private fun drawSquareAccordingToHero(square: Square, color: Int) {
         // When the player is black the screen is flipped vertically so it's fitting to his perspective
         val squareAccordingToHero = if(hero.isBlack()) square.flipVertically(size) else square
 
         drawSquare(squareAccordingToHero, color)
-    }
-
-    private fun drawSquareAccordingToHero(square: Square, lightColor: Int, darkColor: Int) {
-        val color = getSquareColor(square, lightColor, darkColor)
-        drawSquareAccordingToHero(square, color)
     }
 
     private fun getSquareColor(square: Square, lightColor: Int, darkColor: Int): Int {
