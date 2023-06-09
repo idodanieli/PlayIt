@@ -102,13 +102,16 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         }
     }
 
-    private fun drawSquareAccordingToHero(square: Square, lightColor: Int, darkColor: Int) {
-        val color = getSquareColor(square, lightColor, darkColor)
-
+    fun drawSquareAccordingToHero(square: Square, color: Int) {
         // When the player is black the screen is flipped vertically so it's fitting to his perspective
         val squareAccordingToHero = if(hero.isBlack()) square.flipVertically(size) else square
 
         drawSquare(squareAccordingToHero, color)
+    }
+
+    private fun drawSquareAccordingToHero(square: Square, lightColor: Int, darkColor: Int) {
+        val color = getSquareColor(square, lightColor, darkColor)
+        drawSquareAccordingToHero(square, color)
     }
 
     private fun getSquareColor(square: Square, lightColor: Int, darkColor: Int): Int {
@@ -124,7 +127,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
     }
 
     // --- Raw Drawing -----------------------------------------------------------------------------
-    fun drawSquare(square: Square, color: Int) {
+    private fun drawSquare(square: Square, color: Int) {
         this.canvas.drawRect(
             square.col * squareSize,
             this.canvas.height - square.row * squareSize,
