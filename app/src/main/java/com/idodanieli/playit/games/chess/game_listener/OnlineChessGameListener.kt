@@ -11,7 +11,7 @@ object OnlineChessGameListener: ChessGameListener {
     private lateinit var fetchEnemyMovesThread: Thread
 
     override fun onGameStarted(chessView: ChessView, gameID: String) {
-        fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=1000) }
+        fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=GameClient.DEFAULT_SLEEP_INTERVAL) }
         fetchEnemyMovesThread.start()
     }
 
