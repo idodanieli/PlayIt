@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.graphics.*
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.MODE_LOCAL
-import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
@@ -40,7 +39,6 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         this.squareSize = size
     }
 
-    // drawPieces draws all the pieces on the game.board
     // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
     fun drawPieces(game: Game, movingPiece: MovingPiece?) {
         game.pieces().forEach { piece ->
@@ -59,7 +57,6 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         }
     }
 
-    // drawPiece draws the given piece at the right square on the game.board
     private fun drawPiece(piece: Piece) {
         var pieceBitmap = getPieceBitmap(piece)!!
 
@@ -101,8 +98,23 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
 
     private fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
         for (square in squares) {
-            drawSquare(square, if (square.isDark(hero)) darkColor else lightColor)
+            drawSquare(square, lightColor, darkColor)
         }
+    }
+
+    private fun drawSquare(square: Square, lightColor: Int, darkColor: Int) {
+        val color = if(isSquareDark(square)) darkColor else lightColor
+        drawSquare(square, color)
+    }
+
+    private fun isSquareDark(square: Square): Boolean {
+        var isDark = (square.col + square.row) % 2 == 1
+        if (hero.isBlack()) {
+            // Orientation is reversed for black
+            isDark = !isDark
+        }
+
+        return isDark
     }
 
     // --- Raw Drawing -----------------------------------------------------------------------------
