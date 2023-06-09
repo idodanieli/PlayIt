@@ -39,6 +39,8 @@ class PageviewAdapter(
         holder.chessView.setGameListener(gameListener)
 
         holder.chessView.heroTextView = holder.playerHero
+        holder.chessView.heroTextView.text = SharedPrefsManager.getInstance().getUsername()
+
         holder.chessView.opponentTextView = holder.playerOpponent
     }
 

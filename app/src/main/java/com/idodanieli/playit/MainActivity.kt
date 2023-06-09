@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -52,11 +53,11 @@ class MainActivity : AppCompatActivity() {
             val dialog = createWaitingForOpponentDialog(chessView.context, gameClient.gameID)
             dialog.show()
 
-            chessView.heroTextView.text = SharedPrefsManager.getInstance().getUsername()
-
             Thread {
                 Handler(mainLooper).post{
                     chessView.opponentTextView.text = gameClient.getOpponent()
+                    chessView.opponentTextView.visibility = View.VISIBLE
+                    chessView.heroTextView.visibility = View.VISIBLE
                     dialog.cancel()
                 }
 
