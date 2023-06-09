@@ -1,10 +1,7 @@
 package com.idodanieli.playit.games.chess.game_listener
 
-import android.app.AlertDialog
-import android.content.Context
 import android.os.Looper.getMainLooper
 import android.os.Handler
-import com.idodanieli.playit.SharedPrefsManager
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
@@ -16,8 +13,6 @@ object OnlineChessGameListener: ChessGameListener {
     override fun onGameStarted(chessView: ChessView, gameID: String) {
         fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=1000) }
         fetchEnemyMovesThread.start()
-
-        chessView.heroTextView.text = SharedPrefsManager.getInstance().getUsername()
     }
 
     override fun onGameOver() {

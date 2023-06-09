@@ -1,9 +1,11 @@
 package com.idodanieli.playit
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -36,10 +38,30 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onGameSelected(chessView: ChessView, gameID: String) {
-            val player = if (GameClient.getInstance().join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
+            val gameClient = GameClient.getInstance()
+
+            val player = if (gameClient.join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
             chessView.setGameHero(player)
 
-            showGameIDDialog(chessView.context, gameID)
+            waitForOpponentToJoin(chessView)
+        }
+
+        private fun waitForOpponentToJoin(chessView: ChessView) {
+            val gameClient = GameClient.getInstance()
+
+            val dialog = createWaitingForOpponentDialog(chessView.context, gameClient.gameID)
+            dialog.show()
+
+            chessView.heroTextView.text = SharedPrefsManager.getInstance().getUsername()
+
+            Thread {
+                Handler(mainLooper).post{
+                    chessView.opponentTextView.text = gameClient.getOpponent()
+                    dialog.cancel()
+                }
+
+                chessView.startGame(gameClient.gameID)
+            }.start()
         }
     }
 
@@ -101,7 +123,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startGame(chessView: ChessView, gameID: String) {
-        chessView.startGame(gameID)
         gameListener.onGameSelected(chessView, gameID)
     }
 
@@ -173,14 +194,16 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun showGameIDDialog(context: Context, gameID: String) {
+    private fun createWaitingForOpponentDialog(context: Context, gameID: String): Dialog {
         val dialogBuilder = AlertDialog.Builder(context)
 
         dialogBuilder.setTitle("Game Created")
-        dialogBuilder.setMessage("Game ID: $gameID")
+        dialogBuilder.setCancelable(false)
+        dialogBuilder.setMessage(
+            "Game ID: $gameID\n" +
+            "Waiting for opponent"
+        )
 
-        // Create and show the dialog
-        val dialog = dialogBuilder.create()
-        dialog.show()
+        return dialogBuilder.create()
     }
 }

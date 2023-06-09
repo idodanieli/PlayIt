@@ -6,7 +6,7 @@ import com.idodanieli.playit.games.chess.logic.Move
 
 class GameClient private constructor(address: String) {
     private val client = HTTPClient(address)
-    private lateinit var gameID: String
+    lateinit var gameID: String
 
     companion object {
         private const val URI_CREATE_GAME = "/create"
@@ -14,6 +14,7 @@ class GameClient private constructor(address: String) {
         private const val URI_GAME_MOVE = "/game/move"
         private const val URI_GAME_LAST_MOVE = "/game/last_move"
         private const val URI_FIND_GAME = "/find_game"
+        private const val URI_GET_OPPONENT = "/opponent"
 
         private const val PARAM_GAME_ID = "game_id"
         private const val PARAM_GAME_NAME = "game_name"
@@ -21,6 +22,8 @@ class GameClient private constructor(address: String) {
         private const val PARAM_USERNAME = "username"
 
         private const val STATUS_NO_MOVES = "NO_MOVES"
+
+        private const val DEFAULT_SLEEP_INTERVAL = 1000L
 
         const val PLAYER_WHITE = "WHITE"
 
@@ -88,6 +91,27 @@ class GameClient private constructor(address: String) {
         }
 
         return Move.fromJSON(lastMove)
+    }
+
+    fun getOpponent(interval: Long = DEFAULT_SLEEP_INTERVAL): String {
+        var opponent = ""
+
+        while (opponent.isEmpty()) {
+            opponent = getOpponent()
+            Thread.sleep(interval)
+        }
+
+        return opponent
+    }
+
+    private fun getOpponent(): String {
+        return client.get(
+            uri = URI_GET_OPPONENT,
+            params = mapOf(
+                PARAM_GAME_ID to gameID,
+                PARAM_USERNAME to SharedPrefsManager.getInstance().getUsername()
+            )
+        )
     }
 
     fun findGame(gameName: String): String {
