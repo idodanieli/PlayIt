@@ -4,14 +4,14 @@ import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-data class Game(var name: String, private val startingPieces: Set<Piece>, var size: Int) {
+data class Game(var name: String, private val startingPieces: Set<Piece>, var size: Int) : Publisher() {
     var board = Board(startingPieces, size)
     var currentPlayer = Player.WHITE // white always starts in chess
     var description = ""
     var started = false
     var gameListener: GameListener? = null
 
-    // --- Functions that change the game's state ---------------------------------------------- \\
+    // --- Functions that change the game's state --------------------------------------------------
     fun applyMove(move: Move) {
         val piece = this.board.pieceAt(move.origin) ?: return
 
@@ -34,10 +34,10 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     private fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
-        gameListener?.onPieceCaptured(capturedPiece)
+        notifySubscribers(PieceCapturedEvent(capturedPiece))
     }
 
-    // --- Functions that check the game's state ----------------------------------------------- \\
+    // --- Functions that check the game's state ---------------------------------------------------
     fun isOver(): Boolean {
         if (isPlayerChecked(currentPlayer)) {
             for (piece in board.pieces(currentPlayer)) {
@@ -60,7 +60,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         return false
     }
 
-    // --- Move Filtering Function ------------------------------------------------------------- \\
+    // --- Move Filtering Function -----------------------------------------------------------------
 
     // getPieceValidMoves returns all the squares a piece can move to, while taking general logic
     // into consideration like pinning, friendly-fire etc.
@@ -87,7 +87,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         }
     }
 
-    // --- General ----------------------------------------------------------------------------- \\
+    // --- General ---------------------------------------------------------------------------------
     fun pieces(): Set<Piece> {
         return this.board.pieces()
     }

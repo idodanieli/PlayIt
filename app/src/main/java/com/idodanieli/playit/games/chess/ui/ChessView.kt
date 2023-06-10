@@ -18,7 +18,7 @@ import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
 
-class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
+class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
     // --- For Drawing -----------------------------------------------------------------------------
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private var touchedPiece: Piece? = null
@@ -48,6 +48,24 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val smaller = min(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(smaller, smaller)
+    }
+
+    // --- Subscriber ------------------------------------------------------------------------------
+    override fun onGameEvent(event: GameEvent) {
+        when(event) {
+            is PieceCapturedEvent -> {
+                onCapturedPiece(event.capturedPiece)
+            }
+        }
+    }
+
+    private fun onCapturedPiece(capturedPiece: Piece) {
+        if (hero != capturedPiece.player) {
+            opponentsCapturedPieces.append(capturedPiece)
+            return
+        }
+
+        heroCapturedPieces.append(capturedPiece)
     }
 
     // --- onDraw ----------------------------------------------------------------------------------
@@ -202,6 +220,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun startGame(gameID: String = "") {
         chessGameListener?.onGameStarted(this, gameID)
         game.started = true
+        game.subscribe(this)
     }
 
     fun applyMove(move: Move) {

@@ -30,16 +30,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var gameIDEditText: EditText
 
     private val gameListener = object : GameListener {
-        override fun onPieceCaptured(capturedPiece: Piece) {
-            val chessView = viewPager.currentChessview()
-
-            if (capturedPiece.player != chessView.hero) {
-                chessView.opponentsCapturedPieces.append(capturedPiece)
-                return
-            }
-
-            chessView.heroCapturedPieces.append(capturedPiece)
-        }
         override fun onGameOver(winner: Player) {
             showGameOverDialog(winner)
         }
