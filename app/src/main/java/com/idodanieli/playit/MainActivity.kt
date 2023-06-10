@@ -13,15 +13,13 @@ import com.idodanieli.playit.activities.RegisterActivity
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
-import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.pieces.Piece
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GameSubscriber {
     private lateinit var viewPager: ViewPager2
     private lateinit var localPlayButton: Button
     private lateinit var createGameButton: Button
@@ -29,9 +27,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var findGameButton: Button
     private lateinit var gameIDEditText: EditText
 
-    private val gameListener = object : GameListener {
-        override fun onGameOver(winner: Player) {
-            showGameOverDialog(winner)
+    override fun onGameEvent(event: GameEvent) {
+        when(event) {
+            is GameOverEvent -> {
+                showGameOverDialog(event.winner)
+            }
         }
     }
 
@@ -52,8 +52,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         initUI(games)
-
-
     }
 
     private fun createGames(): List<Game> {
@@ -87,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         disableScrolling()
 
         val chessView = viewPager.currentChessview()
+        chessView.game.subscribe(this)
 
         chessView.onSelected(mode, gameID)
         chessView.invalidate()
@@ -110,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             playButtonOnClick(MODE_ONLINE, gameID)
         }
 
-        viewPager.adapter = PageviewAdapter(games, gameListener)
+        viewPager.adapter = PageviewAdapter(games)
 
         initDebugButton()
     }

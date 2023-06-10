@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.logic
 
-import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
@@ -9,7 +8,6 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     var currentPlayer = Player.WHITE // white always starts in chess
     var description = ""
     var started = false
-    var gameListener: GameListener? = null
 
     // --- Functions that change the game's state --------------------------------------------------
     fun applyMove(move: Move) {

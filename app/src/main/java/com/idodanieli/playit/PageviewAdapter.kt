@@ -8,13 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.ui.CapturedPiecesView
 
 
 class PageviewAdapter(
     private val games: List<Game>,
-    private val gameListener: GameListener
     ) :
     RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
 
@@ -36,7 +34,6 @@ class PageviewAdapter(
         holder.gameTitle.text = game.name
         holder.gameDescription.text = game.description
         holder.chessView.game = game
-        holder.chessView.setGameListener(gameListener)
 
         holder.chessView.heroTextView = holder.playerHero
         holder.chessView.heroTextView.text = User.getInstance().getUsername()

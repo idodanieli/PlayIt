@@ -13,7 +13,6 @@ import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.CHESS_GAME_LISTENER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.game_listener.ChessGameListener
-import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
@@ -31,7 +30,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     // --- For Logic -------------------------------------------------------------------------------
     private var chessGameListener: ChessGameListener? = null
-    private var gameListener: GameListener? = null
     private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
 
     var hero = Player.WHITE
@@ -131,9 +129,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun onGameOver() {
-        soundGameOver.start()
-        gameListener?.onGameOver(game.currentPlayer.opposite())
+        val winner = game.currentPlayer.opposite()
+        val gameOverEvent = GameOverEvent(winner)
+
+        game.notifySubscribers(gameOverEvent)
         chessGameListener?.onGameOver()
+
+        soundGameOver.start()
     }
 
     private fun onTouchPressed(touchedSquare: Square) {
@@ -274,10 +276,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     fun setGameHero(hero: Player) {
         this.hero = hero
         this.chessDrawer.hero = hero
-    }
-    fun setGameListener(gameListener: GameListener) {
-        this.gameListener = gameListener
-        this.game.gameListener = gameListener
     }
 }
 
