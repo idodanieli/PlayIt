@@ -30,7 +30,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
 
     // --- For Logic -------------------------------------------------------------------------------
-    private var chessGameListener: ChessGameListener? = null
+    var chessGameListener: ChessGameListener? = null
     private var gameListener: GameListener? = null
     private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
 
@@ -191,6 +191,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     // --- View Game Logic --------------------------------------------------------------------- \\
+
+    fun onSelected(gameID: String = "") {
+        chessGameListener?.onGameSelected(this, gameID)
+    }
 
     fun startGame(gameID: String = "") {
         chessGameListener?.onGameStarted(this, gameID)

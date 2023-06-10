@@ -36,33 +36,6 @@ class MainActivity : AppCompatActivity() {
         override fun onGameOver(winner: Player) {
             showGameOverDialog(winner)
         }
-
-        override fun onGameSelected(chessView: ChessView, gameID: String) {
-            val gameClient = GameClient.getInstance()
-
-            val player = if (gameClient.join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
-            chessView.setGameHero(player)
-
-            waitForOpponentToJoin(chessView)
-        }
-
-        private fun waitForOpponentToJoin(chessView: ChessView) {
-            val gameClient = GameClient.getInstance()
-
-            val dialog = createWaitingForOpponentDialog(chessView.context, gameClient.gameID)
-            dialog.show()
-
-            Thread {
-                Handler(mainLooper).post{
-                    chessView.opponentTextView.text = gameClient.getOpponent()
-                    chessView.opponentTextView.visibility = View.VISIBLE
-                    chessView.heroTextView.visibility = View.VISIBLE
-                    dialog.cancel()
-                }
-
-                chessView.startGame(gameClient.gameID)
-            }.start()
-        }
     }
 
     // Flow starts here
@@ -117,15 +90,10 @@ class MainActivity : AppCompatActivity() {
         disableScrolling()
 
         val chessView = viewPager.currentChessview()
+
         chessView.setMode(mode)
-
-        startGame(chessView, gameID)
-
+        chessView.onSelected(gameID)
         chessView.invalidate()
-    }
-
-    private fun startGame(chessView: ChessView, gameID: String) {
-        gameListener.onGameSelected(chessView, gameID)
     }
 
     private fun initUI(games: List<Game>) {
@@ -196,19 +164,6 @@ class MainActivity : AppCompatActivity() {
     private fun openRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
-    }
-
-    private fun createWaitingForOpponentDialog(context: Context, gameID: String): Dialog {
-        val dialogBuilder = AlertDialog.Builder(context)
-
-        dialogBuilder.setTitle("Game Created")
-        dialogBuilder.setCancelable(false)
-        dialogBuilder.setMessage(
-            "Game ID: $gameID\n" +
-            "Waiting for opponent"
-        )
-
-        return dialogBuilder.create()
     }
 
     private fun initDebugButton() {
