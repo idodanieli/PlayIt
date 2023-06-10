@@ -258,6 +258,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
     fun setGameListener(gameListener: GameListener) {
         this.gameListener = gameListener
+        this.game.gameListener = gameListener
     }
 }
 

@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.logic
 
+import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
@@ -8,6 +9,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     var currentPlayer = Player.WHITE // white always starts in chess
     var description = ""
     var started = false
+    var gameListener: GameListener? = null
 
     // --- Functions that change the game's state ---------------------------------------------- \\
     fun applyMove(move: Move) {
@@ -15,8 +17,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
 
         val enemyPiece = board.pieceAt(move.dest, piece.player.opposite())
         enemyPiece?.let {
-            board.remove(enemyPiece)
-            piece.onCaptured(enemyPiece)
+            applyCapture(capturingPiece = piece, capturedPiece = enemyPiece)
         }
 
         board.move(piece, move.dest)
@@ -28,6 +29,12 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
 
     fun switchTurn() {
         currentPlayer = currentPlayer.opposite()
+    }
+
+    private fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
+        board.remove(capturedPiece)
+        capturingPiece.onCaptured(capturedPiece)
+        gameListener?.onPieceCaptured(capturedPiece)
     }
 
     // --- Functions that check the game's state ----------------------------------------------- \\
@@ -46,7 +53,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         return false
    }
 
-    fun isPlayerChecked(player: Player): Boolean {
+    private fun isPlayerChecked(player: Player): Boolean {
         val king = board.getPiece(TYPE_KING, player)
         king?.let { return board.canBeCaptured(it) }
 
