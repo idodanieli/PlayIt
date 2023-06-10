@@ -222,9 +222,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     // --- View Game Logic --------------------------------------------------------------------- \\
 
-    fun onSelected(mode: String, gameID: String = "") {
+    fun select(mode: String, gameID: String = "") {
         setMode(mode)
-        chessGameListener?.onGameSelected(this, gameID)
+        publisher.notifySubscribers(GameSelectedEvent(this, gameID))
     }
 
     fun startGame() {

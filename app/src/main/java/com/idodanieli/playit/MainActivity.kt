@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         val chessView = viewPager.currentChessview()
         chessView.subscribe(this)
 
-        chessView.onSelected(mode, gameID)
+        chessView.select(mode, gameID)
         chessView.invalidate()
     }
 

@@ -16,6 +16,13 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
     // --- Subscriber ------------------------------------------------------------------------------
     override fun onGameEvent(event: GameEvent) {
         when(event) {
+            is GameSelectedEvent -> {
+                event.chessView.subscribe(this)
+
+                joinGame(event.chessView, event.gameID)
+                waitForOpponentToJoin(event.chessView)
+            }
+
             is GameStartedEvent -> {
                 fetchEnemyMoveInTheBackground(event.chessView)
             }
@@ -31,15 +38,11 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
     }
 
     // --- OnGameSelected --------------------------------------------------------------------------
-    override fun onGameSelected(chessView: ChessView, gameID: String) {
+    private fun joinGame(chessView: ChessView, gameID: String) {
         val gameClient = GameClient.getInstance()
 
         val player = if (gameClient.join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
         chessView.setGameHero(player)
-
-        chessView.subscribe(this)
-
-        waitForOpponentToJoin(chessView)
     }
 
     private fun waitForOpponentToJoin(chessView: ChessView) {
