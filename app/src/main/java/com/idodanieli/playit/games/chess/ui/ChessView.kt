@@ -226,9 +226,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         chessGameListener?.onGameSelected(this, gameID)
     }
 
-    fun startGame(gameID: String = "") {
-        // chessGameListener?.onGameStarted(this, gameID)
-
+    fun startGame() {
         val gameStartedEvent = GameStartedEvent(this)
         publisher.notifySubscribers(gameStartedEvent)
 

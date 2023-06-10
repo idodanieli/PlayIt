@@ -52,7 +52,7 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
                 dialog.cancel()
             }
 
-            chessView.startGame(gameClient.gameID)
+            chessView.startGame()
         }.start()
     }
 
