@@ -91,8 +91,7 @@ class MainActivity : AppCompatActivity() {
 
         val chessView = viewPager.currentChessview()
 
-        chessView.setMode(mode)
-        chessView.onSelected(gameID)
+        chessView.onSelected(mode, gameID)
         chessView.invalidate()
     }
 

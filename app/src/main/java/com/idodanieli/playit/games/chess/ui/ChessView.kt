@@ -192,7 +192,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     // --- View Game Logic --------------------------------------------------------------------- \\
 
-    fun onSelected(gameID: String = "") {
+    fun onSelected(mode: String, gameID: String = "") {
+        setMode(mode)
         chessGameListener?.onGameSelected(this, gameID)
     }
 
@@ -245,7 +246,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     // --- General ----------------------------------------------------------------------------- \\
-    fun setMode(mode: String) {
+    private fun setMode(mode: String) {
         chessDrawer.mode = mode
         chessGameListener = CHESS_GAME_LISTENER[mode]
     }
