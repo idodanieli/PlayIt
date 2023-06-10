@@ -23,7 +23,7 @@ class GameClient private constructor(address: String) {
 
         private const val STATUS_NO_MOVES = "NO_MOVES"
 
-        const val DEFAULT_SLEEP_INTERVAL = 1000L
+        const val DEFAULT_SLEEP_INTERVAL = 500L
 
         const val PLAYER_WHITE = "WHITE"
 
