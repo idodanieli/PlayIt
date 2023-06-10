@@ -72,7 +72,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         drawSquareAccordingToHero(square, COLOR_TOUCHED)
     }
 
-    private fun drawPiece(piece: Piece) {
+    fun drawPiece(piece: Piece) {
         var pieceBitmap = getPieceBitmap(piece)!!
 
         // Flip the black players piece in local mode so it would be easier to play
@@ -141,36 +141,36 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         )
     }
 
-    private fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) =
-        this.canvas.drawBitmap(
-            bitmap,
-            null,
-            RectF(
-                square.col * squareSize,
-                (size - 1 - square.row) * squareSize,
-                (square.col + 1) * squareSize,
-                ((size - 1 - square.row) + 1) * squareSize
-            ),
-            Paint()
+    private fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) {
+        val rect = RectF(
+            square.col * squareSize,
+            (size - 1 - square.row) * squareSize,
+            (square.col + 1) * squareSize,
+            ((size - 1 - square.row) + 1) * squareSize
         )
 
+        drawBitmapAtRect(bitmap, rect)
+    }
+
     // @param scale = the scaling of the piece
-    private fun drawBitmapAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) =
-        canvas.drawBitmap(
-            bitmap,
-            null,
-            RectF(
-                x - squareSize * scale / 2,
-                y - squareSize * scale / 2,
-                x + squareSize * scale / 2,
-                y + squareSize * scale / 2
-            ),
-            Paint()
+    private fun drawBitmapAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) {
+        val rect = RectF(
+            x - squareSize * scale / 2,
+            y - squareSize * scale / 2,
+            x + squareSize * scale / 2,
+            y + squareSize * scale / 2
         )
+
+        drawBitmapAtRect(bitmap, rect)
+    }
+
+    fun drawBitmapAtRect(bitmap: Bitmap, rect: RectF) {
+        canvas.drawBitmap(bitmap, null, rect, Paint())
+    }
 }
 
 // --- BITMAPS -------------------------------------------------------------------------------------
-private fun getPieceBitmap(piece: Piece): Bitmap? {
+fun getPieceBitmap(piece: Piece): Bitmap? {
     return BITMAPS[piece.player]?.get(piece.type)
 }
 

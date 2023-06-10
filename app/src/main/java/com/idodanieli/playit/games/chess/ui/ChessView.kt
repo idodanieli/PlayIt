@@ -30,7 +30,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
 
     // --- For Logic -------------------------------------------------------------------------------
-    var chessGameListener: ChessGameListener? = null
+    private var chessGameListener: ChessGameListener? = null
     private var gameListener: GameListener? = null
     private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
 
@@ -38,9 +38,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var game: Game = Game("Default", mutableSetOf(), 0)
 
     // --- Views -----------------------------------------------------------------------------------
-
     lateinit var heroTextView: TextView
+    lateinit var opponentsCapturedPieces: CapturedPiecesView
+
     lateinit var opponentTextView: TextView
+    lateinit var heroCapturedPieces: CapturedPiecesView
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.game_listener.GameListener
+import com.idodanieli.playit.games.chess.ui.CapturedPiecesView
 
 
 class PageviewAdapter(
@@ -41,6 +42,9 @@ class PageviewAdapter(
         holder.chessView.heroTextView.text = User.getInstance().getUsername()
 
         holder.chessView.opponentTextView = holder.playerOpponent
+
+        holder.chessView.opponentsCapturedPieces = holder.opponentCapturedPiecesView
+        holder.chessView.heroCapturedPieces = holder.herosCapturedPiecesView
     }
 
     // return the number of the items in the list
@@ -56,5 +60,8 @@ class PageviewAdapter(
 
         val playerHero: TextView = itemView.findViewById(R.id.playerHero)
         val playerOpponent: TextView = itemView.findViewById(R.id.playerOpponent)
+
+        val opponentCapturedPiecesView: CapturedPiecesView = itemView.findViewById<CapturedPiecesView>(R.id.opponentsCapturedPieces)
+        val herosCapturedPiecesView: CapturedPiecesView = itemView.findViewById<CapturedPiecesView>(R.id.herosCapturedPieces)
     }
 }
