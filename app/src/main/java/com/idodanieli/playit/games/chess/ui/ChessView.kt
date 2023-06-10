@@ -133,7 +133,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         val gameOverEvent = GameOverEvent(winner)
 
         game.notifySubscribers(gameOverEvent)
-        chessGameListener?.onGameOver()
+        game.unsubscribeAll()
 
         soundGameOver.start()
     }

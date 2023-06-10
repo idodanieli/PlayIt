@@ -11,6 +11,10 @@ open class Publisher {
         subscribers.remove(subscriber)
     }
 
+    fun unsubscribeAll() {
+        subscribers.clear()
+    }
+
     fun notifySubscribers(event: GameEvent) {
         for (subscriber in subscribers) {
             subscriber.onGameEvent(event)

@@ -7,12 +7,20 @@ import android.os.Looper.getMainLooper
 import android.os.Handler
 import android.view.View
 import com.idodanieli.playit.clients.GameClient
-import com.idodanieli.playit.games.chess.logic.Move
-import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.ui.ChessView
 
-object OnlineChessGameListener: ChessGameListener {
+object OnlineChessGameListener: ChessGameListener, GameSubscriber {
     private lateinit var fetchEnemyMovesThread: Thread
+
+    // --- Subscriber ------------------------------------------------------------------------------
+    override fun onGameEvent(event: GameEvent) {
+        when(event) {
+            is GameOverEvent -> {
+                fetchEnemyMovesThread.interrupt()
+            }
+        }
+    }
 
     // --- OnGameSelected --------------------------------------------------------------------------
     override fun onGameSelected(chessView: ChessView, gameID: String) {
@@ -20,6 +28,7 @@ object OnlineChessGameListener: ChessGameListener {
 
         val player = if (gameClient.join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
         chessView.setGameHero(player)
+        chessView.game.subscribe(this)
 
         waitForOpponentToJoin(chessView)
     }
@@ -59,10 +68,6 @@ object OnlineChessGameListener: ChessGameListener {
     override fun onGameStarted(chessView: ChessView, gameID: String) {
         fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=GameClient.DEFAULT_SLEEP_INTERVAL) }
         fetchEnemyMovesThread.start()
-    }
-
-    override fun onGameOver() {
-        fetchEnemyMovesThread.interrupt()
     }
 
     override fun onPieceMoved(move: Move) {
