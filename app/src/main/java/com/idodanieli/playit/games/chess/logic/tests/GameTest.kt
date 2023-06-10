@@ -4,6 +4,7 @@ import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.tests.errorFormat
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.pieces.fairy.Empress
 import org.junit.Test
 
 class GameTest {
@@ -136,6 +137,41 @@ class GameTest {
                 game2.board,
                 "test result concluded that $blockingMoves could block the check even though it couldn't"
             )
+        }
+    }
+
+    @Test // Tests that a piece can only do check-blocking moves while the player is checked
+    fun testGetLegalMovesForPiece() {
+        // . . . m k . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . N . . .
+        // . . . . M . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        val bKing = King(Square(4, 7), Player.BLACK)
+        val bEmpress = Empress(Square(3, 7), Player.BLACK)
+        val wEmpress = Empress(Square(4, 3), Player.WHITE)
+        val wKnight = Knight(Square(4, 4), Player.WHITE)
+
+        val game = Game("", setOf(bKing, bEmpress, wEmpress, wKnight), CHESSBOARD_SIZE)
+        val wKnightMove = Move(Square(4, 4), Square(2, 5), Player.WHITE)
+
+        // . . . m k . . .
+        // . . . . . . . .
+        // . . N . . . . .
+        // . . . . . . . .
+        // . . . . M . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        game.applyMove(wKnightMove)
+
+        val bEmpressLegalMoves = game.getLegalMovesForPiece(bEmpress)
+
+        assert(bEmpressLegalMoves.size == 1) {
+            errorFormat(game.board, "$bEmpress could move to $bEmpressLegalMoves while the player is checked!")
         }
     }
 

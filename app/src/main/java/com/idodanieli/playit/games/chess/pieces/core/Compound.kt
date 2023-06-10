@@ -11,11 +11,11 @@ abstract class Compound(square: Square, player: Player) : BasePiece(square, play
     abstract val pieces: List<Piece>
 
     override fun availableSquares(board: Board): List<Square> {
-        val moves = arrayListOf<Square>()
+        val moves = mutableSetOf<Square>()
 
         for (piece in pieces) { moves += piece.availableSquares(board) }
 
-        return moves
+        return moves.toList()
     }
 
     override fun onMove() {

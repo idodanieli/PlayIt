@@ -46,8 +46,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         return false
    }
 
-    // isChecked returns true if the given player is checked
-    private fun isPlayerChecked(player: Player): Boolean {
+    fun isPlayerChecked(player: Player): Boolean {
         val king = board.getPiece(TYPE_KING, player)
         king?.let { return board.canBeCaptured(it) }
 
@@ -76,7 +75,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     private fun removeIllegalMoves(piece: Piece, moves: List<Move>): List<Move> {
         return moves.filterNot { move ->
             val tmpGame = copy()
-            tmpGame.applyMove(Move(piece.square, move.dest, piece.player))
+            tmpGame.applyMove(move)
             tmpGame.isPlayerChecked(piece.player)
         }
     }
@@ -87,6 +86,6 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     }
 
     private fun copy(): Game {
-        return Game(name, deepCopyPieces(startingPieces), size)
+        return Game(name, deepCopyPieces(pieces()), size)
     }
 }
