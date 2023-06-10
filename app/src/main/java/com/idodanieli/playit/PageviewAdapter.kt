@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.game_listener.ChessGameListener
 import com.idodanieli.playit.games.chess.game_listener.GameListener
 
 
@@ -39,7 +38,7 @@ class PageviewAdapter(
         holder.chessView.setGameListener(gameListener)
 
         holder.chessView.heroTextView = holder.playerHero
-        holder.chessView.heroTextView.text = SharedPrefsManager.getInstance().getUsername()
+        holder.chessView.heroTextView.text = User.getInstance().getUsername()
 
         holder.chessView.opponentTextView = holder.playerOpponent
     }

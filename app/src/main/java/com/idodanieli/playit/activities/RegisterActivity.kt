@@ -6,7 +6,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.idodanieli.playit.R
-import com.idodanieli.playit.SharedPrefsManager
+import com.idodanieli.playit.User
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class RegisterActivity : AppCompatActivity() {
         val usernameEditText = findViewById<EditText>(R.id.registerUsername)
         val registerButton = findViewById<Button>(R.id.registerButton)
 
-        val sharedPrefsManager = SharedPrefsManager.getInstance()
+        val sharedPrefsManager = User.getInstance()
 
         registerButton.setOnClickListener {
             sharedPrefsManager.setUsername(usernameEditText.text.toString())

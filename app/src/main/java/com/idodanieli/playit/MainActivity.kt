@@ -1,11 +1,8 @@
 package com.idodanieli.playit
 
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -18,7 +15,6 @@ import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_listener.GameListener
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.ui.ChessView
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field
@@ -48,9 +44,9 @@ class MainActivity : AppCompatActivity() {
         val games = createGames()
 
         GameClient.initialize("http://192.168.1.33:5000")
-        SharedPrefsManager.initialize(baseContext)
+        User.initialize(baseContext)
 
-        if ( !isRegistered() ) {
+        if ( !User.getInstance().isRegistered() ) {
             openRegisterActivity()
         }
 
@@ -157,9 +153,6 @@ class MainActivity : AppCompatActivity() {
         gameIDEditText.visibility = View.VISIBLE
     }
 
-    private fun isRegistered(): Boolean {
-        return SharedPrefsManager.getInstance().getUsername() != SharedPrefsManager.USERNAME_DEFAULT_VALUE
-    }
     private fun openRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)

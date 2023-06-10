@@ -1,7 +1,7 @@
 package com.idodanieli.playit.clients
 
 import android.util.Log
-import com.idodanieli.playit.SharedPrefsManager
+import com.idodanieli.playit.User
 import com.idodanieli.playit.games.chess.logic.Move
 
 class GameClient private constructor(address: String) {
@@ -43,7 +43,7 @@ class GameClient private constructor(address: String) {
 
     // create a new game and return it's game_id
     fun create(): String {
-        val username = SharedPrefsManager.getInstance().getUsername()
+        val username = User.getInstance().getUsername()
         val gameID = client.get(URI_CREATE_GAME, params = mapOf(
             PARAM_CREATOR to username
         ))
@@ -54,7 +54,7 @@ class GameClient private constructor(address: String) {
     }
 
     fun join(game_id: String): String {
-        val username = SharedPrefsManager.getInstance().getUsername()
+        val username = User.getInstance().getUsername()
 
         this.gameID = game_id
 
@@ -82,7 +82,7 @@ class GameClient private constructor(address: String) {
             uri = URI_GAME_LAST_MOVE,
             params = mapOf(
                 PARAM_GAME_ID to gameID,
-                PARAM_USERNAME to SharedPrefsManager.getInstance().getUsername()
+                PARAM_USERNAME to User.getInstance().getUsername()
             )
         )
 
@@ -109,7 +109,7 @@ class GameClient private constructor(address: String) {
             uri = URI_GET_OPPONENT,
             params = mapOf(
                 PARAM_GAME_ID to gameID,
-                PARAM_USERNAME to SharedPrefsManager.getInstance().getUsername()
+                PARAM_USERNAME to User.getInstance().getUsername()
             )
         )
     }
@@ -118,7 +118,7 @@ class GameClient private constructor(address: String) {
         return client.get( // Game ID
             uri = URI_FIND_GAME,
             params = mapOf(
-                PARAM_USERNAME to SharedPrefsManager.getInstance().getUsername(),
+                PARAM_USERNAME to User.getInstance().getUsername(),
                 PARAM_GAME_NAME to gameName
             )
         )
