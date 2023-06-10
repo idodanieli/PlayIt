@@ -16,6 +16,10 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
     // --- Subscriber ------------------------------------------------------------------------------
     override fun onGameEvent(event: GameEvent) {
         when(event) {
+            is GameStartedEvent -> {
+                fetchEnemyMoveInTheBackground(event.chessView)
+            }
+
             is GameOverEvent -> {
                 fetchEnemyMovesThread.interrupt()
             }
@@ -28,7 +32,8 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
 
         val player = if (gameClient.join(gameID) == GameClient.PLAYER_WHITE) Player.WHITE else Player.BLACK
         chessView.setGameHero(player)
-        chessView.game.subscribe(this)
+
+        chessView.subscribe(this)
 
         waitForOpponentToJoin(chessView)
     }
@@ -64,12 +69,6 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
         return dialogBuilder.create()
     }
 
-    // --- OnGameStarted ---------------------------------------------------------------------------
-    override fun onGameStarted(chessView: ChessView, gameID: String) {
-        fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=GameClient.DEFAULT_SLEEP_INTERVAL) }
-        fetchEnemyMovesThread.start()
-    }
-
     override fun onPieceMoved(move: Move) {
         GameClient.getInstance().movePiece(move)
     }
@@ -78,18 +77,22 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
         return chessView.game.currentPlayer == chessView.hero
     }
 
-    // updateOpponentsMoves waits for the opponents moves and updates the chessView when they arrive
-    private fun fetchEnemyMoves(chessView: ChessView, handler: Handler, interval: Long) = try {
-        while (!fetchEnemyMovesThread.isInterrupted) {
-            if (chessView.isOpponentsTurn()) {
-                fetchEnemyMove(chessView, handler)
-            }
-            Thread.sleep(interval)
-        }
-    } catch (e: InterruptedException) {
-        // Do nothing
+    private fun fetchEnemyMoveInTheBackground(chessView: ChessView) {
+        fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=GameClient.DEFAULT_SLEEP_INTERVAL) }
+        fetchEnemyMovesThread.start()
     }
-
+    private fun fetchEnemyMoves(chessView: ChessView, handler: Handler, interval: Long) {
+        try {
+            while (!fetchEnemyMovesThread.isInterrupted) {
+                if (chessView.isOpponentsTurn()) {
+                    fetchEnemyMove(chessView, handler)
+                }
+                Thread.sleep(interval)
+            }
+        } catch (e: InterruptedException) {
+            // Do nothing
+        }
+    }
     private fun fetchEnemyMove(chessView: ChessView, handler: Handler) {
         val lastMove = GameClient.getInstance().getLastMove()
         if (isOpponentsMove(chessView.hero, lastMove)) {

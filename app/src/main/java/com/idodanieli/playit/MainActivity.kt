@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         disableScrolling()
 
         val chessView = viewPager.currentChessview()
-        chessView.game.subscribe(this)
+        chessView.subscribe(this)
 
         chessView.onSelected(mode, gameID)
         chessView.invalidate()

@@ -31,6 +31,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     // --- For Logic -------------------------------------------------------------------------------
     private var chessGameListener: ChessGameListener? = null
     private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
+    private val publisher = Publisher()
 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
@@ -64,6 +65,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         }
 
         heroCapturedPieces.append(capturedPiece)
+    }
+
+    // --- Publisher -------------------------------------------------------------------------------
+    fun subscribe(subscriber: GameSubscriber) {
+        publisher.subscribe(subscriber)
+        game.subscribe(subscriber)
     }
 
     // --- onDraw ----------------------------------------------------------------------------------
@@ -220,7 +227,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     fun startGame(gameID: String = "") {
-        chessGameListener?.onGameStarted(this, gameID)
+        // chessGameListener?.onGameStarted(this, gameID)
+
+        val gameStartedEvent = GameStartedEvent(this)
+        publisher.notifySubscribers(gameStartedEvent)
+
         game.started = true
         game.subscribe(this)
     }
