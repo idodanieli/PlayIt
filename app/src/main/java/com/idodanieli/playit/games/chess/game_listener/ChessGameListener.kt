@@ -5,6 +5,5 @@ import com.idodanieli.playit.games.chess.ui.ChessView
 
 interface ChessGameListener {
     fun onGameSelected(chessView: ChessView, gameID: String)
-    fun onPieceMoved(move: Move)
     fun canHeroPlay(chessView: ChessView): Boolean
 }

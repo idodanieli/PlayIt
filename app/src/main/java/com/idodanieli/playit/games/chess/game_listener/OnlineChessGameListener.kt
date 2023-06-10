@@ -23,6 +23,10 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
             is GameOverEvent -> {
                 fetchEnemyMovesThread.interrupt()
             }
+
+            is MoveEvent -> {
+                GameClient.getInstance().movePiece(event.move)
+            }
         }
     }
 
@@ -67,10 +71,6 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
         )
 
         return dialogBuilder.create()
-    }
-
-    override fun onPieceMoved(move: Move) {
-        GameClient.getInstance().movePiece(move)
     }
 
     override fun canHeroPlay(chessView: ChessView): Boolean {

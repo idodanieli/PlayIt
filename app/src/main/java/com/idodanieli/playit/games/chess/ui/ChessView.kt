@@ -163,12 +163,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         invalidate() // calls onDraw
     }
 
+    // TODO: This function is ugly. Think how to split it into different functions
     private fun onTouchReleased(touchedSquare: Square) {
         touchedPiece?.let {
             val touchedMove = getTouchedMove(touchedSquare)
             if (touchedMove != null && heroMadeMove(touchedSquare) && isLegalMove(touchedMove)) {
                 applyMove(touchedMove)
-                chessGameListener?.onPieceMoved(touchedMove)
+                publisher.notifySubscribers(MoveEvent(touchedMove))
             }
 
             return
