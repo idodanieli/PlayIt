@@ -175,6 +175,17 @@ class GameTest {
         }
     }
 
+    @Test // Tests that you cant apply a move on an illegal move
+    fun applyMoveOnIllegalMove() {
+        val move = Move(
+            Square(0, 0),
+            Square(9, 9),
+            Player.WHITE
+        )
+
+        game.applyMove(move)
+    }
+
     companion object {
         private const val TEST_GAME_NAME = "test"
     }

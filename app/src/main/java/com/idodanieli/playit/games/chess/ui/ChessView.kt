@@ -48,6 +48,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         setMeasuredDimension(smaller, smaller)
     }
 
+    fun setPlayers(hero: String, opponent: String) {
+        heroTextView.text = hero
+        opponentTextView.text = opponent
+
+        heroTextView.visibility = VISIBLE
+        opponentTextView.visibility = VISIBLE
+    }
+
     // --- Subscriber ------------------------------------------------------------------------------
     override fun onGameEvent(event: GameEvent) {
         when(event) {

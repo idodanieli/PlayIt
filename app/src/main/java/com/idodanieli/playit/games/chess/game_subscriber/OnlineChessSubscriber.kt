@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Looper.getMainLooper
 import android.os.Handler
 import android.view.View
+import com.idodanieli.playit.User
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.ui.ChessView
@@ -35,7 +36,7 @@ object OnlineChessSubscriber: GameSubscriber {
         }
     }
 
-    // --- OnGameSelected --------------------------------------------------------------------------
+    // --- Game Selected ---------------------------------------------------------------------------
     private fun joinGame(chessView: ChessView, gameID: String) {
         val gameClient = GameClient.getInstance()
 
@@ -50,10 +51,11 @@ object OnlineChessSubscriber: GameSubscriber {
         dialog.show()
 
         Thread {
+            val user = User.getInstance().getUsername()
+            val opponent = gameClient.getOpponent()
+
             Handler(getMainLooper()).post{
-                chessView.opponentTextView.text = gameClient.getOpponent()
-                chessView.opponentTextView.visibility = View.VISIBLE
-                chessView.heroTextView.visibility = View.VISIBLE
+                chessView.setPlayers(user, opponent)
                 dialog.cancel()
             }
 
@@ -74,6 +76,7 @@ object OnlineChessSubscriber: GameSubscriber {
         return dialogBuilder.create()
     }
 
+    // --- Game Started ----------------------------------------------------------------------------
     private fun fetchEnemyMoveInTheBackground(chessView: ChessView) {
         fetchEnemyMovesThread = Thread { fetchEnemyMoves(chessView, Handler(getMainLooper()), interval=GameClient.DEFAULT_SLEEP_INTERVAL) }
         fetchEnemyMovesThread.start()
