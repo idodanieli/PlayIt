@@ -14,6 +14,6 @@ const val TYPE_ELEPHANT = "E"
 // restricts their reach—each elephant can only ever access eight specific squares of the board.
 class Elephant(square: Square, player: Player) : Hopper(square, player) {
     override val directions: List<Square> = DIRECTIONS.map { it.value }.filter { it.isDiagonalDirection() }
-    override val hop: Int = 2
+    override val hopSize: Int = 2
     override val type = TYPE_ELEPHANT
 }

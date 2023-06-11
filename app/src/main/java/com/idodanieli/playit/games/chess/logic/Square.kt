@@ -1,7 +1,5 @@
 package com.idodanieli.playit.games.chess.logic
 
-import android.util.Log
-import com.idodanieli.playit.games.chess.pieces.Piece
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString

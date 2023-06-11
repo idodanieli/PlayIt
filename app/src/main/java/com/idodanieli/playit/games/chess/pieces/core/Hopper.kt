@@ -16,16 +16,20 @@ abstract class Hopper(square: Square, player: Player) : BasePiece(square, player
     abstract val directions: List<Square>
 
     // The size of the hop the hopper makes
-    abstract val hop: Int
+    abstract val hopSize: Int
 
     override fun availableSquares(board: Board): List<Square> {
-        val moves = arrayListOf<Square>()
+        val destinations = arrayListOf<Square>()
 
         for (direction in directions) {
-            moves.add(Square(square.col + direction.col * hop, square.row + direction.row * hop))
+            val destination = Square(square.col + direction.col * hopSize, square.row + direction.row * hopSize)
+
+            destinations.add(destination)
         }
 
-        return moves.filter { board.isIn(it) }
+        return destinations
+            .filter { board.isIn(it) }
+            .filter { isAHopOverAPiece(it, board) }
     }
 
     // isAHopOverOtherPiece checks if the given move hops over another move

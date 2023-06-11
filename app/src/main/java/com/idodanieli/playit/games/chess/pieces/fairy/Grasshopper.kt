@@ -16,12 +16,6 @@ const val TYPE_GRASSHOPPER = "H"
 // The grasshopper may jump over pieces of either color; the piece being jumped over is unaffected.
 class Grasshopper(square: Square, player: Player) : Hopper(square, player) {
     override val directions: List<Square> = DIRECTIONS.map { it.value }
-    override val hop: Int = 3
+    override val hopSize: Int = 3
     override val type = TYPE_GRASSHOPPER
-
-    override fun availableSquares(board: Board): List<Square> {
-        val moves = super.availableSquares(board)
-
-        return moves.filter { isAHopOverAPiece(it, board) }
-    }
 }
