@@ -12,7 +12,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
     override var moved = false
 
     override fun availableMoves(board: Board): List<Move> {
-        return availableSquares(board).map { dest -> Move(square, dest, player) }
+        return availableSquares(board).map { dest -> Move(square, dest) }
     }
 
     override fun availableSquares(board: Board): List<Square> {

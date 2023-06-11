@@ -10,7 +10,6 @@ import kotlinx.serialization.json.Json
 data class Move(
     @SerialName("origin") val origin: Square,
     @SerialName("dest")   val dest: Square,
-    @SerialName("player") val player: Player,
 
     // followUpMoves to apply after this move ( Example use: Castling )
     @SerialName("followUpMoves") val followUpMoves: List<Move> = emptyList()
@@ -22,7 +21,7 @@ data class Move(
     }
 
     override fun toString(): String {
-        return "$player $origin -> $dest"
+        return "$origin -> $dest"
     }
 
     fun toJson(): String {

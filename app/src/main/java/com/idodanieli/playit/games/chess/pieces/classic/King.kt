@@ -25,7 +25,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     private fun getSafeNeighborMoves(board: Board): List<Move> {
-        return getSafeNeighborSquares(board).map { neighborSquare -> Move(square, neighborSquare, player) }
+        return getSafeNeighborSquares(board).map { neighborSquare -> Move(square, neighborSquare) }
     }
 
     private fun getSafeNeighborSquares(board: Board): List<Square> {
@@ -67,9 +67,9 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
             rookDest = kingDest + Square(1, 0)
         }
 
-        val pieceMove = Move(rookOrigin, rookDest, player)
+        val pieceMove = Move(rookOrigin, rookDest)
 
-        return Move(kingOrigin, kingDest, player, followUpMoves = listOf(pieceMove))
+        return Move(kingOrigin, kingDest, followUpMoves = listOf(pieceMove))
     }
 
     // canCastleWith returns true if the king can castle with the given piece

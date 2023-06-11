@@ -155,7 +155,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun onTouchPressed(touchedSquare: Square) {
         touchedPiece ?: return
 
-        val move = Move(touchedPiece!!.square, touchedSquare, hero)
+        val move = Move(touchedPiece!!.square, touchedSquare)
         if (!heroMadeMove(touchedSquare) || !isLegalMove(move)) {
             resetVisuals()
         }
@@ -200,7 +200,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun getTouchedMove(touchedSquare: Square): Move? {
-        val move = Move(touchedPiece!!.square, touchedSquare, hero)
+        val move = Move(touchedPiece!!.square, touchedSquare)
         if (move !in touchedPieceAvailableMoves) {
             return null
         }
@@ -279,6 +279,19 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     fun isOpponentsTurn(): Boolean {
         return game.currentPlayer != hero
+    }
+
+    fun isOpponentsMove(move: Move): Boolean {
+        game.board.pieceAt(move.origin)?.let {
+            return it.player != hero
+        }
+
+        game.board.pieceAt(move.dest)?.let {
+            return it.player != hero
+        }
+
+        throw Exception("Invalid move checked! $move\n" +
+                "${game.board}\n")
     }
 
     private fun isLegalMove(move: Move): Boolean {

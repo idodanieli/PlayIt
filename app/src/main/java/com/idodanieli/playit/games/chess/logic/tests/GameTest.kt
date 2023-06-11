@@ -18,7 +18,7 @@ class GameTest {
         val enemyPawn = Pawn(destination, Player.WHITE)
         val game = Game(TEST_GAME_NAME, mutableSetOf(pawn, enemyPawn), CHESSBOARD_SIZE)
 
-        val move = Move(origin, destination, pawn.player)
+        val move = Move(origin, destination)
         game.applyMove(move)
 
         assert(game.board.pieceAt(destination) == pawn)
@@ -156,7 +156,7 @@ class GameTest {
         val wKnight = Knight(Square(4, 4), Player.WHITE)
 
         val game = Game("", setOf(bKing, bEmpress, wEmpress, wKnight), CHESSBOARD_SIZE)
-        val wKnightMove = Move(Square(4, 4), Square(2, 5), Player.WHITE)
+        val wKnightMove = Move(Square(4, 4), Square(2, 5))
 
         // . . . m k . . .
         // . . . . . . . .
@@ -180,7 +180,6 @@ class GameTest {
         val move = Move(
             Square(0, 0),
             Square(9, 9),
-            Player.WHITE
         )
 
         game.applyMove(move)

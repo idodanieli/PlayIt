@@ -95,19 +95,11 @@ object OnlineChessSubscriber: GameSubscriber {
     }
     private fun fetchEnemyMove(chessView: ChessView, handler: Handler) {
         val lastMove = GameClient.getInstance().getLastMove()
-        if (isOpponentsMove(chessView.hero, lastMove)) {
+        if (lastMove != null && chessView.isOpponentsMove(lastMove)) {
             // Post UI-related operations to the main thread
             handler.post {
-                chessView.applyMove(lastMove!!)
+                chessView.applyMove(lastMove)
             }
         }
-    }
-
-    private fun isOpponentsMove(hero: Player, move: Move?): Boolean {
-        move?.let {
-            return move.player != hero
-        }
-
-        return false
     }
 }
