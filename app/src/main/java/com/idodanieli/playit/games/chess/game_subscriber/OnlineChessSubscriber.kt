@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess.game_listener
+package com.idodanieli.playit.games.chess.game_subscriber
 
 import android.app.AlertDialog
 import android.app.Dialog

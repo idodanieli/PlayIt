@@ -10,9 +10,9 @@ import android.view.View
 import android.widget.TextView
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
-import com.idodanieli.playit.games.chess.game_listener.OnlineChessSubscriber
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
@@ -222,8 +222,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     // --- View Game Logic --------------------------------------------------------------------- \\
 
     fun select(mode: String, gameID: String = "") {
-        if (mode == MODE_ONLINE) {
-            subscribe(OnlineChessSubscriber)
+        MODE_TO_GAME_SUBSCRIBER[mode]?.let {
+            subscribe(it)
         }
 
         setMode(mode)
