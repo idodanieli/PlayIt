@@ -10,15 +10,13 @@ import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.ui.ChessView
 
-object OnlineChessGameListener: ChessGameListener, GameSubscriber {
+object OnlineChessSubscriber: GameSubscriber {
     private lateinit var fetchEnemyMovesThread: Thread
 
     // --- Subscriber ------------------------------------------------------------------------------
     override fun onGameEvent(event: GameEvent) {
         when(event) {
             is GameSelectedEvent -> {
-                event.chessView.subscribe(this)
-
                 joinGame(event.chessView, event.gameID)
                 waitForOpponentToJoin(event.chessView)
             }
@@ -74,10 +72,6 @@ object OnlineChessGameListener: ChessGameListener, GameSubscriber {
         )
 
         return dialogBuilder.create()
-    }
-
-    override fun canHeroPlay(chessView: ChessView): Boolean {
-        return chessView.game.currentPlayer == chessView.hero
     }
 
     private fun fetchEnemyMoveInTheBackground(chessView: ChessView) {

@@ -10,9 +10,9 @@ import android.view.View
 import android.widget.TextView
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
-import com.idodanieli.playit.games.chess.CHESS_GAME_LISTENER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
-import com.idodanieli.playit.games.chess.game_listener.ChessGameListener
+import com.idodanieli.playit.games.chess.MODE_ONLINE
+import com.idodanieli.playit.games.chess.game_listener.OnlineChessSubscriber
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min
@@ -29,7 +29,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
 
     // --- For Logic -------------------------------------------------------------------------------
-    private var chessGameListener: ChessGameListener? = null
     private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
     private val publisher = Publisher()
 
@@ -223,6 +222,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     // --- View Game Logic --------------------------------------------------------------------- \\
 
     fun select(mode: String, gameID: String = "") {
+        if (mode == MODE_ONLINE) {
+            subscribe(OnlineChessSubscriber)
+        }
+
         setMode(mode)
         publisher.notifySubscribers(GameSelectedEvent(this, gameID))
     }
@@ -251,7 +254,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return game.getLegalMovesForPiece(piece).associateWith { it }
     }
 
-    // heroMadeMove returns true if the player made a move inside of the board
     private fun heroMadeMove(touchedSquare: Square): Boolean {
         touchedPiece ?: return false
 
@@ -259,29 +261,28 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
                 touchedPiece!!.square != touchedSquare
     }
 
-    // cnaHeroMove returns true if the hero can play
     private fun canHeroPlay(): Boolean {
-        chessGameListener?.let {
-            if (!it.canHeroPlay(this)) { return false }
+        if ( getMode() == MODE_ONLINE ) {
+            return game.currentPlayer == hero
         }
 
         return true
     }
 
-    // isOpponentsTurn returns true if its the opponents turn and not the heros
     fun isOpponentsTurn(): Boolean {
         return game.currentPlayer != hero
     }
 
-    // isLegalMove returns true if the move is legal
     private fun isLegalMove(move: Move): Boolean {
         return move in touchedPieceAvailableMoves
     }
 
-    // --- General ----------------------------------------------------------------------------- \\
+    // --- General ---------------------------------------------------------------------------------
+    private fun getMode(): String {
+        return chessDrawer.mode
+    }
     private fun setMode(mode: String) {
         chessDrawer.mode = mode
-        chessGameListener = CHESS_GAME_LISTENER[mode]
     }
     fun setGameHero(hero: Player) {
         this.hero = hero
