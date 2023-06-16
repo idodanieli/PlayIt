@@ -1,8 +1,5 @@
 package com.idodanieli.playit.clients
 
-import java.io.BufferedReader
-import java.io.DataOutputStream
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -26,13 +23,9 @@ class HTTPClient(private val address: String) {
         val conn = init(url)
         conn.requestMethod = METHOD_GET
 
-        val responseCode = conn.send()
+        conn.send()
 
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            return conn.readResponse()
-        } else {
-            throw Exception("HTTP GET request failed with status code: $responseCode")
-        }
+        return conn.readResponse()
     }
 
     fun post(uri: String, body: String, params: Map<String, String>? = null): String {
@@ -43,13 +36,9 @@ class HTTPClient(private val address: String) {
         conn.setRequestProperty(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON)
         conn.setRequestBody(body)
 
-        val responseCode = conn.send()
+        conn.send()
 
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            return conn.readResponse()
-        } else {
-            throw Exception("HTTP POST request failed with status code: $responseCode")
-        }
+        return conn.readResponse()
     }
 
     fun url(uri: String, queryParams: Map<String, String>?): URL {
@@ -67,53 +56,4 @@ class HTTPClient(private val address: String) {
 
         return URL(urlBuilder.toString())
     }
-}
-
-// OutputStream object that allows you to write data
-// to the server when making a request with methods like POST or PUT.
-private fun HttpURLConnection.setRequestBody(body: String) {
-    val thread = Thread {
-        doOutput = true
-
-        val outputStream = DataOutputStream(outputStream)
-        outputStream.writeBytes(body)
-        outputStream.flush()
-        outputStream.close()
-    }
-
-    thread.start()
-    thread.join()
-}
-
-// send the request in the connection ; returns status-code
-private fun HttpURLConnection.send(): Int {
-    var code = 0
-    val thread = Thread { // To avoid NetworkOnMainThreadException
-        code = responseCode
-    }
-
-    thread.start()
-    thread.join()// wait for thread to finish
-
-    return code
-}
-
-// readResponse from a connection ( must be after a request has be sent )
-private fun HttpURLConnection.readResponse(): String {
-    val response = StringBuilder()
-
-    val thread = Thread { // To avoid NetworkOnMainThreadException
-        val reader = BufferedReader(InputStreamReader(inputStream))
-
-        var line: String?
-        while (reader.readLine().also { line = it } != null) {
-            response.append(line)
-        }
-        reader.close()
-    }
-
-    thread.start()
-    thread.join() // wait for thread to finish
-
-    return response.toString()
 }
