@@ -9,6 +9,10 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     var description = ""
     var started = false
 
+    init {
+        subscribe(startingPieces)
+    }
+
     // --- Functions that change the game's state --------------------------------------------------
     fun applyMove(move: Move) {
         val piece = this.board.pieceAt(move.origin) ?: return
@@ -19,6 +23,8 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         }
 
         board.move(piece, move.dest)
+
+        notifySubscribers(MoveEvent(piece, move))
 
         for (followUpMove in move.followUpMoves) {
             applyMove(followUpMove)

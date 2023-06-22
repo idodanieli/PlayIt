@@ -174,6 +174,7 @@ fun getPieceBitmap(piece: Piece): Bitmap? {
     return BITMAPS[piece.player]?.get(piece.type)
 }
 
+// TODO: add this in a creator in the pieces class
 private fun loadBitmaps(resources: Resources) {
     if (BITMAPS.isNotEmpty()) { return }
 
@@ -197,6 +198,7 @@ private fun loadBitmaps(resources: Resources) {
         TYPE_EMPRESS to BitmapFactory.decodeResource(resources, R.drawable.empress_white),
         TYPE_ARCHBISHOP to BitmapFactory.decodeResource(resources, R.drawable.archbishop_white),
         TYPE_XIANGQI_HORSE to BitmapFactory.decodeResource(resources, R.drawable.xiangqi_horse_white),
+        Jester.TYPE to BitmapFactory.decodeResource(resources, R.drawable.jester_white)
     )
 
     BITMAPS[Player.BLACK] = mutableMapOf(
@@ -219,5 +221,6 @@ private fun loadBitmaps(resources: Resources) {
         TYPE_EMPRESS to BitmapFactory.decodeResource(resources, R.drawable.empress_black),
         TYPE_ARCHBISHOP to BitmapFactory.decodeResource(resources, R.drawable.archbishop_black),
         TYPE_XIANGQI_HORSE to BitmapFactory.decodeResource(resources, R.drawable.xiangqi_horse_black),
+        Jester.TYPE to BitmapFactory.decodeResource(resources, R.drawable.jester_black)
     )
 }

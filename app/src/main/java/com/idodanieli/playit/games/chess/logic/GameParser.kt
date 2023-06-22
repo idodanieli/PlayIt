@@ -42,6 +42,7 @@ class GameParser {
             return pieces
         }
 
+        // TODO: Implement this as creator so you will be able to add this code in the piece class
         private fun pieceFromCharacter(char: String, square: Square, player: Player): Piece {
             when(char){
                 TYPE_ROOK -> return Rook(square, player)
@@ -63,6 +64,7 @@ class GameParser {
                 TYPE_EMPRESS -> return Empress(square, player)
                 TYPE_ARCHBISHOP -> return Archbishop(square, player)
                 TYPE_XIANGQI_HORSE -> return XiangqiHorse(square, player)
+                Jester.TYPE -> return Jester(square, player)
             }
 
             return BasePiece(square, player)

@@ -176,7 +176,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
             val touchedMove = getTouchedMove(touchedSquare)
             if (touchedMove != null && heroMadeMove(touchedSquare) && isLegalMove(touchedMove)) {
                 applyMove(touchedMove)
-                publisher.notifySubscribers(MoveEvent(touchedMove))
             }
 
             return

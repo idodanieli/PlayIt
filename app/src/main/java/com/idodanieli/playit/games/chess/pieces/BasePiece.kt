@@ -1,9 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
-import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.Move
-import com.idodanieli.playit.games.chess.logic.Player
-import com.idodanieli.playit.games.chess.logic.Square
+import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 open class BasePiece(override var square: Square, override var player: Player): Piece {
@@ -33,9 +30,9 @@ open class BasePiece(override var square: Square, override var player: Player): 
         this.moved = true
     }
 
-    override fun onCaptured(capturedPiece: Piece) {
-        return
-    }
+    override fun onCaptured(capturedPiece: Piece) {}
+
+    override fun onGameEvent(event: GameEvent) {}
 
     override fun toString(): String {
         val type = if (player.isWhite()) type else type.lowercase()

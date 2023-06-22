@@ -6,6 +6,11 @@ open class Publisher {
     fun subscribe(subscriber: GameSubscriber) {
         subscribers.add(subscriber)
     }
+    fun subscribe(subscribers: Collection<GameSubscriber>) {
+        for (subscriber in subscribers) {
+            subscribe(subscriber)
+        }
+    }
 
     fun unsubscribe(subscriber: GameSubscriber) {
         subscribers.remove(subscriber)
