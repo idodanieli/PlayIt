@@ -15,6 +15,6 @@ abstract class Rider(square: Square, player: Player) : BasePiece(square, player)
     }
 
     override fun availableSquares(board: Board): List<Square> {
-        return possibleMoves(board, ::allMovesInDirecton)
+        return possibleMoves(board, ::allMovesInDirection)
     }
 }

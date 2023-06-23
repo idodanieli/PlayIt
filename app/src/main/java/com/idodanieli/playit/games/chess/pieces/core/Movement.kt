@@ -5,9 +5,9 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.NO_MAX_STEPS
 import com.idodanieli.playit.games.chess.pieces.Piece
 
-// allMovesInDirecton returns all the available moves in the given direction
+// allMovesInDirection returns all the available moves in the given direction
 // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
-fun allMovesInDirecton(self: Piece, board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
+fun allMovesInDirection(self: Piece, board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
     val moves = arrayListOf<Square>()
     var move = self.square + direction
     var steps = 0
