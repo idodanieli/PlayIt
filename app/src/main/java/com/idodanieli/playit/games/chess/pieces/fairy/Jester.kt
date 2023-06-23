@@ -35,6 +35,9 @@ class Jester(square: Square, player: Player) : BasePiece(square, player) {
         val objClass = piece::class.java
         val constructor = objClass.constructors.first()
 
-        return constructor.newInstance(this.square, this.player) as Piece
+        val mimickedPiece =  constructor.newInstance(this.square, this.player) as Piece
+        mimickedPiece.moved = piece.moved
+
+        return mimickedPiece
     }
 }
