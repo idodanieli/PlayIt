@@ -21,23 +21,25 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     override fun availableMoves(board: Board): List<Move> {
-        return getSafeNeighborMoves(board) + getCastlingMoves(board)
+        val moves = getNeighborMoves(board)
+
+        if (this.canCastle(board)) {
+            moves += getCastlingMoves(board)
+        }
+
+        return moves.filter { !board.isThreatened(it.dest, player.opposite()) }
     }
 
-    private fun getSafeNeighborMoves(board: Board): List<Move> {
-        return getSafeNeighborSquares(board).map { neighborSquare -> Move(square, neighborSquare) }
+    private fun getNeighborMoves(board: Board): MutableList<Move> {
+        return getNeighborSquares(board).map { square -> Move(this.square, square) } as MutableList<Move>
     }
 
-    private fun getSafeNeighborSquares(board: Board): List<Square> {
+    private fun getNeighborSquares(board: Board): List<Square> {
         return board.neighborSquares(this)
-            .filter { !board.isThreatened(it, player.opposite()) }
     }
 
     // --- Castling Logic ---------------------------------------------------------------------- \\
     fun getCastlingMoves(board: Board): List<Move> {
-        // Cant castle if has been moved
-        if (moved) { return arrayListOf() }
-
         val moves = mutableListOf<Move>()
 
         val friendlyRooks = board.pieces(player).filter { it.type == TYPE_ROOK }
@@ -88,5 +90,9 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
         }
 
         return true
+    }
+
+    fun canCastle(board: Board): Boolean {
+        return !moved && !isThreatened(board)
     }
 }

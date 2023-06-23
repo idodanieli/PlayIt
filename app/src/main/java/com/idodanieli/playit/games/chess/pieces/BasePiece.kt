@@ -38,4 +38,8 @@ open class BasePiece(override var square: Square, override var player: Player): 
         val type = if (player.isWhite()) type else type.lowercase()
         return "$player $type at (${square.col}, ${square.row})"
     }
+
+    fun isThreatened(board: Board): Boolean {
+        return board.isThreatened(this.square, this.player.opposite())
+    }
 }
