@@ -3,7 +3,6 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
-import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 private val XIANGQI_HORSE_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_XIANGQI_HORSE = "O"
@@ -11,7 +10,6 @@ const val TYPE_XIANGQI_HORSE = "O"
 // TODO: FIX THIS CLASS, THE MOVEMENT IS WRONG
 open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_XIANGQI_HORSE
-    override val movementType = MovementType.REGULAR
     open val moveOffsets = XIANGQI_HORSE_MOVE_OFFSETS
 
     override fun availableSquares(board: Board): List<Square> {

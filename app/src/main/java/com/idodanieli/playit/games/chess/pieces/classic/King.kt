@@ -6,7 +6,6 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 const val TYPE_KING = "K"
 
@@ -14,7 +13,6 @@ private const val CASTLE_MOVE_AMOUNT = 2
 
 open class King(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_KING
-    override val movementType = MovementType.LEAPER
 
     override fun availableSquares(board: Board): List<Square> {
         return availableMoves(board).map { it.dest }

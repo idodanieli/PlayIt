@@ -4,7 +4,6 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
-import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 private const val WHITE_DIRECTION = 1
 private const val BLACK_DIRECTION = -1
@@ -13,7 +12,6 @@ const val TYPE_BEROLINA_PAWN = "V"
 
 class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_BEROLINA_PAWN
-    override val movementType = MovementType.LEAPER
 
     var direction = WHITE_DIRECTION
 

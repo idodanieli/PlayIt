@@ -4,14 +4,12 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
-import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 private val KNIGHT_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_KNIGHT = "N"
 
 open class Knight(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_KNIGHT
-    override val movementType = MovementType.LEAPER
     open val moveOffsets = KNIGHT_MOVE_OFFSETS
 
     override fun availableSquares(board: Board): List<Square> {

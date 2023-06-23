@@ -5,14 +5,12 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
-import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 
 const val TYPE_CENTAUR = "S"
 
 class Centaur(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_CENTAUR
-    override val movementType = MovementType.LEAPER
 
     override fun availableSquares(board: Board): List<Square> {
         return Knight(square, player).availableSquares(board) + board.neighborSquares(this)

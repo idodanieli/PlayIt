@@ -3,7 +3,6 @@ package com.idodanieli.playit.games.chess.pieces.fairy
 import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
-import com.idodanieli.playit.games.chess.pieces.core.MovementType
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.Rider
 
@@ -21,7 +20,6 @@ const val TYPE_VENOM = "U"
 // Will you use Venom to absorb your opponent's pieces and gain the advantage, or will you protect your pieces and limit Venom's movement options? The choice is yours!
 class Venom(square: Square, player: Player) : Rider(square, player) {
     override val type = TYPE_VENOM
-    override val movementType = MovementType.RIDER
     
     private var maxSteps = STARTING_MAX_STEPS // specifies how much steps the piece can make in each direction
 

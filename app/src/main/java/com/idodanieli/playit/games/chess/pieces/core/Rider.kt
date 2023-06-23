@@ -7,7 +7,6 @@ import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
 
 abstract class Rider(square: Square, player: Player) : BasePiece(square, player) {
-    override val movementType = MovementType.RIDER
 
     abstract fun possibleMoves(board: Board, getMovesInDirection: (self: Piece, board: Board, direction: Square, max_steps: Int) -> List<Square>): List<Square>
 

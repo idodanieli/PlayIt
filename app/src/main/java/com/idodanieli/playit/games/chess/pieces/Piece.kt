@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 const val NO_MAX_STEPS = 0
 
@@ -10,7 +9,6 @@ interface Piece: GameSubscriber {
     var player: Player
     var moved: Boolean
     val type: String
-    val movementType: MovementType
 
     // availableMoves returns all the moves a piece can take, without taking general logic
     // into consideration like pinning, etc.

@@ -8,14 +8,12 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
-import com.idodanieli.playit.games.chess.pieces.core.MovementType
 
 private const val MAX_START_MOVES = 2
 const val TYPE_PAWN = "P"
 
 class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE_PAWN
-    override val movementType = MovementType.LEAPER
 
     // TODO: Change 8 -> BOARD_SIZE
     // TODO: INSTEAD OF IS_IN USE BITBOARDS

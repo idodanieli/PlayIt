@@ -5,13 +5,6 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.NO_MAX_STEPS
 import com.idodanieli.playit.games.chess.pieces.Piece
 
-enum class MovementType {
-    REGULAR,
-    LEAPER,
-    RIDER,
-    HOPPER
-}
-
 // allMovesInDirecton returns all the available moves in the given direction
 // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
 fun allMovesInDirecton(self: Piece, board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
