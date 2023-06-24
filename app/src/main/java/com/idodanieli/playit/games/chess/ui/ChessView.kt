@@ -34,6 +34,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
     private val publisher = Publisher()
 
+    // --- General ---------------------------------------------------------------------------------
+    private var touchData: TouchData? = null
+
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
 
@@ -102,8 +105,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     private fun drawTouchedPiece() {
         touchedPiece ?: return
+        touchData ?: return
 
-        chessDrawer.drawAvailableMoves(touchedPieceAvailableMoves.keys)
+        chessDrawer.drawAvailableMoves(touchData!!.availableMoves.keys)
 
         if (isTouchedPieceFocused) {
             chessDrawer.drawAbilitySquare(touchedPiece!!.square)
@@ -115,8 +119,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun resetVisuals() {
         touchedPiece = null
         movingPiece = null
-        touchedPieceAvailableMoves = emptyMap()
         isTouchedPieceFocused = false
+        touchData = null
 
         invalidate()
     }
@@ -206,7 +210,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun onFirstTouch(touchedSquare: Square) {
         touchedPiece = getTouchedPiece(touchedSquare)
         if (touchedPiece != null) {
-            touchedPieceAvailableMoves = getAvailableMoves(touchedPiece!!)
+            touchData = TouchData(touchedSquare, touchedPiece!!, getAvailableMoves(touchedPiece!!))
         }
     }
 
@@ -222,12 +226,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun getTouchedMove(touchedSquare: Square): Move? {
+        touchData ?: return null
+
         val move = Move(touchedPiece!!.square, touchedSquare)
-        if (move !in touchedPieceAvailableMoves) {
+        if (move !in touchData!!.availableMoves) {
             return null
         }
 
-        return touchedPieceAvailableMoves[move]!!
+        return touchData!!.availableMoves[move]!!
     }
 
     // getSquareTouched returns the square touched by the position in the MotionEvent
@@ -324,7 +330,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun isLegalMove(move: Move?): Boolean {
         move ?: return false
 
-        return move in touchedPieceAvailableMoves
+        return move in touchData!!.availableMoves
     }
 
     // --- General ---------------------------------------------------------------------------------
