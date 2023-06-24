@@ -17,9 +17,8 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     fun applyMove(move: Move) {
         val piece = this.board.pieceAt(move.origin) ?: return
 
-        val enemyPiece = board.pieceAt(move.dest, piece.player.opposite())
-        enemyPiece?.let {
-            applyCapture(capturingPiece = piece, capturedPiece = enemyPiece)
+        if(isCaptureMove(move)) {
+            applyCaptureMove(move)
         }
 
         board.move(piece, move.dest)
@@ -31,14 +30,25 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         }
     }
 
-    fun switchTurn() {
-        currentPlayer = currentPlayer.opposite()
+    private fun isCaptureMove(move: Move): Boolean {
+        return board.pieceAt(move.dest) != null
+    }
+
+    private fun applyCaptureMove(move: Move) {
+        val capturingPiece = board.pieceAt(move.origin)
+        val capturedPiece = board.pieceAt(move.dest)
+
+        applyCapture(capturingPiece!!, capturedPiece!!)
     }
 
     private fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
         notifySubscribers(PieceCapturedEvent(capturedPiece))
+    }
+
+    fun switchTurn() {
+        currentPlayer = currentPlayer.opposite()
     }
 
     // --- Functions that check the game's state ---------------------------------------------------
