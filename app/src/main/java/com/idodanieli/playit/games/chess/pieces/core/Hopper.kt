@@ -26,13 +26,11 @@ abstract class Hopper(square: Square, player: Player) : BasePiece(square, player
             destinations.add(destination)
         }
 
-        return destinations
-            .filter { board.isIn(it) }
-            .filter { isAHopOverAPiece(it, board) }
+        return destinations.filter { board.isIn(it) }
     }
 
     // isAHopOverOtherPiece checks if the given move hops over another move
-    private fun isAHopOverAPiece(move: Square, board: Board): Boolean {
+    fun isAHopOverAPiece(move: Square, board: Board): Boolean {
         return square.squaresBetween(move, excludeDestination = true).any { board.pieceAt(it) != null }
     }
 }

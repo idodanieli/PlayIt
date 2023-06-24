@@ -18,4 +18,8 @@ class Grasshopper(square: Square, player: Player) : Hopper(square, player) {
     override val directions: List<Square> = DIRECTIONS.map { it.value }
     override val hopSize: Int = 3
     override val type = TYPE_GRASSHOPPER
+
+    override fun availableSquares(board: Board): List<Square> {
+        return super.availableSquares(board).filter { isAHopOverAPiece(it, board) }
+    }
 }
