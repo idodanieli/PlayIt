@@ -156,8 +156,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun onTouchPressed(touchedSquare: Square) {
         touchedPiece ?: return
 
+        if (touchedPieceAgain(touchedSquare)) {
+            return
+        }
+
         val move = Move(touchedPiece!!.square, touchedSquare)
-        if (!heroTouchedPiece() || !isLegalMove(move)) {
+        if (!isLegalMove(move)) {
             resetVisuals()
         }
     }
