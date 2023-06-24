@@ -21,8 +21,7 @@ import kotlin.math.min
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
     // --- For Drawing -----------------------------------------------------------------------------
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
-    private var touchedPiece: Piece? = null
-    private var isTouchedPieceFocused = false
+    private var touchData: TouchData? = null
     private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
 
@@ -31,11 +30,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
 
     // --- For Logic -------------------------------------------------------------------------------
-    private var touchedPieceAvailableMoves = emptyMap<Move, Move>()
     private val publisher = Publisher()
-
-    // --- General ---------------------------------------------------------------------------------
-    private var touchData: TouchData? = null
 
     var hero = Player.WHITE
     var game: Game = Game("Default", mutableSetOf(), 0)
@@ -104,22 +99,19 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun drawTouchedPiece() {
-        touchedPiece ?: return
         touchData ?: return
 
         chessDrawer.drawAvailableMoves(touchData!!.availableMoves.keys)
 
-        if (isTouchedPieceFocused) {
-            chessDrawer.drawAbilitySquare(touchedPiece!!.square)
+        if (touchData!!.isPieceFocused) {
+            chessDrawer.drawAbilitySquare(touchData!!.square)
         } else {
-            chessDrawer.drawTouchedSquare(touchedPiece!!.square)
+            chessDrawer.drawTouchedSquare(touchData!!.square)
         }
     }
 
     private fun resetVisuals() {
-        touchedPiece = null
         movingPiece = null
-        isTouchedPieceFocused = false
         touchData = null
 
         invalidate()
@@ -165,13 +157,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun onTouchPressed(touchedSquare: Square) {
-        touchedPiece ?: return
+        touchData ?: return
 
         if (touchedPieceAgain(touchedSquare)) {
             return
         }
 
-        val move = Move(touchedPiece!!.square, touchedSquare)
+        val move = Move(touchData!!.square, touchedSquare)
         if (!isLegalMove(move)) {
             resetVisuals()
         }
@@ -197,8 +189,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     private fun onTouchedPiece(touchedSquare: Square) {
         if (touchedPieceAgain(touchedSquare)) {
-            isTouchedPieceFocused = true
-            Toast.makeText(context, "Touched piece again", Toast.LENGTH_SHORT).show()
+            touchData!!.isPieceFocused = true
         }
 
         val touchedMove = getTouchedMove(touchedSquare)
@@ -208,9 +199,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun onFirstTouch(touchedSquare: Square) {
-        touchedPiece = getTouchedPiece(touchedSquare)
+        val touchedPiece = getTouchedPiece(touchedSquare)
         if (touchedPiece != null) {
-            touchData = TouchData(touchedSquare, touchedPiece!!, getAvailableMoves(touchedPiece!!))
+            touchData = TouchData(touchedSquare, touchedPiece, getAvailableMoves(touchedPiece))
         }
     }
 
@@ -228,7 +219,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun getTouchedMove(touchedSquare: Square): Move? {
         touchData ?: return null
 
-        val move = Move(touchedPiece!!.square, touchedSquare)
+        val move = Move(touchData!!.square, touchedSquare)
         if (move !in touchData!!.availableMoves) {
             return null
         }
@@ -256,9 +247,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun touchedPieceAgain(touchedSquare: Square): Boolean {
-        touchedPiece ?: return false
+        touchData ?: return false
 
-        return touchedPiece!!.square == touchedSquare
+        return touchData!!.square == touchedSquare
     }
 
     // --- View Game Logic --------------------------------------------------------------------- \\
@@ -297,9 +288,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun heroTouchedPiece(): Boolean {
-        touchedPiece ?: return false
+        touchData ?: return false
 
-        return touchedPiece!!.player == game.currentPlayer
+        return touchData!!.piece.player == game.currentPlayer
     }
 
     private fun canHeroPlay(): Boolean {

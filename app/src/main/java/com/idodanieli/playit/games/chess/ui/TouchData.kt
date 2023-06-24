@@ -8,7 +8,7 @@ data class TouchData(
     val square: Square,
     val piece: Piece,
     val availableMoves: Map<Move, Move>,
-    val isPieceFocused: Boolean = false
+    var isPieceFocused: Boolean = false
 ) {
     override fun equals(other: Any?): Boolean {
         if (other !is TouchData) return false
