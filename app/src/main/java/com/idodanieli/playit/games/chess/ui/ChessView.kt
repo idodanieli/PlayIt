@@ -103,7 +103,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
         chessDrawer.drawAvailableMoves(touchData!!.availableMoves.keys)
 
-        if (touchData!!.isPieceFocused) {
+        if (touchData!!.isPreviewAbilityTouch()) {
             chessDrawer.drawAbilitySquare(touchData!!.square)
         } else {
             chessDrawer.drawTouchedSquare(touchData!!.square)
@@ -184,12 +184,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
             return
         }
 
-        onFirstTouch(touchedSquare)
+        touchData = createTouchData(touchedSquare)
     }
 
     private fun onTouchedPiece(touchedSquare: Square) {
         if (touchedPieceAgain(touchedSquare)) {
-            touchData!!.isPieceFocused = true
+            touchData!!.touches++
         }
 
         val touchedMove = getTouchedMove(touchedSquare)
@@ -198,11 +198,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         }
     }
 
-    private fun onFirstTouch(touchedSquare: Square) {
+    private fun createTouchData(touchedSquare: Square): TouchData? {
         val touchedPiece = getTouchedPiece(touchedSquare)
         if (touchedPiece != null) {
-            touchData = TouchData(touchedSquare, touchedPiece, getAvailableMoves(touchedPiece))
+            return TouchData(touchedSquare, touchedPiece, getAvailableMoves(touchedPiece))
         }
+
+        return null
     }
 
     private fun getTouchedPiece(touchedSquare: Square): Piece? {
@@ -227,7 +229,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return touchData!!.availableMoves[move]!!
     }
 
-    // getSquareTouched returns the square touched by the position in the MotionEvent
     private fun getTouchedSquare(event: MotionEvent): Square {
         var touchedSquare = getSquareFromMoveEvent(event)
 
@@ -247,9 +248,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun touchedPieceAgain(touchedSquare: Square): Boolean {
-        touchData ?: return false
+        touchData?.let {
+            return it.square == touchedSquare
+        }
 
-        return touchData!!.square == touchedSquare
+        return false
     }
 
     // --- View Game Logic --------------------------------------------------------------------- \\
