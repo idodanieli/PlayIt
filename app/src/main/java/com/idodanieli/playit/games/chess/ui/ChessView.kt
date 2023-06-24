@@ -22,6 +22,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     // --- For Drawing -----------------------------------------------------------------------------
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private var touchedPiece: Piece? = null
+    private var isTouchedPieceFocused = false
     private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
 
@@ -103,13 +104,19 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         touchedPiece ?: return
 
         chessDrawer.drawAvailableMoves(touchedPieceAvailableMoves.keys)
-        chessDrawer.drawTouchedSquare(touchedPiece!!.square)
+
+        if (isTouchedPieceFocused) {
+            chessDrawer.drawAbilitySquare(touchedPiece!!.square)
+        } else {
+            chessDrawer.drawTouchedSquare(touchedPiece!!.square)
+        }
     }
 
     private fun resetVisuals() {
         touchedPiece = null
         movingPiece = null
         touchedPieceAvailableMoves = emptyMap()
+        isTouchedPieceFocused = false
 
         invalidate()
     }
@@ -186,6 +193,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     private fun onTouchedPiece(touchedSquare: Square) {
         if (touchedPieceAgain(touchedSquare)) {
+            isTouchedPieceFocused = true
             Toast.makeText(context, "Touched piece again", Toast.LENGTH_SHORT).show()
         }
 

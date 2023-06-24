@@ -2,23 +2,17 @@ package com.idodanieli.playit.games.chess.ui
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.Paint
+import android.graphics.*
 import android.util.TypedValue
 
 
 open class Drawer {
+    companion object {
+        val COLOR_GOLD = Color.parseColor("#FFD700")
+    }
+
     var canvas = Canvas()
 
-    /**
-     * Creates a new bitmap by flipping the specified bitmap vertically or horizontally.
-     * @param src        Bitmap to flip
-     * @param type       Flip direction (horizontal or vertical)
-     * @return           New bitmap created by flipping the given on vertically or horizontally as
-     * specified by the `type` parameter or the original bitmap if an unknown type is specified.
-     */
     fun flipBitmap(src: Bitmap, type: Direction): Bitmap? {
         val matrix = Matrix()
         if (type == Direction.VERTICAL) {

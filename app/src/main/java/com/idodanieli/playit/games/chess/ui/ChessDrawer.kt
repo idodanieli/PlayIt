@@ -72,6 +72,10 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         drawSquareAccordingToHero(square, COLOR_TOUCHED)
     }
 
+    fun drawAbilitySquare(square: Square) {
+        drawSquareAccordingToHero(square, COLOR_GOLD)
+    }
+
     fun drawPiece(piece: Piece) {
         var pieceBitmap = getPieceBitmap(piece)!!
 
