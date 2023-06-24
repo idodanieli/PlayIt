@@ -175,21 +175,27 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         invalidate() // calls onDraw
     }
 
-    // TODO: This function is ugly. Think how to split it into different functions
     private fun onTouchReleased(touchedSquare: Square) {
-        touchedPiece?.let {
-            if (touchedPieceAgain(touchedSquare)) {
-                Toast.makeText(context, "Touched piece again", Toast.LENGTH_SHORT).show()
-            }
-
-            val touchedMove = getTouchedMove(touchedSquare)
-            if (touchedMove != null && heroTouchedPiece() && isLegalMove(touchedMove)) {
-                applyMove(touchedMove)
-            }
-
+        if (heroTouchedPiece()) {
+            onTouchedPiece(touchedSquare)
             return
         }
 
+        onFirstTouch(touchedSquare)
+    }
+
+    private fun onTouchedPiece(touchedSquare: Square) {
+        if (touchedPieceAgain(touchedSquare)) {
+            Toast.makeText(context, "Touched piece again", Toast.LENGTH_SHORT).show()
+        }
+
+        val touchedMove = getTouchedMove(touchedSquare)
+        if (isLegalMove(touchedMove)) {
+            applyMove(touchedMove!!)
+        }
+    }
+
+    private fun onFirstTouch(touchedSquare: Square) {
         touchedPiece = getTouchedPiece(touchedSquare)
         if (touchedPiece != null) {
             touchedPieceAvailableMoves = getAvailableMoves(touchedPiece!!)
@@ -236,6 +242,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun touchedPieceAgain(touchedSquare: Square): Boolean {
+        touchedPiece ?: return false
+
         return touchedPiece!!.square == touchedSquare
     }
 
@@ -305,7 +313,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
                 "${game.board}\n")
     }
 
-    private fun isLegalMove(move: Move): Boolean {
+    private fun isLegalMove(move: Move?): Boolean {
+        move ?: return false
+
         return move in touchedPieceAvailableMoves
     }
 
