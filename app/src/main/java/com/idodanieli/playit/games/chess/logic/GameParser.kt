@@ -65,6 +65,7 @@ class GameParser {
                 TYPE_ARCHBISHOP -> return Archbishop(square, player)
                 TYPE_XIANGQI_HORSE -> return XiangqiHorse(square, player)
                 Jester.TYPE -> return Jester(square, player)
+                Terrorist.TYPE -> return Terrorist(square, player)
             }
 
             return BasePiece(square, player)

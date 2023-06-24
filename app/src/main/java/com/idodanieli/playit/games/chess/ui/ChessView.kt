@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
@@ -156,7 +157,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         touchedPiece ?: return
 
         val move = Move(touchedPiece!!.square, touchedSquare)
-        if (!heroMadeMove(touchedSquare) || !isLegalMove(move)) {
+        if (!heroTouchedPiece() || !isLegalMove(move)) {
             resetVisuals()
         }
     }
@@ -173,8 +174,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     // TODO: This function is ugly. Think how to split it into different functions
     private fun onTouchReleased(touchedSquare: Square) {
         touchedPiece?.let {
+            if (touchedPieceAgain(touchedSquare)) {
+                Toast.makeText(context, "Touched piece again", Toast.LENGTH_SHORT).show()
+            }
+
             val touchedMove = getTouchedMove(touchedSquare)
-            if (touchedMove != null && heroMadeMove(touchedSquare) && isLegalMove(touchedMove)) {
+            if (touchedMove != null && heroTouchedPiece() && isLegalMove(touchedMove)) {
                 applyMove(touchedMove)
             }
 
@@ -226,6 +231,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return Square(touchedColumn, touchedRow)
     }
 
+    private fun touchedPieceAgain(touchedSquare: Square): Boolean {
+        return touchedPiece!!.square == touchedSquare
+    }
+
     // --- View Game Logic --------------------------------------------------------------------- \\
 
     fun select(mode: String, gameID: String = "") {
@@ -261,11 +270,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return game.getLegalMovesForPiece(piece).associateWith { it }
     }
 
-    private fun heroMadeMove(touchedSquare: Square): Boolean {
+    private fun heroTouchedPiece(): Boolean {
         touchedPiece ?: return false
 
-        return touchedPiece!!.player == game.currentPlayer &&
-                touchedPiece!!.square != touchedSquare
+        return touchedPiece!!.player == game.currentPlayer
     }
 
     private fun canHeroPlay(): Boolean {

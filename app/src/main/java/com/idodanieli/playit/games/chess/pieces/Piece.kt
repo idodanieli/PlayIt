@@ -59,6 +59,7 @@ interface Piece: GameSubscriber {
 
 // -- OTHER
 // V "Berolina Pawn"
+// V "Jester": Mimics the opponents last moved piece
 
 //----- SPECIAL PIECES -----\\
 // - "Jumper":     A piece that can jump over an enemy piece to capture it, similar to a knight.
@@ -85,3 +86,6 @@ interface Piece: GameSubscriber {
 // - "Alchemist":      A piece that can transmute other pieces, turning them into different, more powerful pieces.
 // - "Hive-Mind":      A piece that can control multiple pieces at once, allowing players to move several pieces at once.
 // - "Prophet":        A piece that can see into the future, allowing players to anticipate and plan for their opponent's moves.
+
+// --- Special Chess Variants ----------------------------------------------------------------------
+// -- "Beirut Chess" https://en.wikipedia.org/wiki/Beirut_chess
