@@ -19,7 +19,7 @@ import kotlin.math.min
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
     // --- For Drawing -----------------------------------------------------------------------------
-    private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
+    val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private var touchData: TouchData? = null
     private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
@@ -93,7 +93,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         chessDrawer.drawChessboard()
 
         touchData?.let {
-            it.piece.visualize(it, chessDrawer)
+            it.piece.visualize(it, this)
         }
 
         chessDrawer.drawPieces(game, movingPiece)

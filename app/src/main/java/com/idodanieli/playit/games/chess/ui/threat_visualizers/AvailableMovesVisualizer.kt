@@ -4,6 +4,7 @@ import android.graphics.Color
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.TouchData
 
 class AvailableMovesVisualizer: TouchVisualizer {
@@ -13,10 +14,10 @@ class AvailableMovesVisualizer: TouchVisualizer {
         private val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
     }
 
-    override fun visualize(touch: TouchData?, chessDrawer: ChessDrawer) {
+    override fun visualize(touch: TouchData?, chessView: ChessView) {
         touch ?: return
 
-        drawAvailableMoves(chessDrawer, touch.availableMoves.keys)
+        drawAvailableMoves(chessView.chessDrawer, touch.availableMoves.keys)
     }
 
     private fun drawAvailableMoves(chessDrawer: ChessDrawer, moves: Set<Move>) {

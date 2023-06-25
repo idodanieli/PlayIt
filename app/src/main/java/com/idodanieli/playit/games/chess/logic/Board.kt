@@ -141,7 +141,7 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
     // neighborSquares returns all the available squares near the given piece
     fun neighborSquares(piece: Piece): List<Square> {
         return piece.square.neighbors().filter {
-            isIn(it) && playerAt(it) != piece.player
+            isIn(it) // && playerAt(it) != piece.player
         }
     }
 

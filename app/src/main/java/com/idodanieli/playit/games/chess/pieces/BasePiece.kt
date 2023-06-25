@@ -2,6 +2,7 @@ package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.AvailableMovesVisualizer
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.TouchedSquareVisualizer
@@ -13,8 +14,8 @@ open class BasePiece(override var square: Square, override var player: Player): 
 
     private val visualizers = VisualizerCollection(AvailableMovesVisualizer(), TouchedSquareVisualizer())
 
-    override fun visualize(touch: TouchData?, chessDrawer: ChessDrawer) {
-        visualizers.visualize(touch, chessDrawer)
+    override fun visualize(touch: TouchData?, chessView: ChessView) {
+        visualizers.visualize(touch, chessView)
     }
 
     override fun availableMoves(board: Board): List<Move> {
