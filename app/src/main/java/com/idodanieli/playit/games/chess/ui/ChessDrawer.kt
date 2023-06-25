@@ -17,8 +17,6 @@ import com.idodanieli.playit.games.chess.pieces.fairy.*
 var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
 val COLOR_TOUCHED = Color.parseColor("#CBC3E3")
-val COLOR_LIGHT_AVAILABLE_SQUARE = Color.parseColor("#FF7276")
-val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
 
 private const val MOVING_PIECE_SCALE = 1.5f
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
@@ -43,11 +41,6 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
     fun drawChessboard() {
         val chessboardSquares = getChessboardSquares()
         drawSquares(chessboardSquares, lightColor, darkColor)
-    }
-
-    // drawAvailableMoves draw the moves available by a piece to move to in a red color
-    fun drawAvailableMoves(moves: Set<Move>) {
-        return drawAvailableSquares(moves.map { it.dest })
     }
 
     // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
@@ -100,11 +93,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         }
     }
 
-    private fun drawAvailableSquares(squares: List<Square>) {
-        drawSquares(squares, COLOR_LIGHT_AVAILABLE_SQUARE, COLOR_DARK_AVAILABLE_SQUARE)
-    }
-
-    private fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
+    fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
         for (square in squares) {
             drawSquareAccordingToHero(square, lightColor, darkColor)
         }

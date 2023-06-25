@@ -16,11 +16,13 @@ import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
+import com.idodanieli.playit.games.chess.ui.threat_visualizers.AvailableMovesTouchVisualizer
 import kotlin.math.min
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
     // --- For Drawing -----------------------------------------------------------------------------
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
+    private val availableMovesTouchVisualizer = AvailableMovesTouchVisualizer(chessDrawer)
     private var touchData: TouchData? = null
     private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
@@ -101,7 +103,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun drawTouchedPiece() {
         touchData ?: return
 
-        chessDrawer.drawAvailableMoves(touchData!!.availableMoves.keys)
+        availableMovesTouchVisualizer.visualize(touchData)
 
         if (touchData!!.isPreviewAbilityTouch()) {
             chessDrawer.drawAbilitySquare(touchData!!.square)
