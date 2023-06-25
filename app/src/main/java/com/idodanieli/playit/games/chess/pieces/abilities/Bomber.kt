@@ -35,6 +35,11 @@ open class Bomber(piece: Piece): PieceWrapper(piece) {
         return board.neighborSquares(this) + this.square
     }
 
+    // --- General ---------------------------------------------------------------------------------
+    fun getChild(): Piece {
+        return piece
+    }
+
     override fun copy(): Piece {
         return Bomber(piece.copy())
     }
