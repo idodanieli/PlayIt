@@ -6,12 +6,13 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.fairy.Man
 
 const val TYPE_KING = "K"
 
 private const val CASTLE_MOVE_AMOUNT = 2
 
-open class King(square: Square, player: Player) : BasePiece(square, player) {
+open class King(square: Square, player: Player) : Man(square, player) {
     override val type = TYPE_KING
 
     override fun availableSquares(board: Board): List<Square> {
@@ -29,11 +30,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     private fun getNeighborMoves(board: Board): MutableList<Move> {
-        return getNeighborSquares(board).map { square -> Move(this.square, square) } as MutableList<Move>
-    }
-
-    private fun getNeighborSquares(board: Board): List<Square> {
-        return board.neighborSquares(this)
+        return super.availableSquares(board).map { square -> Move(this.square, square) } as MutableList<Move>
     }
 
     // --- Castling Logic ---------------------------------------------------------------------- \\
@@ -90,7 +87,7 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
         return true
     }
 
-    fun canCastle(board: Board): Boolean {
+    private fun canCastle(board: Board): Boolean {
         return !moved && !isThreatened(board)
     }
 
