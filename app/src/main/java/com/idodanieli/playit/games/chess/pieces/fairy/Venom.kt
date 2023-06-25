@@ -4,6 +4,7 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.core.Rider
 
 private val MOVE_OFFSETS = arrayOf(1, -1, 0)
@@ -40,5 +41,10 @@ class Venom(square: Square, player: Player) : Rider(square, player) {
         }
 
         return moves
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Venom(square, player)
     }
 }

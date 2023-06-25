@@ -2,6 +2,8 @@ package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
+import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.core.Compound
 
@@ -14,4 +16,9 @@ class WildBeast(square: Square, player: Player) : Compound(square, player) {
         Knight(square, player),
         Camel(square, player)
     )
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return WildBeast(square, player)
+    }
 }

@@ -3,6 +3,8 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.classic.King
 
 private val XIANGQI_HORSE_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_XIANGQI_HORSE = "O"
@@ -47,5 +49,10 @@ open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, play
         }
         
         return false
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return XiangqiHorse(square, player)
     }
 }

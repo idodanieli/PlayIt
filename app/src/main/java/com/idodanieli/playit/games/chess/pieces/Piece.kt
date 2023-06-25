@@ -30,6 +30,8 @@ interface Piece: GameSubscriber, TouchVisualizer {
 
     // onCaptured adds logic to piece after they have captured another piece
     fun onCaptured(capturedPiece: Piece)
+
+    fun copy(): Piece
 }
 
 // https://en.wikipedia.org/wiki/Giraffe_%28chess%29

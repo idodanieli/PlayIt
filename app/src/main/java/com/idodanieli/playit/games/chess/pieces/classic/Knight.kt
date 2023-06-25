@@ -4,6 +4,7 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.Piece
 
 private val KNIGHT_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_KNIGHT = "N"
@@ -30,5 +31,10 @@ open class Knight(square: Square, player: Player) : BasePiece(square, player) {
         }
 
         return moves
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Knight(square, player)
     }
 }

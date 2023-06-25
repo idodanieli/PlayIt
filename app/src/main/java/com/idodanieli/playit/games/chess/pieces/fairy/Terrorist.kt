@@ -5,6 +5,7 @@ import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
 
 class Terrorist(square: Square, player: Player) : Bomber(BasePiece(square, player)) {
@@ -27,5 +28,10 @@ class Terrorist(square: Square, player: Player) : Bomber(BasePiece(square, playe
         squares += this.square + Square(0, -1)
 
         return squares.filter{it.inBorder(board.size)}
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Terrorist(square, player)
     }
 }

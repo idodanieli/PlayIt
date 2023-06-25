@@ -27,4 +27,9 @@ class Rook(square: Square, player: Player) : Rider(square, player) {
 
         return moves
     }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Rook(square, player)
+    }
 }

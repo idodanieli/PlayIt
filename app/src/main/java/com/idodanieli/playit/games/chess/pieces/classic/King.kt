@@ -93,4 +93,9 @@ open class King(square: Square, player: Player) : BasePiece(square, player) {
     fun canCastle(board: Board): Boolean {
         return !moved && !isThreatened(board)
     }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return King(square, player)
+    }
 }

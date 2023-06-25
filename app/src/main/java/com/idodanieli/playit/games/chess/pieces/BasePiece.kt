@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.AvailableMovesVisualizer
@@ -50,5 +51,10 @@ open class BasePiece(override var square: Square, override var player: Player): 
 
     fun isThreatened(board: Board): Boolean {
         return board.isThreatened(this.square, this.player.opposite())
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return BasePiece(square, player)
     }
 }

@@ -25,4 +25,8 @@ class Bishop(square: Square, player: Player) : Rider(square, player) {
 
         return moves
     }
+
+    override fun copy(): Piece {
+        return Bishop(square, player)
+    }
 }

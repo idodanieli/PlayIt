@@ -3,6 +3,7 @@ package com.idodanieli.playit.games.chess.pieces.fairy
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.classic.King
 
 class Jester(square: Square, player: Player) : BasePiece(square, player) {
     companion object {
@@ -25,19 +26,14 @@ class Jester(square: Square, player: Player) : BasePiece(square, player) {
         when(event) {
             is MoveEvent -> {
                 if (this.player != event.movedPiece.player) {
-                    mimickedPiece = createMimickedPiece(event.movedPiece)
+                    mimickedPiece = event.movedPiece.copy()
                 }
             }
         }
     }
 
-    fun createMimickedPiece(piece: Piece): Piece {
-        val objClass = piece::class.java
-        val constructor = objClass.constructors.first()
-
-        val mimickedPiece =  constructor.newInstance(this.square, this.player) as Piece
-        mimickedPiece.moved = piece.moved
-
-        return mimickedPiece
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Jester(square, player)
     }
 }

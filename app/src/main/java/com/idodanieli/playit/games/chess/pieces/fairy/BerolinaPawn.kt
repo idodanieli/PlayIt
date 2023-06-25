@@ -4,6 +4,8 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.classic.King
 
 private const val WHITE_DIRECTION = 1
 private const val BLACK_DIRECTION = -1
@@ -52,5 +54,10 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
 
     private fun captureMove(): Square {
         return Square(square.col, square.row + direction)
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return BerolinaPawn(square, player)
     }
 }

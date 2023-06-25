@@ -59,4 +59,8 @@ open class PieceWrapper(val piece: Piece): Piece {
     override fun xrayAvailableMoves(board: Board): List<Square> {
         return piece.xrayAvailableMoves(board)
     }
+
+    override fun copy(): Piece {
+        return PieceWrapper(piece.copy())
+    }
 }

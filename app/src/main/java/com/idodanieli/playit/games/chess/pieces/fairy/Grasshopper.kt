@@ -4,6 +4,8 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.DIRECTIONS
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
+import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.core.Hopper
 
 const val TYPE_GRASSHOPPER = "H"
@@ -21,5 +23,10 @@ class Grasshopper(square: Square, player: Player) : Hopper(square, player) {
 
     override fun availableSquares(board: Board): List<Square> {
         return super.availableSquares(board).filter { isAHopOverAPiece(it, board) }
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Grasshopper(square, player)
     }
 }

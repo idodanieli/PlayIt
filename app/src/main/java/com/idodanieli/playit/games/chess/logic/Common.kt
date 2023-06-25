@@ -5,9 +5,7 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 fun deepCopyPieces(pieces: Set<Piece>): MutableSet<Piece> {
     val copiedPieces = mutableSetOf<Piece>()
     for (piece in pieces) {
-        val constructor = piece::class.java.constructors.first()
-        val copiedPiece = constructor.newInstance(piece.square.copy(), piece.player) as Piece
-        copiedPieces.add(copiedPiece)
+        copiedPieces.add(piece.copy())
     }
 
     return copiedPieces

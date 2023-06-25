@@ -8,6 +8,7 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.Piece
 
 private const val MAX_START_MOVES = 2
 const val TYPE_PAWN = "P"
@@ -65,5 +66,10 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
 
         return listOf(captureMoveLeft, captureMoveRight)
             .filter { board.playerAt(it) == player.opposite()}
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Pawn(square, player)
     }
 }

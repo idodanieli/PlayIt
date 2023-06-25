@@ -35,4 +35,7 @@ open class Bomber(piece: Piece): PieceWrapper(piece) {
         return board.neighborSquares(this) + this.square
     }
 
+    override fun copy(): Piece {
+        return Bomber(piece.copy())
+    }
 }

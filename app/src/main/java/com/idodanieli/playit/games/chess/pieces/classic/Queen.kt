@@ -27,4 +27,9 @@ class Queen(square: Square, player: Player) : Rider(square, player) {
 
         return moves
     }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Queen(square, player)
+    }
 }

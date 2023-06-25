@@ -4,6 +4,7 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.fairy.*
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
 import org.json.JSONObject
 
 class GameParser {
@@ -34,7 +35,8 @@ class GameParser {
                     if (char != EMPTY_SQUARE) {
                         val square = Square(col, row)
                         val player = if (char.isUpperCase()) Player.WHITE else Player.BLACK
-                        pieces.add(pieceFromCharacter(char.uppercase(), square, player))
+                        val piece = pieceFromCharacter(char.uppercase(), square, player)
+                        pieces.add(Bomber(piece))
                     }
                 }
             }
