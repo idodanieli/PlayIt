@@ -12,6 +12,7 @@ data class TouchData(
 ) {
     companion object {
         const val PREVIEW_ABILITY_TOUCH_AMOUNT = 2
+        const val ACTIVATE_ABILITY_TOUCH_AMOUNT = 3
     }
 
     override fun equals(other: Any?): Boolean {
@@ -22,5 +23,9 @@ data class TouchData(
 
     fun isPreviewAbilityTouch(): Boolean {
         return touches == PREVIEW_ABILITY_TOUCH_AMOUNT
+    }
+
+    fun isActivateAbilityTouch(): Boolean {
+        return piece.hasAbility() && touches == ACTIVATE_ABILITY_TOUCH_AMOUNT
     }
 }

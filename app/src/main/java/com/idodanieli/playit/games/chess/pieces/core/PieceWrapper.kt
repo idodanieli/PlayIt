@@ -60,6 +60,14 @@ open class PieceWrapper(val piece: Piece): Piece {
         return piece.xrayAvailableMoves(board)
     }
 
+    override fun applyAbility(game: Game) {
+        piece.applyAbility(game)
+    }
+
+    override fun hasAbility(): Boolean {
+        return piece.hasAbility()
+    }
+
     override fun copy(): Piece {
         return PieceWrapper(piece.copy())
     }

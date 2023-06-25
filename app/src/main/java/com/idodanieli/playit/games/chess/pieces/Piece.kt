@@ -25,6 +25,10 @@ interface Piece: GameSubscriber, TouchVisualizer {
     // possibleMoves, except for special cases like Pawns, etc.)
     fun capturableSquares(board: Board): List<Square>
 
+    fun applyAbility(game: Game)
+
+    fun hasAbility(): Boolean
+
     // onMove adds logic to piece after they have been moved
     fun onMove()
 

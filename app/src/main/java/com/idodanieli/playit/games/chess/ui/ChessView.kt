@@ -177,8 +177,15 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun onTouchedPiece(touchedSquare: Square) {
+        touchData ?: return
+
         if (touchedPieceAgain(touchedSquare)) {
             touchData!!.touches++
+        }
+
+        if (touchData!!.isActivateAbilityTouch()) {
+            applyAbilityMove(touchData!!.piece)
+            return
         }
 
         val touchedMove = getTouchedMove(touchedSquare)
@@ -265,6 +272,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     fun applyMove(move: Move) {
         game.applyMove(move)
+        afterMove()
+    }
+
+    fun applyAbilityMove(piece: Piece) {
+        touchData!!.piece.applyAbility(game)
+        // TODO: notify subscribers
+
+        afterMove()
+    }
+
+    private fun afterMove() {
         soundMove.start()
 
         game.switchTurn()

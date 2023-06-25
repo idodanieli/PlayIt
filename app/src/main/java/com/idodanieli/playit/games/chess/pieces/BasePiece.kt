@@ -36,6 +36,14 @@ open class BasePiece(override var square: Square, override var player: Player): 
         return availableSquares(board)
     }
 
+    override fun applyAbility(game: Game) {
+        throw NotImplementedError("apply ability not implemented for $this")
+    }
+
+    override fun hasAbility(): Boolean {
+        return false
+    }
+
     override fun onMove() {
         this.moved = true
     }

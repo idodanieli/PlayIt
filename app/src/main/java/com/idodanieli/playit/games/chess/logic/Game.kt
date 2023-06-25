@@ -41,7 +41,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         applyCapture(capturingPiece!!, capturedPiece!!)
     }
 
-    private fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
+    fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
         notifySubscribers(PieceCapturedEvent(capturedPiece))
