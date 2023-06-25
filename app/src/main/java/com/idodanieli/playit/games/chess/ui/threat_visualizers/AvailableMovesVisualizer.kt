@@ -6,7 +6,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.ui.ChessDrawer
 import com.idodanieli.playit.games.chess.ui.TouchData
 
-class AvailableMovesTouchVisualizer: TouchVisualizer {
+class AvailableMovesVisualizer: TouchVisualizer {
 
     companion object {
         private val COLOR_LIGHT_AVAILABLE_SQUARE = Color.parseColor("#FF7276")
