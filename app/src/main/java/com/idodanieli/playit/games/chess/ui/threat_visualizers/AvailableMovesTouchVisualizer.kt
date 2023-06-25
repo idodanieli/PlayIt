@@ -6,24 +6,24 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.ui.ChessDrawer
 import com.idodanieli.playit.games.chess.ui.TouchData
 
-class AvailableMovesTouchVisualizer(private val chessDrawer: ChessDrawer): TouchVisualizer {
+class AvailableMovesTouchVisualizer: TouchVisualizer {
 
     companion object {
         private val COLOR_LIGHT_AVAILABLE_SQUARE = Color.parseColor("#FF7276")
         private val COLOR_DARK_AVAILABLE_SQUARE = Color.parseColor("#E6676B")
     }
 
-    override fun visualize(touch: TouchData?) {
+    override fun visualize(touch: TouchData?, chessDrawer: ChessDrawer) {
         touch ?: return
 
-        drawAvailableMoves(touch.availableMoves.keys)
+        drawAvailableMoves(chessDrawer, touch.availableMoves.keys)
     }
 
-    private fun drawAvailableMoves(moves: Set<Move>) {
-        return drawAvailableSquares(moves.map { it.dest })
+    private fun drawAvailableMoves(chessDrawer: ChessDrawer, moves: Set<Move>) {
+        return drawAvailableSquares(chessDrawer, moves.map { it.dest })
     }
 
-    private fun drawAvailableSquares(squares: List<Square>) {
+    private fun drawAvailableSquares(chessDrawer: ChessDrawer, squares: List<Square>) {
         chessDrawer.drawSquares(squares, COLOR_LIGHT_AVAILABLE_SQUARE, COLOR_DARK_AVAILABLE_SQUARE)
     }
 }

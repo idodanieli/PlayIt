@@ -22,7 +22,6 @@ import kotlin.math.min
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
     // --- For Drawing -----------------------------------------------------------------------------
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
-    private val availableMovesTouchVisualizer = AvailableMovesTouchVisualizer(chessDrawer)
     private var touchData: TouchData? = null
     private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
@@ -103,7 +102,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun drawTouchedPiece() {
         touchData ?: return
 
-        availableMovesTouchVisualizer.visualize(touchData)
+        touchData!!.piece.visualize(touchData, chessDrawer)
 
         if (touchData!!.isPreviewAbilityTouch()) {
             chessDrawer.drawAbilitySquare(touchData!!.square)
