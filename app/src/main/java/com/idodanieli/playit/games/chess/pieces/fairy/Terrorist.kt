@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 
+import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
@@ -20,6 +21,10 @@ class Terrorist(square: Square, player: Player) : Bomber(Rook(square, player)) {
 
     override val type = TYPE
 
+
+    override fun capturableSquares(board: Board): List<Square> {
+        return this.explosionThreatenedSquares(board)
+    }
 
     // --- General ---------------------------------------------------------------------------------
     override fun copy(): Piece {

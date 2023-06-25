@@ -53,7 +53,7 @@ open class Bomber(piece: Piece): PieceWrapper(piece) {
         }
     }
 
-    private fun explosionThreatenedSquares(board: Board): List<Square> {
+    fun explosionThreatenedSquares(board: Board): List<Square> {
         return board.neighborSquares(this) + this.square
     }
 
