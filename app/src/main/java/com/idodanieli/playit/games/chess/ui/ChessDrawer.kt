@@ -16,8 +16,6 @@ import com.idodanieli.playit.games.chess.pieces.fairy.*
 
 var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
 
-val COLOR_TOUCHED = Color.parseColor("#CBC3E3")
-
 private const val MOVING_PIECE_SCALE = 1.5f
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
 
@@ -61,14 +59,6 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         }
     }
 
-    fun drawTouchedSquare(square: Square) {
-        drawSquareAccordingToHero(square, COLOR_TOUCHED)
-    }
-
-    fun drawAbilitySquare(square: Square) {
-        drawSquareAccordingToHero(square, COLOR_GOLD)
-    }
-
     fun drawPiece(piece: Piece) {
         var pieceBitmap = getPieceBitmap(piece)!!
 
@@ -104,7 +94,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
         drawSquareAccordingToHero(square, color)
     }
 
-    private fun drawSquareAccordingToHero(square: Square, color: Int) {
+    fun drawSquareAccordingToHero(square: Square, color: Int) {
         // When the player is black the screen is flipped vertically so it's fitting to his perspective
         val squareAccordingToHero = if(hero.isBlack()) square.flipVertically(size) else square
 

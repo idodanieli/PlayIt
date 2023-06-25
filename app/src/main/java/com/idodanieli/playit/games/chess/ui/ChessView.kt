@@ -92,21 +92,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
         chessDrawer.drawChessboard()
 
-        drawTouchedPiece()
+        touchData?.let {
+            it.piece.visualize(it, chessDrawer)
+        }
 
         chessDrawer.drawPieces(game, movingPiece)
-    }
-
-    private fun drawTouchedPiece() {
-        touchData ?: return
-
-        touchData!!.piece.visualize(touchData, chessDrawer)
-
-        if (touchData!!.isPreviewAbilityTouch()) {
-            chessDrawer.drawAbilitySquare(touchData!!.square)
-        } else {
-            chessDrawer.drawTouchedSquare(touchData!!.square)
-        }
     }
 
     private fun resetVisuals() {

@@ -7,9 +7,6 @@ import android.util.TypedValue
 
 
 open class Drawer {
-    companion object {
-        val COLOR_GOLD = Color.parseColor("#FFD700")
-    }
 
     var canvas = Canvas()
 
