@@ -36,7 +36,7 @@ class GameParser {
                         val square = Square(col, row)
                         val player = if (char.isUpperCase()) Player.WHITE else Player.BLACK
                         val piece = pieceFromCharacter(char.uppercase(), square, player)
-                        pieces.add(Bomber(piece))
+                        pieces.add(piece)
                     }
                 }
             }
