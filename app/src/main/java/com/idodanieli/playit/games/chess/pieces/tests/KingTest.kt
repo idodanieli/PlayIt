@@ -8,7 +8,7 @@ import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.classic.Queen
 import com.idodanieli.playit.games.chess.pieces.classic.Rook
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 import org.junit.Test
 
 class KingTest {
@@ -20,7 +20,7 @@ class KingTest {
     @Test // that the getCastlingMoves function works
     fun testCastling() {
         val tmpBoard = board.copy()
-        val game = Game("", board.pieces(), board.size) // TODO: Move name out of game... it's annoying
+        val game = ClassicGame("", board.pieces(), board.size) // TODO: Move name out of game... it's annoying
 
         val blockingKnight = Knight(Square(6, 7), Player.WHITE)
         game.board.add(blockingKnight)

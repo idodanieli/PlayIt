@@ -8,7 +8,7 @@ import com.idodanieli.playit.games.chess.logic.deepCopyPieces
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-data class Game(var name: String, private val startingPieces: Set<Piece>, var size: Int) : Publisher() {
+data class ClassicGame(var name: String, private val startingPieces: Set<Piece>, var size: Int) : Publisher() {
     var board = Board(startingPieces, size)
     var currentPlayer = Player.WHITE // white always starts in chess
     var description = ""
@@ -124,7 +124,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         return this.board.pieces()
     }
 
-    private fun copy(): Game {
-        return Game(name, deepCopyPieces(pieces()), size)
+    private fun copy(): ClassicGame {
+        return ClassicGame(name, deepCopyPieces(pieces()), size)
     }
 }

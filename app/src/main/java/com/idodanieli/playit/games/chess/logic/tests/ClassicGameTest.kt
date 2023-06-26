@@ -5,10 +5,10 @@ import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.tests.errorFormat
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.pieces.fairy.Empress
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 import org.junit.Test
 
-class GameTest {
+class ClassicGameTest {
 
     @Test
     fun testMovePiece() {
@@ -17,7 +17,7 @@ class GameTest {
 
         val pawn = Pawn(origin, Player.BLACK)
         val enemyPawn = Pawn(destination, Player.WHITE)
-        val game = Game(TEST_GAME_NAME, mutableSetOf(pawn, enemyPawn), CHESSBOARD_SIZE)
+        val game = ClassicGame(TEST_GAME_NAME, mutableSetOf(pawn, enemyPawn), CHESSBOARD_SIZE)
 
         val move = Move(origin, destination)
         game.applyMove(move)
@@ -54,7 +54,7 @@ class GameTest {
         // . . . . . . . .
         // . . . . . . . .
         // . . . . . . . .
-        val finishedGame = Game(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, wQueen), CHESSBOARD_SIZE)
+        val finishedGame = ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, wQueen), CHESSBOARD_SIZE)
         finishedGame.currentPlayer = Player.BLACK
 
         assert(finishedGame.isOver()) {
@@ -75,7 +75,7 @@ class GameTest {
         // Q . . . . . . .
         val unthreateningWQueen = Queen(Square(0, 7), Player.WHITE)
         val unfinishedGame =
-            Game(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, unthreateningWQueen), CHESSBOARD_SIZE)
+            ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, unthreateningWQueen), CHESSBOARD_SIZE)
         unfinishedGame.currentPlayer = Player.BLACK
 
         assert(!unfinishedGame.isOver()) {
@@ -104,7 +104,7 @@ class GameTest {
     // . . . . . . . .
     // . . . . . . . .
     private val game =
-        Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, bPawn, wQueen), CHESSBOARD_SIZE)
+        ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, bPawn, wQueen), CHESSBOARD_SIZE)
 
     @Test
     fun testFilterBlockingMoves() {
@@ -129,7 +129,7 @@ class GameTest {
         // . . . . . . . .
         val wRook = Rook(Square(0, 1), Player.WHITE)
         val game2 =
-            Game(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE)
+            ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE)
         val blockingMoves = game2.getLegalMovesForPiece(bBishop)
 
         assert(blockingMoves.isEmpty())
@@ -156,7 +156,7 @@ class GameTest {
         val wEmpress = Empress(Square(4, 3), Player.WHITE)
         val wKnight = Knight(Square(4, 4), Player.WHITE)
 
-        val game = Game("", setOf(bKing, bEmpress, wEmpress, wKnight), CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(bKing, bEmpress, wEmpress, wKnight), CHESSBOARD_SIZE)
         val wKnightMove = Move(Square(4, 4), Square(2, 5))
 
         // . . . m k . . .

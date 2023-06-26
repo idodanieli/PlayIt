@@ -7,7 +7,7 @@ import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.AvailableMovesVisualizer
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.TouchedSquareVisualizer
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.VisualizerCollection
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 
 open class BasePiece(override var square: Square, override var player: Player): Piece {
     override val type = ""
@@ -37,7 +37,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
         return availableSquares(board)
     }
 
-    override fun applyAbility(game: Game) {
+    override fun applyAbility(game: ClassicGame) {
         throw NotImplementedError("apply ability not implemented for $this")
     }
 

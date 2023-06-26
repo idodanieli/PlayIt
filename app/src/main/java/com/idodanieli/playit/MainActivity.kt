@@ -17,7 +17,7 @@ import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameOverEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         initUI(games)
     }
 
-    private fun createGames(): List<Game> {
+    private fun createGames(): List<ClassicGame> {
         val files = arrayListOf<JSONObject>()
         val fields: Array<Field> = R.raw::class.java.fields
         fields.forEach {
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         chessView.invalidate()
     }
 
-    private fun initUI(games: List<Game>) {
+    private fun initUI(games: List<ClassicGame>) {
         localPlayButton.setOnClickListener() {
             playButtonOnClick(MODE_LOCAL)
         }

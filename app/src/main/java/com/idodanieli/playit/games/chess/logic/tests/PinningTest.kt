@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.tests.errorFormat
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 import org.junit.Test
 
 class PinningTest {
@@ -14,7 +14,7 @@ class PinningTest {
     private val whiteBishop = Bishop(Square(2, 5), Player.WHITE)
     private val pieces = mutableSetOf<Piece>(blackKing, blackPawn, whiteBishop)
 
-    private val game = Game(startingPieces= pieces, size= CHESSBOARD_SIZE, name= "")
+    private val game = ClassicGame(startingPieces= pieces, size= CHESSBOARD_SIZE, name= "")
 
     @Test // that a piece can capture it's pinner
     fun testCanCapturePinner() {

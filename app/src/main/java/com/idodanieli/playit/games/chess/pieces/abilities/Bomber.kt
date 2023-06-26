@@ -1,7 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces.abilities
 
 import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.PieceWrapper
@@ -43,7 +43,7 @@ open class Bomber(piece: Piece): PieceWrapper(piece) {
         return true
     }
 
-    override fun applyAbility(game: Game) {
+    override fun applyAbility(game: ClassicGame) {
         val board = game.board
 
         for (square in explosionThreatenedSquares(board)) {

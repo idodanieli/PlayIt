@@ -1,7 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces.fairy.tests
 
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
@@ -20,7 +20,7 @@ class JesterTest {
         val wJester = Jester(jesterStartingSquare, Player.WHITE)
         val bKnight = Knight(knightStartingSquare, Player.BLACK)
 
-        val game = Game("", setOf(wJester, bKnight), CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(wJester, bKnight), CHESSBOARD_SIZE)
 
         val bKnightDestination = Square(5, 6)
         val move = Move(knightStartingSquare, bKnightDestination)

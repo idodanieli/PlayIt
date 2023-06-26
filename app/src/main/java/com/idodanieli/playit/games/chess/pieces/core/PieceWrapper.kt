@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.TouchData
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 
 open class PieceWrapper(val piece: Piece): Piece {
 
@@ -62,7 +62,7 @@ open class PieceWrapper(val piece: Piece): Piece {
         return piece.xrayAvailableMoves(board)
     }
 
-    override fun applyAbility(game: Game) {
+    override fun applyAbility(game: ClassicGame) {
         piece.applyAbility(game)
     }
 

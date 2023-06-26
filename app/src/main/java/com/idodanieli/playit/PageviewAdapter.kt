@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.CapturedPiecesView
 
 
 class PageviewAdapter(
-    private val games: List<Game>,
+    private val games: List<ClassicGame>,
     ) :
     RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
 

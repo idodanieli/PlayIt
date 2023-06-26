@@ -3,7 +3,7 @@ package com.idodanieli.playit.games.chess.pieces
 import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.TouchVisualizer
-import com.idodanieli.playit.games.chess.variants.Game
+import com.idodanieli.playit.games.chess.variants.ClassicGame
 
 const val NO_MAX_STEPS = 0
 
@@ -27,7 +27,7 @@ interface Piece: GameSubscriber, TouchVisualizer {
     // possibleMoves, except for special cases like Pawns, etc.)
     fun capturableSquares(board: Board): List<Square>
 
-    fun applyAbility(game: Game)
+    fun applyAbility(game: ClassicGame)
 
     fun hasAbility(): Boolean
 
