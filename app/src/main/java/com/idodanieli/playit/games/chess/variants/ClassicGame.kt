@@ -8,18 +8,18 @@ import com.idodanieli.playit.games.chess.logic.deepCopyPieces
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-data class ClassicGame(var name: String, private val startingPieces: Set<Piece>, var size: Int) : Publisher() {
-    var board = Board(startingPieces, size)
-    var currentPlayer = Player.WHITE // white always starts in chess
-    var description = ""
-    var started = false
+data class ClassicGame(override var name: String, private val startingPieces: Set<Piece>, override var size: Int) : Game, Publisher() {
+    override var board = Board(startingPieces, size)
+    override var currentPlayer = Player.WHITE // white always starts in chess
+    override var description = ""
+    override var started = false
 
     init {
         subscribe(startingPieces)
     }
 
     // --- Functions that change the game's state --------------------------------------------------
-    fun applyMove(move: Move) {
+    override fun applyMove(move: Move) {
         val piece = this.board.pieceAt(move.origin) ?: return
 
         if(isCaptureMove(move)) {
@@ -35,7 +35,7 @@ data class ClassicGame(var name: String, private val startingPieces: Set<Piece>,
         }
     }
 
-    fun applyAbilityMove(move: Move) {
+    override fun applyAbilityMove(move: Move) {
         board.pieceAt(move.origin)?.let { piece ->
             piece.applyAbility(this)
 
@@ -59,18 +59,18 @@ data class ClassicGame(var name: String, private val startingPieces: Set<Piece>,
         applyCapture(capturingPiece!!, capturedPiece!!)
     }
 
-    fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
+    override fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
         notifySubscribers( PieceCapturedEvent(capturedPiece) )
     }
 
-    fun switchTurn() {
+    override fun switchTurn() {
         currentPlayer = currentPlayer.opposite()
     }
 
     // --- Functions that check the game's state ---------------------------------------------------
-    fun isOver(): Boolean {
+    override fun isOver(): Boolean {
         if (isPlayerChecked(currentPlayer)) {
             for (piece in board.pieces(currentPlayer)) {
                 val blockingMoves = getLegalMovesForPiece(piece)
@@ -96,7 +96,7 @@ data class ClassicGame(var name: String, private val startingPieces: Set<Piece>,
 
     // getPieceValidMoves returns all the squares a piece can move to, while taking general logic
     // into consideration like pinning, friendly-fire etc.
-    fun getLegalMovesForPiece(piece: Piece): List<Move> {
+    override fun getLegalMovesForPiece(piece: Piece): List<Move> {
         var moves = piece.availableMoves(board)
 
         moves = removeFriendlyFireMoves(piece, moves)
@@ -120,7 +120,7 @@ data class ClassicGame(var name: String, private val startingPieces: Set<Piece>,
     }
 
     // --- General ---------------------------------------------------------------------------------
-    fun pieces(): Set<Piece> {
+    override fun pieces(): Set<Piece> {
         return this.board.pieces()
     }
 
