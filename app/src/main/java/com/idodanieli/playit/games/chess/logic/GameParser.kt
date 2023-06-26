@@ -6,6 +6,8 @@ import com.idodanieli.playit.games.chess.pieces.fairy.*
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.variants.*
 import org.json.JSONObject
+import java.lang.reflect.Constructor
+import kotlin.reflect.KFunction
 
 class GameParser {
     companion object {
@@ -13,18 +15,29 @@ class GameParser {
         private const val NAME = "name"
         private const val DESCRIPTION = "description"
         private const val BOARD = "board"
+        private const val MODE = "mode"
         private const val EMPTY_SQUARE = '.'
 
         fun parse(json: JSONObject): Game {
             val name = json.getString(NAME)
             val desc = json.optString(DESCRIPTION)
             val board = json.getString(BOARD)
+            val mode = json.getString(MODE)
 
-            // TODO: Make this more general
-            val game = ClassicGame(name, parseBoardPieces(board), CHESSBOARD_SIZE)
+            val constructor = getGameConstructor(mode) ?: throw Exception("constructor is null for $name mode: $mode")
+            val game = constructor.call(name, parseBoardPieces(board), CHESSBOARD_SIZE) as Game
             game.description = desc
 
             return game
+        }
+
+        private fun getGameConstructor(mode: String): KFunction<Game>? {
+            when(mode) {
+                ClassicGame.TYPE -> return ClassicGame::class.constructors.first()
+                ExplodingMode.TYPE -> return ExplodingMode::class.constructors.first()
+            }
+
+            return null
         }
 
         private fun parseBoardPieces(board: String): MutableSet<Piece> {

@@ -12,7 +12,7 @@ interface Game : IPublisher {
     val currentPlayer: Player
     val board: Board
     val name: String
-    val description: String
+    var description: String
 
     fun applyMove(move: Move)
     fun applyAbilityMove(move: Move)

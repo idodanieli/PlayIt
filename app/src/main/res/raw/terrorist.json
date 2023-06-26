@@ -1,4 +1,5 @@
 {
   "name": "Terrorist Chess",
-  "board": "RNBQKBNRTTTTTTTT................................ttttttttrnbqkbnr"
+  "board": "RNBQKBNRTTTTTTTT................................ttttttttrnbqkbnr",
+  "mode": "classic"
 }

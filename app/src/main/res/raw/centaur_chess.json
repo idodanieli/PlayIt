@@ -1,5 +1,6 @@
 {
   "name": "Centaur Chess",
   "board": "RSBQKBSRPPPPPPPP................................pppppppprsbqkbsr",
+  "mode": "classic",
   "description": "The Knight has been replaced by The Centaur - A chess piece that combines the movement of a knight and a king."
 }

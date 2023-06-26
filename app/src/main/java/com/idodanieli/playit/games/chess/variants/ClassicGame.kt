@@ -14,6 +14,10 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
     override var description = ""
     override var started = false
 
+    companion object {
+        const val TYPE = "classic"
+    }
+
     init {
         subscribe(startingPieces)
     }

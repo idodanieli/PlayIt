@@ -1,4 +1,5 @@
 {
   "name": "Jester Chess",
-  "board": "RNBQKBNRPJPPPPPP................................pjpppppprnbqkbnr"
+  "board": "RNBQKBNRPJPPPPPP................................pjpppppprnbqkbnr",
+  "mode": "classic"
 }
