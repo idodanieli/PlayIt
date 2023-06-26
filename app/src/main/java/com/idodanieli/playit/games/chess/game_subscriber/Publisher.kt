@@ -1,4 +1,6 @@
-package com.idodanieli.playit.games.chess.logic
+package com.idodanieli.playit.games.chess.game_subscriber
+
+import com.idodanieli.playit.games.chess.logic.GameEvent
 
 open class Publisher {
     private val subscribers = mutableListOf<GameSubscriber>()

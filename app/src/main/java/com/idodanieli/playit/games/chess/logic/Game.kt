@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.logic
 
+import com.idodanieli.playit.games.chess.game_subscriber.Publisher
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
