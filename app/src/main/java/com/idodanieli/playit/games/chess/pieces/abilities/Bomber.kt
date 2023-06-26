@@ -1,7 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces.abilities
 
 import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.Game
+import com.idodanieli.playit.games.chess.variants.Game
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.PieceWrapper

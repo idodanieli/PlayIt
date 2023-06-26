@@ -1,7 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces.fairy.tests
 
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
-import com.idodanieli.playit.games.chess.logic.Game
+import com.idodanieli.playit.games.chess.variants.Game
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square

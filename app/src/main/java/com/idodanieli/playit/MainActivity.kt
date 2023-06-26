@@ -17,6 +17,7 @@ import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameOverEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.variants.Game
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field

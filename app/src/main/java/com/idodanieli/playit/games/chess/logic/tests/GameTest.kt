@@ -5,6 +5,7 @@ import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.tests.errorFormat
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.pieces.fairy.Empress
+import com.idodanieli.playit.games.chess.variants.Game
 import org.junit.Test
 
 class GameTest {

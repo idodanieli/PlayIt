@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.fairy.*
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
-import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
+import com.idodanieli.playit.games.chess.variants.Game
 import org.json.JSONObject
 
 class GameParser {

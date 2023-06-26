@@ -5,6 +5,7 @@ import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.tests.errorFormat
+import com.idodanieli.playit.games.chess.variants.Game
 import org.junit.Test
 
 class PinningTest {

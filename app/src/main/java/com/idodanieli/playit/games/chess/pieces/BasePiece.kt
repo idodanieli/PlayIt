@@ -7,6 +7,7 @@ import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.AvailableMovesVisualizer
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.TouchedSquareVisualizer
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.VisualizerCollection
+import com.idodanieli.playit.games.chess.variants.Game
 
 open class BasePiece(override var square: Square, override var player: Player): Piece {
     override val type = ""
