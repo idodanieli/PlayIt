@@ -30,10 +30,17 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         }
     }
 
-    fun applyAbility(piece: Piece) {
-        piece.applyAbility(this)
+    fun applyAbilityMove(move: Move) {
+        board.pieceAt(move.origin)?.let { piece ->
+            piece.applyAbility(this)
 
-        notifySubscribers( AbilityActivatedEvent(piece) )
+            notifySubscribers( createAbilityActivatedEvent(piece) )
+        }
+    }
+
+    private fun createAbilityActivatedEvent(piece: Piece): MoveEvent {
+        val abilityActivatedMove = Move(piece.square, piece.square, isAbilityMove = true)
+        return MoveEvent(piece, abilityActivatedMove)
     }
 
     private fun isCaptureMove(move: Move): Boolean {

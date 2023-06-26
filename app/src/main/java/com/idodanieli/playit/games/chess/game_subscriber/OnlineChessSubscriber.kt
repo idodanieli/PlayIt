@@ -5,9 +5,9 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Looper.getMainLooper
 import android.os.Handler
-import android.view.View
 import com.idodanieli.playit.User
 import com.idodanieli.playit.clients.GameClient
+import com.idodanieli.playit.clients.MoveInfo
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.ui.ChessView
 
@@ -31,11 +31,8 @@ object OnlineChessSubscriber: GameSubscriber {
             }
 
             is MoveEvent -> {
-                GameClient.getInstance().movePiece(event.move)
-            }
-
-            is AbilityActivatedEvent -> {
-
+                val moveInfo = MoveInfo(event.move, event.movedPiece.player)
+                GameClient.getInstance().movePiece(moveInfo)
             }
         }
     }
@@ -98,12 +95,22 @@ object OnlineChessSubscriber: GameSubscriber {
         }
     }
     private fun fetchEnemyMove(chessView: ChessView, handler: Handler) {
-        val lastMove = GameClient.getInstance().getLastMove()
-        if (lastMove != null && chessView.isOpponentsMove(lastMove)) {
-            // Post UI-related operations to the main thread
-            handler.post {
-                chessView.applyMove(lastMove)
+        GameClient.getInstance().getLastMove()?.let { lastMoveInfo ->
+            if(lastMoveInfo.isOpponentsMove( chessView.hero )) {
+                // Post UI-related operations to the main thread
+                handler.post {
+                    applyEnemyMove(lastMoveInfo.move, chessView)
+                }
             }
         }
+    }
+
+    private fun applyEnemyMove(move: Move, chessView: ChessView) {
+        if (move.isAbilityMove) {
+            chessView.applyAbilityMove(move)
+            return
+        }
+
+        chessView.applyMove(move)
     }
 }

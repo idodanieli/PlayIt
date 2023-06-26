@@ -184,7 +184,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         }
 
         if (touchData!!.isActivateAbilityTouch()) {
-            applyAbilityMove()
+            applyAbilityMove(touchData!!.move())
             return
         }
 
@@ -214,6 +214,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return touchedPiece
     }
 
+    // TODO: Move this function to touchData!
     private fun getTouchedMove(touchedSquare: Square): Move? {
         touchData ?: return null
 
@@ -275,8 +276,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         afterMove()
     }
 
-    fun applyAbilityMove() {
-        game.applyAbility(touchData!!.piece)
+    fun applyAbilityMove(move: Move) {
+        game.applyAbilityMove(move)
 
         afterMove()
     }
@@ -312,19 +313,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     fun isOpponentsTurn(): Boolean {
         return game.currentPlayer != hero
-    }
-
-    fun isOpponentsMove(move: Move): Boolean {
-        game.board.pieceAt(move.origin)?.let {
-            return it.player != hero
-        }
-
-        game.board.pieceAt(move.dest)?.let {
-            return it.player != hero
-        }
-
-        throw Exception("Invalid move checked! $move\n" +
-                "${game.board}\n")
     }
 
     private fun isLegalMove(move: Move?): Boolean {

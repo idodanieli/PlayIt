@@ -67,17 +67,17 @@ class GameClient private constructor(address: String) {
         )
     }
 
-    fun movePiece(move: Move) {
+    fun movePiece(moveInfo: MoveInfo) {
         val response = client.post(
             uri = URI_GAME_MOVE,
-            body = move.toJson(),
+            body = moveInfo.toJson(),
             params = mapOf(PARAM_GAME_ID to gameID)
         )
 
         Log.d("GameClient", response)
     }
 
-    fun getLastMove(): Move? {
+    fun getLastMove(): MoveInfo? {
         val lastMove = client.get(
             uri = URI_GAME_LAST_MOVE,
             params = mapOf(
@@ -90,7 +90,7 @@ class GameClient private constructor(address: String) {
             return null
         }
 
-        return Move.fromJSON(lastMove)
+        return MoveInfo.fromJSON(lastMove)
     }
 
     fun getOpponent(interval: Long = DEFAULT_SLEEP_INTERVAL): String {
