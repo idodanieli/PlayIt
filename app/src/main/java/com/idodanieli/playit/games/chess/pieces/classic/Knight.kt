@@ -14,7 +14,7 @@ open class Knight(square: Square, player: Player) : BasePiece(square, player) {
     open val moveOffsets = KNIGHT_MOVE_OFFSETS
 
     override fun availableSquares(board: Board): List<Square> {
-        val moves = arrayListOf<Square>()
+        val moves = mutableSetOf<Square>()
 
         for (i in moveOffsets) {
             for (j in moveOffsets) {
@@ -30,7 +30,7 @@ open class Knight(square: Square, player: Player) : BasePiece(square, player) {
             }
         }
 
-        return moves
+        return moves.toList()
     }
 
     // --- General ---------------------------------------------------------------------------------
