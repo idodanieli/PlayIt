@@ -23,11 +23,17 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
 
         board.move(piece, move.dest)
 
-        notifySubscribers(MoveEvent(piece, move))
+        notifySubscribers( MoveEvent(piece, move) )
 
         for (followUpMove in move.followUpMoves) {
             applyMove(followUpMove)
         }
+    }
+
+    fun applyAbility(piece: Piece) {
+        piece.applyAbility(this)
+
+        notifySubscribers( AbilityActivatedEvent(piece) )
     }
 
     private fun isCaptureMove(move: Move): Boolean {

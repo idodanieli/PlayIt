@@ -184,7 +184,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         }
 
         if (touchData!!.isActivateAbilityTouch()) {
-            applyAbilityMove(touchData!!.piece)
+            applyAbilityMove()
             return
         }
 
@@ -275,9 +275,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         afterMove()
     }
 
-    fun applyAbilityMove(piece: Piece) {
-        touchData!!.piece.applyAbility(game)
-        // TODO: notify subscribers
+    fun applyAbilityMove() {
+        game.applyAbility(touchData!!.piece)
 
         afterMove()
     }

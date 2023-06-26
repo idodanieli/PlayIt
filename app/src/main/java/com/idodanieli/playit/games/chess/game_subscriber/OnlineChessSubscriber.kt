@@ -33,6 +33,10 @@ object OnlineChessSubscriber: GameSubscriber {
             is MoveEvent -> {
                 GameClient.getInstance().movePiece(event.move)
             }
+
+            is AbilityActivatedEvent -> {
+
+            }
         }
     }
 
