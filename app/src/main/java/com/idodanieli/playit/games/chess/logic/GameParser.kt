@@ -35,6 +35,7 @@ class GameParser {
             when(mode) {
                 ClassicGame.TYPE -> return ClassicGame::class.constructors.first()
                 ExplodingMode.TYPE -> return ExplodingMode::class.constructors.first()
+                BeirutChess.TYPE -> return BeirutChess::class.constructors.first()
             }
 
             return null

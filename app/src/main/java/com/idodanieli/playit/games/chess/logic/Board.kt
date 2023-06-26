@@ -144,7 +144,7 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
         }
     }
 
-    //----------------- FOR PRINTING THE BOARD ------------------ \\
+    // --- FOR PRINTING THE BOARD ------------------------------------------------------------------
     private fun flatString(pieces: List<Piece>) : String {
         val flatBoardCharcters = ".".repeat(size * size).toCharArray()
         for (piece in pieces) {
@@ -175,8 +175,17 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
         val flatGameRepresentation = flatString(this.pieces().toList())
         return flatToPrettyPrint(flatGameRepresentation)
     }
-    // --------------------------------------------------------- \\
 
+    // --- Utils -----------------------------------------------------------------------------------
+    fun getRandomPieceOfPlayer(player: Player): Piece {
+        if (player.isWhite()) {
+            return whitePieces.keys.random()
+        }
+
+        return blackPieces.keys.random()
+    }
+
+    // ---------------------------------------------------------------------------------------------
     fun copy(): Board {
         val copiedPieces = deepCopyPieces(this.pieces())
         return Board(copiedPieces, size)

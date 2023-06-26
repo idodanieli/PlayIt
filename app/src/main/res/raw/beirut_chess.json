@@ -1,0 +1,6 @@
+{
+  "name": "Beirut Chess",
+  "board": "RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr",
+  "mode": "beirut",
+  "description": "Be careful... One of you opponents pieces could explode!"
+}

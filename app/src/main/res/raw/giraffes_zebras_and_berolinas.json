@@ -1,5 +1,5 @@
 {
-  "name": "Giraffes, Zebras and Berolinas",
-  "board": "RGBQKBZRPPVPPVPP................................ppvppvpprzbqkbgr",
-  "mode": "classic"
+  "name": "Exploding Girrafes",
+  "board": "RGBQKBGRPPPPPPPP................................pppppppprgbqkbgr",
+  "mode": "exploding"
 }
