@@ -4,22 +4,17 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
 class Board(startingPieces: Set<Piece>, val size: Int) {
-    var map: MutableMap<Square, Piece> = startingPieces.associateBy { it.square }.toMutableMap()
-    var whitePieces = startingPieces.filter { it.player.isWhite() }.associateWith { true }.toMutableMap()
-    var blackPieces = startingPieces.filter { it.player.isBlack() }.associateWith { true }.toMutableMap()
+    lateinit var map: MutableMap<Square, Piece>
+    lateinit var whitePieces: MutableMap<Piece, Boolean>
+    lateinit var blackPieces: MutableMap<Piece, Boolean>
+
+    init {
+        setPieces(startingPieces)
+    }
 
     // pieceAt returns the piece at the given square. if there is none - returns null
     fun pieceAt(square: Square): Piece? {
         return map[square]
-    }
-
-    // pieceAt returns the piece at square if its of the same player
-    // if there is none - returns null
-    fun pieceAt(square: Square, player: Player) : Piece? {
-        val piece = pieceAt(square) ?: return null
-        if (piece.player != player) { return null }
-
-        return piece
     }
 
     // playerAt returns the player at the given square
@@ -35,13 +30,17 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
         }
     }
 
-    // pieces returns all the pieces of the given player
     fun pieces(player: Player): MutableSet<Piece> {
         return if (player.isWhite()) whitePieces.keys else blackPieces.keys
     }
-
     fun pieces(): Set<Piece> {
         return whitePieces.keys + blackPieces.keys
+    }
+
+    fun setPieces(pieces: Set<Piece>) {
+        map = pieces.associateBy { it.square }.toMutableMap()
+        whitePieces = pieces.filter { it.player.isWhite() }.associateWith { true }.toMutableMap()
+        blackPieces = pieces.filter { it.player.isBlack() }.associateWith { true }.toMutableMap()
     }
 
     // moves the piece to the destination

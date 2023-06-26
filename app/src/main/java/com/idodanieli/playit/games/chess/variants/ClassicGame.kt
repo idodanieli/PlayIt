@@ -8,7 +8,7 @@ import com.idodanieli.playit.games.chess.logic.deepCopyPieces
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-data class ClassicGame(override var name: String, private val startingPieces: Set<Piece>, override var size: Int) : Game, Publisher() {
+open class ClassicGame(override var name: String, private val startingPieces: Set<Piece>, final override var size: Int) : Game, Publisher() {
     override var board = Board(startingPieces, size)
     override var currentPlayer = Player.WHITE // white always starts in chess
     override var description = ""
