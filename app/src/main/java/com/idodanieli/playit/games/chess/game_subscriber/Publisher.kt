@@ -1,26 +1,34 @@
 package com.idodanieli.playit.games.chess.game_subscriber
 
-open class Publisher {
+interface IPublisher {
+    fun subscribe(subscriber: GameSubscriber)
+    fun subscribe(subscribers: Collection<GameSubscriber>)
+    fun unsubscribe(subscriber: GameSubscriber)
+    fun unsubscribeAll()
+    fun notifySubscribers(event: GameEvent)
+}
+
+open class Publisher: IPublisher {
     private val subscribers = mutableListOf<GameSubscriber>()
 
-    fun subscribe(subscriber: GameSubscriber) {
+    override fun subscribe(subscriber: GameSubscriber) {
         subscribers.add(subscriber)
     }
-    fun subscribe(subscribers: Collection<GameSubscriber>) {
+    override fun subscribe(subscribers: Collection<GameSubscriber>) {
         for (subscriber in subscribers) {
             subscribe(subscriber)
         }
     }
 
-    fun unsubscribe(subscriber: GameSubscriber) {
+    override fun unsubscribe(subscriber: GameSubscriber) {
         subscribers.remove(subscriber)
     }
 
-    fun unsubscribeAll() {
+    override fun unsubscribeAll() {
         subscribers.clear()
     }
 
-    fun notifySubscribers(event: GameEvent) {
+    override fun notifySubscribers(event: GameEvent) {
         for (subscriber in subscribers) {
             subscriber.onGameEvent(event)
         }
