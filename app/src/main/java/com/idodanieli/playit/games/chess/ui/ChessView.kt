@@ -13,8 +13,7 @@ import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
-import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
-import com.idodanieli.playit.games.chess.game_subscriber.Publisher
+import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import kotlin.math.min

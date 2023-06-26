@@ -1,5 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 
+import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
+import com.idodanieli.playit.games.chess.game_subscriber.MoveEvent
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece

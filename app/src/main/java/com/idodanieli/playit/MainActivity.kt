@@ -13,6 +13,8 @@ import com.idodanieli.playit.activities.RegisterActivity
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
+import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
+import com.idodanieli.playit.games.chess.game_subscriber.GameOverEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.logic.*
 import org.json.JSONException

@@ -1,7 +1,7 @@
 package com.idodanieli.playit.games.chess.pieces
 
+import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.AvailableMovesVisualizer

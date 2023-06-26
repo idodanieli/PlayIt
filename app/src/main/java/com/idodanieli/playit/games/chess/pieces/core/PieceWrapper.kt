@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.core
 
+import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.ChessView

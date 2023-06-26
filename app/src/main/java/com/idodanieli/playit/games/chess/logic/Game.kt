@@ -1,6 +1,6 @@
 package com.idodanieli.playit.games.chess.logic
 
-import com.idodanieli.playit.games.chess.game_subscriber.Publisher
+import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
@@ -58,7 +58,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
-        notifySubscribers(PieceCapturedEvent(capturedPiece))
+        notifySubscribers( PieceCapturedEvent(capturedPiece) )
     }
 
     fun switchTurn() {
