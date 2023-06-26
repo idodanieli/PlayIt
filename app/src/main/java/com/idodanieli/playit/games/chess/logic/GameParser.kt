@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.fairy.*
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
-import com.idodanieli.playit.games.chess.variants.ClassicGame
+import com.idodanieli.playit.games.chess.variants.*
 import org.json.JSONObject
 
 class GameParser {
@@ -15,11 +15,12 @@ class GameParser {
         private const val BOARD = "board"
         private const val EMPTY_SQUARE = '.'
 
-        fun parse(json: JSONObject): ClassicGame {
+        fun parse(json: JSONObject): Game {
             val name = json.getString(NAME)
             val desc = json.optString(DESCRIPTION)
             val board = json.getString(BOARD)
 
+            // TODO: Make this more general
             val game = ClassicGame(name, parseBoardPieces(board), CHESSBOARD_SIZE)
             game.description = desc
 

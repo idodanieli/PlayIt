@@ -5,7 +5,7 @@ import android.content.res.Resources
 import android.graphics.*
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.MODE_LOCAL
-import com.idodanieli.playit.games.chess.variants.ClassicGame
+import com.idodanieli.playit.games.chess.variants.Game
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
@@ -41,7 +41,7 @@ class ChessDrawer(private val size: Int, var mode: String, context: Context) : D
     }
 
     // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
-    fun drawPieces(game: ClassicGame, movingPiece: MovingPiece?) {
+    fun drawPieces(game: Game, movingPiece: MovingPiece?) {
         game.pieces().forEach { piece ->
             if (movingPiece == null || piece != movingPiece.piece) {
                 this.drawPiece(piece)

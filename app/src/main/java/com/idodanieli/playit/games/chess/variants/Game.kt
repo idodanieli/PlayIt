@@ -8,7 +8,7 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 
 interface Game : IPublisher {
     val size: Int
-    val started: Boolean
+    var started: Boolean
     val currentPlayer: Player
     val board: Board
     val name: String
