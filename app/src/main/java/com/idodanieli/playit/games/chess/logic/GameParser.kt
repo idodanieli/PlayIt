@@ -84,6 +84,7 @@ class GameParser {
                 Jester.TYPE -> return Jester(square, player)
                 Terrorist.TYPE -> return Terrorist(square, player)
                 Octopus.TYPE -> return Octopus(square, player)
+                Spartan.TYPE -> return Spartan(square, player)
             }
 
             return BasePiece(square, player)

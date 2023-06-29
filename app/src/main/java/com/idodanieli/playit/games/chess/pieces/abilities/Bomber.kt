@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.PieceWrapper
 import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.Drawer
+import com.idodanieli.playit.games.chess.ui.ColorPallete
 import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.AvailableMovesVisualizer
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.TouchedSquareVisualizer
@@ -34,7 +34,7 @@ open class Bomber(piece: Piece): PieceWrapper(piece) {
     private fun drawThreatenedSquares(chessView: ChessView) {
         val squares = explosionThreatenedSquares(chessView.game.board)
 
-        chessView.chessDrawer.drawSquares(squares, Drawer.COLOR_SINOPIA_LIGHT, Drawer.COLOR_SINOPIA_DARK)
+        chessView.chessDrawer.drawSquares(squares, ColorPallete.COLOR_SINOPIA_LIGHT, ColorPallete.COLOR_SINOPIA_DARK)
     }
 
     // --- Game Logic ------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.ui.ChessDrawer
 import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.Drawer
+import com.idodanieli.playit.games.chess.ui.ColorPallete
 import com.idodanieli.playit.games.chess.ui.TouchData
 
 class AvailableMovesVisualizer: TouchVisualizer {
@@ -20,6 +20,6 @@ class AvailableMovesVisualizer: TouchVisualizer {
     }
 
     private fun drawAvailableSquares(chessDrawer: ChessDrawer, squares: List<Square>) {
-        chessDrawer.drawSquares(squares, Drawer.COLOR_LIGHT_AVAILABLE_SQUARE, Drawer.COLOR_DARK_AVAILABLE_SQUARE)
+        chessDrawer.drawSquares(squares, ColorPallete.COLOR_LIGHT_AVAILABLE_SQUARE, ColorPallete.COLOR_DARK_AVAILABLE_SQUARE)
     }
 }
