@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.idodanieli.playit.games.chess.logic.Game
-import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.CapturedPiecesView
+import com.idodanieli.playit.games.chess.ui.*
+import com.idodanieli.playit.games.chess.variants.Game
 
 
 class PageviewAdapter(

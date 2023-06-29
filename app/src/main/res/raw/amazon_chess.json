@@ -1,6 +1,6 @@
 {
   "name": "Amazon Chess",
   "board": "RNBAKBNRPPPPPPPP................................pppppppprnbakbnr",
+  "mode": "classic",
   "description": "The Queen has been replaced by the Amazon - A a powerful hybrid chess piece that combines the movement abilities of the Queen and the Knight."
-
 }

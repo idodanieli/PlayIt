@@ -5,8 +5,7 @@ import android.content.res.Resources
 import android.graphics.*
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.MODE_LOCAL
-import com.idodanieli.playit.games.chess.logic.Game
-import com.idodanieli.playit.games.chess.logic.Move
+import com.idodanieli.playit.games.chess.variants.Game
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece

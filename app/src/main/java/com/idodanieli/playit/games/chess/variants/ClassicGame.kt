@@ -1,21 +1,29 @@
-package com.idodanieli.playit.games.chess.logic
+package com.idodanieli.playit.games.chess.variants
 
-import com.idodanieli.playit.games.chess.game_subscriber.Publisher
+import com.idodanieli.playit.games.chess.game_subscriber.*
+import com.idodanieli.playit.games.chess.logic.Board
+import com.idodanieli.playit.games.chess.logic.Move
+import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.logic.deepCopyPieces
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-data class Game(var name: String, private val startingPieces: Set<Piece>, var size: Int) : Publisher() {
-    var board = Board(startingPieces, size)
-    var currentPlayer = Player.WHITE // white always starts in chess
-    var description = ""
-    var started = false
+open class ClassicGame(override var name: String, private val startingPieces: Set<Piece>, final override var size: Int) : Game, Publisher() {
+    override var board = Board(startingPieces, size)
+    override var currentPlayer = Player.WHITE // white always starts in chess
+    override var description = ""
+    override var started = false
+
+    companion object {
+        const val TYPE = "classic"
+    }
 
     init {
         subscribe(startingPieces)
     }
 
     // --- Functions that change the game's state --------------------------------------------------
-    fun applyMove(move: Move) {
+    override fun applyMove(move: Move) {
         val piece = this.board.pieceAt(move.origin) ?: return
 
         if(isCaptureMove(move)) {
@@ -31,7 +39,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         }
     }
 
-    fun applyAbilityMove(move: Move) {
+    override fun applyAbilityMove(move: Move) {
         board.pieceAt(move.origin)?.let { piece ->
             piece.applyAbility(this)
 
@@ -55,18 +63,18 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         applyCapture(capturingPiece!!, capturedPiece!!)
     }
 
-    fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
+    override fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
-        notifySubscribers(PieceCapturedEvent(capturedPiece))
+        notifySubscribers( PieceCapturedEvent(capturedPiece) )
     }
 
-    fun switchTurn() {
+    override fun switchTurn() {
         currentPlayer = currentPlayer.opposite()
     }
 
     // --- Functions that check the game's state ---------------------------------------------------
-    fun isOver(): Boolean {
+    override fun isOver(): Boolean {
         if (isPlayerChecked(currentPlayer)) {
             for (piece in board.pieces(currentPlayer)) {
                 val blockingMoves = getLegalMovesForPiece(piece)
@@ -81,6 +89,19 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
         return false
    }
 
+    override fun isStalemate(): Boolean {
+        if (isPlayerChecked(currentPlayer)) { return false }
+
+        for (piece in board.pieces(currentPlayer)) {
+            val possibleMoves = getLegalMovesForPiece(piece)
+            if (possibleMoves.isNotEmpty()) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     private fun isPlayerChecked(player: Player): Boolean {
         val king = board.getPiece(TYPE_KING, player)
         king?.let { return board.canBeCaptured(it) }
@@ -92,7 +113,7 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
 
     // getPieceValidMoves returns all the squares a piece can move to, while taking general logic
     // into consideration like pinning, friendly-fire etc.
-    fun getLegalMovesForPiece(piece: Piece): List<Move> {
+    override fun getLegalMovesForPiece(piece: Piece): List<Move> {
         var moves = piece.availableMoves(board)
 
         moves = removeFriendlyFireMoves(piece, moves)
@@ -116,11 +137,11 @@ data class Game(var name: String, private val startingPieces: Set<Piece>, var si
     }
 
     // --- General ---------------------------------------------------------------------------------
-    fun pieces(): Set<Piece> {
+    override fun pieces(): Set<Piece> {
         return this.board.pieces()
     }
 
-    private fun copy(): Game {
-        return Game(name, deepCopyPieces(pieces()), size)
+    private fun copy(): ClassicGame {
+        return ClassicGame(name, deepCopyPieces(pieces()), size)
     }
 }

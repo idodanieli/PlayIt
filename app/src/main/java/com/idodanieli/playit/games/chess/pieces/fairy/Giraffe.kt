@@ -3,7 +3,6 @@ package com.idodanieli.playit.games.chess.pieces.fairy
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
 
 private val MOVE_OFFSETS = arrayOf(1, 4, -1, -4)

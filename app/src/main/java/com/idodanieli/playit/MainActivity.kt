@@ -13,8 +13,9 @@ import com.idodanieli.playit.activities.RegisterActivity
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
-import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
+import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.variants.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field
@@ -115,11 +116,15 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         initDebugButton()
     }
 
-    private fun showGameOverDialog(winner: Player) {
+    private fun showGameOverDialog(winner: Player?) {
         val dialogBuilder = AlertDialog.Builder(this)
 
         dialogBuilder.setTitle("GAME OVER")
-        dialogBuilder.setMessage("$winner is the winner!")
+        if (winner != null) {
+            dialogBuilder.setMessage("$winner is the winner!")
+        } else {
+            dialogBuilder.setMessage("Stalemate!")
+        }
 
         dialogBuilder.setPositiveButton("NEW GAME") { dialog, _ ->
             viewPager.setCurrentItem(viewPager.currentItem + 1, true)

@@ -1,7 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.abilities
 
 import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.Game
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.PieceWrapper
@@ -10,6 +9,7 @@ import com.idodanieli.playit.games.chess.ui.Drawer
 import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.AvailableMovesVisualizer
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.TouchedSquareVisualizer
+import com.idodanieli.playit.games.chess.variants.Game
 
 open class Bomber(piece: Piece): PieceWrapper(piece) {
 

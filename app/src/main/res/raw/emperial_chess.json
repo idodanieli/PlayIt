@@ -1,4 +1,5 @@
 {
   "name": "Emperial Chess",
-  "board": "RNBMKBNRPPPPPPPP................................pppppppprnbmkbnr"
+  "board": "RNBMKBNRPPPPPPPP................................pppppppprnbmkbnr",
+  "mode": "classic"
 }
