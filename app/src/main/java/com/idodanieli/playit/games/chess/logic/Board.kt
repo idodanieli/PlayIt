@@ -144,6 +144,12 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
         }
     }
 
+    fun neighborPieces(piece: Piece): Collection<Piece> {
+        return neighborSquares(piece)
+            .filter { pieceAt(it) != null }
+            .map { pieceAt(it)!! }
+    }
+
     // --- FOR PRINTING THE BOARD ------------------------------------------------------------------
     private fun flatString(pieces: List<Piece>) : String {
         val flatBoardCharcters = ".".repeat(size * size).toCharArray()

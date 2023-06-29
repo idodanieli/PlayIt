@@ -62,4 +62,26 @@ class SpartanTest {
             errorFormat(game.board, "spartan can capture a piece in front of it!")
         }
     }
+
+    @Test
+    fun testMovesNeighborSpartansToo() {
+        val wSpartan3OriginSquare = Square(2, 1)
+
+        val wSpartan2 = Spartan(Square(1, 1), Player.WHITE)
+        val wSpartan3 = Spartan(wSpartan3OriginSquare, Player.WHITE)
+
+        val game = ClassicGame("", setOf(whiteSpartan, wSpartan2, wSpartan3), CHESSBOARD_SIZE)
+
+        val moves = wSpartan2.availableMoves(game.board)
+
+        game.applyMove(moves[0])
+
+        assert(wSpartan3.square != wSpartan3OriginSquare) {
+            errorFormat(game.board, "$wSpartan3 should have moved along with $wSpartan2")
+        }
+
+        assert(whiteSpartan.square != whiteSpartanOriginSquare) {
+            errorFormat(game.board, "$whiteSpartan should have moved along with $wSpartan2")
+        }
+    }
 }

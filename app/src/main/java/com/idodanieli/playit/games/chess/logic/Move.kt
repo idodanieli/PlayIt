@@ -8,7 +8,7 @@ data class Move(
     val dest: Square,
 
     // followUpMoves to apply after this move ( Example use: Castling )
-    val followUpMoves: List<Move> = emptyList(),
+    var followUpMoves: Collection<Move> = emptyList(),
     val isAbilityMove: Boolean = false
 ) {
 
@@ -27,5 +27,9 @@ data class Move(
 
         return this.origin == other.origin &&
                 this.dest == other.dest
+    }
+
+    fun direction(): Square {
+        return dest - origin
     }
 }
