@@ -89,6 +89,19 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
         return false
    }
 
+    override fun isStalemate(): Boolean {
+        if (isPlayerChecked(currentPlayer)) { return false }
+
+        for (piece in board.pieces(currentPlayer)) {
+            val possibleMoves = getLegalMovesForPiece(piece)
+            if (possibleMoves.isNotEmpty()) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     private fun isPlayerChecked(player: Player): Boolean {
         val king = board.getPiece(TYPE_KING, player)
         king?.let { return board.canBeCaptured(it) }

@@ -14,11 +14,12 @@ interface Game : IPublisher {
     val name: String
     var description: String
 
+    fun getLegalMovesForPiece(piece: Piece): List<Move>
     fun applyMove(move: Move)
     fun applyAbilityMove(move: Move)
     fun applyCapture(capturingPiece: Piece, capturedPiece: Piece)
     fun switchTurn()
     fun isOver(): Boolean
-    fun getLegalMovesForPiece(piece: Piece): List<Move>
+    fun isStalemate(): Boolean
     fun pieces(): Set<Piece>
 }

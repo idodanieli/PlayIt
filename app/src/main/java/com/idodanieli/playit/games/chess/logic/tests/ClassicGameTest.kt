@@ -86,6 +86,47 @@ class ClassicGameTest {
         }
     }
 
+    @Test
+    fun testIsStalemate() {
+        // Game is over - stalemate
+        // k . . . . . . .
+        // p . . . . . . .
+        // P . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . Q . . . . . .
+        val bKing = King(Square(0, 7), Player.BLACK)
+        val bPawn = Pawn(Square(0, 6), Player.BLACK)
+        val wPawn = Pawn(Square(0, 5), Player.WHITE)
+        val wQueen = Queen(Square(1, 0), Player.WHITE)
+        val pieces = mutableSetOf(bKing, bPawn, wPawn, wQueen)
+
+        val game = ClassicGame("", pieces, CHESSBOARD_SIZE)
+        game.currentPlayer = Player.BLACK
+
+        assert(game.isStalemate()) {
+            errorFormat(game.board, "(Blacks Turn) test returned there is no stalemate")
+        }
+
+        // Game is not over - black pawn can move
+        // k . . . . . . .
+        // p . . . . . . .
+        // . . . . . . . .
+        // P . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . Q . . . . . .
+        val moveWhitePawn = Move(wPawn.square, Square(0, 4))
+        game.board.move(moveWhitePawn)
+
+        assert(!game.isStalemate()) {
+            errorFormat(game.board, "(Blacks Turn) test returned there is a stalemate")
+        }
+    }
+
     // These are used for testFilterBlockingMoves and testCanMove
     private val bBishopOriginSquare = Square(2, 0)
 

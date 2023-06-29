@@ -116,11 +116,15 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         initDebugButton()
     }
 
-    private fun showGameOverDialog(winner: Player) {
+    private fun showGameOverDialog(winner: Player?) {
         val dialogBuilder = AlertDialog.Builder(this)
 
         dialogBuilder.setTitle("GAME OVER")
-        dialogBuilder.setMessage("$winner is the winner!")
+        if (winner != null) {
+            dialogBuilder.setMessage("$winner is the winner!")
+        } else {
+            dialogBuilder.setMessage("Stalemate!")
+        }
 
         dialogBuilder.setPositiveButton("NEW GAME") { dialog, _ ->
             viewPager.setCurrentItem(viewPager.currentItem + 1, true)

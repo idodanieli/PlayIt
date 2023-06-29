@@ -17,6 +17,7 @@ import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.variants.*
+import org.junit.Test.None
 import kotlin.math.min
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
@@ -137,16 +138,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return true
     }
 
-    private fun onGameOver() {
-        val winner = game.currentPlayer.opposite()
-        val gameOverEvent = GameOverEvent(winner)
-
-        game.notifySubscribers(gameOverEvent)
-        game.unsubscribeAll()
-
-        soundGameOver.start()
-    }
-
     private fun onTouchPressed(touchedSquare: Square) {
         touchData ?: return
 
@@ -255,7 +246,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     // --- View Game Logic --------------------------------------------------------------------- \\
-
     fun select(mode: String, gameID: String = "") {
         MODE_TO_GAME_SUBSCRIBER[mode]?.let {
             subscribe(it)
@@ -290,6 +280,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         game.switchTurn()
         if (game.isOver()) {
             onGameOver()
+        } else if (game.isStalemate()) {
+            onStalemate()
         }
 
         resetVisuals()
@@ -321,6 +313,25 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         move ?: return false
 
         return move in touchData!!.availableMoves
+    }
+
+    // --- Game Over -------------------------------------------------------------------------------
+    private fun onGameOver() {
+        val winner = game.currentPlayer.opposite()
+        this.close(winner)
+    }
+
+    private fun onStalemate() {
+        this.close(null)
+    }
+
+    private fun close(winner: Player?) {
+        val gameOverEvent = GameOverEvent(winner)
+
+        game.notifySubscribers(gameOverEvent)
+        game.unsubscribeAll()
+
+        soundGameOver.start()
     }
 
     // --- General ---------------------------------------------------------------------------------
