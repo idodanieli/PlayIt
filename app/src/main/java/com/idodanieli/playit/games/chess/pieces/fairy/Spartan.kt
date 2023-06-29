@@ -4,10 +4,10 @@ import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
-import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.core.RestrictedPiece
 import com.idodanieli.playit.games.chess.ui.ChessDrawer
 
-class Spartan(square: Square, player: Player): BasePiece(square, player) {
+class Spartan(square: Square, player: Player): RestrictedPiece(square, player) {
     companion object {
         const val TYPE = "I"
 
@@ -21,6 +21,7 @@ class Spartan(square: Square, player: Player): BasePiece(square, player) {
 
     override fun availableSquares(board: Board): List<Square> {
         val squares = listOf(
+            this.squareInFront(),
             this.squareBehind()
         )
 
