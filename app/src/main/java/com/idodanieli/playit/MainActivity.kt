@@ -30,6 +30,10 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
     private lateinit var findGameButton: Button
     private lateinit var gameIDEditText: EditText
 
+    companion object {
+        lateinit var games: List<Game>
+    }
+
     override fun onGameEvent(event: GameEvent) {
         when(event) {
             is GameOverEvent -> {
@@ -45,7 +49,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
         findViews()
 
-        val games = createGames()
+        games = createGames()
 
         GameClient.initialize("http://192.168.1.33:5000")
         User.initialize(baseContext)
@@ -114,7 +118,9 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
             playButtonOnClick(MODE_ONLINE, gameID)
         }
 
-        viewPager.adapter = PageviewAdapter(games)
+        val screenWidth = resources.displayMetrics.widthPixels
+
+        viewPager.adapter = PageviewAdapter(games, screenWidth)
     }
 
     private fun showGameOverDialog(winner: Player?) {
@@ -167,6 +173,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
     private fun openGameOverviewActivity() {
         val intent = Intent(this, GameOverviewActivity::class.java)
+        intent.putExtra("game_index", 0)
         startActivity(intent)
     }
 }

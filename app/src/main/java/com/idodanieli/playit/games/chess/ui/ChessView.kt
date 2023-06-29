@@ -44,12 +44,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     lateinit var opponentTextView: TextView
     lateinit var heroCapturedPieces: CapturedPiecesView
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val smaller = min(widthMeasureSpec, heightMeasureSpec)
-        setMeasuredDimension(smaller, smaller)
-    }
-
     fun setPlayers(hero: String, opponent: String) {
         heroTextView.text = hero
         opponentTextView.text = opponent

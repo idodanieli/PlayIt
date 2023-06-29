@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.idodanieli.playit.games.chess.ui.*
+import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.Game
 
 
 class PageviewAdapter(
     private val games: List<Game>,
+    private val screenWidth: Int,
     ) :
     RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
 
@@ -41,6 +43,8 @@ class PageviewAdapter(
 
         holder.chessView.opponentsCapturedPieces = holder.opponentCapturedPiecesView
         holder.chessView.heroCapturedPieces = holder.herosCapturedPiecesView
+
+        setDimensions(holder.chessView, screenWidth, screenWidth)
     }
 
     // return the number of the items in the list
