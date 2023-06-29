@@ -112,8 +112,6 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         }
 
         viewPager.adapter = PageviewAdapter(games)
-
-        initDebugButton()
     }
 
     private fun showGameOverDialog(winner: Player?) {
@@ -162,14 +160,5 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
     private fun openRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
-    }
-
-    private fun initDebugButton() {
-        val printButton = findViewById<Button>(R.id.debugButton)
-        printButton.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(this)
-            dialogBuilder.setMessage(viewPager.currentChessview().game.board.toString())
-            dialogBuilder.create().show()
-        }
     }
 }

@@ -60,12 +60,4 @@
         android:theme="@style/AppTheme.Button"
         android:text="Local" />
 
-    <Button
-        android:id="@+id/debugButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="debug"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
-
 </RelativeLayout>
