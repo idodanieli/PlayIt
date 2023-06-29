@@ -127,16 +127,8 @@ data class Square(
         return col in 0 until size && row in 0 until size
     }
 
-    fun isDiagonalDirection(): Boolean {
-        return Math.abs(col) == Math.abs(row)
-    }
-
     fun bitboard(): ULong {
         return BitBoard.squareBitboard(row * 8 + col) // TODO: 8 should be BOARD_SIZE
-    }
-
-    fun toJson(): String {
-        return  Json.encodeToString(this)
     }
 
     // flipsVertically flips the square vertically
@@ -144,6 +136,20 @@ data class Square(
         val flippedRow = boardSize - (row + 1)
         return Square(col, flippedRow)
     }
+
+    // --- Directions ------------------------------------------------------------
+    fun isDiagonalDirection(): Boolean {
+        return Math.abs(col) == Math.abs(row)
+    }
+
+    fun isVerticalDirection(): Boolean {
+        return row != 0 && col == 0
+    }
+
+    fun isHorizontalDirection(): Boolean {
+        return row == 0 && col != 0
+    }
+
 }
 
 fun greatestCommonDivider(a: Int, b: Int): Int {

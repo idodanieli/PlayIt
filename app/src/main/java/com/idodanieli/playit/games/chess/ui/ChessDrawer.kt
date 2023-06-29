@@ -3,6 +3,7 @@ package com.idodanieli.playit.games.chess.ui
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.media.MediaMetadataRetriever.BitmapParams
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.variants.Game
@@ -181,7 +182,8 @@ private fun loadBitmaps(resources: Resources) {
         TYPE_ARCHBISHOP to BitmapFactory.decodeResource(resources, R.drawable.archbishop_white),
         TYPE_XIANGQI_HORSE to BitmapFactory.decodeResource(resources, R.drawable.xiangqi_horse_white),
         Jester.TYPE to BitmapFactory.decodeResource(resources, R.drawable.jester_white),
-        Terrorist.TYPE to BitmapFactory.decodeResource(resources, R.drawable.terrorist_white)
+        Terrorist.TYPE to BitmapFactory.decodeResource(resources, R.drawable.terrorist_white),
+        Octopus.TYPE to BitmapFactory.decodeResource(resources, R.drawable.octopus_white)
     )
 
     BITMAPS[Player.BLACK] = mutableMapOf(
@@ -205,6 +207,7 @@ private fun loadBitmaps(resources: Resources) {
         TYPE_ARCHBISHOP to BitmapFactory.decodeResource(resources, R.drawable.archbishop_black),
         TYPE_XIANGQI_HORSE to BitmapFactory.decodeResource(resources, R.drawable.xiangqi_horse_black),
         Jester.TYPE to BitmapFactory.decodeResource(resources, R.drawable.jester_black),
-        Terrorist.TYPE to BitmapFactory.decodeResource(resources, R.drawable.terrorist_black)
+        Terrorist.TYPE to BitmapFactory.decodeResource(resources, R.drawable.terrorist_black),
+        Octopus.TYPE to BitmapFactory.decodeResource(resources, R.drawable.octopus_black)
     )
 }
