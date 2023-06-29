@@ -12,7 +12,7 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 private const val MOVING_PIECE_SCALE = 1.5f
 private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
 
-class ChessDrawer(private val size: Int, var mode: String, context: Context) : Drawer() {
+class ChessDrawer(var size: Int, var mode: String, context: Context) : Drawer() {
     companion object {
         var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
         var PICTURES: MutableMap<Player, MutableMap<String, Int>> = mutableMapOf(

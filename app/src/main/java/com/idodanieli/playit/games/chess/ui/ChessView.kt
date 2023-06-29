@@ -17,11 +17,10 @@ import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.variants.*
-import org.junit.Test.None
-import kotlin.math.min
 
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
     // --- For Drawing -----------------------------------------------------------------------------
+    // TODO: This initialization is ugly...
     val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private var touchData: TouchData? = null
     private var movingPiece: MovingPiece? = null
@@ -35,7 +34,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private val publisher = Publisher()
 
     var hero = Player.WHITE
+
+    // TODO: This section is ugly
     var game: Game = ClassicGame("Default", mutableSetOf(), 0)
+        set(value) {
+            field = value
+            chessDrawer.size = game.size
+        }
 
     // --- Views -----------------------------------------------------------------------------------
     lateinit var heroTextView: TextView
@@ -96,7 +101,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         chessDrawer.drawPieces(game, movingPiece)
     }
 
-    private fun resetVisuals() {
+    fun resetVisuals() {
         movingPiece = null
         touchData = null
 
@@ -154,7 +159,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         invalidate() // calls onDraw
     }
 
-    private fun onTouchReleased(touchedSquare: Square) {
+    fun onTouchReleased(touchedSquare: Square) {
         if (heroTouchedPiece()) {
             onTouchedPiece(touchedSquare)
             return

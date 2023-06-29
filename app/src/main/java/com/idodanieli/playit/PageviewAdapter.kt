@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.idodanieli.playit.activities.GameOverviewActivity
+import com.idodanieli.playit.activities.PieceOverviewActivity
 import com.idodanieli.playit.games.chess.ui.*
 import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.Game
@@ -74,7 +74,7 @@ class PageviewAdapter(
     }
 
     private fun openGameOverviewActivity(position: Int) {
-        val intent = Intent(context, GameOverviewActivity::class.java)
+        val intent = Intent(context, PieceOverviewActivity::class.java)
         intent.putExtra("game_index", position)
         context.startActivity(intent)
     }
