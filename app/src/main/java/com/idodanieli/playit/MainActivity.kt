@@ -59,8 +59,6 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         }
 
         initUI(games)
-
-        openGameOverviewActivity()
     }
 
     private fun createGames(): List<Game> {
@@ -120,7 +118,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
         val screenWidth = resources.displayMetrics.widthPixels
 
-        viewPager.adapter = PageviewAdapter(games, screenWidth)
+        viewPager.adapter = PageviewAdapter(games, screenWidth, this)
     }
 
     private fun showGameOverDialog(winner: Player?) {
@@ -168,12 +166,6 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
     private fun openRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun openGameOverviewActivity() {
-        val intent = Intent(this, GameOverviewActivity::class.java)
-        intent.putExtra("game_index", 0)
         startActivity(intent)
     }
 }
