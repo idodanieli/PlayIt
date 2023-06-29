@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.idodanieli.playit.activities.GameOverviewActivity
 import com.idodanieli.playit.activities.RegisterActivity
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
@@ -54,6 +55,8 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         }
 
         initUI(games)
+
+        openGameOverviewActivity()
     }
 
     private fun createGames(): List<Game> {
@@ -159,6 +162,11 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
     private fun openRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openGameOverviewActivity() {
+        val intent = Intent(this, GameOverviewActivity::class.java)
         startActivity(intent)
     }
 }
