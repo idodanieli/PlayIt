@@ -40,7 +40,7 @@ class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context,
     }
 
     private fun drawCapturedPiece(piece: Piece, index: Int) {
-        val bitmap = getPieceBitmap(piece) ?: return
+        val bitmap = ChessDrawer.getPieceBitmap(piece) ?: return
 
         val startX = capturedPieceSize * index
         val endX = startX + capturedPieceSize

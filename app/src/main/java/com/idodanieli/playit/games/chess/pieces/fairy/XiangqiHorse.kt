@@ -1,16 +1,25 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
+import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.classic.King
+import com.idodanieli.playit.games.chess.ui.ChessDrawer
 
 private val XIANGQI_HORSE_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_XIANGQI_HORSE = "O"
 
 // TODO: FIX THIS CLASS, THE MOVEMENT IS WRONG
 open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, player) {
+    companion object {
+        init {
+            ChessDrawer.addPiecePicture(TYPE_XIANGQI_HORSE, Player.WHITE, R.drawable.xiangqi_horse_white)
+            ChessDrawer.addPiecePicture(TYPE_XIANGQI_HORSE, Player.BLACK, R.drawable.xiangqi_horse_black)
+        }
+    }
+
     override val type = TYPE_XIANGQI_HORSE
     open val moveOffsets = XIANGQI_HORSE_MOVE_OFFSETS
 

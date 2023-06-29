@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.classic
 
+import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_A_FILE
 import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_EIGHTH_RANK
 import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_H_FILE
@@ -9,11 +10,19 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.ui.ChessDrawer
 
 private const val MAX_START_MOVES = 2
 const val TYPE_PAWN = "P"
 
 class Pawn(square: Square, player: Player) : BasePiece(square, player) {
+    companion object {
+        init {
+            ChessDrawer.addPiecePicture(TYPE_PAWN, Player.WHITE, R.drawable.pawn_white)
+            ChessDrawer.addPiecePicture(TYPE_PAWN, Player.BLACK, R.drawable.pawn_black)
+        }
+    }
+
     override val type = TYPE_PAWN
 
     // TODO: Change 8 -> BOARD_SIZE

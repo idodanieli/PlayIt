@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.pieces.classic
 
+import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Player
@@ -7,12 +8,20 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.fairy.Man
+import com.idodanieli.playit.games.chess.ui.ChessDrawer
 
 const val TYPE_KING = "K"
 
 private const val CASTLE_MOVE_AMOUNT = 2
 
 open class King(square: Square, player: Player) : Man(square, player) {
+    companion object {
+        init {
+            ChessDrawer.addPiecePicture(TYPE_KING, Player.WHITE, R.drawable.king_white)
+            ChessDrawer.addPiecePicture(TYPE_KING, Player.BLACK, R.drawable.king_black)
+        }
+    }
+
     override val type = TYPE_KING
 
     override fun availableSquares(board: Board): List<Square> {

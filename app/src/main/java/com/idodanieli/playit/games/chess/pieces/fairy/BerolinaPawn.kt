@@ -1,11 +1,13 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 
+import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.classic.King
+import com.idodanieli.playit.games.chess.ui.ChessDrawer
 
 private const val WHITE_DIRECTION = 1
 private const val BLACK_DIRECTION = -1
@@ -13,6 +15,13 @@ private const val MAX_START_MOVES = 2
 const val TYPE_BEROLINA_PAWN = "V"
 
 class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
+    companion object {
+        init {
+            ChessDrawer.addPiecePicture(TYPE_BEROLINA_PAWN, Player.WHITE, R.drawable.berolina_white)
+            ChessDrawer.addPiecePicture(TYPE_BEROLINA_PAWN, Player.BLACK, R.drawable.berolina_black)
+        }
+    }
+
     override val type = TYPE_BEROLINA_PAWN
 
     var direction = WHITE_DIRECTION
