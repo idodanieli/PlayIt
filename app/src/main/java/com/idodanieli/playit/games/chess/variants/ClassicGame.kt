@@ -44,19 +44,6 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
         }
     }
 
-    override fun applyAbilityMove(move: Move) {
-        board.pieceAt(move.origin)?.let { piece ->
-            piece.applyAbility(this)
-
-            notifySubscribers( createAbilityActivatedEvent(piece) )
-        }
-    }
-
-    private fun createAbilityActivatedEvent(piece: Piece): MoveEvent {
-        val abilityActivatedMove = Move(piece.square, piece.square, isAbilityMove = true)
-        return MoveEvent(piece, abilityActivatedMove)
-    }
-
     private fun isCaptureMove(move: Move): Boolean {
         return board.pieceAt(move.dest) != null
     }
@@ -72,6 +59,19 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
         notifySubscribers( PieceCapturedEvent(capturedPiece) )
+    }
+
+    override fun applyAbilityMove(move: Move) {
+        board.pieceAt(move.origin)?.let { piece ->
+            piece.applyAbility(this)
+
+            notifySubscribers( createAbilityActivatedEvent(piece) )
+        }
+    }
+
+    private fun createAbilityActivatedEvent(piece: Piece): MoveEvent {
+        val abilityActivatedMove = Move(piece.square, piece.square, isAbilityMove = true)
+        return MoveEvent(piece, abilityActivatedMove)
     }
 
     override fun switchTurn() {
