@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.media.MediaPlayer
-import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -27,6 +26,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     // TODO: This initialization is ugly...
     val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private var touchData: TouchData? = null
+    private var currentTouch: TouchData? = null
     private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
 
@@ -125,6 +125,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         if (!game.started || !canHeroPlay()) { return true }
 
         val touchedSquare = getTouchedSquare(event)
+        currentTouch = createTouchData(touchedSquare)
 
         when (event.action) {
             // This action occurs when the user initially presses down on the screen
@@ -151,7 +152,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private val longTouchRunnable = Runnable {
-        touchData?.let {
+        currentTouch?.let {
             openPieceOverviewActivity(it.piece)
         }
     }
@@ -159,7 +160,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun onTouchPressed(touchedSquare: Square) {
             touchData ?: return
 
-            if (touchedPieceAgain(touchedSquare)) {
+            if (touchData!!.equals(touchedSquare)) {
                 return
             }
 
@@ -191,7 +192,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun onTouchedPiece(touchedSquare: Square) {
         touchData ?: return
 
-        if (touchedPieceAgain(touchedSquare)) {
+        if (touchData!!.equals(touchedSquare)) {
             touchData!!.touches++
         }
 
@@ -254,14 +255,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         val touchedRow = (game.size - 1) - (event.y / squareSize).toInt()
 
         return Square(touchedColumn, touchedRow)
-    }
-
-    private fun touchedPieceAgain(touchedSquare: Square): Boolean {
-        touchData?.let {
-            return it.square == touchedSquare
-        }
-
-        return false
     }
 
     // --- View Game Logic --------------------------------------------------------------------- \\

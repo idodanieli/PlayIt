@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.ui
 
+import android.text.method.Touch
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
@@ -16,9 +17,17 @@ data class TouchData(
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is TouchData) return false
-
-        return square == other.square
+        return when (other) {
+            is Square -> {
+                this.square == other
+            }
+            is TouchData -> {
+                square == other.square
+            }
+            else -> {
+                false
+            }
+        }
     }
 
     fun isPreviewAbilityTouch(): Boolean {
