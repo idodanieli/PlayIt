@@ -26,7 +26,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private var pieceTouch: TouchData? = null
     private var currentTouch: TouchData? = null
-    private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
 
     // --- For Sounds ------------------------------------------------------------------------------
@@ -101,7 +100,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
             it.piece.visualize(it, this)
         }
 
-        chessDrawer.drawPieces(game, movingPiece)
+        chessDrawer.drawPieces(game)
     }
 
     // --- OnTouch ---------------------------------------------------------------------------------
@@ -142,15 +141,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         currentTouch?.let {
             context!!.openPiecePreviewActivity(it.piece)
         }
-    }
-
-    private fun onTouchDragged(event: MotionEvent, touchedSquare: Square) {
-        movingPiece?.let {
-            it.x = event.x
-            it.y = event.y
-        }
-
-        invalidate() // calls onDraw
     }
 
     fun onTouchReleased(touchedSquare: Square) {
@@ -230,7 +220,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun resetVisuals() {
-        movingPiece = null
         pieceTouch = null
 
         invalidate()
@@ -337,5 +326,3 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         this.chessDrawer.hero = hero
     }
 }
-
-data class MovingPiece(val piece: Piece, var x: Float, var y: Float, val bitmap: Bitmap, var player: Player)

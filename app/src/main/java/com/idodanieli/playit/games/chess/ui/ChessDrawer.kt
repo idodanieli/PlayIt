@@ -64,20 +64,9 @@ class ChessDrawer(var size: Int, var mode: String, context: Context) : Drawer() 
     }
 
     // @movingPiece: the piece currently touched by the user. will be drawn on the touched position and not at any specific square
-    fun drawPieces(game: Game, movingPiece: MovingPiece?) {
+    fun drawPieces(game: Game) {
         game.pieces().forEach { piece ->
-            if (movingPiece == null || piece != movingPiece.piece) {
-                this.drawPiece(piece)
-            }
-        }
-
-        movingPiece?.let {
-            this.drawBitmapAtPosition(
-                it.x,
-                it.y - MOVING_PIECE_Y_OFFSET,
-                it.bitmap,
-                scale = MOVING_PIECE_SCALE
-            )
+            this.drawPiece(piece)
         }
     }
 
