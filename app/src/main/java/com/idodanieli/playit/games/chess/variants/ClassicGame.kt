@@ -25,6 +25,13 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
     // --- Functions that change the game's state --------------------------------------------------
     override fun applyMove(move: Move) {
         val piece = this.board.pieceAt(move.origin) ?: return
+        _applyMove(move)
+
+        notifySubscribers( MoveEvent(piece, move) )
+    }
+
+    private fun _applyMove(move: Move) {
+        val piece = this.board.pieceAt(move.origin) ?: return
 
         if(isCaptureMove(move)) {
             applyCaptureMove(move)
@@ -32,24 +39,9 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
 
         board.move(piece, move.dest)
 
-        notifySubscribers( MoveEvent(piece, move) )
-
         for (followUpMove in move.followUpMoves) {
-            applyMove(followUpMove)
+            _applyMove(followUpMove)
         }
-    }
-
-    override fun applyAbilityMove(move: Move) {
-        board.pieceAt(move.origin)?.let { piece ->
-            piece.applyAbility(this)
-
-            notifySubscribers( createAbilityActivatedEvent(piece) )
-        }
-    }
-
-    private fun createAbilityActivatedEvent(piece: Piece): MoveEvent {
-        val abilityActivatedMove = Move(piece.square, piece.square, isAbilityMove = true)
-        return MoveEvent(piece, abilityActivatedMove)
     }
 
     private fun isCaptureMove(move: Move): Boolean {
@@ -67,6 +59,19 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
         notifySubscribers( PieceCapturedEvent(capturedPiece) )
+    }
+
+    override fun applyAbilityMove(move: Move) {
+        board.pieceAt(move.origin)?.let { piece ->
+            piece.applyAbility(this)
+
+            notifySubscribers( createAbilityActivatedEvent(piece) )
+        }
+    }
+
+    private fun createAbilityActivatedEvent(piece: Piece): MoveEvent {
+        val abilityActivatedMove = Move(piece.square, piece.square, isAbilityMove = true)
+        return MoveEvent(piece, abilityActivatedMove)
     }
 
     override fun switchTurn() {
