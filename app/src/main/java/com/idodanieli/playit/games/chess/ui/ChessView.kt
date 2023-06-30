@@ -86,14 +86,14 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         if (!game.started) { return true }
 
         val touchedSquare = getTouchedSquare(event)
-        currentTouch = createTouchData(game, touchedSquare)
+        currentTouch = getTouchData(game, touchedSquare)
 
         when (event.action) {
             // This action occurs when the user initially presses down on the screen
             MotionEvent.ACTION_DOWN -> {
-                handler.postDelayed(onLongTouch, 500)
+                handler.postDelayed(onLongTouch, 250)
 
-                resetOnIllegalMove(touchedSquare)
+                resetUIOnIllegalMove(touchedSquare)
             }
 
             // This action occurs when the user moves their finger on the screen after pressing down.
@@ -126,7 +126,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         }
 
         if (canHeroPlay()) {
-            focusedPiece = createTouchData(game, touchedSquare)
+            focusedPiece = getHeroTouchData(game, touchedSquare)
         }
     }
 
@@ -164,18 +164,18 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return Square(touchedColumn, touchedRow)
     }
 
-    private fun resetOnIllegalMove(touchedSquare: Square) {
+    private fun resetUIOnIllegalMove(touchedSquare: Square) {
         if ( focusedPiece == null || focusedPiece!!.equals(touchedSquare)) {
             return
         }
 
         val move = Move(focusedPiece!!.square, touchedSquare)
         if (!isLegalMove(move)) {
-            reset()
+            resetUI()
         }
     }
 
-    private fun reset() {
+    private fun resetUI() {
         focusedPiece = null
         invalidate()
     }
@@ -219,7 +219,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
             onStalemate()
         }
 
-        reset()
+        resetUI()
     }
 
     private fun heroIsPlaying(): Boolean {
