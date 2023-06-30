@@ -31,7 +31,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".activities.RegisterActivity"/>
-        <activity android:name=".activities.PieceOverviewActivity"/>
+        <activity android:name=".activities.PiecePreviewActivity"/>
     </application>
 
 </manifest>

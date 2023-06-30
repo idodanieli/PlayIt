@@ -10,7 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import com.idodanieli.playit.R
-import com.idodanieli.playit.activities.PieceOverviewActivity
+import com.idodanieli.playit.activities.PiecePreviewActivity
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
@@ -113,8 +113,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     // --- OnTouch ---------------------------------------------------------------------------------
-    private fun openPieceOverviewActivity(piece: Piece) {
-        val intent = Intent(context, PieceOverviewActivity::class.java)
+    private fun openPiecePreviewActivity(piece: Piece) {
+        val intent = Intent(context, PiecePreviewActivity::class.java)
         intent.putExtra("type", piece.type)
         context.startActivity(intent)
     }
@@ -153,7 +153,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     private val longTouchRunnable = Runnable {
         currentTouch?.let {
-            openPieceOverviewActivity(it.piece)
+            openPiecePreviewActivity(it.piece)
         }
     }
 

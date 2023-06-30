@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.idodanieli.playit.R
-import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.logic.GameParser
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
@@ -13,7 +12,7 @@ import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.ClassicGame
 
-class PieceOverviewActivity: AppCompatActivity() {
+class PiecePreviewActivity: AppCompatActivity() {
     companion object {
         const val DISPLAY_CHESSBOARD_SIZE = 7
         val DISPLAY_SQUARE = Square(3, 3)
@@ -25,7 +24,7 @@ class PieceOverviewActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game_overview)
+        setContentView(R.layout.activity_piece_preview)
         initUI()
 
         val piece = getPiece()
@@ -62,7 +61,7 @@ class PieceOverviewActivity: AppCompatActivity() {
         // title.text = piece.name
         // description.text = piece.description
         piece.square = DISPLAY_SQUARE
-        chessView.game = ClassicGame("", setOf(piece), CHESSBOARD_SIZE - 1)
+        chessView.game = ClassicGame("", setOf(piece), DISPLAY_CHESSBOARD_SIZE)
 
         chessView.onTouchReleased(DISPLAY_SQUARE)
         chessView.invalidate()
