@@ -38,8 +38,8 @@ data class TouchData(
         return piece.hasAbility() && touches == ACTIVATE_ABILITY_TOUCH_AMOUNT
     }
 
-    fun move(): Move {
-        val move = Move(piece.square, this.square, isAbilityMove = this.isActivateAbilityTouch())
+    fun move(nextSquare: Square): Move {
+        val move = Move(piece.square, nextSquare, isAbilityMove = this.isActivateAbilityTouch())
         if (move !in availableMoves) {
             return move
         }

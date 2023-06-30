@@ -197,13 +197,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         }
 
         if (touchData!!.isActivateAbilityTouch()) {
-            applyAbilityMove(touchData!!.move())
+            applyAbilityMove(touchData!!.move(touchData!!.square))
             return
         }
 
-        val touchedMove = getTouchedMove(touchedSquare)
+        val touchedMove = touchData!!.move(touchedSquare)
         if (isLegalMove(touchedMove)) {
-            applyMove(touchedMove!!)
+            applyMove(touchedMove)
         }
     }
 
@@ -225,18 +225,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         }
 
         return touchedPiece
-    }
-
-    // TODO: Move this function to touchData!
-    private fun getTouchedMove(touchedSquare: Square): Move? {
-        touchData ?: return null
-
-        val move = Move(touchData!!.square, touchedSquare)
-        if (move !in touchData!!.availableMoves) {
-            return null
-        }
-
-        return touchData!!.availableMoves[move]!!
     }
 
     private fun getTouchedSquare(event: MotionEvent): Square {
