@@ -25,6 +25,13 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
     // --- Functions that change the game's state --------------------------------------------------
     override fun applyMove(move: Move) {
         val piece = this.board.pieceAt(move.origin) ?: return
+        _applyMove(move)
+
+        notifySubscribers( MoveEvent(piece, move) )
+    }
+
+    private fun _applyMove(move: Move) {
+        val piece = this.board.pieceAt(move.origin) ?: return
 
         if(isCaptureMove(move)) {
             applyCaptureMove(move)
@@ -32,10 +39,8 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
 
         board.move(piece, move.dest)
 
-        notifySubscribers( MoveEvent(piece, move) )
-
         for (followUpMove in move.followUpMoves) {
-            applyMove(followUpMove)
+            _applyMove(followUpMove)
         }
     }
 
