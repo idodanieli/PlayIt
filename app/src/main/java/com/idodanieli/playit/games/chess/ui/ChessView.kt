@@ -191,18 +191,16 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     private fun onTouchedPiece(touchedSquare: Square) {
         pieceTouch?.let { touch ->
+            val touchedMove = touch.getMove(touchedSquare)
+
             if (touch.equals(touchedSquare)) {
                 touch.touches++
             }
 
-            if (touch.isActivateAbilityTouch()) {
-                applyAbilityMove(touch.getAbilityMove())
-                return
-            }
+            when {
+                touch.isActivateAbilityTouch() -> applyAbilityMove(touchedMove)
 
-            val touchedMove = touch.getMove(touchedSquare)
-            if (isLegalMove(touchedMove)) {
-                applyMove(touchedMove)
+                isLegalMove(touchedMove) -> applyMove(touchedMove)
             }
         }
     }
