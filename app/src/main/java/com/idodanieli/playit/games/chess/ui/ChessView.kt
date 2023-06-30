@@ -2,7 +2,6 @@ package com.idodanieli.playit.games.chess.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.*
 import android.media.MediaPlayer
 import android.util.AttributeSet
@@ -10,7 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import com.idodanieli.playit.R
-import com.idodanieli.playit.activities.PiecePreviewActivity
+import com.idodanieli.playit.activities.openPiecePreviewActivity
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
@@ -113,12 +112,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     // --- OnTouch ---------------------------------------------------------------------------------
-    private fun openPiecePreviewActivity(piece: Piece) {
-        val intent = Intent(context, PiecePreviewActivity::class.java)
-        intent.putExtra("type", piece.type)
-        context.startActivity(intent)
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
@@ -130,7 +123,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         when (event.action) {
             // This action occurs when the user initially presses down on the screen
             MotionEvent.ACTION_DOWN -> {
-                handler.postDelayed(longTouchRunnable, 500)
+                handler.postDelayed(onLongTouch, 500)
 
                 onTouchPressed(touchedSquare)
             }
@@ -142,7 +135,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
             //  This action occurs when the user releases their finger or lifts the stylus from the screen
             MotionEvent.ACTION_UP -> {
-                handler.removeCallbacks(longTouchRunnable)
+                handler.removeCallbacks(onLongTouch)
+
                 onTouchReleased(touchedSquare)
                 invalidate()
             }
@@ -151,9 +145,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return true
     }
 
-    private val longTouchRunnable = Runnable {
+    private val onLongTouch = Runnable {
         currentTouch?.let {
-            openPiecePreviewActivity(it.piece)
+            context!!.openPiecePreviewActivity(it.piece)
         }
     }
 

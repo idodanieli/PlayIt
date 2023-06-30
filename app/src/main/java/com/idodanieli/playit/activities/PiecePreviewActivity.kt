@@ -45,7 +45,8 @@ class PiecePreviewActivity: AppCompatActivity() {
 
     private fun setChessViewSize() {
         val screenWidth = resources.displayMetrics.widthPixels
-        val squareSize = screenWidth - (2 * resources.getDimensionPixelSize(R.dimen.chessview_overview_margin))
+        val margin = resources.getDimensionPixelSize(R.dimen.chessview_overview_margin)
+        val squareSize = screenWidth - (2 * margin)
 
         setDimensions(chessView, squareSize, squareSize)
     }

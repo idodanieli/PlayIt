@@ -10,6 +10,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.activities.RegisterActivity
+import com.idodanieli.playit.activities.openRegisterActivity
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
@@ -161,10 +162,5 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         joinGameButton.visibility = View.VISIBLE
         findGameButton.visibility = View.VISIBLE
         gameIDEditText.visibility = View.VISIBLE
-    }
-
-    private fun openRegisterActivity() {
-        val intent = Intent(this, RegisterActivity::class.java)
-        startActivity(intent)
     }
 }
