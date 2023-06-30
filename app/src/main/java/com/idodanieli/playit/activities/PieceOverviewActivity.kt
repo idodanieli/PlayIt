@@ -3,18 +3,22 @@ package com.idodanieli.playit.activities
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.idodanieli.playit.MainActivity
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.logic.GameParser
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
-import com.idodanieli.playit.games.chess.pieces.classic.Queen
+import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.ClassicGame
-import com.idodanieli.playit.games.chess.variants.Game
 
 class PieceOverviewActivity: AppCompatActivity() {
+    companion object {
+        const val DISPLAY_CHESSBOARD_SIZE = 7
+        val DISPLAY_SQUARE = Square(3, 3)
+    }
+
     private lateinit var title: TextView
     private lateinit var description: TextView
     private lateinit var chessView: ChessView
@@ -24,10 +28,8 @@ class PieceOverviewActivity: AppCompatActivity() {
         setContentView(R.layout.activity_game_overview)
         initUI()
 
-        val game = getGame()
-        // showGame(game)
-
-        showDummyGame()
+        val piece = getPiece()
+        showPiece(piece)
     }
 
     // --- UI ------------------------------------------------------------------
@@ -50,25 +52,19 @@ class PieceOverviewActivity: AppCompatActivity() {
     }
 
     // --- GENERAL -----------------------------------------------------------------
-    private fun getGame(): Game {
-        val idx = intent.getIntExtra("game_index", 0)
+    private fun getPiece(): Piece {
+        val type = intent.getStringExtra("type")
 
-        return MainActivity.games[idx]
+        return GameParser.pieceFromCharacter(type!!, DISPLAY_SQUARE, Player.WHITE)
     }
 
-    private fun showGame(game: Game) {
-        title.text = game.name
-        description.text = game.description
-        chessView.game = game
-    }
+    private fun showPiece(piece: Piece) {
+        // title.text = piece.name
+        // description.text = piece.description
+        piece.square = DISPLAY_SQUARE
+        chessView.game = ClassicGame("", setOf(piece), CHESSBOARD_SIZE - 1)
 
-    private fun showDummyGame() {
-        val overviewedSquare = Square(3, 3)
-        val overviewedPiece = Queen(overviewedSquare, Player.WHITE)
-        val game = ClassicGame("Dummy Game", setOf(overviewedPiece), CHESSBOARD_SIZE - 1)
-        chessView.game = game
-
-        chessView.onTouchReleased(overviewedSquare)
+        chessView.onTouchReleased(DISPLAY_SQUARE)
         chessView.invalidate()
     }
 }

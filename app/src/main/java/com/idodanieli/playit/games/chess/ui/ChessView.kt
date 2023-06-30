@@ -2,13 +2,16 @@ package com.idodanieli.playit.games.chess.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import android.media.MediaPlayer
+import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import com.idodanieli.playit.R
+import com.idodanieli.playit.activities.PieceOverviewActivity
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
@@ -18,6 +21,7 @@ import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.variants.*
 
+@SuppressLint("ClickableViewAccessibility")
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
     // --- For Drawing -----------------------------------------------------------------------------
     // TODO: This initialization is ugly...
@@ -108,7 +112,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         invalidate()
     }
 
-    // --- OnTouch ----------------------------------------------------------------------------- \\
+    // --- OnTouch ---------------------------------------------------------------------------------
+    private fun openPieceOverviewActivity(piece: Piece) {
+        val intent = Intent(context, PieceOverviewActivity::class.java)
+        intent.putExtra("type", piece.type)
+        context.startActivity(intent)
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
@@ -119,6 +129,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         when (event.action) {
             // This action occurs when the user initially presses down on the screen
             MotionEvent.ACTION_DOWN -> {
+                handler.postDelayed(longTouchRunnable, 500)
+
                 onTouchPressed(touchedSquare)
             }
 
@@ -129,6 +141,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
             //  This action occurs when the user releases their finger or lifts the stylus from the screen
             MotionEvent.ACTION_UP -> {
+                handler.removeCallbacks(longTouchRunnable)
                 onTouchReleased(touchedSquare)
                 invalidate()
             }
@@ -137,18 +150,25 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return true
     }
 
-    private fun onTouchPressed(touchedSquare: Square) {
-        touchData ?: return
-
-        if (touchedPieceAgain(touchedSquare)) {
-            return
-        }
-
-        val move = Move(touchData!!.square, touchedSquare)
-        if (!isLegalMove(move)) {
-            resetVisuals()
+    private val longTouchRunnable = Runnable {
+        touchData?.let {
+            openPieceOverviewActivity(it.piece)
         }
     }
+
+    private fun onTouchPressed(touchedSquare: Square) {
+            touchData ?: return
+
+            if (touchedPieceAgain(touchedSquare)) {
+                return
+            }
+
+            val move = Move(touchData!!.square, touchedSquare)
+            if (!isLegalMove(move)) {
+                resetVisuals()
+            }
+        }
+
 
     private fun onTouchDragged(event: MotionEvent, touchedSquare: Square) {
         movingPiece?.let {

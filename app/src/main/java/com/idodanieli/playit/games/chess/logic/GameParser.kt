@@ -60,7 +60,7 @@ class GameParser {
         }
 
         // TODO: Implement this as creator so you will be able to add this code in the piece class
-        private fun pieceFromCharacter(char: String, square: Square, player: Player): Piece {
+        fun pieceFromCharacter(char: String, square: Square, player: Player): Piece {
             when(char){
                 TYPE_ROOK -> return Rook(square, player)
                 TYPE_KNIGHT -> return Knight(square, player)

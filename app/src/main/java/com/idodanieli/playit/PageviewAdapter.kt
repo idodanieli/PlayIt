@@ -2,13 +2,11 @@ package com.idodanieli.playit
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.idodanieli.playit.activities.PieceOverviewActivity
 import com.idodanieli.playit.games.chess.ui.*
 import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.Game
@@ -37,9 +35,6 @@ class PageviewAdapter(
         val game = games[position]
 
         holder.gameTitle.text = game.name
-        holder.gameTitle.setOnClickListener{
-            openGameOverviewActivity(position)
-        }
 
         holder.gameDescription.text = game.description
         holder.chessView.game = game
@@ -71,11 +66,5 @@ class PageviewAdapter(
 
         val opponentCapturedPiecesView: CapturedPiecesView = itemView.findViewById<CapturedPiecesView>(R.id.opponentsCapturedPieces)
         val herosCapturedPiecesView: CapturedPiecesView = itemView.findViewById<CapturedPiecesView>(R.id.herosCapturedPieces)
-    }
-
-    private fun openGameOverviewActivity(position: Int) {
-        val intent = Intent(context, PieceOverviewActivity::class.java)
-        intent.putExtra("game_index", position)
-        context.startActivity(intent)
     }
 }
