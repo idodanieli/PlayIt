@@ -25,7 +25,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     // --- For Drawing -----------------------------------------------------------------------------
     // TODO: This initialization is ugly...
     val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
-    private var touchData: TouchData? = null
+    private var pieceTouch: TouchData? = null
     private var currentTouch: TouchData? = null
     private var movingPiece: MovingPiece? = null
     private var squareSize = 0f
@@ -98,7 +98,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
         chessDrawer.drawChessboard()
 
-        touchData?.let {
+        pieceTouch?.let {
             it.piece.visualize(it, this)
         }
 
@@ -107,7 +107,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     fun resetVisuals() {
         movingPiece = null
-        touchData = null
+        pieceTouch = null
 
         invalidate()
     }
@@ -158,13 +158,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun onTouchPressed(touchedSquare: Square) {
-            touchData ?: return
+            pieceTouch ?: return
 
-            if (touchData!!.equals(touchedSquare)) {
+            if (pieceTouch!!.equals(touchedSquare)) {
                 return
             }
 
-            val move = Move(touchData!!.square, touchedSquare)
+            val move = Move(pieceTouch!!.square, touchedSquare)
             if (!isLegalMove(move)) {
                 resetVisuals()
             }
@@ -186,24 +186,24 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
             return
         }
 
-        touchData = createTouchData(touchedSquare)
+        pieceTouch = createTouchData(touchedSquare)
     }
 
     private fun onTouchedPiece(touchedSquare: Square) {
-        touchData ?: return
+        pieceTouch?.let { touch ->
+            if (touch.equals(touchedSquare)) {
+                touch.touches++
+            }
 
-        if (touchData!!.equals(touchedSquare)) {
-            touchData!!.touches++
-        }
+            if (touch.isActivateAbilityTouch()) {
+                applyAbilityMove(touch.getAbilityMove())
+                return
+            }
 
-        if (touchData!!.isActivateAbilityTouch()) {
-            applyAbilityMove(touchData!!.move(touchData!!.square))
-            return
-        }
-
-        val touchedMove = touchData!!.move(touchedSquare)
-        if (isLegalMove(touchedMove)) {
-            applyMove(touchedMove)
+            val touchedMove = touch.getMove(touchedSquare)
+            if (isLegalMove(touchedMove)) {
+                applyMove(touchedMove)
+            }
         }
     }
 
@@ -292,9 +292,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun heroTouchedPiece(): Boolean {
-        touchData ?: return false
+        pieceTouch ?: return false
 
-        return touchData!!.piece.player == game.currentPlayer
+        return pieceTouch!!.piece.player == game.currentPlayer
     }
 
     private fun canHeroPlay(): Boolean {
@@ -312,7 +312,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun isLegalMove(move: Move?): Boolean {
         move ?: return false
 
-        return move in touchData!!.availableMoves
+        return move in pieceTouch!!.availableMoves
     }
 
     // --- Game Over -------------------------------------------------------------------------------

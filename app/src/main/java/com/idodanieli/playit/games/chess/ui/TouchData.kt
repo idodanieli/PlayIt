@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.ui
 
-import android.text.method.Touch
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
@@ -38,7 +37,11 @@ data class TouchData(
         return piece.hasAbility() && touches == ACTIVATE_ABILITY_TOUCH_AMOUNT
     }
 
-    fun move(nextSquare: Square): Move {
+    fun getAbilityMove(): Move {
+        return getMove(square)
+    }
+
+    fun getMove(nextSquare: Square): Move {
         val move = Move(piece.square, nextSquare, isAbilityMove = this.isActivateAbilityTouch())
         if (move !in availableMoves) {
             return move
