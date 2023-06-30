@@ -36,13 +36,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private val publisher = Publisher()
 
     var hero = Player.WHITE
-
-    // TODO: This section is ugly
-    var game: Game = ClassicGame("Default", mutableSetOf(), 0)
-        set(value) {
-            field = value
-            chessDrawer.size = game.size
-        }
+    lateinit var game: Game
 
     // --- Views -----------------------------------------------------------------------------------
     lateinit var heroTextView: TextView
@@ -299,5 +293,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     fun setGameHero(hero: Player) {
         this.hero = hero
         this.chessDrawer.hero = hero
+    }
+
+    @JvmName("setGame1")
+    fun setGame(game: Game) {
+        this.game = game
+        this.chessDrawer.size = game.size
     }
 }

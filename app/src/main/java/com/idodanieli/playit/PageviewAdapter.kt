@@ -37,7 +37,7 @@ class PageviewAdapter(
         holder.gameTitle.text = game.name
 
         holder.gameDescription.text = game.description
-        holder.chessView.game = game
+        holder.chessView.setGame(game)
 
         holder.chessView.heroTextView = holder.playerHero
         holder.chessView.heroTextView.text = User.getInstance().getUsername()

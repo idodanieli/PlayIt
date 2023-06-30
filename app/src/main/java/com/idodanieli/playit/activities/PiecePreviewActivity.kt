@@ -62,7 +62,7 @@ class PiecePreviewActivity: AppCompatActivity() {
         // title.text = piece.name
         // description.text = piece.description
         piece.square = DISPLAY_SQUARE
-        chessView.game = ClassicGame("", setOf(piece), DISPLAY_CHESSBOARD_SIZE)
+        chessView.setGame( ClassicGame("", setOf(piece), DISPLAY_CHESSBOARD_SIZE) )
 
         chessView.onTouchReleased(DISPLAY_SQUARE)
         chessView.invalidate()
