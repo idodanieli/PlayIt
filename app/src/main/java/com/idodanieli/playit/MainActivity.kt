@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
         games = createGames()
 
-        GameClient.initialize("http://192.168.1.33:5000")
+        GameClient.initialize("https://idodanieli.pythonanywhere.com")
         User.initialize(baseContext)
 
         if ( !User.getInstance().isRegistered() ) {

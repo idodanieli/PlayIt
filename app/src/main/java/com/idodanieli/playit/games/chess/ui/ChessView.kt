@@ -104,18 +104,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         chessDrawer.drawPieces(game, movingPiece)
     }
 
-    fun resetVisuals() {
-        movingPiece = null
-        pieceTouch = null
-
-        invalidate()
-    }
-
     // --- OnTouch ---------------------------------------------------------------------------------
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
-        if (!game.started || !canHeroPlay()) { return true }
+        if (!game.started) { return true }
 
         val touchedSquare = getTouchedSquare(event)
         currentTouch = createTouchData(touchedSquare)
@@ -125,7 +118,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
             MotionEvent.ACTION_DOWN -> {
                 handler.postDelayed(onLongTouch, 500)
 
-                onTouchPressed(touchedSquare)
+                resetVisualsOnIllegalMove(touchedSquare)
             }
 
             // This action occurs when the user moves their finger on the screen after pressing down.
@@ -151,20 +144,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         }
     }
 
-    private fun onTouchPressed(touchedSquare: Square) {
-            pieceTouch ?: return
-
-            if (pieceTouch!!.equals(touchedSquare)) {
-                return
-            }
-
-            val move = Move(pieceTouch!!.square, touchedSquare)
-            if (!isLegalMove(move)) {
-                resetVisuals()
-            }
-        }
-
-
     private fun onTouchDragged(event: MotionEvent, touchedSquare: Square) {
         movingPiece?.let {
             it.x = event.x
@@ -180,7 +159,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
             return
         }
 
-        pieceTouch = createTouchData(touchedSquare)
+        if (canHeroPlay()) {
+            pieceTouch = createTouchData(touchedSquare)
+        }
     }
 
     private fun onTouchedPiece(touchedSquare: Square) {
@@ -237,7 +218,25 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return Square(touchedColumn, touchedRow)
     }
 
-    // --- View Game Logic --------------------------------------------------------------------- \\
+    private fun resetVisualsOnIllegalMove(touchedSquare: Square) {
+        if ( pieceTouch == null || pieceTouch!!.equals(touchedSquare)) {
+            return
+        }
+
+        val move = Move(pieceTouch!!.square, touchedSquare)
+        if (!isLegalMove(move)) {
+            resetVisuals()
+        }
+    }
+
+    private fun resetVisuals() {
+        movingPiece = null
+        pieceTouch = null
+
+        invalidate()
+    }
+
+    // --- View Game Logic -------------------------------------------------------------------------
     fun select(mode: String, gameID: String = "") {
         MODE_TO_GAME_SUBSCRIBER[mode]?.let {
             subscribe(it)
