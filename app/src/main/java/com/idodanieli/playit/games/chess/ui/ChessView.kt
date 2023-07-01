@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import com.idodanieli.playit.R
+import com.idodanieli.playit.activities.openPiecePreviewActivity
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
@@ -17,14 +18,14 @@ import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.variants.*
-import org.junit.Test.None
-import kotlin.math.min
 
+@SuppressLint("ClickableViewAccessibility")
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
     // --- For Drawing -----------------------------------------------------------------------------
+    // TODO: This initialization is ugly...
     val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
-    private var touchData: TouchData? = null
-    private var movingPiece: MovingPiece? = null
+    private var focusedPiece: TouchData? = null
+    private var currentTouch: TouchData? = null
     private var squareSize = 0f
 
     // --- For Sounds ------------------------------------------------------------------------------
@@ -35,7 +36,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private val publisher = Publisher()
 
     var hero = Player.WHITE
-    var game: Game = ClassicGame("Default", mutableSetOf(), 0)
+    lateinit var game: Game
 
     // --- Views -----------------------------------------------------------------------------------
     lateinit var heroTextView: TextView
@@ -44,42 +45,12 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     lateinit var opponentTextView: TextView
     lateinit var heroCapturedPieces: CapturedPiecesView
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val smaller = min(widthMeasureSpec, heightMeasureSpec)
-        setMeasuredDimension(smaller, smaller)
-    }
-
     fun setPlayers(hero: String, opponent: String) {
         heroTextView.text = hero
         opponentTextView.text = opponent
 
         heroTextView.visibility = VISIBLE
         opponentTextView.visibility = VISIBLE
-    }
-
-    // --- Subscriber ------------------------------------------------------------------------------
-    override fun onGameEvent(event: GameEvent) {
-        when(event) {
-            is PieceCapturedEvent -> {
-                onCapturedPiece(event.capturedPiece)
-            }
-        }
-    }
-
-    private fun onCapturedPiece(capturedPiece: Piece) {
-        if (hero != capturedPiece.player) {
-            opponentsCapturedPieces.append(capturedPiece)
-            return
-        }
-
-        heroCapturedPieces.append(capturedPiece)
-    }
-
-    // --- Publisher -------------------------------------------------------------------------------
-    fun subscribe(subscriber: GameSubscriber) {
-        publisher.subscribe(subscriber)
-        game.subscribe(subscriber)
     }
 
     // --- onDraw ----------------------------------------------------------------------------------
@@ -95,32 +66,28 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
         chessDrawer.drawChessboard()
 
-        touchData?.let {
+        focusedPiece?.let {
             it.piece.visualize(it, this)
         }
 
-        chessDrawer.drawPieces(game, movingPiece)
+        chessDrawer.drawPieces(game)
     }
 
-    private fun resetVisuals() {
-        movingPiece = null
-        touchData = null
-
-        invalidate()
-    }
-
-    // --- OnTouch ----------------------------------------------------------------------------- \\
+    // --- OnTouch ---------------------------------------------------------------------------------
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
-        if (!game.started || !canHeroPlay()) { return true }
+        if (!game.started) { return true }
 
         val touchedSquare = getTouchedSquare(event)
+        currentTouch = getTouchData(game, touchedSquare)
 
         when (event.action) {
             // This action occurs when the user initially presses down on the screen
             MotionEvent.ACTION_DOWN -> {
-                onTouchPressed(touchedSquare)
+                handler.postDelayed(onLongTouch, 250)
+
+                resetUIOnIllegalMove(touchedSquare)
             }
 
             // This action occurs when the user moves their finger on the screen after pressing down.
@@ -130,6 +97,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
             //  This action occurs when the user releases their finger or lifts the stylus from the screen
             MotionEvent.ACTION_UP -> {
+                handler.removeCallbacks(onLongTouch)
+
                 onTouchReleased(touchedSquare)
                 invalidate()
             }
@@ -138,89 +107,41 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return true
     }
 
-    private fun onTouchPressed(touchedSquare: Square) {
-        touchData ?: return
+    private val onLongTouch = Runnable {
+        currentTouch?.let {
+            context!!.openPiecePreviewActivity(it.piece)
+        }
+    }
 
-        if (touchedPieceAgain(touchedSquare)) {
+    fun onTouchReleased(touchedSquare: Square) {
+        if (heroIsPlaying()) {
+            play(focusedPiece, touchedSquare)
             return
         }
 
-        val move = Move(touchData!!.square, touchedSquare)
-        if (!isLegalMove(move)) {
-            resetVisuals()
+        if (canHeroPlay()) {
+            focusedPiece = getHeroTouchData(game, touchedSquare)
         }
     }
 
-    private fun onTouchDragged(event: MotionEvent, touchedSquare: Square) {
-        movingPiece?.let {
-            it.x = event.x
-            it.y = event.y
+    private fun play(firstTouch: TouchData?, secondTouchedSquare: Square) {
+        firstTouch?.let { touch ->
+            val touchedMove = touch.getMove(secondTouchedSquare)
+
+            if (touch.equals(secondTouchedSquare)) {
+                touch.touches++
+            }
+
+            when {
+                touch.isActivateAbilityTouch() -> applyAbilityMove(touchedMove)
+
+                isLegalMove(touchedMove) -> applyMove(touchedMove)
+            }
         }
-
-        invalidate() // calls onDraw
-    }
-
-    private fun onTouchReleased(touchedSquare: Square) {
-        if (heroTouchedPiece()) {
-            onTouchedPiece(touchedSquare)
-            return
-        }
-
-        touchData = createTouchData(touchedSquare)
-    }
-
-    private fun onTouchedPiece(touchedSquare: Square) {
-        touchData ?: return
-
-        if (touchedPieceAgain(touchedSquare)) {
-            touchData!!.touches++
-        }
-
-        if (touchData!!.isActivateAbilityTouch()) {
-            applyAbilityMove(touchData!!.move())
-            return
-        }
-
-        val touchedMove = getTouchedMove(touchedSquare)
-        if (isLegalMove(touchedMove)) {
-            applyMove(touchedMove!!)
-        }
-    }
-
-    private fun createTouchData(touchedSquare: Square): TouchData? {
-        val touchedPiece = getTouchedPiece(touchedSquare)
-        if (touchedPiece != null) {
-            return TouchData(touchedSquare, touchedPiece, getAvailableMoves(touchedPiece))
-        }
-
-        return null
-    }
-
-    private fun getTouchedPiece(touchedSquare: Square): Piece? {
-        val touchedPiece = game.board.pieceAt(touchedSquare)
-
-        // If the touched piece is not of the current player - display nothing
-        if (touchedPiece == null || game.currentPlayer != touchedPiece.player) {
-            return null
-        }
-
-        return touchedPiece
-    }
-
-    // TODO: Move this function to touchData!
-    private fun getTouchedMove(touchedSquare: Square): Move? {
-        touchData ?: return null
-
-        val move = Move(touchData!!.square, touchedSquare)
-        if (move !in touchData!!.availableMoves) {
-            return null
-        }
-
-        return touchData!!.availableMoves[move]!!
     }
 
     private fun getTouchedSquare(event: MotionEvent): Square {
-        var touchedSquare = getSquareFromMoveEvent(event)
+        var touchedSquare = getTouchedSquareFromMotionEvent(event)
 
         if (hero.isBlack()) {
             // When the player is black the screen is flipped vertically
@@ -230,22 +151,30 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         return touchedSquare
     }
 
-    private fun getSquareFromMoveEvent(event: MotionEvent): Square {
+    private fun getTouchedSquareFromMotionEvent(event: MotionEvent): Square {
         val touchedColumn = (event.x / squareSize).toInt()
         val touchedRow = (game.size - 1) - (event.y / squareSize).toInt()
 
         return Square(touchedColumn, touchedRow)
     }
 
-    private fun touchedPieceAgain(touchedSquare: Square): Boolean {
-        touchData?.let {
-            return it.square == touchedSquare
+    private fun resetUIOnIllegalMove(touchedSquare: Square) {
+        if ( focusedPiece == null || focusedPiece!!.equals(touchedSquare)) {
+            return
         }
 
-        return false
+        val move = Move(focusedPiece!!.square, touchedSquare)
+        if (!isLegalMove(move)) {
+            resetUI()
+        }
     }
 
-    // --- View Game Logic --------------------------------------------------------------------- \\
+    private fun resetUI() {
+        focusedPiece = null
+        invalidate()
+    }
+
+    // --- View Game Logic -------------------------------------------------------------------------
     fun select(mode: String, gameID: String = "") {
         MODE_TO_GAME_SUBSCRIBER[mode]?.let {
             subscribe(it)
@@ -284,17 +213,13 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
             onStalemate()
         }
 
-        resetVisuals()
+        resetUI()
     }
 
-    private fun getAvailableMoves(piece: Piece): Map<Move, Move> {
-        return game.getLegalMovesForPiece(piece).associateWith { it }
-    }
+    private fun heroIsPlaying(): Boolean {
+        focusedPiece ?: return false
 
-    private fun heroTouchedPiece(): Boolean {
-        touchData ?: return false
-
-        return touchData!!.piece.player == game.currentPlayer
+        return focusedPiece!!.piece.player == game.currentPlayer
     }
 
     private fun canHeroPlay(): Boolean {
@@ -312,7 +237,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private fun isLegalMove(move: Move?): Boolean {
         move ?: return false
 
-        return move in touchData!!.availableMoves
+        return move in focusedPiece!!.availableMoves
     }
 
     // --- Game Over -------------------------------------------------------------------------------
@@ -334,6 +259,30 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         soundGameOver.start()
     }
 
+    // --- Subscriber ------------------------------------------------------------------------------
+    override fun onGameEvent(event: GameEvent) {
+        when(event) {
+            is PieceCapturedEvent -> {
+                onCapturedPiece(event.capturedPiece)
+            }
+        }
+    }
+
+    private fun onCapturedPiece(capturedPiece: Piece) {
+        if (hero != capturedPiece.player) {
+            opponentsCapturedPieces.append(capturedPiece)
+            return
+        }
+
+        heroCapturedPieces.append(capturedPiece)
+    }
+
+    // --- Publisher -------------------------------------------------------------------------------
+    fun subscribe(subscriber: GameSubscriber) {
+        publisher.subscribe(subscriber)
+        game.subscribe(subscriber)
+    }
+
     // --- General ---------------------------------------------------------------------------------
     private fun getMode(): String {
         return chessDrawer.mode
@@ -345,6 +294,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         this.hero = hero
         this.chessDrawer.hero = hero
     }
-}
 
-data class MovingPiece(val piece: Piece, var x: Float, var y: Float, val bitmap: Bitmap, var player: Player)
+    @JvmName("setGame1")
+    fun setGame(game: Game) {
+        this.game = game
+        this.chessDrawer.size = game.size
+    }
+}

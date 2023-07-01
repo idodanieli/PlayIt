@@ -10,6 +10,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.activities.RegisterActivity
+import com.idodanieli.playit.activities.openRegisterActivity
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
     private lateinit var findGameButton: Button
     private lateinit var gameIDEditText: EditText
 
+    companion object {
+        lateinit var games: List<Game>
+    }
+
     override fun onGameEvent(event: GameEvent) {
         when(event) {
             is GameOverEvent -> {
@@ -44,9 +49,9 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
         findViews()
 
-        val games = createGames()
+        games = createGames()
 
-        GameClient.initialize("http://192.168.1.33:5000")
+        GameClient.initialize("https://idodanieli.pythonanywhere.com")
         User.initialize(baseContext)
 
         if ( !User.getInstance().isRegistered() ) {
@@ -111,7 +116,9 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
             playButtonOnClick(MODE_ONLINE, gameID)
         }
 
-        viewPager.adapter = PageviewAdapter(games)
+        val screenWidth = resources.displayMetrics.widthPixels
+
+        viewPager.adapter = PageviewAdapter(games, screenWidth, this)
     }
 
     private fun showGameOverDialog(winner: Player?) {
@@ -155,10 +162,5 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         joinGameButton.visibility = View.VISIBLE
         findGameButton.visibility = View.VISIBLE
         gameIDEditText.visibility = View.VISIBLE
-    }
-
-    private fun openRegisterActivity() {
-        val intent = Intent(this, RegisterActivity::class.java)
-        startActivity(intent)
     }
 }

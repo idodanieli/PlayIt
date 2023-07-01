@@ -16,9 +16,17 @@ data class TouchData(
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is TouchData) return false
-
-        return square == other.square
+        return when (other) {
+            is Square -> {
+                this.square == other
+            }
+            is TouchData -> {
+                square == other.square
+            }
+            else -> {
+                false
+            }
+        }
     }
 
     fun isPreviewAbilityTouch(): Boolean {
@@ -29,8 +37,8 @@ data class TouchData(
         return piece.hasAbility() && touches == ACTIVATE_ABILITY_TOUCH_AMOUNT
     }
 
-    fun move(): Move {
-        val move = Move(piece.square, this.square, isAbilityMove = this.isActivateAbilityTouch())
+    fun getMove(nextSquare: Square): Move {
+        val move = Move(piece.square, nextSquare, isAbilityMove = this.isActivateAbilityTouch())
         if (move !in availableMoves) {
             return move
         }

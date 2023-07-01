@@ -1,17 +1,21 @@
 package com.idodanieli.playit
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.idodanieli.playit.games.chess.ui.*
+import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.Game
 
 
 class PageviewAdapter(
     private val games: List<Game>,
+    private val screenWidth: Int,
+    private val context: Context,
     ) :
     RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
 
@@ -31,8 +35,9 @@ class PageviewAdapter(
         val game = games[position]
 
         holder.gameTitle.text = game.name
+
         holder.gameDescription.text = game.description
-        holder.chessView.game = game
+        holder.chessView.setGame(game)
 
         holder.chessView.heroTextView = holder.playerHero
         holder.chessView.heroTextView.text = User.getInstance().getUsername()
@@ -41,6 +46,8 @@ class PageviewAdapter(
 
         holder.chessView.opponentsCapturedPieces = holder.opponentCapturedPiecesView
         holder.chessView.heroCapturedPieces = holder.herosCapturedPiecesView
+
+        setDimensions(holder.chessView, screenWidth, screenWidth)
     }
 
     // return the number of the items in the list

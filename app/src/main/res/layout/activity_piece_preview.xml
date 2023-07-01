@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimaryVariant">
+
+    <!-- TODO: This is code duplication with chessview_container.xml -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:orientation="vertical"
+        android:background="?attr/colorPrimary">
+
+        <TextView
+            android:id="@+id/gameName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/gameDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp" />
+    </LinearLayout> <!-- Game Title & Description -->
+
+    <com.idodanieli.playit.games.chess.ui.ChessView
+        android:id="@+id/chessview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:layout_weight="1"/>
+
+</RelativeLayout>
