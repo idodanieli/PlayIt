@@ -28,7 +28,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
 
     // --- For Logic -------------------------------------------------------------------------------
-    private val publisher = Publisher()
+    val publisher = Publisher()
 
     var hero = Player.WHITE
     lateinit var chessDrawer: ChessDrawer
@@ -36,19 +36,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     // --- Views -----------------------------------------------------------------------------------
     // TODO: These views shouldn't be here... This design is shit
-    lateinit var heroTextView: TextView
     lateinit var opponentsCapturedPieces: CapturedPiecesView
-
-    lateinit var opponentTextView: TextView
     lateinit var heroCapturedPieces: CapturedPiecesView
-
-    fun setPlayers(hero: String, opponent: String) {
-        heroTextView.text = hero
-        opponentTextView.text = opponent
-
-        heroTextView.visibility = VISIBLE
-        opponentTextView.visibility = VISIBLE
-    }
 
     // --- onDraw ----------------------------------------------------------------------------------
     // onDraw is called everytime invalidate() is called
@@ -169,10 +158,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
 
     // --- View Game Logic -------------------------------------------------------------------------
     fun select(mode: String, gameID: String = "") {
-        MODE_TO_GAME_SUBSCRIBER[mode]?.let {
-            subscribe(it)
-        }
-
         setMode(mode)
         publisher.notifySubscribers(GameSelectedEvent(this, gameID))
     }
@@ -283,6 +268,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
     private fun setMode(mode: String) {
         chessDrawer.mode = mode
+
+        MODE_TO_GAME_SUBSCRIBER[mode]?.let {
+            subscribe(it)
+        }
     }
     fun setGameHero(hero: Player) {
         this.hero = hero

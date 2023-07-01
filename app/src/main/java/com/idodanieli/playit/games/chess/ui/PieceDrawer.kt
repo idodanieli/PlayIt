@@ -18,7 +18,7 @@ open class PieceDrawer (
 ): Drawer(numberOfSquares) {
     
     companion object {
-        var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
+        private var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
         private var PICTURES: MutableMap<Player, MutableMap<String, Int>> = mutableMapOf(
             Player.WHITE to mutableMapOf(),
             Player.BLACK to mutableMapOf()

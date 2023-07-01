@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
             is GameOverEvent -> {
                 showGameOverDialog(event.winner)
             }
+
+            is PlayersJoinedEvent -> {
+                viewPager.setPlayers(event.hero, event.opponent)
+            }
         }
     }
 

@@ -55,8 +55,9 @@ object OnlineChessSubscriber: GameSubscriber {
             val user = User.getInstance().getUsername()
             val opponent = gameClient.getOpponent()
 
+            // Only the original thread that created a view hierarchy can touch its views.
             Handler(getMainLooper()).post{
-                chessView.setPlayers(user, opponent)
+                chessView.publisher.notifySubscribers( PlayersJoinedEvent(user, opponent) )
                 dialog.cancel()
             }
 

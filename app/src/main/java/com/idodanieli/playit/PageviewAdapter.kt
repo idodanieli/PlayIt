@@ -39,11 +39,6 @@ class PageviewAdapter(
         holder.gameDescription.text = game.description
         holder.chessView.setGame(game)
 
-        holder.chessView.heroTextView = holder.playerHero
-        holder.chessView.heroTextView.text = User.getInstance().getUsername()
-
-        holder.chessView.opponentTextView = holder.playerOpponent
-
         holder.chessView.opponentsCapturedPieces = holder.opponentCapturedPiecesView
         holder.chessView.heroCapturedPieces = holder.herosCapturedPiecesView
 
@@ -61,10 +56,7 @@ class PageviewAdapter(
         val gameTitle: TextView = itemView.findViewById(R.id.gameName)
         val gameDescription: TextView = itemView.findViewById(R.id.gameDescription)
 
-        val playerHero: TextView = itemView.findViewById(R.id.playerHero)
-        val playerOpponent: TextView = itemView.findViewById(R.id.playerOpponent)
-
-        val opponentCapturedPiecesView: CapturedPiecesView = itemView.findViewById<CapturedPiecesView>(R.id.opponentsCapturedPieces)
-        val herosCapturedPiecesView: CapturedPiecesView = itemView.findViewById<CapturedPiecesView>(R.id.herosCapturedPieces)
+        val opponentCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.opponentsCapturedPieces)
+        val herosCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.herosCapturedPieces)
     }
 }
