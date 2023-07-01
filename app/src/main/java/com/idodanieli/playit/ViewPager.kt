@@ -26,6 +26,10 @@ fun ViewPager2.currentOpponentCapturedPiecesView(): CapturedPiecesView {
 fun ViewPager2.setPlayers(hero: String, opponent: String) {
     setPlayer(currentPage().findViewById(R.id.playerHero), hero)
     setPlayer(currentPage().findViewById(R.id.playerOpponent), opponent)
+
+    val heroColor = currentChessview().hero
+    currentHeroCapturedPiecesView().player = heroColor
+    currentOpponentCapturedPiecesView().player = heroColor.opposite()
 }
 
 private fun setPlayer(textView: TextView, player: String) {

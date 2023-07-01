@@ -39,8 +39,8 @@ class PageviewAdapter(
         holder.gameDescription.text = game.description
         holder.chessView.setGame(game)
 
-        holder.chessView.opponentsCapturedPieces = holder.opponentCapturedPiecesView
-        holder.chessView.heroCapturedPieces = holder.herosCapturedPiecesView
+        holder.chessView.subscribe(holder.herosCapturedPiecesView)
+        holder.chessView.subscribe(holder.opponentCapturedPiecesView)
 
         setDimensions(holder.chessView, screenWidth, screenWidth)
     }

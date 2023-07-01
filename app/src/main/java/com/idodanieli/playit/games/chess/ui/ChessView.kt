@@ -19,7 +19,7 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.variants.*
 
 @SuppressLint("ClickableViewAccessibility")
-class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
+class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private var focusedPiece: TouchData? = null
     private var currentTouch: TouchData? = null
 
@@ -33,11 +33,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     var hero = Player.WHITE
     lateinit var chessDrawer: ChessDrawer
     lateinit var game: Game
-
-    // --- Views -----------------------------------------------------------------------------------
-    // TODO: These views shouldn't be here... This design is shit
-    lateinit var opponentsCapturedPieces: CapturedPiecesView
-    lateinit var heroCapturedPieces: CapturedPiecesView
 
     // --- onDraw ----------------------------------------------------------------------------------
     // onDraw is called everytime invalidate() is called
@@ -167,7 +162,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         publisher.notifySubscribers(gameStartedEvent)
 
         game.started = true
-        game.subscribe(this)
     }
 
     fun applyMove(move: Move) {
@@ -235,25 +229,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
         game.unsubscribeAll()
 
         soundGameOver.start()
-    }
-
-    // --- Subscriber ------------------------------------------------------------------------------
-    // TODO: Can I move this whole section to another place?
-    override fun onGameEvent(event: GameEvent) {
-        when(event) {
-            is PieceCapturedEvent -> {
-                onCapturedPiece(event.capturedPiece)
-            }
-        }
-    }
-
-    private fun onCapturedPiece(capturedPiece: Piece) {
-        if (hero != capturedPiece.player) {
-            opponentsCapturedPieces.append(capturedPiece)
-            return
-        }
-
-        heroCapturedPieces.append(capturedPiece)
     }
 
     // --- Publisher -------------------------------------------------------------------------------

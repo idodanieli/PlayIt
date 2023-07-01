@@ -58,7 +58,7 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
     override fun applyCapture(capturingPiece: Piece, capturedPiece: Piece) {
         board.remove(capturedPiece)
         capturingPiece.onCaptured(capturedPiece)
-        notifySubscribers( PieceCapturedEvent(capturedPiece) )
+        notifySubscribers( PieceCapturedEvent(capturedPiece, capturingPiece) )
     }
 
     override fun applyAbilityMove(move: Move) {
