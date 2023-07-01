@@ -15,7 +15,7 @@
             android:text="Opponent Player" />
 
         <com.idodanieli.playit.games.chess.ui.CapturedPiecesView
-            android:id="@+id/herosCapturedPieces"
+            android:id="@+id/opponentsCapturedPieces"
             style="@style/PlayerCapturedPieceView" />
 
     </LinearLayout> <!-- Opponents View -->
@@ -36,7 +36,7 @@
             android:text="This Player" />
 
         <com.idodanieli.playit.games.chess.ui.CapturedPiecesView
-            android:id="@+id/opponentsCapturedPieces"
+            android:id="@+id/herosCapturedPieces"
             style="@style/PlayerCapturedPieceView" />
 
     </LinearLayout> <!-- Heros View -->

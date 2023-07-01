@@ -17,14 +17,6 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context, attrs), GameSubscriber {
     lateinit var player: Player
 
-    override fun onGameEvent(event: GameEvent) {
-        when (event) {
-            is PieceCapturedEvent -> {
-                if (event.capturedPiece.player == player) append(event.capturedPiece)
-            }
-        }
-    }
-
     private val pieceDrawer = PieceDrawer(context!!, MODE_DEFAULT)
     private var capturedPieces = mutableListOf<Piece>()
     private var capturedPieceSize: Float = 0f
@@ -34,16 +26,30 @@ class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context,
         this.pieceDrawer.initialize(canvas, capturedPieceSize)
     }
 
+    // --- Logic -----------------------------------------------------------------------------------
+    override fun onGameEvent(event: GameEvent) {
+        when (event) {
+            is PieceCapturedEvent -> {
+                if (ourPlayerCaptured(event)) append(event.capturedPiece)
+            }
+        }
+    }
+
+    private fun ourPlayerCaptured(event: PieceCapturedEvent): Boolean {
+        return event.capturingPiece.player == player
+    }
+
+    private fun append(piece: Piece) {
+        capturedPieces += piece
+        invalidate()
+    }
+
+    // --- UI --------------------------------------------------------------------------------------
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
 
         this.initialize(canvas)
         this.drawCapturedPieces()
-    }
-
-    fun append(piece: Piece) {
-        capturedPieces += piece
-        invalidate()
     }
 
     private fun drawCapturedPieces() {
