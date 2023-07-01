@@ -12,19 +12,21 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 
 class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context, attrs) {
 
+    // TODO: This is why you need a PieceDrawer and a ChessDrawer
     private val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
-    private var capturedPieceSize = height.toFloat()
-
     private var capturedPieces = mutableListOf<Piece>()
+    private var capturedPieceSize: Float = 0f
+
+    private fun initialize(canvas: Canvas) {
+        this.capturedPieceSize = canvas.height.toFloat()
+        this.chessDrawer.initialize(canvas, capturedPieceSize)
+    }
 
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
 
-        capturedPieceSize = height.toFloat()
-        chessDrawer.canvas = canvas
-        chessDrawer.squareSize = capturedPieceSize
-
-        drawCapturedPieces()
+        this.initialize(canvas)
+        this.drawCapturedPieces()
     }
 
     fun append(piece: Piece) {

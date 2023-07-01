@@ -57,7 +57,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
 
-        chessDrawer.initialize(canvas)
+        chessDrawer.initialize(canvas, width / game.size.toFloat())
         chessDrawer.drawChessboard()
 
         focusedPiece?.let {
@@ -254,6 +254,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     // --- Subscriber ------------------------------------------------------------------------------
+    // TODO: Can I move this whole section to another place?
     override fun onGameEvent(event: GameEvent) {
         when(event) {
             is PieceCapturedEvent -> {
@@ -292,8 +293,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     @JvmName("setGame1")
     fun setGame(game: Game) {
         this.game = game
-
-        // TODO: move MODE_DEFAULT out of here
         this.chessDrawer = ChessDrawer(game.size, MODE_DEFAULT, context!!)
     }
 }

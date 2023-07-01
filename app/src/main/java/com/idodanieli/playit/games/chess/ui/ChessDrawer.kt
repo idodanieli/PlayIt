@@ -147,9 +147,7 @@ class ChessDrawer(var size: Int, var mode: String, context: Context) : Drawer() 
 
     // --- Initialization --------------------------------------------------------------------------
 
-    fun initialize(canvas: Canvas) {
-        val squareSize = canvas.width / size.toFloat()
-
+    fun initialize(canvas: Canvas, squareSize: Float) {
         this.canvas = canvas
         this.squareSize = squareSize
     }
