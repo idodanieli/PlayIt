@@ -21,12 +21,8 @@ import com.idodanieli.playit.games.chess.variants.*
 
 @SuppressLint("ClickableViewAccessibility")
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs), GameSubscriber {
-    // --- For Drawing -----------------------------------------------------------------------------
-    // TODO: This initialization is ugly...
-    val chessDrawer = ChessDrawer(CHESSBOARD_SIZE, MODE_DEFAULT, context!!)
     private var focusedPiece: TouchData? = null
     private var currentTouch: TouchData? = null
-    private var squareSize = 0f
 
     // --- For Sounds ------------------------------------------------------------------------------
     private val soundMove = MediaPlayer.create(context, R.raw.sound_chess_move)
@@ -36,9 +32,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     private val publisher = Publisher()
 
     var hero = Player.WHITE
+    lateinit var chessDrawer: ChessDrawer
     lateinit var game: Game
 
     // --- Views -----------------------------------------------------------------------------------
+    // TODO: These views shouldn't be here... This design is shit
     lateinit var heroTextView: TextView
     lateinit var opponentsCapturedPieces: CapturedPiecesView
 
@@ -59,11 +57,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
 
-        squareSize = width / this.game.size.toFloat()
-
-        chessDrawer.canvas = canvas
-        chessDrawer.setSize(squareSize)
-
+        chessDrawer.initialize(canvas)
         chessDrawer.drawChessboard()
 
         focusedPiece?.let {
@@ -152,8 +146,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     }
 
     private fun getTouchedSquareFromMotionEvent(event: MotionEvent): Square {
-        val touchedColumn = (event.x / squareSize).toInt()
-        val touchedRow = (game.size - 1) - (event.y / squareSize).toInt()
+        val touchedColumn = (event.x / chessDrawer.squareSize).toInt()
+        val touchedRow = (game.size - 1) - (event.y / chessDrawer.squareSize).toInt()
 
         return Square(touchedColumn, touchedRow)
     }
@@ -298,6 +292,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs),
     @JvmName("setGame1")
     fun setGame(game: Game) {
         this.game = game
-        this.chessDrawer.size = game.size
+
+        // TODO: move MODE_DEFAULT out of here
+        this.chessDrawer = ChessDrawer(game.size, MODE_DEFAULT, context!!)
     }
 }

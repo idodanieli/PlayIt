@@ -22,7 +22,7 @@ class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context,
 
         capturedPieceSize = height.toFloat()
         chessDrawer.canvas = canvas
-        chessDrawer.setSize(capturedPieceSize)
+        chessDrawer.squareSize = capturedPieceSize
 
         drawCapturedPieces()
     }

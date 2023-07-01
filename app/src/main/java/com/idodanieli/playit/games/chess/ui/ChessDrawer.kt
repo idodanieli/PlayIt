@@ -9,9 +9,6 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 
-private const val MOVING_PIECE_SCALE = 1.5f
-private const val MOVING_PIECE_Y_OFFSET = 150f // so the user will see what piece hes moving
-
 class ChessDrawer(var size: Int, var mode: String, context: Context) : Drawer() {
     companion object {
         var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
@@ -40,9 +37,11 @@ class ChessDrawer(var size: Int, var mode: String, context: Context) : Drawer() 
         fun getPieceBitmap(piece: Piece): Bitmap? {
             return BITMAPS[piece.player]?.get(piece.type)
         }
+
+        private const val EMPTY_SQUARE_SIZE = 0f
     }
 
-    private var squareSize = 0f
+    var squareSize = EMPTY_SQUARE_SIZE
 
     private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
     private val darkColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorPrimaryDark)
@@ -51,10 +50,6 @@ class ChessDrawer(var size: Int, var mode: String, context: Context) : Drawer() 
 
     init {
         loadBitmaps(context.resources)
-    }
-
-    fun setSize(size: Float) {
-        this.squareSize = size
     }
 
     // drawChessboard.board draws the whole chessboard ( without the pieces )
@@ -146,19 +141,16 @@ class ChessDrawer(var size: Int, var mode: String, context: Context) : Drawer() 
         drawBitmapAtRect(bitmap, rect)
     }
 
-    // @param scale = the scaling of the piece
-    private fun drawBitmapAtPosition(x: Float, y: Float, bitmap: Bitmap, scale: Float = 1f) {
-        val rect = RectF(
-            x - squareSize * scale / 2,
-            y - squareSize * scale / 2,
-            x + squareSize * scale / 2,
-            y + squareSize * scale / 2
-        )
-
-        drawBitmapAtRect(bitmap, rect)
-    }
-
     fun drawBitmapAtRect(bitmap: Bitmap, rect: RectF) {
         canvas.drawBitmap(bitmap, null, rect, Paint())
+    }
+
+    // --- Initialization --------------------------------------------------------------------------
+
+    fun initialize(canvas: Canvas) {
+        val squareSize = canvas.width / size.toFloat()
+
+        this.canvas = canvas
+        this.squareSize = squareSize
     }
 }
