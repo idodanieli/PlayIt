@@ -6,9 +6,8 @@ import com.idodanieli.playit.games.chess.logic.DIRECTIONS
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.core.Hopper
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 const val TYPE_GRASSHOPPER = "H"
 
@@ -21,8 +20,8 @@ const val TYPE_GRASSHOPPER = "H"
 class Grasshopper(square: Square, player: Player) : Hopper(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_GRASSHOPPER, Player.WHITE, R.drawable.grasshopper_white)
-            ChessDrawer.addPiecePicture(TYPE_GRASSHOPPER, Player.BLACK, R.drawable.grasshopper_black)
+            PieceDrawer.addPiecePicture(TYPE_GRASSHOPPER, Player.WHITE, R.drawable.grasshopper_white)
+            PieceDrawer.addPiecePicture(TYPE_GRASSHOPPER, Player.BLACK, R.drawable.grasshopper_black)
         }
     }
 

@@ -10,7 +10,7 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 private const val MAX_START_MOVES = 2
 const val TYPE_PAWN = "P"
@@ -18,8 +18,8 @@ const val TYPE_PAWN = "P"
 class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_PAWN, Player.WHITE, R.drawable.pawn_white)
-            ChessDrawer.addPiecePicture(TYPE_PAWN, Player.BLACK, R.drawable.pawn_black)
+            PieceDrawer.addPiecePicture(TYPE_PAWN, Player.WHITE, R.drawable.pawn_white)
+            PieceDrawer.addPiecePicture(TYPE_PAWN, Player.BLACK, R.drawable.pawn_black)
         }
     }
 

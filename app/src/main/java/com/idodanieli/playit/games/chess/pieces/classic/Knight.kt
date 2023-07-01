@@ -6,7 +6,7 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 private val KNIGHT_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_KNIGHT = "N"
@@ -14,8 +14,8 @@ const val TYPE_KNIGHT = "N"
 open class Knight(square: Square, player: Player) : BasePiece(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_KNIGHT, Player.WHITE, R.drawable.knight_white)
-            ChessDrawer.addPiecePicture(TYPE_KNIGHT, Player.BLACK, R.drawable.knight_black)
+            PieceDrawer.addPiecePicture(TYPE_KNIGHT, Player.WHITE, R.drawable.knight_white)
+            PieceDrawer.addPiecePicture(TYPE_KNIGHT, Player.BLACK, R.drawable.knight_black)
         }
     }
 

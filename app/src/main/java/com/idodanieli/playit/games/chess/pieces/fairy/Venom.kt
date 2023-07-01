@@ -7,7 +7,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.core.Rider
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 private val MOVE_OFFSETS = arrayOf(1, -1, 0)
 private const val STARTING_MAX_STEPS = 1
@@ -24,8 +24,8 @@ const val TYPE_VENOM = "U"
 class Venom(square: Square, player: Player) : Rider(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_VENOM, Player.WHITE, R.drawable.venom_white)
-            ChessDrawer.addPiecePicture(TYPE_VENOM, Player.BLACK, R.drawable.venom_black)
+            PieceDrawer.addPiecePicture(TYPE_VENOM, Player.WHITE, R.drawable.venom_white)
+            PieceDrawer.addPiecePicture(TYPE_VENOM, Player.BLACK, R.drawable.venom_black)
         }
     }
 

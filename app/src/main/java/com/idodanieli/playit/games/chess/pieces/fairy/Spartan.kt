@@ -7,15 +7,15 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.RestrictedPiece
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 class Spartan(square: Square, player: Player): RestrictedPiece(square, player) {
     companion object {
         const val TYPE = "I"
 
         init {
-            ChessDrawer.addPiecePicture(TYPE, Player.WHITE, R.drawable.spartan_white)
-            ChessDrawer.addPiecePicture(TYPE, Player.BLACK, R.drawable.spartan_black)
+            PieceDrawer.addPiecePicture(TYPE, Player.WHITE, R.drawable.spartan_white)
+            PieceDrawer.addPiecePicture(TYPE, Player.BLACK, R.drawable.spartan_black)
         }
     }
 

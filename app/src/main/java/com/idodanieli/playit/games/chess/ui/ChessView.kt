@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.TextView
 import com.idodanieli.playit.R
 import com.idodanieli.playit.activities.openPiecePreviewActivity
-import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE

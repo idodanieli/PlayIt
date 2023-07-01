@@ -7,7 +7,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
 import com.idodanieli.playit.games.chess.pieces.classic.Rook
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 class Terrorist(square: Square, player: Player) : Bomber(Rook(square, player)) {
     companion object {
@@ -15,8 +15,8 @@ class Terrorist(square: Square, player: Player) : Bomber(Rook(square, player)) {
         private const val MAX_STEPS = 1
 
         init {
-            ChessDrawer.addPiecePicture(TYPE, Player.WHITE, R.drawable.terrorist_white)
-            ChessDrawer.addPiecePicture(TYPE, Player.BLACK, R.drawable.terrorist_black)
+            PieceDrawer.addPiecePicture(TYPE, Player.WHITE, R.drawable.terrorist_white)
+            PieceDrawer.addPiecePicture(TYPE, Player.BLACK, R.drawable.terrorist_black)
         }
     }
 

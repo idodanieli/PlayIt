@@ -5,9 +5,8 @@ import com.idodanieli.playit.games.chess.logic.DIRECTIONS
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.core.Hopper
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 const val TYPE_ELEPHANT = "E"
 
@@ -24,8 +23,8 @@ const val TYPE_ELEPHANT = "E"
 class Elephant(square: Square, player: Player) : Hopper(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_ELEPHANT, Player.WHITE, R.drawable.elephant_white)
-            ChessDrawer.addPiecePicture(TYPE_ELEPHANT, Player.BLACK, R.drawable.elephant_black)
+            PieceDrawer.addPiecePicture(TYPE_ELEPHANT, Player.WHITE, R.drawable.elephant_white)
+            PieceDrawer.addPiecePicture(TYPE_ELEPHANT, Player.BLACK, R.drawable.elephant_black)
         }
     }
 

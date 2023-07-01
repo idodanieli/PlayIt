@@ -7,8 +7,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.NO_MAX_STEPS
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.Rider
-import com.idodanieli.playit.games.chess.pieces.fairy.Terrorist
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 private val moveOffsets = arrayOf(1, -1)
 const val TYPE_BISHOP = "B"
@@ -16,8 +15,8 @@ const val TYPE_BISHOP = "B"
 class Bishop(square: Square, player: Player) : Rider(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_BISHOP, Player.WHITE, R.drawable.bishop_white)
-            ChessDrawer.addPiecePicture(TYPE_BISHOP, Player.BLACK, R.drawable.bishop_black)
+            PieceDrawer.addPiecePicture(TYPE_BISHOP, Player.WHITE, R.drawable.bishop_white)
+            PieceDrawer.addPiecePicture(TYPE_BISHOP, Player.BLACK, R.drawable.bishop_black)
         }
     }
 

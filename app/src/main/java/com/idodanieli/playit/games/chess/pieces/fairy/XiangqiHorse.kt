@@ -5,8 +5,7 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.pieces.classic.King
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 private val XIANGQI_HORSE_MOVE_OFFSETS = arrayOf(1, 2, -1, -2)
 const val TYPE_XIANGQI_HORSE = "O"
@@ -15,8 +14,8 @@ const val TYPE_XIANGQI_HORSE = "O"
 open class XiangqiHorse(square: Square, player: Player) : BasePiece(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_XIANGQI_HORSE, Player.WHITE, R.drawable.xiangqi_horse_white)
-            ChessDrawer.addPiecePicture(TYPE_XIANGQI_HORSE, Player.BLACK, R.drawable.xiangqi_horse_black)
+            PieceDrawer.addPiecePicture(TYPE_XIANGQI_HORSE, Player.WHITE, R.drawable.xiangqi_horse_white)
+            PieceDrawer.addPiecePicture(TYPE_XIANGQI_HORSE, Player.BLACK, R.drawable.xiangqi_horse_black)
         }
     }
 

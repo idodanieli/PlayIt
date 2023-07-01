@@ -7,7 +7,7 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.core.Compound
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 
 const val TYPE_WILDBEAST = "W"
@@ -15,8 +15,8 @@ const val TYPE_WILDBEAST = "W"
 class WildBeast(square: Square, player: Player) : Compound(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_WILDBEAST, Player.WHITE, R.drawable.wildbeast_white)
-            ChessDrawer.addPiecePicture(TYPE_WILDBEAST, Player.BLACK, R.drawable.wildbeast_black)
+            PieceDrawer.addPiecePicture(TYPE_WILDBEAST, Player.WHITE, R.drawable.wildbeast_white)
+            PieceDrawer.addPiecePicture(TYPE_WILDBEAST, Player.BLACK, R.drawable.wildbeast_black)
         }
     }
 

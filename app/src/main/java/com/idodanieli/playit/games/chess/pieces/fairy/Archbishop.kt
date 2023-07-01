@@ -6,9 +6,8 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.Compound
 import com.idodanieli.playit.games.chess.pieces.classic.Bishop
-import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 
 const val TYPE_ARCHBISHOP = "X"
@@ -16,8 +15,8 @@ const val TYPE_ARCHBISHOP = "X"
 class Archbishop(square: Square, player: Player) : Compound(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_ARCHBISHOP, Player.WHITE, R.drawable.archbishop_white)
-            ChessDrawer.addPiecePicture(TYPE_ARCHBISHOP, Player.BLACK, R.drawable.archbishop_black)
+            PieceDrawer.addPiecePicture(TYPE_ARCHBISHOP, Player.WHITE, R.drawable.archbishop_white)
+            PieceDrawer.addPiecePicture(TYPE_ARCHBISHOP, Player.BLACK, R.drawable.archbishop_black)
         }
     }
 

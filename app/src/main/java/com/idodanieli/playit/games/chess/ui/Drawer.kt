@@ -4,11 +4,43 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.*
 import android.util.TypedValue
+import com.idodanieli.playit.games.chess.logic.Square
 
 
-open class Drawer {
+open class Drawer (var numberOfSquares: Int) {
 
+    var squareSize = 0f
     var canvas = Canvas()
+
+    fun initialize(canvas: Canvas, squareSize: Float) {
+        this.canvas = canvas
+        this.squareSize = squareSize
+    }
+
+    fun drawSquare(square: Square, color: Int) {
+        this.canvas.drawRect(
+            square.col * squareSize,
+            this.canvas.height - square.row * squareSize,
+            (square.col + 1) * squareSize,
+            this.canvas.height - (square.row + 1) * squareSize,
+            getPaint(color)
+        )
+    }
+
+    fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) {
+        val rect = RectF(
+            square.col * squareSize,
+            (numberOfSquares - 1 - square.row) * squareSize,
+            (square.col + 1) * squareSize,
+            ((numberOfSquares - 1 - square.row) + 1) * squareSize
+        )
+
+        drawBitmapAtRect(bitmap, rect)
+    }
+
+    fun drawBitmapAtRect(bitmap: Bitmap, rect: RectF) {
+        canvas.drawBitmap(bitmap, null, rect, Paint())
+    }
 
     fun flipBitmap(src: Bitmap, type: Direction): Bitmap? {
         val matrix = Matrix()

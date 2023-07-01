@@ -8,7 +8,7 @@ import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.core.Compound
 import com.idodanieli.playit.games.chess.pieces.classic.Queen
-import com.idodanieli.playit.games.chess.ui.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 
 const val TYPE_AMAZON = "A"
@@ -16,8 +16,8 @@ const val TYPE_AMAZON = "A"
 class Amazon(square: Square, player: Player) : Compound(square, player) {
     companion object {
         init {
-            ChessDrawer.addPiecePicture(TYPE_AMAZON, Player.WHITE, R.drawable.amazon_white)
-            ChessDrawer.addPiecePicture(TYPE_AMAZON, Player.BLACK, R.drawable.amazon_black)
+            PieceDrawer.addPiecePicture(TYPE_AMAZON, Player.WHITE, R.drawable.amazon_white)
+            PieceDrawer.addPiecePicture(TYPE_AMAZON, Player.BLACK, R.drawable.amazon_black)
         }
     }
 
