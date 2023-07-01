@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.activities.RegisterActivity
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
             }
 
             is PlayersJoinedEvent -> {
-                viewPager.setPlayers(event.hero, event.opponent)
+                this.setPlayers(event.hero, event.opponent)
             }
         }
     }
@@ -166,5 +167,20 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         joinGameButton.visibility = View.VISIBLE
         findGameButton.visibility = View.VISIBLE
         gameIDEditText.visibility = View.VISIBLE
+    }
+
+    // --- Set players names when they join a game ----------------------------------------------------
+    fun setPlayers(hero: String, opponent: String) {
+        setPlayer(viewPager.currentPage().findViewById(R.id.playerHero), hero)
+        setPlayer(viewPager.currentPage().findViewById(R.id.playerOpponent), opponent)
+
+        val heroColor = viewPager.currentChessview().hero
+        viewPager.currentHeroCapturedPiecesView().player = heroColor
+        viewPager.currentOpponentCapturedPiecesView().player = heroColor.opposite()
+    }
+
+    private fun setPlayer(textView: TextView, player: String) {
+        textView.text = player
+        textView.visibility = View.VISIBLE
     }
 }

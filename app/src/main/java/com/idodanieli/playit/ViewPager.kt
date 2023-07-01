@@ -21,18 +21,3 @@ fun ViewPager2.currentHeroCapturedPiecesView(): CapturedPiecesView {
 fun ViewPager2.currentOpponentCapturedPiecesView(): CapturedPiecesView {
     return currentPage().findViewById(R.id.opponentsCapturedPieces)
 }
-
-// --- Set players names when they join a game ----------------------------------------------------
-fun ViewPager2.setPlayers(hero: String, opponent: String) {
-    setPlayer(currentPage().findViewById(R.id.playerHero), hero)
-    setPlayer(currentPage().findViewById(R.id.playerOpponent), opponent)
-
-    val heroColor = currentChessview().hero
-    currentHeroCapturedPiecesView().player = heroColor
-    currentOpponentCapturedPiecesView().player = heroColor.opposite()
-}
-
-private fun setPlayer(textView: TextView, player: String) {
-    textView.text = player
-    textView.visibility = View.VISIBLE
-}
