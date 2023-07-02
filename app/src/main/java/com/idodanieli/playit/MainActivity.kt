@@ -62,15 +62,13 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
     // Override systems back button
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (viewPager.gameIsPlaying()) {
-                dialogBuilder.showAreYouSureYouWantToQuitDialog {
-                    // TODO: Exit game
-                    enableScrolling()
-                }
-
-                return true
+        if (keyCode == KeyEvent.KEYCODE_BACK && viewPager.gameIsPlaying()) {
+            dialogBuilder.showAreYouSureYouWantToQuitDialog {
+                // TODO: Exit game
+                enableScrolling()
             }
+
+            return true
         }
 
         return super.onKeyDown(keyCode, event)
