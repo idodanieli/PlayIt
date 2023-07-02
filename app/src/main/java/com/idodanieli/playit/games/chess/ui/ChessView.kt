@@ -22,12 +22,11 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var focusedPiece: TouchData? = null
     var currentTouch: TouchData? = null
 
-    val visualizers = VisualizerCollection(LastMoveVisualizer(), TouchedSquareVisualizer())
-
-    // --- For Logic -------------------------------------------------------------------------------
     val publisher = Publisher()
 
     var hero = Player.WHITE
+
+    private val visualizers = VisualizerCollection(LastMoveVisualizer(), TouchedSquareVisualizer())
     lateinit var chessDrawer: ChessDrawer
     lateinit var game: Game
 
@@ -86,6 +85,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private val onLongTouch = Runnable {
+        // TODO: Send event to another component onLongScreenTouch? ( So we could delete currentTouch... )
         currentTouch?.let {
             context!!.openPiecePreviewActivity(it.piece)
         }
@@ -254,5 +254,15 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun setGame(game: Game) {
         this.game = game
         this.chessDrawer = ChessDrawer(game.size, MODE_DEFAULT, context!!)
+
+        subscribeVisualizers()
+    }
+
+    private fun subscribeVisualizers() {
+        for (visualizer in visualizers) {
+            if (visualizer is GameSubscriber) {
+                subscribe(visualizer)
+            }
+        }
     }
 }

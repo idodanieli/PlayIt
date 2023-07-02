@@ -47,12 +47,6 @@ class PageViewAdapter(
     private fun subscribeComponentsToChessView(chessView: ChessView, holder: ViewHolder) {
         chessView.subscribe(holder.herosCapturedPiecesView)
         chessView.subscribe(holder.opponentCapturedPiecesView)
-
-        for (visualizer in chessView.visualizers) {
-            if (visualizer is GameSubscriber) {
-                chessView.subscribe(visualizer)
-            }
-        }
     }
 
     // return the number of the items in the list
