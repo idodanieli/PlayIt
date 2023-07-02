@@ -13,6 +13,7 @@ import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.ui.threat_visualizers.LastMoveVisualizer
+import com.idodanieli.playit.games.chess.ui.threat_visualizers.TouchedSquareVisualizer
 import com.idodanieli.playit.games.chess.variants.*
 
 @SuppressLint("ClickableViewAccessibility")
@@ -21,6 +22,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var currentTouch: TouchData? = null
 
     val lastMoveVisualizer = LastMoveVisualizer()
+    val touchedSquareVisualizer = TouchedSquareVisualizer()
 
     // --- For Logic -------------------------------------------------------------------------------
     val publisher = Publisher()
@@ -45,6 +47,10 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     private fun visualizeGameEvents() {
         lastMoveVisualizer.visualize(this)
+
+        focusedPiece?.let {
+            touchedSquareVisualizer.visualize(this)
+        }
 
         focusedPiece?.piece?.visualize(this)
     }

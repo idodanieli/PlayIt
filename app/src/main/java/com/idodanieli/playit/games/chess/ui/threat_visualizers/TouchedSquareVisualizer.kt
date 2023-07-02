@@ -8,9 +8,9 @@ import com.idodanieli.playit.games.chess.ui.ColorPallete
 class TouchedSquareVisualizer: EventVisualizer {
 
     override fun visualize(chessView: ChessView) {
-        chessView.currentTouch ?: return
+        chessView.focusedPiece ?: return
 
-        val touch = chessView.currentTouch!!
+        val touch = chessView.focusedPiece!!
 
         if (touch.isPreviewAbilityTouch()) {
             drawAbilitySquare(touch.square, chessView.chessDrawer)

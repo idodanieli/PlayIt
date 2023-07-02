@@ -13,7 +13,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
     override val type = ""
     override var moved = false
 
-    private val visualizers = VisualizerCollection(AvailableMovesVisualizer(), TouchedSquareVisualizer())
+    private val visualizers = VisualizerCollection(AvailableMovesVisualizer())
 
     override fun visualize(chessView: ChessView) {
         visualizers.visualize(chessView)
