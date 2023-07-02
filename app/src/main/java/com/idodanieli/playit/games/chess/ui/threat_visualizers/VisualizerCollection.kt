@@ -10,4 +10,8 @@ class VisualizerCollection(vararg visualizers: EventVisualizer): EventVisualizer
             visualizer.visualize(chessView)
         }
     }
+
+    operator fun iterator(): Iterator<EventVisualizer> {
+        return visualizerList.iterator()
+    }
 }

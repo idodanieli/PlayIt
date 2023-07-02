@@ -7,17 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.ui.*
 import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.Game
 
 
-class PageviewAdapter(
+class PageViewAdapter(
     private val games: List<Game>,
     private val screenWidth: Int,
     private val context: Context,
     ) :
-    RecyclerView.Adapter<PageviewAdapter.ViewHolder>() {
+    RecyclerView.Adapter<PageViewAdapter.ViewHolder>() {
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,15 +36,23 @@ class PageviewAdapter(
         val game = games[position]
 
         holder.gameTitle.text = game.name
-
         holder.gameDescription.text = game.description
+
         holder.chessView.setGame(game)
 
-        holder.chessView.subscribe(holder.herosCapturedPiecesView)
-        holder.chessView.subscribe(holder.opponentCapturedPiecesView)
-        holder.chessView.subscribe(holder.chessView.lastMoveVisualizer)
-
+        subscribeComponentsToChessView(holder.chessView, holder)
         setDimensions(holder.chessView, screenWidth, screenWidth)
+    }
+
+    private fun subscribeComponentsToChessView(chessView: ChessView, holder: ViewHolder) {
+        chessView.subscribe(holder.herosCapturedPiecesView)
+        chessView.subscribe(holder.opponentCapturedPiecesView)
+
+        for (visualizer in chessView.visualizers) {
+            if (visualizer is GameSubscriber) {
+                chessView.subscribe(visualizer)
+            }
+        }
     }
 
     // return the number of the items in the list

@@ -4,6 +4,8 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.ui.ChessDrawer
 import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.ColorPallete
+import com.idodanieli.playit.games.chess.ui.TouchData
+
 
 class TouchedSquareVisualizer: EventVisualizer {
 
@@ -12,10 +14,16 @@ class TouchedSquareVisualizer: EventVisualizer {
 
         val touch = chessView.focusedPiece!!
 
+        drawTouch(touch, chessView.chessDrawer)
+    }
+
+    private fun drawTouch(touch: TouchData?, chessDrawer: ChessDrawer) {
+        touch ?: return
+
         if (touch.isPreviewAbilityTouch()) {
-            drawAbilitySquare(touch.square, chessView.chessDrawer)
+            drawAbilitySquare(touch.square, chessDrawer)
         } else {
-            drawTouchedSquare(touch.square, chessView.chessDrawer)
+            drawTouchedSquare(touch.square, chessDrawer)
         }
     }
 

@@ -1,7 +1,5 @@
 package com.idodanieli.playit
 
-import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -9,10 +7,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.idodanieli.playit.activities.RegisterActivity
 import com.idodanieli.playit.activities.openRegisterActivity
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.games.chess.MODE_LOCAL
@@ -148,7 +144,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
         val screenWidth = resources.displayMetrics.widthPixels
 
-        viewPager.adapter = PageviewAdapter(games, screenWidth, this)
+        viewPager.adapter = PageViewAdapter(games, screenWidth, this)
     }
 
     private fun disableScrolling() {
