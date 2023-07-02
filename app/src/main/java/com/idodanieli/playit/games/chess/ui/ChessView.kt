@@ -3,29 +3,21 @@ package com.idodanieli.playit.games.chess.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.TextView
-import com.idodanieli.playit.R
 import com.idodanieli.playit.activities.openPiecePreviewActivity
 import com.idodanieli.playit.games.chess.MODE_TO_GAME_SUBSCRIBER
 import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.variants.*
 
 @SuppressLint("ClickableViewAccessibility")
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private var focusedPiece: TouchData? = null
     private var currentTouch: TouchData? = null
-
-    // --- For Sounds ------------------------------------------------------------------------------
-    private val soundMove = MediaPlayer.create(context, R.raw.sound_chess_move)
-    private val soundGameOver = MediaPlayer.create(context, R.raw.sound_game_over)
 
     // --- For Logic -------------------------------------------------------------------------------
     val publisher = Publisher()
@@ -176,7 +168,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun afterMove() {
-        soundMove.start()
+        Speaker.playMoveSound(context)
 
         game.switchTurn()
         if (game.isOver()) {
@@ -228,7 +220,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         game.notifySubscribers(gameOverEvent)
         game.unsubscribeAll()
 
-        soundGameOver.start()
+        Speaker.playGameOverSound(context)
     }
 
     // --- Publisher -------------------------------------------------------------------------------

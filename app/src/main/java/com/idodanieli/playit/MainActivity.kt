@@ -170,7 +170,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
     }
 
     // --- Set players names when they join a game ----------------------------------------------------
-    fun setPlayers(hero: String, opponent: String) {
+    private fun setPlayers(hero: String, opponent: String) {
         setPlayer(viewPager.currentPage().findViewById(R.id.playerHero), hero)
         setPlayer(viewPager.currentPage().findViewById(R.id.playerOpponent), opponent)
 
