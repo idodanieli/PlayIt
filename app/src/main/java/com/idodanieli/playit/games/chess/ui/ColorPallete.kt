@@ -15,5 +15,9 @@ class ColorPallete {
         // --- Bomb colors
         val COLOR_SINOPIA_LIGHT = Color.parseColor("#D73F0F")
         val COLOR_SINOPIA_DARK = Color.parseColor("#D70500")
+
+        // --- Last move colors
+        val COLOR_YELLOW_MARKER = Color.parseColor("#fdff32")
+        val COLOR_GREEN_MARKER = Color.parseColor("#8cff32")
     }
 }

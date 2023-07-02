@@ -41,6 +41,7 @@ class PageviewAdapter(
 
         holder.chessView.subscribe(holder.herosCapturedPiecesView)
         holder.chessView.subscribe(holder.opponentCapturedPiecesView)
+        holder.chessView.subscribe(holder.chessView.lastMoveVisualizer)
 
         setDimensions(holder.chessView, screenWidth, screenWidth)
     }

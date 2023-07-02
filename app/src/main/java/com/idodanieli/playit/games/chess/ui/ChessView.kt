@@ -12,12 +12,15 @@ import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.ui.threat_visualizers.LastMoveVisualizer
 import com.idodanieli.playit.games.chess.variants.*
 
 @SuppressLint("ClickableViewAccessibility")
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private var focusedPiece: TouchData? = null
     private var currentTouch: TouchData? = null
+
+    val lastMoveVisualizer = LastMoveVisualizer()
 
     // --- For Logic -------------------------------------------------------------------------------
     val publisher = Publisher()
@@ -35,11 +38,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         chessDrawer.initialize(canvas, width / game.size.toFloat())
         chessDrawer.drawChessboard()
 
+        visualizeGameEvents()
+
+        chessDrawer.drawPieces(game)
+    }
+
+    private fun visualizeGameEvents() {
         focusedPiece?.let {
             it.piece.visualize(it, this)
         }
 
-        chessDrawer.drawPieces(game)
+        lastMoveVisualizer.visualize(null, this)
     }
 
     // --- OnTouch ---------------------------------------------------------------------------------
