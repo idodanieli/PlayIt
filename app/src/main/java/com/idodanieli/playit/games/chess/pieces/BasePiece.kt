@@ -15,8 +15,8 @@ open class BasePiece(override var square: Square, override var player: Player): 
 
     private val visualizers = VisualizerCollection(AvailableMovesVisualizer(), TouchedSquareVisualizer())
 
-    override fun visualize(touch: TouchData?, chessView: ChessView) {
-        visualizers.visualize(touch, chessView)
+    override fun visualize(chessView: ChessView) {
+        visualizers.visualize(chessView)
     }
 
     override fun availableMoves(board: Board): List<Move> {

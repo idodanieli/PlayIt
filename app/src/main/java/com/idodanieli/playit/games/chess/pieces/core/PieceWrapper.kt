@@ -42,8 +42,8 @@ open class PieceWrapper(val piece: Piece): Piece {
         piece.onMove()
     }
 
-    override fun visualize(touch: TouchData?, chessView: ChessView) {
-        piece.visualize(touch, chessView)
+    override fun visualize(chessView: ChessView) {
+        piece.visualize(chessView)
     }
 
     override fun availableMoves(board: Board): List<Move> {

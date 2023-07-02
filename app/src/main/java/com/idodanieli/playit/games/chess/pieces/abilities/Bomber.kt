@@ -14,8 +14,10 @@ import com.idodanieli.playit.games.chess.variants.Game
 open class Bomber(piece: Piece): PieceWrapper(piece) {
 
     // --- Visualize Bomb --------------------------------------------------------------------------
-    override fun visualize(touch: TouchData?, chessView: ChessView) {
-        touch ?: return
+    override fun visualize(chessView: ChessView) {
+        chessView.focusedPiece ?: return
+
+        val touch = chessView.focusedPiece!!
 
         when(touch.touches) {
             TouchData.ACTIVATE_ABILITY_TOUCH_AMOUNT -> {
@@ -25,8 +27,8 @@ open class Bomber(piece: Piece): PieceWrapper(piece) {
                 drawThreatenedSquares(chessView)
             }
             else -> {
-                TouchedSquareVisualizer().visualize(touch, chessView)
-                AvailableMovesVisualizer().visualize(touch, chessView)
+                TouchedSquareVisualizer().visualize(chessView)
+                AvailableMovesVisualizer().visualize(chessView)
             }
         }
     }

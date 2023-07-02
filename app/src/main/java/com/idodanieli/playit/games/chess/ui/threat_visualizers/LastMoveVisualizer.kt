@@ -11,7 +11,7 @@ import com.idodanieli.playit.games.chess.ui.TouchData
 // TODO: This breaks design. TouchVisualizer -> EventVisualizer
 // TODO: Will work with events like every single component
 
-class LastMoveVisualizer: TouchVisualizer, GameSubscriber {
+class LastMoveVisualizer: EventVisualizer, GameSubscriber {
     private var lastMove: Move? = null
 
     override fun onGameEvent(event: GameEvent) {
@@ -22,7 +22,7 @@ class LastMoveVisualizer: TouchVisualizer, GameSubscriber {
         }
     }
 
-    override fun visualize(touch: TouchData?, chessView: ChessView) {
+    override fun visualize(chessView: ChessView) {
         lastMove?.let {
             chessView.chessDrawer.drawSquareAccordingToHero(it.origin, ColorPallete.COLOR_YELLOW_MARKER)
             chessView.chessDrawer.drawSquareAccordingToHero(it.dest, ColorPallete.COLOR_GREEN_MARKER)

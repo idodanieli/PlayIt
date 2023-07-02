@@ -17,8 +17,8 @@ import com.idodanieli.playit.games.chess.variants.*
 
 @SuppressLint("ClickableViewAccessibility")
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-    private var focusedPiece: TouchData? = null
-    private var currentTouch: TouchData? = null
+    var focusedPiece: TouchData? = null
+    var currentTouch: TouchData? = null
 
     val lastMoveVisualizer = LastMoveVisualizer()
 
@@ -44,11 +44,9 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun visualizeGameEvents() {
-        focusedPiece?.let {
-            it.piece.visualize(it, this)
-        }
+        lastMoveVisualizer.visualize(this)
 
-        lastMoveVisualizer.visualize(null, this)
+        focusedPiece?.piece?.visualize(this)
     }
 
     // --- OnTouch ---------------------------------------------------------------------------------
