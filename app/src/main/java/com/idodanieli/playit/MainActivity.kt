@@ -4,10 +4,12 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.activities.RegisterActivity
@@ -17,6 +19,7 @@ import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.ui.DialogBuilder
 import com.idodanieli.playit.games.chess.ui.Speaker
 import com.idodanieli.playit.games.chess.variants.*
 import org.json.JSONException
@@ -25,6 +28,8 @@ import java.lang.reflect.Field
 
 
 class MainActivity : AppCompatActivity(), GameSubscriber {
+    private val dialogBuilder = DialogBuilder(this)
+
     private lateinit var viewPager: ViewPager2
     private lateinit var localPlayButton: Button
     private lateinit var createGameButton: Button
@@ -34,18 +39,6 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
     companion object {
         lateinit var games: List<Game>
-    }
-
-    override fun onGameEvent(event: GameEvent) {
-        when(event) {
-            is GameOverEvent -> {
-                showGameOverDialog(event.winner)
-            }
-
-            is PlayersJoinedEvent -> {
-                this.setPlayers(event.hero, event.opponent)
-            }
-        }
     }
 
     // Flow starts here
@@ -67,6 +60,37 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         initUI(games)
     }
 
+    // Override systems back button
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (viewPager.gameIsPlaying()) {
+                dialogBuilder.showAreYouSureYouWantToQuitDialog {
+                    // TODO: Exit game
+                    enableScrolling()
+                }
+
+                return true
+            }
+        }
+
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onGameEvent(event: GameEvent) {
+        when(event) {
+            is GameOverEvent -> {
+                dialogBuilder.showGameOverDialog(event.winner) {
+                    viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+                    enableScrolling()
+                }
+            }
+
+            is PlayersJoinedEvent -> {
+                this.setPlayers(event.hero, event.opponent)
+            }
+        }
+    }
+
     private fun createGames(): List<Game> {
         val files = arrayListOf<JSONObject>()
         val fields: Array<Field> = R.raw::class.java.fields
@@ -85,6 +109,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         return files.map { GameParser.parse(it) }.shuffled()
     }
 
+    // --- UI --------------------------------------------------------------------------------------
     private fun findViews() {
         viewPager = findViewById(R.id.viewPager)
         localPlayButton = findViewById(R.id.localPlayButton)
@@ -126,32 +151,6 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         val screenWidth = resources.displayMetrics.widthPixels
 
         viewPager.adapter = PageviewAdapter(games, screenWidth, this)
-    }
-
-    private fun showGameOverDialog(winner: Player?) {
-        val dialogBuilder = AlertDialog.Builder(this)
-
-        dialogBuilder.setTitle("GAME OVER")
-        if (winner != null) {
-            dialogBuilder.setMessage("$winner is the winner!")
-        } else {
-            dialogBuilder.setMessage("Stalemate!")
-        }
-
-        dialogBuilder.setPositiveButton("NEW GAME") { dialog, _ ->
-            viewPager.setCurrentItem(viewPager.currentItem + 1, true)
-            enableScrolling()
-
-            dialog.dismiss()
-        }
-
-        dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        // Create and show the dialog
-        val dialog = dialogBuilder.create()
-        dialog.show()
     }
 
     private fun disableScrolling() {

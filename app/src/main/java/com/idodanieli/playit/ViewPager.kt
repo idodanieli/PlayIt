@@ -21,3 +21,8 @@ fun ViewPager2.currentHeroCapturedPiecesView(): CapturedPiecesView {
 fun ViewPager2.currentOpponentCapturedPiecesView(): CapturedPiecesView {
     return currentPage().findViewById(R.id.opponentsCapturedPieces)
 }
+
+// --- Logic ---------------------------------------------------------------------------------------
+fun ViewPager2.gameIsPlaying(): Boolean {
+    return currentChessview().game.started
+}
