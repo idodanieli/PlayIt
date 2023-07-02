@@ -17,6 +17,7 @@ import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.ui.Speaker
 import com.idodanieli.playit.games.chess.variants.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
 
         val chessView = viewPager.currentChessview()
         chessView.subscribe(this)
+        chessView.subscribe(Speaker(this))
 
         chessView.select(mode, gameID)
         chessView.invalidate()

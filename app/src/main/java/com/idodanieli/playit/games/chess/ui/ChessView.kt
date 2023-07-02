@@ -168,8 +168,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun afterMove() {
-        Speaker.playMoveSound(context)
-
         game.switchTurn()
         if (game.isOver()) {
             onGameOver()
@@ -219,8 +217,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         game.notifySubscribers(gameOverEvent)
         game.unsubscribeAll()
-
-        Speaker.playGameOverSound(context)
     }
 
     // --- Publisher -------------------------------------------------------------------------------

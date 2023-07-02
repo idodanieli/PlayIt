@@ -8,7 +8,7 @@ import com.idodanieli.playit.games.chess.logic.deepCopyPieces
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-open class ClassicGame(override var name: String, private val startingPieces: Set<Piece>, final override var size: Int) : Game, Publisher() {
+open class ClassicGame(override var name: String, startingPieces: Set<Piece>, final override var size: Int) : Game, Publisher() {
     override var board = Board(startingPieces, size)
     override var currentPlayer = Player.WHITE // white always starts in chess
     override var description = ""
@@ -81,6 +81,8 @@ open class ClassicGame(override var name: String, private val startingPieces: Se
     // --- Functions that check the game's state ---------------------------------------------------
     override fun isOver(): Boolean {
         if (isPlayerChecked(currentPlayer)) {
+            notifySubscribers( CheckEvent() )
+
             for (piece in board.pieces(currentPlayer)) {
                 val blockingMoves = getLegalMovesForPiece(piece)
                 if (blockingMoves.isNotEmpty()) {

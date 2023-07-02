@@ -9,6 +9,7 @@ interface GameEvent
 
 class MoveEvent(val movedPiece: Piece, val move: Move) : GameEvent
 class PieceCapturedEvent(val capturedPiece: Piece, val capturingPiece: Piece) : GameEvent
+class CheckEvent(): GameEvent
 
 class GameSelectedEvent(val chessView: ChessView, val gameID: String) : GameEvent
 class PlayersJoinedEvent(val hero: String, val opponent: String) : GameEvent
