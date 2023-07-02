@@ -4,12 +4,9 @@ import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.game_subscriber.MoveEvent
 import com.idodanieli.playit.games.chess.logic.Move
+import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.ui.ChessView
 import com.idodanieli.playit.games.chess.ui.ColorPallete
-import com.idodanieli.playit.games.chess.ui.TouchData
-
-// TODO: This breaks design. TouchVisualizer -> EventVisualizer
-// TODO: Will work with events like every single component
 
 class LastMoveVisualizer: EventVisualizer, GameSubscriber {
     private var lastMove: Move? = null
@@ -24,8 +21,12 @@ class LastMoveVisualizer: EventVisualizer, GameSubscriber {
 
     override fun visualize(chessView: ChessView) {
         lastMove?.let {
-            chessView.chessDrawer.drawSquareAccordingToHero(it.origin, ColorPallete.COLOR_YELLOW_MARKER)
-            chessView.chessDrawer.drawSquareAccordingToHero(it.dest, ColorPallete.COLOR_GREEN_MARKER)
+            drawSquare(chessView, it.origin)
+            drawSquare(chessView, it.dest)
         }
+    }
+
+    private fun drawSquare(chessView: ChessView, square: Square) {
+        chessView.chessDrawer.drawSquareAccordingToHero(square, ColorPallete.COLOR_LAST_MOVE_LIGHT, ColorPallete.COLOR_LAST_MOVE_DARK)
     }
 }

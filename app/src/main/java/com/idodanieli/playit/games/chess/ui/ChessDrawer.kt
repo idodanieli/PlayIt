@@ -33,7 +33,7 @@ class ChessDrawer(
         }
     }
 
-    private fun drawSquareAccordingToHero(square: Square, lightColor: Int, darkColor: Int) {
+    fun drawSquareAccordingToHero(square: Square, lightColor: Int, darkColor: Int) {
         val color = getSquareColor(square, lightColor, darkColor)
         drawSquareAccordingToHero(square, color)
     }
