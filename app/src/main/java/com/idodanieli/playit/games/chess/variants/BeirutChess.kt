@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-class BeirutChess(name: String, startingPieces: Set<Piece>, size: Int): ClassicGame(name, startingPieces, size) {
+class BeirutChess(name: String, startingPieces: Set<Piece>, size: Int): ExplodingMode(name, startingPieces, size) {
     companion object {
         const val TYPE = "beirut"
     }
@@ -20,11 +20,5 @@ class BeirutChess(name: String, startingPieces: Set<Piece>, size: Int): ClassicG
 
         board.add(Bomber(wPiece))
         board.add(Bomber(bPiece))
-    }
-
-    override fun isOver(): Boolean {
-        val king = board.getPiece(TYPE_KING, currentPlayer)
-
-        return king == null || super.isOver()
     }
 }
