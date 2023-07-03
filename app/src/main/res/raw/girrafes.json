@@ -1,5 +1,5 @@
 {
-  "name": "Exploding Girrafes",
+  "name": "Girrafes",
   "board": "RGBQKBGRPPPPPPPP................................pppppppprgbqkbgr",
-  "mode": "capture_or_checkmate"
+  "mode": "classic"
 }
