@@ -24,7 +24,7 @@ import java.lang.reflect.Field
 
 
 class MainActivity : AppCompatActivity(), GameSubscriber {
-    private val dialogBuilder = DialogBuilder(this)
+    private val dialogBuilder = DialogBuilder(this, supportFragmentManager)
 
     private lateinit var viewPager: ViewPager2
     private lateinit var localPlayButton: Button
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
     override fun onGameEvent(event: GameEvent) {
         when(event) {
             is GameOverEvent -> {
-                dialogBuilder.showGameOverDialog(event.winner) {
+                dialogBuilder.showGameOverDialog(event.winner, event.hero) {
                     viewPager.setCurrentItem(viewPager.currentItem + 1, true)
                     enableScrolling()
                 }

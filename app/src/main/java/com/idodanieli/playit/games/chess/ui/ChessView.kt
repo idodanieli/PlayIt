@@ -222,7 +222,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     private fun close(winner: Player?) {
-        val gameOverEvent = GameOverEvent(winner)
+        val gameOverEvent = GameOverEvent(winner, hero)
 
         game.notifySubscribers(gameOverEvent)
         game.unsubscribeAll()

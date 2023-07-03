@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_round_corner_background">
+
+    <TextView
+        android:id="@+id/gameOver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Game Over"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/winner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ido is the winner!"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:background="@color/navy4"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/gameOver"
+        android:gravity="center"
+        android:paddingTop="10dp"/>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gameOverGif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/navy4"
+        android:layout_below="@id/winner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@id/gameOverGif"
+        android:background="@color/navy4"
+        android:paddingBottom="10dp">
+
+        <Button
+            android:id="@+id/gameOverNegativeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:backgroundTint="@color/navy3"
+            android:text="Quit"/>
+
+        <Button
+            android:id="@+id/gameOverPositiveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/navy3"
+            android:text="Stay"/>
+
+    </LinearLayout> <!-- Buttons -->
+
+</RelativeLayout>

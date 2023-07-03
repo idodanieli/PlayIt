@@ -15,4 +15,4 @@ class CheckEvent(): GameEvent
 class GameSelectedEvent(val chessView: ChessView, val gameID: String) : GameEvent
 class PlayersJoinedEvent(val hero: String, val opponent: String) : GameEvent
 class GameStartedEvent(val chessView: ChessView) : GameEvent
-class GameOverEvent(val winner: Player?) : GameEvent
+class GameOverEvent(val winner: Player?, val hero: Player) : GameEvent

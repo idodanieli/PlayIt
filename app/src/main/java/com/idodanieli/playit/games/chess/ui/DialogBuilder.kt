@@ -3,15 +3,14 @@ package com.idodanieli.playit.games.chess.ui
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import androidx.fragment.app.FragmentManager
 import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.ui.dialogs.GameOverDialog
 
-class DialogBuilder(val context: Context) {
+class DialogBuilder(val context: Context, private val supportFragmentManager: FragmentManager) {
 
-    fun showGameOverDialog(winner: Player?, onPositiveButton: Runnable) {
-        val message = if (winner != null) "$winner is the winner!"  else "Stalemate!"
-        val dialog = createDialog("Game Over", message, "New Game", onPositiveButton,"Go Back")
-
-        dialog.show()
+    fun showGameOverDialog(winner: Player?, hero: Player, onPositiveButton: Runnable) {
+        GameOverDialog(winner, hero, onPositiveButton).show(supportFragmentManager, "GameOverDialog")
     }
 
     fun showAreYouSureYouWantToQuitDialog(quitRunnable: Runnable) {

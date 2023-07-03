@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.logic
 
 import com.idodanieli.playit.games.chess.pieces.Piece
+import kotlin.random.Random
 
 fun deepCopyPieces(pieces: Set<Piece>): MutableSet<Piece> {
     val copiedPieces = mutableSetOf<Piece>()
@@ -20,4 +21,12 @@ fun getPieceByType(pieces: MutableMap<Piece, Boolean>, type: String): Piece? {
     }
 
     return null
+}
+
+fun getRandomItem(collection: List<Int>): Int {
+    val random = Random(System.currentTimeMillis())
+
+    val idx = random.nextInt(collection.size)
+
+    return collection[idx]
 }
