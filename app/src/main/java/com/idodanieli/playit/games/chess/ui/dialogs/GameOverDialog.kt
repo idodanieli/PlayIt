@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.Player
-import com.idodanieli.playit.games.chess.logic.getRandomItem
+import com.idodanieli.playit.games.chess.logic.random
 import pl.droidsonroids.gif.GifImageView
 
 class GameOverDialog(private val winner: Player?, private val hero: Player, private val onPositiveButton: Runnable): DialogFragment() {
@@ -61,7 +61,7 @@ class GameOverDialog(private val winner: Player?, private val hero: Player, priv
             return
         }
 
-        val gif = if (heroWon()) getRandomItem(WIN_GIFS) else getRandomItem(LOSS_GIFS)
+        val gif = if (heroWon()) random(WIN_GIFS) else random(LOSS_GIFS)
         gameOverGifView.setImageResource(gif)
     }
 
