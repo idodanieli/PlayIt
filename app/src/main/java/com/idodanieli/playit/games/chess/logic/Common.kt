@@ -23,10 +23,8 @@ fun getPieceByType(pieces: MutableMap<Piece, Boolean>, type: String): Piece? {
     return null
 }
 
-fun getRandomItem(collection: List<Int>): Int {
+fun <T> getRandomItem(collection: Iterable<T>): T {
     val random = Random(System.currentTimeMillis())
-
-    val idx = random.nextInt(collection.size)
-
-    return collection[idx]
+    val idx = random.nextInt(collection.count())
+    return collection.elementAt(idx)
 }

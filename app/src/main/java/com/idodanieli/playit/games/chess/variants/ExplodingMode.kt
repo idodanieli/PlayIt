@@ -10,8 +10,8 @@ open class ExplodingMode(name: String, startingPieces: Set<Piece>, size: Int): C
     }
 
     init {
-        val bombers = startingPieces.map { piece -> Bomber(piece) }.toSet()
-        board.setPieces( bombers )
+//        val bombers = startingPieces.map { piece -> Bomber(piece) }.toSet()
+//        board.setPieces( bombers )
     }
 
     override fun isOver(): Boolean {

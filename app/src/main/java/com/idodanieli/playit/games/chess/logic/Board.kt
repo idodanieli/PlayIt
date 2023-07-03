@@ -185,10 +185,10 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
     // --- Utils -----------------------------------------------------------------------------------
     fun getRandomPieceOfPlayer(player: Player): Piece {
         if (player.isWhite()) {
-            return whitePieces.keys.random()
+            return getRandomItem( whitePieces.keys )
         }
 
-        return blackPieces.keys.random()
+        return getRandomItem( blackPieces.keys )
     }
 
     // ---------------------------------------------------------------------------------------------
