@@ -6,7 +6,6 @@ import com.idodanieli.playit.games.chess.pieces.fairy.*
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.variants.*
 import org.json.JSONObject
-import java.lang.reflect.Constructor
 import kotlin.reflect.KFunction
 
 class GameParser {
@@ -34,7 +33,7 @@ class GameParser {
         private fun getGameConstructor(mode: String): KFunction<Game>? {
             when(mode) {
                 ClassicGame.TYPE -> return ClassicGame::class.constructors.first()
-                ExplodingMode.TYPE -> return ExplodingMode::class.constructors.first()
+                CaptureOrCheckmate.TYPE -> return CaptureOrCheckmate::class.constructors.first()
                 BeirutChess.TYPE -> return BeirutChess::class.constructors.first()
             }
 

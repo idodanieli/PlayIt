@@ -3,9 +3,8 @@ package com.idodanieli.playit.games.chess.variants
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
-import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-class BeirutChess(name: String, startingPieces: Set<Piece>, size: Int): ExplodingMode(name, startingPieces, size) {
+class BeirutChess(name: String, startingPieces: Set<Piece>, size: Int): CaptureOrCheckmate(name, startingPieces, size) {
     companion object {
         const val TYPE = "beirut"
     }

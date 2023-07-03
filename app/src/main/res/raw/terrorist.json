@@ -1,5 +1,5 @@
 {
   "name": "Terrorist Chess",
   "board": "RNBQKBNRTTTTTTTT................................ttttttttrnbqkbnr",
-  "mode": "exploding"
+  "mode": "capture_or_checkmate"
 }
