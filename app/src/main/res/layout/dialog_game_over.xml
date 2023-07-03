@@ -52,14 +52,14 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
             android:backgroundTint="@color/navy3"
-            android:text="Quit"/>
+            android:text="Stay"/>
 
         <Button
             android:id="@+id/gameOverPositiveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/navy3"
-            android:text="Stay"/>
+            android:text="FINISH"/>
 
     </LinearLayout> <!-- Buttons -->
 
