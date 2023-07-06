@@ -1,5 +1,6 @@
 {
   "name": "Cannon Chess",
-  "board": "LNBQKBNLPPPPPPPP................................pppppppplnbqkbnl",
-  "mode": "classic"
+  "board": "LNBQKBNLPPPPPPPP.................................................pppppppplnbqkbnl",
+  "mode": "classic",
+  "size": 9
 }
