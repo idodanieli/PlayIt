@@ -26,7 +26,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     var hero = Player.WHITE
 
-    private val visualizers = VisualizerCollection(LastMoveVisualizer(), TouchedSquareVisualizer())
+    private val visualizers: VisualizerCollection = VisualizerCollection(LastMoveVisualizer(), TouchedSquareVisualizer())
     lateinit var chessDrawer: ChessDrawer
     lateinit var game: Game
 

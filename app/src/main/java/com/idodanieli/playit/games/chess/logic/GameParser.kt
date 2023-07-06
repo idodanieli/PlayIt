@@ -73,7 +73,7 @@ class GameParser {
                 TYPE_ZEBRA -> return Zebra(square, player)
                 TYPE_CENTAUR -> return Centaur(square, player)
                 TYPE_ELEPHANT -> return Elephant(square, player)
-                TYPE_GRASSHOPPER -> return Grasshopper(square, player)
+                Grasshopper.TYPE -> return Grasshopper(square, player)
                 TYPE_CAMEL -> return Camel(square, player)
                 TYPE_WILDBEAST -> return WildBeast(square, player)
                 TYPE_AMAZON -> return Amazon(square, player)

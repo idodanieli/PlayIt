@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-val DIRECTIONS = mutableMapOf<String, Square>(
+val DIRECTIONS = mutableMapOf(
     "W" to Square(1 ,0),
     "E" to Square(-1 ,0),
     "N" to Square(0 ,1),

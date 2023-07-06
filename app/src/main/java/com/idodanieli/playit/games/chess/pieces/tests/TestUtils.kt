@@ -15,3 +15,10 @@ fun errorFormat(board: Board, msg: String): String {
     return "${msg}" +
             "${board}\n"
 }
+
+fun <T> listsContainSameValues(list1: List<T>, list2: List<T>): Boolean {
+    val s1 = list1.toSet()
+    val s2 = list2.toSet()
+
+    return s1 == s2
+}
