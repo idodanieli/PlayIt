@@ -34,7 +34,16 @@ class CannonTest {
     
     @Test
     fun testAvailableSquares() {
-        
+        val expectedResult = listOf(
+            Square(3, 3),
+            Square(3, 5),
+            Square(3, 6),
+            Square(3, 7),
+            Square(4, 4),
+            Square(5, 4),
+            Square(6, 4),
+            Square(7, 4),
+        )
     }
     
     @Test

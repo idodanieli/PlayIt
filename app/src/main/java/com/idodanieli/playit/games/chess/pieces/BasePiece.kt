@@ -20,7 +20,9 @@ open class BasePiece(override var square: Square, override var player: Player): 
     }
 
     override fun availableMoves(board: Board): List<Move> {
-        return availableSquares(board).map { dest -> Move(square, dest) }
+        // TODO: This is reallllllly not efficient -> Convert other functions to return sets
+        val squares = availableSquares(board).toSet() + capturableSquares(board).toSet()
+        return squares.map { dest -> Move(square, dest) }
     }
 
     override fun availableSquares(board: Board): List<Square> {
