@@ -1,11 +1,11 @@
 package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.R
-import com.idodanieli.playit.games.chess.logic.DIRECTIONS
+import com.idodanieli.playit.games.chess.logic.DIAGONAL_DIRECTIONS
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.pieces.core.Hopper
+import com.idodanieli.playit.games.chess.pieces.core.StaticHopper
 import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 const val TYPE_ELEPHANT = "E"
@@ -20,7 +20,7 @@ const val TYPE_ELEPHANT = "E"
 // . . . . . . . .
 // . X . . . X . .
 // . . . . . . . .
-class Elephant(square: Square, player: Player) : Hopper(square, player) {
+class Elephant(square: Square, player: Player) : StaticHopper(square, player) {
     companion object {
         init {
             PieceDrawer.addPiecePicture(TYPE_ELEPHANT, Player.WHITE, R.drawable.elephant_white)
@@ -28,7 +28,7 @@ class Elephant(square: Square, player: Player) : Hopper(square, player) {
         }
     }
 
-    override val directions: List<Square> = DIRECTIONS.map { it.value }.filter { it.isDiagonalDirection() }
+    override val directions: List<Square> = DIAGONAL_DIRECTIONS.map { it.value }
     override val hopSize: Int = 2
     override val type = TYPE_ELEPHANT
 

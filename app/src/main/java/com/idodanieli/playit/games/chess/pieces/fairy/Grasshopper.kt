@@ -2,11 +2,12 @@ package com.idodanieli.playit.games.chess.pieces.fairy
 
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.DIRECTIONS
+import com.idodanieli.playit.games.chess.logic.ALL_DIRECTIONS
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.core.getFirstPieceInDirection
 import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
 // The grasshopper is a fairy chess piece that moves along ranks, files, and diagonals (as a queen)
@@ -28,29 +29,19 @@ class Grasshopper(square: Square, player: Player) : BasePiece(square, player) {
     override val type = TYPE
 
     override fun availableSquares(board: Board): List<Square> {
-        return DIRECTIONS.mapNotNull { getAvailableSquareInDirection(board, it.value) }
+        return ALL_DIRECTIONS.mapNotNull { getAvailableSquareInDirection(board, it.value) }
     }
 
     private fun getAvailableSquareInDirection(board: Board, direction: Square): Square? {
-        var currentSquare = square.copy()
-        var sawPieceAlready = false
+        val firstPieceInDirection = getFirstPieceInDirection(this, board, direction) ?: return null
+        val nextSquareInDirection = firstPieceInDirection.square + direction
 
-        while (board.isIn(currentSquare)) {
-            currentSquare += direction
-
-            val piece = board.pieceAt(currentSquare)
-
-            if (sawPieceAlready) {
-                if (piece == null || piece.player == player.opposite()) {
-                    return currentSquare
-                }
-                return null
-            }
-
-            piece?.let { sawPieceAlready = true }
+        if ( !board.isIn(nextSquareInDirection) ||
+              board.playerAt(nextSquareInDirection) == this.player ) {
+            return null
         }
 
-        return null
+        return nextSquareInDirection
     }
 
     // --- General ---------------------------------------------------------------------------------

@@ -50,3 +50,15 @@ fun xrayMovesInDirection(self: Piece, board: Board, direction: Square, max_steps
 
     return moves
 }
+
+fun getFirstPieceInDirection(piece: Piece, board: Board, direction: Square): Piece? {
+    var currentSquare = piece.square.copy()
+
+    while (board.isIn(currentSquare)) {
+        currentSquare += direction
+
+        return board.pieceAt(currentSquare) ?: continue
+    }
+
+    return null
+}

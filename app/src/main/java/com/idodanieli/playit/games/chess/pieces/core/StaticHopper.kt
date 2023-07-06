@@ -9,7 +9,7 @@ import com.idodanieli.playit.games.chess.pieces.BasePiece
 // The hurdle can be any piece of any color. Unless it can jump over a piece, a hopper cannot move.
 // Note that hoppers generally capture by taking the piece on the destination square, not by taking the hurdle (as is the case in checkers).
 // The exceptions are locusts which are pieces that capture by hopping over its victim. They are sometimes considered a type of hopper.
-abstract class Hopper(square: Square, player: Player) : BasePiece(square, player) {
+abstract class StaticHopper(square: Square, player: Player) : BasePiece(square, player) {
 
     // The direction the Hopper hops in
     abstract val directions: List<Square>

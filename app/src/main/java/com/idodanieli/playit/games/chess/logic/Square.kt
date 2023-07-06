@@ -2,10 +2,8 @@ package com.idodanieli.playit.games.chess.logic
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
-val DIRECTIONS = mutableMapOf(
+val ALL_DIRECTIONS = mutableMapOf(
     "W" to Square(1 ,0),
     "E" to Square(-1 ,0),
     "N" to Square(0 ,1),
@@ -15,6 +13,9 @@ val DIRECTIONS = mutableMapOf(
     "SE" to Square(-1 ,-1),
     "NE" to Square(-1 ,1),
 )
+
+val DIAGONAL_DIRECTIONS = ALL_DIRECTIONS.filter { it.value.isDiagonalDirection() }
+val NOT_DIAGONAL_DIRECTIONS = ALL_DIRECTIONS.filter { it.value.isVerticalDirection() || it.value.isHorizontalDirection()}
 
 
 @Serializable
