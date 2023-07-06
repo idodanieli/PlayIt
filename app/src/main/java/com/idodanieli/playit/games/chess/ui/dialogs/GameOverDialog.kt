@@ -14,8 +14,8 @@ import pl.droidsonroids.gif.GifImageView
 
 class GameOverDialog(private val winner: Player?, private val hero: Player, private val onPositiveButton: Runnable): DialogFragment() {
     companion object {
-        private val WIN_GIFS = listOf(R.drawable.game_over_win_clapping, R.drawable.game_over_win_mr_bean)
-        private val LOSS_GIFS = listOf(R.drawable.game_over_loss_mario)
+        private val WIN_GIFS = listOf(R.drawable.game_over_win_clapping, R.drawable.game_over_win_clapping2, R.drawable.game_over_win_mr_bean)
+        private val LOSS_GIFS = listOf(R.drawable.game_over_loss_mario, R.drawable.game_over_loss_sad_dog, R.drawable.game_over_loss_squidward)
     }
 
     private lateinit var winnerTextView: TextView
