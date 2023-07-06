@@ -7,6 +7,8 @@ import com.idodanieli.playit.games.chess.pieces.classic.Bishop
 import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Rook
 import com.idodanieli.playit.games.chess.pieces.fairy.Cannon
+import com.idodanieli.playit.games.chess.pieces.tests.errorFormat
+import com.idodanieli.playit.games.chess.pieces.tests.listsContainSameValues
 import com.idodanieli.playit.games.chess.variants.ClassicGame
 import org.junit.Test
 
@@ -26,7 +28,7 @@ class CannonTest {
     private val wKing = King(Square(2, 4), Player.WHITE)
     private val bBishop = Bishop(Square(1, 4), Player.BLACK)
     private val bRook1 = Rook(Square(0, 4), Player.BLACK)
-    private val bRook2 = Rook(Square(3, 9), Player.BLACK)
+    private val bRook2 = Rook(Square(3, 0), Player.BLACK)
     private val bKing = King(Square(3, 2), Player.BLACK)
     
     private val pieces = setOf(wCannon, wKing, bBishop, bRook1, bRook2, bKing)
@@ -44,10 +46,27 @@ class CannonTest {
             Square(6, 4),
             Square(7, 4),
         )
+
+        val result = wCannon.availableSquares(game.board)
+
+        assert( listsContainSameValues( result, expectedResult)) {
+            errorFormat(game.board, "Cannon should be able to move to: $expectedResult\n" +
+                    "instead of ")
+        }
     }
     
     @Test
     fun testCapturableSquares() {
-        
+        val expectedResult = listOf(
+            Square(1, 4),
+            Square(3, 0)
+        )
+
+        val result = wCannon.capturableSquares(game.board)
+
+        assert( listsContainSameValues(result, expectedResult)) {
+            errorFormat(game.board, "Cannon should be able to capture at: $expectedResult\n" +
+                    "instead of: $result")
+        }
     }
 }

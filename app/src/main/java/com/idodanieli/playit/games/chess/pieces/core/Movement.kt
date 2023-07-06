@@ -35,6 +35,20 @@ fun allMovesInDirection(self: Piece, board: Board, direction: Square, max_steps:
     return moves
 }
 
+fun allSquaresInDirectionUntilPieceEncountered(self: Piece, board: Board, direction: Square): List<Square> {
+    val squares = arrayListOf<Square>()
+    var currentSquare = self.square + direction
+
+    while (board.isIn(currentSquare)) {
+        if ( board.playerAt(currentSquare) != null ) break
+
+        squares.add(currentSquare)
+        currentSquare += direction
+    }
+
+    return squares
+}
+
 // xrayMovesInDirection returns all the moves in the given direction like an xray
 // must be used ONLY for continuous piece like: Rook, Bishop, Queen, etc.
 fun xrayMovesInDirection(self: Piece, board: Board, direction: Square, max_steps: Int = NO_MAX_STEPS): List<Square> {
@@ -61,4 +75,10 @@ fun getFirstPieceInDirection(piece: Piece, board: Board, direction: Square): Pie
     }
 
     return null
+}
+
+fun getSecondPieceInDirection(piece: Piece, board: Board, direction: Square): Piece? {
+    val firstPiece = getFirstPieceInDirection(piece, board, direction) ?: return null
+
+    return getFirstPieceInDirection(firstPiece, board, direction)
 }
