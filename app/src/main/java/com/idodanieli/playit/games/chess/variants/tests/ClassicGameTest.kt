@@ -1,9 +1,10 @@
-package com.idodanieli.playit.games.chess.logic.tests
+package com.idodanieli.playit.games.chess.variants.tests
 
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.tests.errorFormat
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
+import com.idodanieli.playit.games.chess.pieces.fairy.Cannon
 import com.idodanieli.playit.games.chess.pieces.fairy.Empress
 import com.idodanieli.playit.games.chess.variants.ClassicGame
 import org.junit.Test
@@ -225,6 +226,36 @@ class ClassicGameTest {
         )
 
         game.applyMove(move)
+    }
+
+    @Test
+    fun testRemoveIllegalMoves() {
+        // Cannon checkmates the king -> The Pawns cant move
+        // . . . . . . p k
+        // . . . . . . p p
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . .
+        // . . . . . . . C
+
+        val bKing = King(Square(7, 7), Player.BLACK)
+        val bPawn1 = Pawn(Square(7, 6), Player.BLACK)
+        val bPawn2 = Pawn(Square(6, 6), Player.BLACK)
+        val bPawn3 = Pawn(Square(6, 7), Player.BLACK)
+        val wCannon = Cannon(Square(7, 0), Player.WHITE)
+
+        val pieces = setOf(bKing, bPawn1, bPawn2, bPawn3, wCannon)
+        val game = ClassicGame("", pieces, CHESSBOARD_SIZE)
+
+        assert( game.isPlayerChecked(Player.BLACK) ) {
+            errorFormat(game.board, "isPlayerChecked returned that black ISNT checked...")
+        }
+
+        assert( game.getLegalMovesForPiece(bPawn1).isEmpty() ) {
+            errorFormat(game.board, "$bPawn1 could move even tough its in checkmate!")
+        }
     }
 
     companion object {

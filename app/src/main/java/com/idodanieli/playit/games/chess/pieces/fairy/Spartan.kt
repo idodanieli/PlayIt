@@ -92,4 +92,9 @@ class Spartan(square: Square, player: Player): RestrictedPiece(square, player) {
 
         return square + Square(0, -1)
     }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Spartan(square, player)
+    }
 }

@@ -6,6 +6,7 @@ import com.idodanieli.playit.games.chess.logic.NOT_DIAGONAL_DIRECTIONS
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
+import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.allSquaresInDirectionUntilPieceEncountered
 import com.idodanieli.playit.games.chess.pieces.core.getSecondPieceInDirection
 import com.idodanieli.playit.games.chess.ui.PieceDrawer
@@ -30,5 +31,10 @@ class Cannon(square: Square, player: Player): BasePiece(square, player) {
     override fun capturableSquares(board: Board): List<Square> {
         val pieces = DIRECTIONS.mapNotNull { getSecondPieceInDirection(this, board, it) }
         return pieces.map { it.square }
+    }
+
+    // --- General ---------------------------------------------------------------------------------
+    override fun copy(): Piece {
+        return Cannon(square, player)
     }
 }

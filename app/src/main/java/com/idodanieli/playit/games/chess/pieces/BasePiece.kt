@@ -26,9 +26,7 @@ open class BasePiece(override var square: Square, override var player: Player): 
     }
 
     override fun availableSquares(board: Board): List<Square> {
-        // TODO: Raise NotImplementedException!
-        // To be overridden by child classes
-        return emptyList()
+        throw Exception("BasePiece availableSquares called")
     }
 
     override fun xrayAvailableMoves(board: Board): List<Square> {
@@ -66,6 +64,6 @@ open class BasePiece(override var square: Square, override var player: Player): 
 
     // --- General ---------------------------------------------------------------------------------
     override fun copy(): Piece {
-        return BasePiece(square, player)
+        throw Exception("BasePiece copy called")
     }
 }

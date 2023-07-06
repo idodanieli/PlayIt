@@ -109,7 +109,7 @@ open class ClassicGame(override var name: String, startingPieces: Set<Piece>, fi
         return true
     }
 
-    private fun isPlayerChecked(player: Player): Boolean {
+    override fun isPlayerChecked(player: Player): Boolean {
         val king = board.getPiece(TYPE_KING, player)
         king?.let { return board.canBeCaptured(it) }
 

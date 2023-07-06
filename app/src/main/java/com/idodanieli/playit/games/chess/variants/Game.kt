@@ -19,6 +19,7 @@ interface Game : IPublisher {
     fun applyAbilityMove(move: Move)
     fun applyCapture(capturingPiece: Piece, capturedPiece: Piece)
     fun switchTurn()
+    fun isPlayerChecked(player: Player): Boolean
     fun isOver(): Boolean
     fun isStalemate(): Boolean
     fun pieces(): Set<Piece>

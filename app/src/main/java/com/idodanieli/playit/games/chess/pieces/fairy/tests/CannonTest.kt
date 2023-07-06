@@ -58,8 +58,8 @@ class CannonTest {
     @Test
     fun testCapturableSquares() {
         val expectedResult = listOf(
-            Square(1, 4),
-            Square(3, 0)
+            bBishop.square,
+            bRook2.square
         )
 
         val result = wCannon.capturableSquares(game.board)
