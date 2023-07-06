@@ -5,25 +5,24 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Pawn
+import com.idodanieli.playit.games.chess.pieces.classic.Queen
 import com.idodanieli.playit.games.chess.pieces.fairy.Grasshopper
 import com.idodanieli.playit.games.chess.pieces.tests.errorFormat
 import com.idodanieli.playit.games.chess.pieces.tests.listsContainSameValues
 import com.idodanieli.playit.games.chess.variants.ClassicGame
 import org.junit.Test
-import kotlin.math.exp
 
 class GrasshopperTest {
 
     // H marks Grasshopper
-    // X marks the spots the grasshopper can jump to
-    // . . . . . . . X
-    // p . . X . . k .
+    // . . . . . . . .
+    // p . . . . . k .
     // . p . P . . . .
     // . . . . . . . .
     // . . . H P P . .
     // . . P . . . . .
-    // . X . K . . . .
-    // . . . X . . . .
+    // . . . K . . . .
+    // . . . . . . . .
     @Test
     fun testAvailableMoves() {
         val wGrasshopper = Grasshopper(Square(3, 3), Player.WHITE)
@@ -44,7 +43,8 @@ class GrasshopperTest {
             Square(7, 7),
             Square(3, 6),
             Square(1, 1),
-            Square(3, 0)
+            Square(3, 0),
+            Square(0, 6)
         )
 
         val squares = wGrasshopper.availableSquares(game.board)
@@ -52,6 +52,19 @@ class GrasshopperTest {
         assert( listsContainSameValues(squares, expectedSquares) ) {
             errorFormat(game.board, "hopper should be able to move to ${expectedSquares}," +
                     " instead the result was: $squares")
+        }
+    }
+
+    @Test
+    fun testCaptureMoves() {
+        val wGrasshopper = Grasshopper(Square(3, 3), Player.WHITE)
+        val bPawn = Pawn(Square(3, 6), Player.BLACK)
+        val bQueen = Queen(Square(3, 7), Player.BLACK)
+
+        val game = ClassicGame("", setOf(wGrasshopper, bPawn, bQueen), CHESSBOARD_SIZE)
+
+        assert(bQueen.square in wGrasshopper.capturableSquares(game.board)) {
+            errorFormat(game.board, "hopper should be able to capture the queen!")
         }
     }
 }

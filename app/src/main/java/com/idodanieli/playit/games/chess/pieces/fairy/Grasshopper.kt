@@ -41,7 +41,9 @@ class Grasshopper(square: Square, player: Player) : BasePiece(square, player) {
             val piece = board.pieceAt(currentSquare)
 
             if (sawPieceAlready) {
-                piece ?: return currentSquare
+                if (piece == null || piece.player == player.opposite()) {
+                    return currentSquare
+                }
                 return null
             }
 
