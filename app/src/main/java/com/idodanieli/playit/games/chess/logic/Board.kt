@@ -8,7 +8,7 @@ val DEFAULT_DIMENSIONS = BoardDimensions(CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
 data class BoardDimensions(val cols: Int, val rows: Int)
 
-class Board(startingPieces: Set<Piece>, val dimensions: BoardDimensions) {
+class Board(startingPieces: Set<Piece>, val dimensions: BoardDimensions = DEFAULT_DIMENSIONS) {
     lateinit var map: MutableMap<Square, Piece>
     lateinit var whitePieces: MutableMap<Piece, Boolean>
     lateinit var blackPieces: MutableMap<Piece, Boolean>

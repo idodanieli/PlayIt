@@ -15,7 +15,7 @@ class KingTest {
     private val king = King(Square(4, 7), Player.WHITE)
     private val leftRook = Rook(Square(0, 7), Player.WHITE)
     private val rightRook = Rook(Square(7, 7), Player.WHITE)
-    private var board = Board(mutableSetOf(king, leftRook, rightRook), DEFAULT_DIMENSIONS)
+    private var board = Board(mutableSetOf(king, leftRook, rightRook))
 
     @Test // that the getCastlingMoves function works
     fun testCastling() {

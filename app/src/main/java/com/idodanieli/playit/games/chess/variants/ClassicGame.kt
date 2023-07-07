@@ -10,7 +10,7 @@ open class ClassicGame(
     final override val colCount: Int,
     final override val rowCount: Int) : Game, Publisher() {
 
-    override var board = Board(startingPieces, DEFAULT_DIMENSIONS)
+    override var board = Board(startingPieces, BoardDimensions(colCount, rowCount))
     override var currentPlayer = Player.WHITE // white always starts in chess
     override var description = ""
     override var started = false
