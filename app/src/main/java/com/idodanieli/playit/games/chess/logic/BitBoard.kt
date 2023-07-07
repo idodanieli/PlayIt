@@ -3,6 +3,7 @@ package com.idodanieli.playit.games.chess.logic
 class BitBoard {
     companion object {
         // Define constants for board size and square indices
+        // TODO: This fucks different chessboard size
         private const val BOARD_SIZE = 8
         private const val SQUARES_COUNT = BOARD_SIZE * BOARD_SIZE
 

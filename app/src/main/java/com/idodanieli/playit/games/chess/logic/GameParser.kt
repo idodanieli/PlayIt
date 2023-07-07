@@ -26,7 +26,7 @@ class GameParser {
             val mode = json.getString(MODE)
             var size = CHESSBOARD_SIZE
 
-            // TODO: Remove This
+            // TODO: Prettify this
             try {
                 size = json.getInt(SIZE)
             } catch (e: JSONException) {
