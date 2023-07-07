@@ -12,7 +12,7 @@ class PawnTest {
     @Test // Tests that the pawn moves as expected ( basic movements )
     fun testWhiteMovements() {
         val pawn = Pawn(Square(0, 1), Player.WHITE)
-        val board = Board(mutableSetOf(), CHESSBOARD_SIZE)
+        val board = Board(mutableSetOf(), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
         val moves = pawn.availableSquares(board)
 
@@ -24,7 +24,7 @@ class PawnTest {
     fun testEighthRank() {
         val pawn = Pawn(Square(0, 7), Player.WHITE)
 
-        val board = Board(mutableSetOf(), CHESSBOARD_SIZE)
+        val board = Board(mutableSetOf(), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
         val moves = pawn.availableSquares(board)
         assert(moves.isEmpty())
@@ -35,7 +35,7 @@ class PawnTest {
         val pawn = Pawn(Square(0, 6), Player.BLACK)
         val enemy = Pawn(Square(1, 5), Player.WHITE)
 
-        val board = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE)
+        val board = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         val moves = pawn.availableSquares(board)
 
         assert(enemy.square in moves) { wrongMovesFormat(pawn, board, moves, "The black pawn could not eat the white pawn!") }
@@ -51,7 +51,7 @@ class PawnTest {
         val pawn = Pawn(Square(0, 6), Player.BLACK)
         val enemy = Pawn(Square(0, 5), Player.WHITE)
 
-        val board = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE)
+        val board = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         val possibleMoves = pawn.availableSquares(board)
 
         assert(possibleMoves.isEmpty()) { wrongMovesFormat(pawn, board, possibleMoves, "The pawn managed to leap over another piece when it shouldn't have") }

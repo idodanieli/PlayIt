@@ -4,10 +4,11 @@ import android.content.Context
 import com.idodanieli.playit.games.chess.logic.Square
 
 class ChessDrawer(
-    numberOfSquares: Int,
+    val colCount: Int,
+    rowCount: Int,
     mode: String,
     context: Context,
-    ) : PieceDrawer(context, mode, numberOfSquares = numberOfSquares) {
+    ) : PieceDrawer(context, mode, rowCount = rowCount) {
 
     private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
     private val darkColor =
@@ -20,8 +21,8 @@ class ChessDrawer(
     }
 
     private fun getChessboardSquares(): List<Square> {
-        return (0..numberOfSquares).flatMap { col ->
-            (0..numberOfSquares).map { row ->
+        return (0..colCount).flatMap { col ->
+            (0..rowCount).map { row ->
                 Square(col, row)
             }
         }
@@ -40,7 +41,7 @@ class ChessDrawer(
 
     fun drawSquareAccordingToHero(square: Square, color: Int) {
         // When the player is black the screen is flipped vertically so it's fitting to his perspective
-        val squareAccordingToHero = if (hero.isBlack()) square.flipVertically(numberOfSquares) else square
+        val squareAccordingToHero = if (hero.isBlack()) square.flipVertically(rowCount) else square
 
         drawSquare(squareAccordingToHero, color)
     }

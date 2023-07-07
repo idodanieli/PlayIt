@@ -36,7 +36,8 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
 
-        chessDrawer.initialize(canvas, width / game.size.toFloat())
+        val squareSize = width / game.board.colCount.toFloat()
+        chessDrawer.initialize(canvas, squareSize)
         chessDrawer.drawChessboard()
 
         visualizeGameEvents()
@@ -123,7 +124,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         if (hero.isBlack()) {
             // When the player is black the screen is flipped vertically
-            touchedSquare = touchedSquare.flipVertically(game.size)
+            touchedSquare = touchedSquare.flipVertically(game.board.rowCount)
         }
 
         return touchedSquare
@@ -131,7 +132,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     private fun getTouchedSquareFromMotionEvent(event: MotionEvent): Square {
         val touchedColumn = (event.x / chessDrawer.squareSize).toInt()
-        val touchedRow = (game.size - 1) - (event.y / chessDrawer.squareSize).toInt()
+        val touchedRow = (game.board.rowCount - 1) - (event.y / chessDrawer.squareSize).toInt()
 
         return Square(touchedColumn, touchedRow)
     }
@@ -253,7 +254,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @JvmName("setGame1")
     fun setGame(game: Game) {
         this.game = game
-        this.chessDrawer = ChessDrawer(game.size, MODE_DEFAULT, context!!)
+        this.chessDrawer = ChessDrawer(game.board.colCount, game.board.rowCount, MODE_DEFAULT, context!!)
 
         subscribeVisualizers()
     }

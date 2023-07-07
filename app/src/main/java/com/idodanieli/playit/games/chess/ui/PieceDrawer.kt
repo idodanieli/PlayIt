@@ -14,8 +14,8 @@ open class PieceDrawer (
     context: Context,
     var mode: String,
     var hero: Player = Player.WHITE,
-    numberOfSquares: Int = CHESSBOARD_SIZE
-): Drawer(numberOfSquares) {
+    rowCount: Int = CHESSBOARD_SIZE
+): Drawer(rowCount) {
     
     companion object {
         private var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
@@ -56,7 +56,7 @@ open class PieceDrawer (
         }
     }
 
-    fun drawPiece(piece: Piece) {
+    private fun drawPiece(piece: Piece) {
         var pieceBitmap = getPieceBitmap(piece)!!
 
         // Flip the black players piece in local mode so it would be easier to play
@@ -65,7 +65,7 @@ open class PieceDrawer (
         }
 
         if (hero.isBlack()) {
-            drawBitmapAtSquare(piece.square.flipVertically(numberOfSquares), pieceBitmap)
+            drawBitmapAtSquare(piece.square.flipVertically(rowCount), pieceBitmap)
             return
         }
 

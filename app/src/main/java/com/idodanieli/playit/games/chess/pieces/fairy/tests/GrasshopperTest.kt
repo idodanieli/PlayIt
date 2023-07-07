@@ -37,7 +37,7 @@ class GrasshopperTest {
         val wKing = King(Square(3, 1), Player.WHITE)
 
         val pieces = setOf(bPawn1, bPawn2, wPawn1, wPawn2, wPawn3, wPawn4, wKing, bKing, wGrasshopper)
-        val game = ClassicGame("", pieces, CHESSBOARD_SIZE)
+        val game = ClassicGame("", pieces, CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
         val expectedSquares = listOf(
             Square(7, 7),
@@ -61,7 +61,7 @@ class GrasshopperTest {
         val bPawn = Pawn(Square(3, 6), Player.BLACK)
         val bQueen = Queen(Square(3, 7), Player.BLACK)
 
-        val game = ClassicGame("", setOf(wGrasshopper, bPawn, bQueen), CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(wGrasshopper, bPawn, bQueen), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
         assert(bQueen.square in wGrasshopper.capturableSquares(game.board)) {
             errorFormat(game.board, "hopper should be able to capture the queen!")

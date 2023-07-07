@@ -18,7 +18,7 @@ class ClassicGameTest {
 
         val pawn = Pawn(origin, Player.BLACK)
         val enemyPawn = Pawn(destination, Player.WHITE)
-        val game = ClassicGame(TEST_GAME_NAME, mutableSetOf(pawn, enemyPawn), CHESSBOARD_SIZE)
+        val game = ClassicGame(TEST_GAME_NAME, mutableSetOf(pawn, enemyPawn), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
         val move = Move(origin, destination)
         game.applyMove(move)
@@ -55,7 +55,7 @@ class ClassicGameTest {
         // . . . . . . . .
         // . . . . . . . .
         // . . . . . . . .
-        val finishedGame = ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, wQueen), CHESSBOARD_SIZE)
+        val finishedGame = ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, wQueen), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         finishedGame.currentPlayer = Player.BLACK
 
         assert(finishedGame.isOver()) {
@@ -76,7 +76,7 @@ class ClassicGameTest {
         // Q . . . . . . .
         val unthreateningWQueen = Queen(Square(0, 7), Player.WHITE)
         val unfinishedGame =
-            ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, unthreateningWQueen), CHESSBOARD_SIZE)
+            ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bPawn, unthreateningWQueen), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         unfinishedGame.currentPlayer = Player.BLACK
 
         assert(!unfinishedGame.isOver()) {
@@ -104,7 +104,7 @@ class ClassicGameTest {
         val wQueen = Queen(Square(1, 0), Player.WHITE)
         val pieces = mutableSetOf(bKing, bPawn, wPawn, wQueen)
 
-        val game = ClassicGame("", pieces, CHESSBOARD_SIZE)
+        val game = ClassicGame("", pieces, CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         game.currentPlayer = Player.BLACK
 
         assert(game.isStalemate()) {
@@ -146,7 +146,7 @@ class ClassicGameTest {
     // . . . . . . . .
     // . . . . . . . .
     private val game =
-        ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, bPawn, wQueen), CHESSBOARD_SIZE)
+        ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, bPawn, wQueen), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
     @Test
     fun testFilterBlockingMoves() {
@@ -171,7 +171,7 @@ class ClassicGameTest {
         // . . . . . . . .
         val wRook = Rook(Square(0, 1), Player.WHITE)
         val game2 =
-            ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE)
+            ClassicGame(TEST_GAME_NAME, mutableSetOf(bKing, bBishop, wQueen, wRook), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         val blockingMoves = game2.getLegalMovesForPiece(bBishop)
 
         assert(blockingMoves.isEmpty())
@@ -198,7 +198,7 @@ class ClassicGameTest {
         val wEmpress = Empress(Square(4, 3), Player.WHITE)
         val wKnight = Knight(Square(4, 4), Player.WHITE)
 
-        val game = ClassicGame("", setOf(bKing, bEmpress, wEmpress, wKnight), CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(bKing, bEmpress, wEmpress, wKnight), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         val wKnightMove = Move(Square(4, 4), Square(2, 5))
 
         // . . . m k . . .
@@ -247,7 +247,7 @@ class ClassicGameTest {
         val wCannon = Cannon(Square(7, 0), Player.WHITE)
 
         val pieces = setOf(bKing, bPawn1, bPawn2, bPawn3, wCannon)
-        val game = ClassicGame("", pieces, CHESSBOARD_SIZE)
+        val game = ClassicGame("", pieces, CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
         assert( game.isPlayerChecked(Player.BLACK) ) {
             errorFormat(game.board, "isPlayerChecked returned that black ISNT checked...")

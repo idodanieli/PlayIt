@@ -57,7 +57,7 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
     }
 
     override fun capturableSquares(board: Board): List<Square> {
-        return listOf(captureMove()).filter { it.inBorder(board.size) }
+        return listOf(captureMove()).filter { board.isIn(it) }
     }
 
     private fun captureMove(): Square {

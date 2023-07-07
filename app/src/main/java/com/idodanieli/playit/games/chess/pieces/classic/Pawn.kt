@@ -54,7 +54,7 @@ class Pawn(square: Square, player: Player) : BasePiece(square, player) {
 
         moves += capturableSquares(board)
 
-        return moves.filter{it.inBorder(board.size)}
+        return moves.filter{ board.isIn(it) }
     }
 
     override fun capturableSquares(board: Board): List<Square> {

@@ -3,7 +3,7 @@ package com.idodanieli.playit.games.chess.logic
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-class Board(startingPieces: Set<Piece>, val size: Int) {
+class Board(startingPieces: Set<Piece>, val colCount: Int, val rowCount: Int) {
     lateinit var map: MutableMap<Square, Piece>
     lateinit var whitePieces: MutableMap<Piece, Boolean>
     lateinit var blackPieces: MutableMap<Piece, Boolean>
@@ -88,7 +88,7 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
 
     // isIn returns true if the given square is in the boards borders
     fun isIn(square: Square): Boolean {
-        return square.col in 0 until this.size && square.row in 0 until this.size
+        return square.col in 0 until this.colCount && square.row in 0 until this.rowCount
     }
 
     // isFree returns true if the given square doesn't contain a piece
@@ -152,10 +152,10 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
 
     // --- FOR PRINTING THE BOARD ------------------------------------------------------------------
     private fun flatString(pieces: List<Piece>) : String {
-        val flatBoardCharcters = ".".repeat(size * size).toCharArray()
+        val flatBoardCharcters = ".".repeat(rowCount * colCount).toCharArray()
         for (piece in pieces) {
             val type = if (piece.player.isWhite()) piece.type else piece.type.lowercase()
-            val index = (size - (piece.square.row + 1)) * size + piece.square.col
+            val index = (rowCount - (piece.square.row + 1)) * colCount + piece.square.col
             flatBoardCharcters[index] = type[0]
         }
 
@@ -166,7 +166,7 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
         var prettyCharacters = charArrayOf()
 
         for (idx in flat.indices) {
-            if (idx % size == 0) {
+            if (idx % colCount == 0) {
                 prettyCharacters += '\n'
             }
 
@@ -194,6 +194,6 @@ class Board(startingPieces: Set<Piece>, val size: Int) {
     // ---------------------------------------------------------------------------------------------
     fun copy(): Board {
         val copiedPieces = deepCopyPieces(this.pieces())
-        return Board(copiedPieces, size)
+        return Board(copiedPieces, colCount, rowCount)
     }
 }

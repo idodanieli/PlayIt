@@ -12,7 +12,7 @@ class BoardTest {
     fun testPieceAt() {
         val square = Square(0, 1)
         val pawn = Pawn(square, Player.WHITE)
-        val board = Board(mutableSetOf(pawn), CHESSBOARD_SIZE)
+        val board = Board(mutableSetOf(pawn), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         var result = board.pieceAt(square)
 
         assert(result == pawn) { errorFormat(board,
@@ -31,7 +31,7 @@ class BoardTest {
 
         // Tests that the pawn can be captured when threatened
         val enemy = Queen(Square(0, 0), Player.WHITE)
-        val canBeCapturedBoard = Board(mutableSetOf(pawn, enemy), 8)
+        val canBeCapturedBoard = Board(mutableSetOf(pawn, enemy), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         assert(canBeCapturedBoard.canBeCaptured(pawn)) { errorFormat(canBeCapturedBoard, "Evaluated that $pawn can't be captured") }
 
         // Tests that the pawn CANT be captured after the threatening queen has been removed
@@ -40,7 +40,7 @@ class BoardTest {
 
         // Tests that the pawn can't be captured when not threatened
         val farAwayEnemy = Pawn(Square(1, 0), Player.WHITE)
-        val cantBeCapturedBoard = Board(mutableSetOf(pawn, farAwayEnemy), 8)
+        val cantBeCapturedBoard = Board(mutableSetOf(pawn, farAwayEnemy), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         assert(!cantBeCapturedBoard.canBeCaptured(pawn)) { errorFormat(cantBeCapturedBoard, "Evaluated that $pawn can be captured") }
     }
 
@@ -48,19 +48,19 @@ class BoardTest {
     fun testGetPotentialEaters() {
         val bPawn = Pawn(Square(0, 6), Player.BLACK)
 
-        val safeBoard = Board(mutableSetOf(bPawn), CHESSBOARD_SIZE)
+        val safeBoard = Board(mutableSetOf(bPawn), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         var potentialEaters = safeBoard.getPotentialEaters(bPawn)
 
         assert(potentialEaters.isEmpty()) { errorFormat(safeBoard, "$potentialEaters could eat $bPawn") }
 
         val wQueen = Queen(Square(0, 7), Player.WHITE)
-        val unsafeBoard = Board(mutableSetOf(bPawn, wQueen), CHESSBOARD_SIZE)
+        val unsafeBoard = Board(mutableSetOf(bPawn, wQueen), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         potentialEaters = unsafeBoard.getPotentialEaters(bPawn)
 
         assert(potentialEaters.size == 1) { errorFormat(unsafeBoard, "$potentialEaters could eat $bPawn") }
 
         val wRook = Rook(Square(6, 6), Player.WHITE)
-        val superUnsafeBoard = Board(mutableSetOf(bPawn, wQueen, wRook), CHESSBOARD_SIZE)
+        val superUnsafeBoard = Board(mutableSetOf(bPawn, wQueen, wRook), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
         potentialEaters = superUnsafeBoard.getPotentialEaters(bPawn)
 
         assert(potentialEaters.size == 2) { errorFormat(superUnsafeBoard, "$potentialEaters could eat $bPawn") }

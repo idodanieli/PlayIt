@@ -4,7 +4,7 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
 
-class BeirutChess(name: String, startingPieces: Set<Piece>, size: Int): CaptureOrCheckmate(name, startingPieces, size) {
+class BeirutChess(name: String, startingPieces: Set<Piece>, colCount: Int, rowCount: Int): CaptureOrCheckmate(name, startingPieces, colCount, rowCount) {
     companion object {
         const val TYPE = "beirut"
     }

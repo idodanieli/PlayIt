@@ -7,7 +7,7 @@ import android.util.TypedValue
 import com.idodanieli.playit.games.chess.logic.Square
 
 
-open class Drawer (var numberOfSquares: Int) {
+open class Drawer (var rowCount: Int) {
 
     var squareSize = 0f
     var canvas = Canvas()
@@ -30,9 +30,9 @@ open class Drawer (var numberOfSquares: Int) {
     fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) {
         val rect = RectF(
             square.col * squareSize,
-            (numberOfSquares - 1 - square.row) * squareSize,
+            (rowCount - 1 - square.row) * squareSize,
             (square.col + 1) * squareSize,
-            ((numberOfSquares - 1 - square.row) + 1) * squareSize
+            ((rowCount - 1 - square.row) + 1) * squareSize
         )
 
         drawBitmapAtRect(bitmap, rect)

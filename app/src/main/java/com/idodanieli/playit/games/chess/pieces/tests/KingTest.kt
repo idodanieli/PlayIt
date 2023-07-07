@@ -15,12 +15,12 @@ class KingTest {
     private val king = King(Square(4, 7), Player.WHITE)
     private val leftRook = Rook(Square(0, 7), Player.WHITE)
     private val rightRook = Rook(Square(7, 7), Player.WHITE)
-    private var board = Board(mutableSetOf(king, leftRook, rightRook), CHESSBOARD_SIZE)
+    private var board = Board(mutableSetOf(king, leftRook, rightRook), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
 
     @Test // that the getCastlingMoves function works
     fun testCastling() {
         val tmpBoard = board.copy()
-        val game = ClassicGame("", board.pieces(), board.size) // TODO: Move name out of game... it's annoying
+        val game = ClassicGame("", board.pieces(), board.colCount, board.rowCount) // TODO: Move name out of game... it's annoying
 
         val blockingKnight = Knight(Square(6, 7), Player.WHITE)
         game.board.add(blockingKnight)

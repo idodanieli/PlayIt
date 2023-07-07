@@ -124,17 +124,13 @@ data class Square(
         return (Math.abs(col - other.col) <= maxDistance) && (Math.abs(row - other.row) <= maxDistance)
     }
 
-    fun inBorder(size: Int): Boolean {
-        return col in 0 until size && row in 0 until size
-    }
-
     fun bitboard(): ULong {
         return BitBoard.squareBitboard(row * 8 + col) // TODO: 8 should be BOARD_SIZE
     }
 
     // flipsVertically flips the square vertically
-    fun flipVertically(boardSize: Int): Square {
-        val flippedRow = boardSize - (row + 1)
+    fun flipVertically(rowCount: Int): Square {
+        val flippedRow = rowCount - (row + 1)
         return Square(col, flippedRow)
     }
 
