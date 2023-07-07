@@ -254,7 +254,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     @JvmName("setGame1")
     fun setGame(game: Game) {
         this.game = game
-        this.chessDrawer = ChessDrawer(game.board.dimensions.cols, game.board.dimensions.rows, MODE_DEFAULT, context!!)
+        this.chessDrawer = ChessDrawer(game.board.dimensions, MODE_DEFAULT, context!!)
 
         subscribeVisualizers()
     }

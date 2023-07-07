@@ -16,7 +16,6 @@ class GameParser {
         private const val DESCRIPTION = "description"
         private const val BOARD = "board"
         private const val MODE = "mode"
-        private const val SIZE = "size"
         private const val EMPTY_SQUARE = '.'
 
         fun parse(json: JSONObject): Game {
@@ -24,19 +23,20 @@ class GameParser {
             val desc = json.optString(DESCRIPTION)
             val board = json.getString(BOARD)
             val mode = json.getString(MODE)
-            var size = CHESSBOARD_SIZE
+            var dimensions = DEFAULT_DIMENSIONS
 
             // TODO: Prettify this
             try {
-                size = json.getInt(SIZE)
+                val dimensionsJson = json.get("dimensions") as JSONObject
+                val rows = dimensionsJson.getInt("rows")
+                val cols = dimensionsJson.getInt("cols")
+                dimensions = BoardDimensions(cols, rows)
             } catch (e: JSONException) {
                 // Do Nothing
             }
 
-            val dimensions = BoardDimensions(size, size)
-
             val constructor = getGameConstructor(mode) ?: throw Exception("constructor is null for $name mode: $mode")
-            val game = constructor.call(name, parseBoardPieces(board, size), dimensions)
+            val game = constructor.call(name, parseBoardPieces(board, dimensions), dimensions)
             game.description = desc
 
             return game
@@ -52,12 +52,12 @@ class GameParser {
             return null
         }
 
-        private fun parseBoardPieces(board: String, size: Int = CHESSBOARD_SIZE): MutableSet<Piece> {
+        private fun parseBoardPieces(board: String, dimensions: BoardDimensions): MutableSet<Piece> {
             val pieces = mutableSetOf<Piece>()
 
-            for (row in 0 until size) {
-                for (col in 0 until size) {
-                    val char = board[col + row * size]
+            for (row in 0 until dimensions.rows) {
+                for (col in 0 until dimensions.cols) {
+                    val char = board[col + row * dimensions.cols]
                     if (char != EMPTY_SQUARE) {
                         val square = Square(col, row)
                         val player = if (char.isUpperCase()) Player.WHITE else Player.BLACK

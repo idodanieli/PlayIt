@@ -4,10 +4,11 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.*
 import android.util.TypedValue
+import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Square
 
 
-open class Drawer (var rowCount: Int) {
+open class Drawer (protected val dimensions: BoardDimensions) {
 
     var squareSize = 0f
     var canvas = Canvas()
@@ -19,23 +20,22 @@ open class Drawer (var rowCount: Int) {
 
     fun drawSquare(square: Square, color: Int) {
         this.canvas.drawRect(
-            square.col * squareSize,
-            this.canvas.height - square.row * squareSize,
-            (square.col + 1) * squareSize,
-            this.canvas.height - (square.row + 1) * squareSize,
+            convertSquareToRectF(square),
             getPaint(color)
         )
     }
 
     fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) {
-        val rect = RectF(
-            square.col * squareSize,
-            (rowCount - 1 - square.row) * squareSize,
-            (square.col + 1) * squareSize,
-            ((rowCount - 1 - square.row) + 1) * squareSize
-        )
+        drawBitmapAtRect(bitmap, convertSquareToRectF(square))
+    }
 
-        drawBitmapAtRect(bitmap, rect)
+    private fun convertSquareToRectF(square: Square): RectF {
+        return RectF(
+            square.col * squareSize,
+            (dimensions.rows - 1 - square.row) * squareSize,
+            (square.col + 1) * squareSize,
+            ((dimensions.rows - 1 - square.row) + 1) * squareSize
+        )
     }
 
     fun drawBitmapAtRect(bitmap: Bitmap, rect: RectF) {

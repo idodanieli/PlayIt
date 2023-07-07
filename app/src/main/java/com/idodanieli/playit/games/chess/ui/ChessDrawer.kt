@@ -1,28 +1,27 @@
 package com.idodanieli.playit.games.chess.ui
 
 import android.content.Context
+import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Square
 
 class ChessDrawer(
-    val colCount: Int,
-    rowCount: Int,
+    dimensions: BoardDimensions,
     mode: String,
     context: Context,
-    ) : PieceDrawer(context, mode, rowCount = rowCount) {
+    ) : PieceDrawer(context, mode, dimensions = dimensions) {
 
     private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
     private val darkColor =
         fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorPrimaryDark)
 
-    // drawChessboard.board draws the whole chessboard ( without the pieces )
     fun drawChessboard() {
         val chessboardSquares = getChessboardSquares()
         drawSquares(chessboardSquares, lightColor, darkColor)
     }
 
     private fun getChessboardSquares(): List<Square> {
-        return (0..colCount).flatMap { col ->
-            (0..rowCount).map { row ->
+        return (0 until dimensions.cols).flatMap { col ->
+            (0 until dimensions.rows).map { row ->
                 Square(col, row)
             }
         }
@@ -41,7 +40,7 @@ class ChessDrawer(
 
     fun drawSquareAccordingToHero(square: Square, color: Int) {
         // When the player is black the screen is flipped vertically so it's fitting to his perspective
-        val squareAccordingToHero = if (hero.isBlack()) square.flipVertically(rowCount) else square
+        val squareAccordingToHero = if (hero.isBlack()) square.flipVertically(dimensions.rows) else square
 
         drawSquare(squareAccordingToHero, color)
     }

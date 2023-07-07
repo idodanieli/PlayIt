@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_LOCAL
+import com.idodanieli.playit.games.chess.logic.BoardDimensions
+import com.idodanieli.playit.games.chess.logic.DEFAULT_DIMENSIONS
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.variants.Game
@@ -13,9 +15,9 @@ import com.idodanieli.playit.games.chess.variants.Game
 open class PieceDrawer (
     context: Context,
     var mode: String,
-    var hero: Player = Player.WHITE,
-    rowCount: Int = CHESSBOARD_SIZE
-): Drawer(rowCount) {
+    dimensions: BoardDimensions = DEFAULT_DIMENSIONS,
+    var hero: Player = Player.WHITE
+): Drawer(dimensions) {
     
     companion object {
         private var BITMAPS: MutableMap<Player, MutableMap<String, Bitmap>> = mutableMapOf()
@@ -65,7 +67,7 @@ open class PieceDrawer (
         }
 
         if (hero.isBlack()) {
-            drawBitmapAtSquare(piece.square.flipVertically(rowCount), pieceBitmap)
+            drawBitmapAtSquare(piece.square.flipVertically(dimensions.rows), pieceBitmap)
             return
         }
 
