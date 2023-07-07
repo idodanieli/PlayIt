@@ -1,0 +1,9 @@
+{
+  "name": "Tiny Chess",
+  "board": "HQKBNVVVVV.....vvvvvhqkbn",
+  "mode": "classic",
+  "dimensions": {
+    "rows": 5,
+    "cols": 5
+  }
+}
