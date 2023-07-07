@@ -32,7 +32,7 @@ class CannonTest {
     private val bKing = King(Square(3, 2), Player.BLACK)
     
     private val pieces = setOf(wCannon, wKing, bBishop, bRook1, bRook2, bKing)
-    private val game = ClassicGame("", pieces, CHESSBOARD_SIZE, CHESSBOARD_SIZE)
+    private val game = ClassicGame("", pieces)
     
     @Test
     fun testAvailableSquares() {

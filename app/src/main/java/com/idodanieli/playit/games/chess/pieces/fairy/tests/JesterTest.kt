@@ -20,7 +20,7 @@ class JesterTest {
         val wJester = Jester(jesterStartingSquare, Player.WHITE)
         val bKnight = Knight(knightStartingSquare, Player.BLACK)
 
-        val game = ClassicGame("", setOf(wJester, bKnight), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(wJester, bKnight))
 
         val bKnightDestination = Square(5, 6)
         val move = Move(knightStartingSquare, bKnightDestination)

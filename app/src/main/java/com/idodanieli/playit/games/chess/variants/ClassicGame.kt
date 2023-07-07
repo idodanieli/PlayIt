@@ -6,11 +6,9 @@ import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
 open class ClassicGame(
-    final override var name: String, startingPieces: Set<Piece>,
-    final override val colCount: Int,
-    final override val rowCount: Int) : Game, Publisher() {
+    final override var name: String, startingPieces: Set<Piece>, boardDimensions: BoardDimensions = DEFAULT_DIMENSIONS) : Game, Publisher() {
 
-    override var board = Board(startingPieces, BoardDimensions(colCount, rowCount))
+    override var board = Board(startingPieces, boardDimensions)
     override var currentPlayer = Player.WHITE // white always starts in chess
     override var description = ""
     override var started = false
@@ -150,6 +148,6 @@ open class ClassicGame(
     }
 
     private fun copy(): ClassicGame {
-        return ClassicGame(name, deepCopyPieces(pieces()), colCount, rowCount)
+        return ClassicGame(name, deepCopyPieces(pieces()), board.dimensions)
     }
 }

@@ -20,7 +20,7 @@ class KingTest {
     @Test // that the getCastlingMoves function works
     fun testCastling() {
         val tmpBoard = board.copy()
-        val game = ClassicGame("", board.pieces(), board.dimensions.cols, board.dimensions.rows) // TODO: Move name out of game... it's annoying
+        val game = ClassicGame("", board.pieces()) // TODO: Move name out of game... it's annoying
 
         val blockingKnight = Knight(Square(6, 7), Player.WHITE)
         game.board.add(blockingKnight)

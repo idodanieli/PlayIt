@@ -14,7 +14,7 @@ class PinningTest {
     private val whiteBishop = Bishop(Square(2, 5), Player.WHITE)
     private val pieces = mutableSetOf<Piece>(blackKing, blackPawn, whiteBishop)
 
-    private val game = ClassicGame("", pieces, CHESSBOARD_SIZE, CHESSBOARD_SIZE)
+    private val game = ClassicGame("", pieces)
 
     @Test // that a piece can capture it's pinner
     fun testCanCapturePinner() {

@@ -1,10 +1,11 @@
 package com.idodanieli.playit.games.chess.variants
 
+import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
 
-class BeirutChess(name: String, startingPieces: Set<Piece>, colCount: Int, rowCount: Int): CaptureOrCheckmate(name, startingPieces, colCount, rowCount) {
+class BeirutChess(name: String, startingPieces: Set<Piece>, boardDimensions: BoardDimensions): CaptureOrCheckmate(name, startingPieces, boardDimensions) {
     companion object {
         const val TYPE = "beirut"
     }

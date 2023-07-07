@@ -19,7 +19,7 @@ class SpartanTest {
 
     @Test
     fun testMovement() {
-        val game = ClassicGame("", setOf(whiteSpartan), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(whiteSpartan))
 
         val destinations = game.getLegalMovesForPiece(whiteSpartan).map { it.dest }
         val expectedDestinations = listOf(Square(0,0), Square(0, 2))
@@ -40,7 +40,7 @@ class SpartanTest {
         // Behind black spartan
         val whiteQueen = Queen(Square(0, 7), Player.WHITE)
 
-        val game = ClassicGame("", setOf(blackSpartan, whiteQueen), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(blackSpartan, whiteQueen))
 
         val destinations = game.getLegalMovesForPiece(blackSpartan).map { move -> move.dest }
 
@@ -54,7 +54,7 @@ class SpartanTest {
         // In front of black spartan
         val whiteQueen = Queen(Square(0, 5), Player.WHITE)
 
-        val game = ClassicGame("", setOf(blackSpartan, whiteQueen), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(blackSpartan, whiteQueen))
 
         val destinations = game.getLegalMovesForPiece(blackSpartan).map { move -> move.dest }
 
@@ -70,7 +70,7 @@ class SpartanTest {
         val wSpartan2 = Spartan(Square(1, 1), Player.WHITE)
         val wSpartan3 = Spartan(wSpartan3OriginSquare, Player.WHITE)
 
-        val game = ClassicGame("", setOf(whiteSpartan, wSpartan2, wSpartan3), CHESSBOARD_SIZE, CHESSBOARD_SIZE)
+        val game = ClassicGame("", setOf(whiteSpartan, wSpartan2, wSpartan3))
 
         val moves = wSpartan2.availableMoves(game.board)
 

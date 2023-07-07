@@ -7,8 +7,6 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.pieces.Piece
 
 interface Game : IPublisher {
-    val colCount: Int
-    val rowCount: Int
     var started: Boolean
     val currentPlayer: Player
     val board: Board

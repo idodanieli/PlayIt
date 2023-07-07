@@ -33,8 +33,10 @@ class GameParser {
                 // Do Nothing
             }
 
+            val dimensions = BoardDimensions(size, size)
+
             val constructor = getGameConstructor(mode) ?: throw Exception("constructor is null for $name mode: $mode")
-            val game = constructor.call(name, parseBoardPieces(board, size), size, size)
+            val game = constructor.call(name, parseBoardPieces(board, size), dimensions)
             game.description = desc
 
             return game
