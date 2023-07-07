@@ -1,10 +1,7 @@
 package com.idodanieli.playit.games.chess.variants
 
 import com.idodanieli.playit.games.chess.game_subscriber.*
-import com.idodanieli.playit.games.chess.logic.Board
-import com.idodanieli.playit.games.chess.logic.Move
-import com.idodanieli.playit.games.chess.logic.Player
-import com.idodanieli.playit.games.chess.logic.deepCopyPieces
+import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
@@ -13,7 +10,7 @@ open class ClassicGame(
     final override val colCount: Int,
     final override val rowCount: Int) : Game, Publisher() {
 
-    override var board = Board(startingPieces, colCount, rowCount)
+    override var board = Board(startingPieces, DEFAULT_DIMENSIONS)
     override var currentPlayer = Player.WHITE // white always starts in chess
     override var description = ""
     override var started = false

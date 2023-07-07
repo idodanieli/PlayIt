@@ -1,9 +1,14 @@
 package com.idodanieli.playit.games.chess.logic
 
+import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
-class Board(startingPieces: Set<Piece>, val colCount: Int, val rowCount: Int) {
+val DEFAULT_DIMENSIONS = BoardDimensions(CHESSBOARD_SIZE, CHESSBOARD_SIZE)
+
+data class BoardDimensions(val cols: Int, val rows: Int)
+
+class Board(startingPieces: Set<Piece>, val dimensions: BoardDimensions) {
     lateinit var map: MutableMap<Square, Piece>
     lateinit var whitePieces: MutableMap<Piece, Boolean>
     lateinit var blackPieces: MutableMap<Piece, Boolean>
@@ -88,7 +93,7 @@ class Board(startingPieces: Set<Piece>, val colCount: Int, val rowCount: Int) {
 
     // isIn returns true if the given square is in the boards borders
     fun isIn(square: Square): Boolean {
-        return square.col in 0 until this.colCount && square.row in 0 until this.rowCount
+        return square.col in 0 until this.dimensions.cols && square.row in 0 until this.dimensions.rows
     }
 
     // isFree returns true if the given square doesn't contain a piece
@@ -152,21 +157,21 @@ class Board(startingPieces: Set<Piece>, val colCount: Int, val rowCount: Int) {
 
     // --- FOR PRINTING THE BOARD ------------------------------------------------------------------
     private fun flatString(pieces: List<Piece>) : String {
-        val flatBoardCharcters = ".".repeat(rowCount * colCount).toCharArray()
+        val flatBoardCharacters = ".".repeat(dimensions.rows * dimensions.cols).toCharArray()
         for (piece in pieces) {
             val type = if (piece.player.isWhite()) piece.type else piece.type.lowercase()
-            val index = (rowCount - (piece.square.row + 1)) * colCount + piece.square.col
-            flatBoardCharcters[index] = type[0]
+            val index = (dimensions.rows - (piece.square.row + 1)) * dimensions.cols + piece.square.col
+            flatBoardCharacters[index] = type[0]
         }
 
-        return String(flatBoardCharcters)
+        return String(flatBoardCharacters)
     }
 
     private fun flatToPrettyPrint(flat: String) : String {
         var prettyCharacters = charArrayOf()
 
         for (idx in flat.indices) {
-            if (idx % colCount == 0) {
+            if (idx % dimensions.cols == 0) {
                 prettyCharacters += '\n'
             }
 
@@ -194,6 +199,6 @@ class Board(startingPieces: Set<Piece>, val colCount: Int, val rowCount: Int) {
     // ---------------------------------------------------------------------------------------------
     fun copy(): Board {
         val copiedPieces = deepCopyPieces(this.pieces())
-        return Board(copiedPieces, colCount, rowCount)
+        return Board(copiedPieces, dimensions)
     }
 }
