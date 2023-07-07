@@ -21,9 +21,17 @@ class LastMoveVisualizer: EventVisualizer, GameSubscriber {
 
     override fun visualize(chessView: ChessView) {
         lastMove?.let {
-            drawSquare(chessView, it.origin)
-            drawSquare(chessView, it.dest)
+            visualizeMove(chessView, it)
+
+            for (move in it.followUpMoves) {
+                visualizeMove(chessView, move)
+            }
         }
+    }
+
+    private fun visualizeMove(chessView: ChessView, move: Move) {
+        drawSquare(chessView, move.origin)
+        drawSquare(chessView, move.dest)
     }
 
     private fun drawSquare(chessView: ChessView, square: Square) {
