@@ -1,6 +1,6 @@
 {
   "name": "Cannon Chess",
-  "board": "L........L.RNBQKBNR.VVVVVVVVVV....................vvvvvvvvvv.rnbqkbnr.l........l",
+  "board": "L........L.RNBQKBNR.PPPPPPPPPP....................pppppppppp.rnbqkbnr.l........l",
   "mode": "classic",
   "dimensions": {
     "rows": 8,

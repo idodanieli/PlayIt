@@ -12,47 +12,32 @@ import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.PieceDrawer
 
-private const val MAX_START_MOVES = 2
-const val TYPE_PAWN = "P"
-
 class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     companion object {
+        private const val MAX_START_MOVES = 2
+
+        const val TYPE = "P"
+
         init {
-            PieceDrawer.addPiecePicture(TYPE_PAWN, Player.WHITE, R.drawable.pawn_white)
-            PieceDrawer.addPiecePicture(TYPE_PAWN, Player.BLACK, R.drawable.pawn_black)
+            PieceDrawer.addPiecePicture(TYPE, Player.WHITE, R.drawable.pawn_white)
+            PieceDrawer.addPiecePicture(TYPE, Player.BLACK, R.drawable.pawn_black)
         }
     }
 
-    override val type = TYPE_PAWN
+    override val type = TYPE
 
-    // TODO: Change 8 -> BOARD_SIZE
-    // TODO: INSTEAD OF IS_IN USE BITBOARDS
-    // TODO: CHECK IF THERE IS AN ENEMY PIECE WITH BITBOARDS
     override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
-        val origin = square.bitboard()
 
-        val defaultMove: Square
-        val startingMove: Square
+        val direction = if (player.isWhite()) Square(0, 1) else Square(0, -1)
 
-        when(player) {
-            Player.WHITE -> {
-                defaultMove = Square.from_bitboard( (origin and NOT_EIGHTH_RANK) shl 8)
-                startingMove = Square.from_bitboard( (origin and NOT_EIGHTH_RANK) shl 8 * MAX_START_MOVES )
-            }
-            Player.BLACK -> {
-                defaultMove = Square.from_bitboard( (origin and NOT_ZERO_RANK) shr 8)
-                startingMove = Square.from_bitboard( (origin and NOT_ZERO_RANK) shr 8 * MAX_START_MOVES )
-            }
-        }
+        val defaultMove = square + direction
+        val startingMove = square + direction * MAX_START_MOVES
 
-        // Single square forward move
         if (board.isFree(defaultMove)) { moves.add(defaultMove) }
 
         // Double square forward move from the starting position
         if (!moved and board.isFree(listOf(defaultMove, startingMove))) { moves.add(startingMove) }
-
-        moves += capturableSquares(board)
 
         return moves.filter{ board.isIn(it) }
     }

@@ -4,7 +4,6 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.classic.Pawn
-import com.idodanieli.playit.games.chess.logic.DEFAULT_DIMENSIONS
 import org.junit.Test
 
 class PawnTest {
@@ -36,9 +35,9 @@ class PawnTest {
         val enemy = Pawn(Square(1, 5), Player.WHITE)
 
         val board = Board(mutableSetOf(pawn, enemy))
-        val moves = pawn.availableSquares(board)
+        val captureMoves = pawn.capturableSquares(board)
 
-        assert(enemy.square in moves) { wrongMovesFormat(pawn, board, moves, "The black pawn could not eat the white pawn!") }
+        assert(enemy.square in captureMoves) { wrongMovesFormat(pawn, board, captureMoves, "The black pawn could not eat the white pawn!") }
 
         board.remove(enemy)
 

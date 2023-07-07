@@ -78,7 +78,7 @@ class GameParser {
                 TYPE_BISHOP -> return Bishop(square, player)
                 TYPE_QUEEN -> return Queen(square, player)
                 TYPE_KING -> return King(square, player)
-                TYPE_PAWN -> return Pawn(square, player)
+                Pawn.TYPE -> return Pawn(square, player)
                 TYPE_VENOM -> return Venom(square, player)
                 TYPE_BEROLINA_PAWN -> return BerolinaPawn(square, player)
                 TYPE_GIRAFFE -> return Giraffe(square, player)

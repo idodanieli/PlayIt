@@ -46,6 +46,8 @@ data class Square(
 
     operator fun minus(other: Square) = Square(col - other.col, row - other.row)
 
+    operator fun times(other: Int) = Square(col * other, row * other)
+
     fun directionTo(other: Square): Square {
         val colDiff = other.col - col
         val rowDiff = other.row - row

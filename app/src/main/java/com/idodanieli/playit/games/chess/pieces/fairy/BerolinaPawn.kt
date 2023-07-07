@@ -23,16 +23,12 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
 
     override val type = TYPE_BEROLINA_PAWN
 
-    var direction = WHITE_DIRECTION
+    private val direction = if(player.isWhite()) WHITE_DIRECTION else BLACK_DIRECTION
 
-    init {
-        if (player.isBlack()) {
-            direction = BLACK_DIRECTION
-        }
-    }
 
     override fun availableSquares(board: Board): List<Square> {
         val moves = arrayListOf<Square>()
+
         if (!moved) {
             val move1 = Square(square.col + direction * MAX_START_MOVES, square.row + direction * MAX_START_MOVES)
             val move2 = Square(square.col - direction * MAX_START_MOVES, square.row + direction * MAX_START_MOVES)
@@ -46,18 +42,11 @@ class BerolinaPawn(square: Square, player: Player) : BasePiece(square, player) {
         val possibleMoves = arrayListOf<Square>()
         possibleMoves.addAll(moves.filter { board.isIn(it) && board.isFree(it) })
 
-
-        val captureMove = captureMove()
-        // There is an enemy piece at the given square
-        board.pieceAt(captureMove)?.let {
-            if (it.player != player) { possibleMoves.add(captureMove) }
-        }
-
         return possibleMoves
     }
 
     override fun capturableSquares(board: Board): List<Square> {
-        return listOf(captureMove()).filter { board.isIn(it) }
+        return listOf(captureMove()).filter { board.isIn(it) && board.playerAt(it) == player.opposite()}
     }
 
     private fun captureMove(): Square {
