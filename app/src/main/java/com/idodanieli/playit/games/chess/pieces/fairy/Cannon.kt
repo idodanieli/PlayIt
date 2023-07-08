@@ -9,7 +9,7 @@ import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.allSquaresInDirectionUntilPieceEncountered
 import com.idodanieli.playit.games.chess.pieces.core.getSecondPieceInDirection
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 class Cannon(square: Square, player: Player): BasePiece(square, player) {
     companion object {

@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.PieceWrapper
 import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.ColorPallete
+import com.idodanieli.playit.games.chess.ui.utils.ColorPallete
 import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.event_visualizers.AvailableMovesVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.TouchedSquareVisualizer

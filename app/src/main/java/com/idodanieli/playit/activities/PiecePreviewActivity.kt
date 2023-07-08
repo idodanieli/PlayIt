@@ -10,7 +10,7 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
+import com.idodanieli.playit.games.chess.ui.utils.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.ClassicGame
 
 class PiecePreviewActivity: AppCompatActivity() {

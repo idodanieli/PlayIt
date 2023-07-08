@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 private val MOVE_OFFSETS = arrayOf(2, 3, -2, -3)
 const val TYPE_ZEBRA = "Z"

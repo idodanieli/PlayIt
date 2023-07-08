@@ -5,9 +5,8 @@ import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.core.Rider
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 private val MOVE_OFFSETS = arrayOf(1, -1, 0)
 private const val STARTING_MAX_STEPS = 1

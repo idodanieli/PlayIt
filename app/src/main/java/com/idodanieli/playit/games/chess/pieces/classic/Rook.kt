@@ -7,8 +7,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.NO_MAX_STEPS
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.Rider
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
-import kotlin.math.max
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 private val moveOffsets = arrayOf(1, -1, 0)
 const val TYPE_ROOK = "R"

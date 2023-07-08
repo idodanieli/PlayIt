@@ -1,11 +1,13 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.*
 import android.util.TypedValue
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
+import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
+import java.sql.Ref
 
 
 open class Drawer (protected val dimensions: BoardDimensions) {
@@ -13,7 +15,7 @@ open class Drawer (protected val dimensions: BoardDimensions) {
     var squareSize = 0f
     var canvas = Canvas()
 
-    fun initialize(canvas: Canvas, squareSize: Float) {
+    open fun initialize(canvas: Canvas, squareSize: Float) {
         this.canvas = canvas
         this.squareSize = squareSize
     }
@@ -36,6 +38,14 @@ open class Drawer (protected val dimensions: BoardDimensions) {
             (square.col + 1) * squareSize,
             ((dimensions.rows - 1 - square.row) + 1) * squareSize
         )
+    }
+
+    fun convertSquareToRectFAccordingToHero(square: Square, hero: Player): RectF {
+        if (hero.isBlack()) {
+            return convertSquareToRectF(square.flipVertically(dimensions.rows))
+        }
+
+        return convertSquareToRectF(square)
     }
 
     fun drawBitmapAtRect(bitmap: Bitmap, rect: RectF) {

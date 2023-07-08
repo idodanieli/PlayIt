@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.ui
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
@@ -12,6 +13,7 @@ import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.ui.drawers.*
 import com.idodanieli.playit.games.chess.ui.event_visualizers.LastMoveVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.TouchedSquareVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.VisualizerCollection
@@ -27,6 +29,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var hero = Player.WHITE
 
     private val visualizers: VisualizerCollection = VisualizerCollection(LastMoveVisualizer(), TouchedSquareVisualizer())
+
     lateinit var chessDrawer: ChessDrawer
     lateinit var game: Game
 
@@ -167,6 +170,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     fun applyMove(move: Move) {
+        chessDrawer.moveAnimator.animatePieceMovement(this, move)
         game.applyMove(move)
         afterMove()
     }

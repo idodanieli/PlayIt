@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.ui.*
-import com.idodanieli.playit.games.chess.ui.Common.Companion.setDimensions
+import com.idodanieli.playit.games.chess.ui.utils.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.variants.Game
 
 

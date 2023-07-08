@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.utils
 
 import android.graphics.Color
 

@@ -1,8 +1,12 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.content.Context
+import android.graphics.Canvas
+import androidx.appcompat.R
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Square
+import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.variants.Game
 
 class ChessDrawer(
     dimensions: BoardDimensions,
@@ -10,9 +14,11 @@ class ChessDrawer(
     context: Context,
     ) : PieceDrawer(context, mode, dimensions = dimensions) {
 
-    private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
+    private val lightColor = fetchColorFromAttribute(context, R.attr.colorAccent)
     private val darkColor =
-        fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorPrimaryDark)
+        fetchColorFromAttribute(context, R.attr.colorPrimaryDark)
+
+    val moveAnimator = MoveAnimator(200, dimensions)
 
     fun drawChessboard() {
         val chessboardSquares = getChessboardSquares()
@@ -25,6 +31,24 @@ class ChessDrawer(
                 Square(col, row)
             }
         }
+    }
+
+    fun drawPieces(game: Game) {
+        game.pieces().forEach { piece ->
+            if (!isMovingPiece(piece)) drawPiece(piece)
+        }
+
+        if (moveAnimator.isAnimating()) drawAnimation(moveAnimator.animation!!)
+    }
+
+    private fun drawAnimation(animation: MoveAnimation) {
+        drawPieceAtRect(animation.piece, animation.rectF)
+    }
+
+    private fun isMovingPiece(piece: Piece): Boolean {
+        moveAnimator.animation ?: return false
+
+        return piece == moveAnimator.animation!!.piece
     }
 
     fun drawSquares(squares: List<Square>, lightColor: Int, darkColor: Int) {
@@ -55,5 +79,11 @@ class ChessDrawer(
 
     private fun isDarkSquare(square: Square): Boolean {
         return (square.col + square.row) % 2 == 1
+    }
+
+    override fun initialize(canvas: Canvas, squareSize: Float) {
+        this.canvas = canvas
+        this.squareSize = squareSize
+        this.moveAnimator.squareSize = squareSize
     }
 }
