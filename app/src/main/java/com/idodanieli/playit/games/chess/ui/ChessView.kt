@@ -169,7 +169,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     fun applyMove(move: Move) {
-        chessDrawer.moveAnimator.animatePieceMovement(this, move)
+        chessDrawer.moveAnimator.animateMove(this, move)
         game.applyMove(move)
         afterMove()
     }

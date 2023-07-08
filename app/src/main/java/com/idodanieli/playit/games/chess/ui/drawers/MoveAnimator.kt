@@ -1,15 +1,13 @@
 package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.animation.ValueAnimator
-import android.content.Context
 import android.graphics.RectF
-import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDrawer) {
-    var animation: MoveAnimation? = null
+    private var animation: MoveAnimation? = null
 
     // --- Drawing ---------------------------------------------------------------------------------
     fun draw() {
@@ -19,34 +17,45 @@ class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDra
     }
 
     private fun drawAnimation(animation: MoveAnimation) {
-        pieceDrawer.drawPieceAtRect(animation.piece, animation.rectF)
+        pieceDrawer.drawPieceAtRect(animation.piece, animation.origin)
     }
 
     // --- Animating -------------------------------------------------------------------------------
-    fun animatePieceMovement(chessView: ChessView, move: Move) {
+    fun animateMove(chessView: ChessView, move: Move) {
         val piece = chessView.game.board.pieceAt(move.origin) ?: return
 
+        animation = createMoveAnimation(chessView, piece, move)
+
+        animate(chessView, animation!!)
+    }
+
+    private fun createMoveAnimation(chessView: ChessView, piece: Piece, move: Move): MoveAnimation {
         val origin = pieceDrawer.convertSquareToRectFAccordingToHero(move.origin, chessView.hero)
         val dest = pieceDrawer.convertSquareToRectFAccordingToHero(move.dest, chessView.hero)
 
-        animation = MoveAnimation(piece, origin)
-
-        animate(chessView, origin, dest)
+        return MoveAnimation(piece, origin, dest)
     }
 
-    private fun animate(chessView: ChessView, origin: RectF, dest: RectF) {
+    private fun animate(chessView: ChessView, animation: MoveAnimation) {
         val createValueAnimator = createValueAnimator()
 
-        createValueAnimator.addUpdateListener { animation ->
-            val fraction = animation.animatedFraction
+        createValueAnimator.addUpdateListener { valueAnimator ->
+            val fraction = valueAnimator.animatedFraction
 
-            val diff = dest.subtract(origin)
-            this.animation!!.rectF = origin.add( diff.multiply(fraction) )
+            val diff = animation.dest.subtract(animation.origin)
+            animation.origin = animation.origin.add( diff.multiply(fraction) )
 
             chessView.invalidate()
         }
 
         createValueAnimator.start()
+    }
+
+    private fun createValueAnimator(): ValueAnimator {
+        val valueAnimator = ValueAnimator.ofFloat(0f, 1f)
+        valueAnimator.duration = duration
+
+        return valueAnimator
     }
 
     fun isAnimating(): Boolean {
@@ -57,12 +66,5 @@ class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDra
         animation ?: return false
 
         return piece == animation!!.piece
-    }
-
-    private fun createValueAnimator(): ValueAnimator {
-        val valueAnimator = ValueAnimator.ofFloat(0f, 1f)
-        valueAnimator.duration = duration
-
-        return valueAnimator
     }
 }
