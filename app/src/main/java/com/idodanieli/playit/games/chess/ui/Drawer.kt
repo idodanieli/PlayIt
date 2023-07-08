@@ -29,7 +29,7 @@ open class Drawer (protected val dimensions: BoardDimensions) {
         drawBitmapAtRect(bitmap, convertSquareToRectF(square))
     }
 
-    private fun convertSquareToRectF(square: Square): RectF {
+    fun convertSquareToRectF(square: Square): RectF {
         return RectF(
             square.col * squareSize,
             (dimensions.rows - 1 - square.row) * squareSize,

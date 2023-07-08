@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.RectF
 import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
@@ -59,12 +60,7 @@ open class PieceDrawer (
     }
 
     private fun drawPiece(piece: Piece) {
-        var pieceBitmap = getPieceBitmap(piece)!!
-
-        // Flip the black players piece in local mode so it would be easier to play
-        if (mode == MODE_LOCAL && piece.player.isBlack()) {
-            pieceBitmap = flipBitmap(pieceBitmap, Direction.VERTICAL)!!
-        }
+        val pieceBitmap = getPieceBitmapAccordingToHero(piece)
 
         if (hero.isBlack()) {
             drawBitmapAtSquare(piece.square.flipVertically(dimensions.rows), pieceBitmap)
@@ -72,5 +68,24 @@ open class PieceDrawer (
         }
 
         drawBitmapAtSquare(piece.square, pieceBitmap)
+    }
+
+    fun drawPieceAtRect(piece: Piece, rect: RectF) {
+        val pieceBitmap = getPieceBitmapAccordingToHero(piece)
+
+        // TODO: Add Black Flipping
+
+        drawBitmapAtRect(pieceBitmap, rect)
+    }
+
+    private fun getPieceBitmapAccordingToHero(piece: Piece): Bitmap {
+        var pieceBitmap = getPieceBitmap(piece)!!
+
+        // Flip the black players piece in local mode so it would be easier to play
+        if (mode == MODE_LOCAL && piece.player.isBlack()) {
+            pieceBitmap = flipBitmap(pieceBitmap, Direction.VERTICAL)!!
+        }
+
+        return pieceBitmap
     }
 }
