@@ -171,16 +171,22 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun applyMove(move: Move) {
         chessDrawer.moveAnimator.animateMove(this, move)
         game.applyMove(move)
-        afterMove()
+
+        afterMove(move)
     }
 
     fun applyAbilityMove(move: Move) {
         game.applyAbilityMove(move)
 
-        afterMove()
+        afterMove(move)
     }
 
-    private fun afterMove() {
+    private fun afterMove(move: Move) {
+        if (game.isPromotionMove(move)) {
+            val piece = game.board.pieceAt(move.dest)
+            piece?.let { game.promote(it) }
+        }
+
         game.switchTurn()
         if (game.isOver()) {
             onGameOver()

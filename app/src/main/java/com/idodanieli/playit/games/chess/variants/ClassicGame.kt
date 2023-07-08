@@ -3,6 +3,8 @@ package com.idodanieli.playit.games.chess.variants
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.pieces.*
+import com.idodanieli.playit.games.chess.pieces.classic.Pawn
+import com.idodanieli.playit.games.chess.pieces.classic.Queen
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 
 open class ClassicGame(
@@ -75,6 +77,25 @@ open class ClassicGame(
 
     override fun switchTurn() {
         currentPlayer = currentPlayer.opposite()
+    }
+
+    override fun isPromotionMove(move: Move): Boolean {
+        val piece = board.pieceAt(move.dest) ?: return false
+
+        return piece is Pawn && (isFirstRow(move.dest.row) || isLastRow(move.dest.row))
+    }
+
+    private fun isFirstRow(row: Int): Boolean {
+        return row == 0
+    }
+    private fun isLastRow(row: Int): Boolean {
+        return row == board.dimensions.rows - 1
+    }
+
+    override fun promote(piece: Piece) {
+        board.remove(piece)
+
+        board.add( Queen(piece.square, piece.player) )
     }
 
     // --- Functions that check the game's state ---------------------------------------------------

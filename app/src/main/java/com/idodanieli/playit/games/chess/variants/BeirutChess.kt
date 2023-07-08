@@ -18,7 +18,7 @@ class BeirutChess(name: String, startingPieces: Set<Piece>, boardDimensions: Boa
         board.remove(wPiece)
         board.remove(bPiece)
 
-        board.add(Bomber(wPiece))
+        board.  add(Bomber(wPiece))
         board.add(Bomber(bPiece))
     }
 }

@@ -22,4 +22,7 @@ interface Game : IPublisher {
     fun isOver(): Boolean
     fun isStalemate(): Boolean
     fun pieces(): Set<Piece>
+
+    fun isPromotionMove(move: Move): Boolean
+    fun promote(piece: Piece)
 }

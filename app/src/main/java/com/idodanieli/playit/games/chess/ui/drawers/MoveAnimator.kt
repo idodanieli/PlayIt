@@ -1,13 +1,14 @@
 package com.idodanieli.playit.games.chess.ui.drawers
 
+import android.animation.Animator
 import android.animation.ValueAnimator
-import android.graphics.RectF
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDrawer) {
     private var currentAnimations = listOf<MoveAnimation>()
+    private var animating = false
 
     // --- Drawing ---------------------------------------------------------------------------------
     fun draw() {
@@ -40,7 +41,6 @@ class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDra
 
         return animations
     }
-
     private fun createMoveAnimation(chessView: ChessView, move: Move): MoveAnimation? {
         val piece = chessView.game.board.pieceAt(move.origin) ?: return null
 
@@ -69,11 +69,30 @@ class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDra
         val valueAnimator = ValueAnimator.ofFloat(0f, 1f)
         valueAnimator.duration = duration
 
+        valueAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+                animating = true
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                animating = false
+                currentAnimations = emptyList()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+                // Animation cancel
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+                // Animation repeat
+            }
+        })
+
         return valueAnimator
     }
 
     fun isAnimating(): Boolean {
-        return this.currentAnimations.isNotEmpty()
+        return animating
     }
 
     fun isPieceBeingAnimated(piece: Piece): Boolean {
