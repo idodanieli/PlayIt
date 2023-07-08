@@ -29,6 +29,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     var hero = Player.WHITE
 
     private val visualizers: VisualizerCollection = VisualizerCollection(LastMoveVisualizer(), TouchedSquareVisualizer())
+
     lateinit var chessDrawer: ChessDrawer
     lateinit var game: Game
 
@@ -45,31 +46,6 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         visualizeGameEvents()
 
         chessDrawer.drawPieces(game)
-
-        chessDrawer.movingPiece?.let { it ->
-            chessDrawer.drawPieceAtRect(it.piece, it.rectF)
-        }
-    }
-
-    private fun animatePieceMovement(move: Move) {
-        val piece = game.board.pieceAt(move.origin)!!
-        val origin = chessDrawer.convertSquareToRectF(move.origin)
-        val dest = chessDrawer.convertSquareToRectF(move.dest)
-
-        chessDrawer.movingPiece = MovingPiece(piece, origin)
-
-        val anim = ValueAnimator.ofFloat(0f, 1f)
-        anim.duration = 1000
-
-        anim.addUpdateListener { animation ->
-            val fraction = animation.animatedFraction
-
-            val diff = dest.subtract(origin)
-            chessDrawer.movingPiece!!.rectF = origin.add( diff.multiply(fraction) )
-            invalidate()
-        }
-
-        anim.start()
     }
 
     private fun visualizeGameEvents() {
@@ -194,7 +170,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     }
 
     fun applyMove(move: Move) {
-        animatePieceMovement(move)
+        chessDrawer.moveAnimator.animatePieceMovement(this, move)
         game.applyMove(move)
         afterMove()
     }

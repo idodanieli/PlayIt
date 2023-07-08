@@ -52,13 +52,7 @@ open class PieceDrawer (
         loadBitmaps(context.resources)
     }
 
-    fun drawPieces(game: Game) {
-        game.pieces().forEach { piece ->
-            this.drawPiece(piece)
-        }
-    }
-
-    private fun drawPiece(piece: Piece) {
+    fun drawPiece(piece: Piece) {
         val pieceBitmap = getPieceBitmapAccordingToHero(piece)
 
         if (hero.isBlack()) {
