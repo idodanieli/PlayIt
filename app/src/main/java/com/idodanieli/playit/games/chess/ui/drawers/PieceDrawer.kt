@@ -65,9 +65,6 @@ open class PieceDrawer (
 
     fun drawPieceAtRect(piece: Piece, rect: RectF) {
         val pieceBitmap = getPieceBitmapAccordingToHero(piece)
-
-        // TODO: Add Black Flipping
-
         drawBitmapAtRect(pieceBitmap, rect)
     }
 

@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.ui
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
