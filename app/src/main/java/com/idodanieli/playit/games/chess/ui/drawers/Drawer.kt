@@ -13,7 +13,7 @@ open class Drawer (protected val dimensions: BoardDimensions) {
     var squareSize = 0f
     var canvas = Canvas()
 
-    fun initialize(canvas: Canvas, squareSize: Float) {
+    open fun initialize(canvas: Canvas, squareSize: Float) {
         this.canvas = canvas
         this.squareSize = squareSize
     }

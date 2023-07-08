@@ -1,6 +1,7 @@
 package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.content.Context
+import android.graphics.Canvas
 import androidx.appcompat.R
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Square
@@ -17,7 +18,7 @@ class ChessDrawer(
     private val darkColor =
         fetchColorFromAttribute(context, R.attr.colorPrimaryDark)
 
-    val moveAnimator = MoveAnimator(2)
+    val moveAnimator = MoveAnimator(1000, dimensions)
 
     fun drawChessboard() {
         val chessboardSquares = getChessboardSquares()
@@ -78,5 +79,11 @@ class ChessDrawer(
 
     private fun isDarkSquare(square: Square): Boolean {
         return (square.col + square.row) % 2 == 1
+    }
+
+    override fun initialize(canvas: Canvas, squareSize: Float) {
+        this.canvas = canvas
+        this.squareSize = squareSize
+        this.moveAnimator.squareSize = squareSize
     }
 }
