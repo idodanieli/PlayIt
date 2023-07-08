@@ -7,12 +7,12 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.ChessView
 
 class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDrawer) {
-    private var animation: MoveAnimation? = null
+    private var currentAnimations = listOf<MoveAnimation>()
 
     // --- Drawing ---------------------------------------------------------------------------------
     fun draw() {
-        animation?.let {
-            drawAnimation(it)
+        for (animation in currentAnimations) {
+            drawAnimation(animation)
         }
     }
 
@@ -22,14 +22,28 @@ class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDra
 
     // --- Animating -------------------------------------------------------------------------------
     fun animateMove(chessView: ChessView, move: Move) {
-        val piece = chessView.game.board.pieceAt(move.origin) ?: return
+        currentAnimations = createMoveAnimations(chessView, move)
 
-        animation = createMoveAnimation(chessView, piece, move)
-
-        animate(chessView, animation!!)
+        for (animation in currentAnimations) {
+            animate(chessView, animation)
+        }
     }
 
-    private fun createMoveAnimation(chessView: ChessView, piece: Piece, move: Move): MoveAnimation {
+    private fun createMoveAnimations(chessView: ChessView, move: Move): List<MoveAnimation> {
+        val animations = mutableListOf<MoveAnimation>()
+
+        createMoveAnimation(chessView, move)?.let { animations.add(it) }
+
+        for (m in move.followUpMoves) {
+            createMoveAnimation(chessView, m)?.let { animations.add(it) }
+        }
+
+        return animations
+    }
+
+    private fun createMoveAnimation(chessView: ChessView, move: Move): MoveAnimation? {
+        val piece = chessView.game.board.pieceAt(move.origin) ?: return null
+
         val origin = pieceDrawer.convertSquareToRectFAccordingToHero(move.origin, chessView.hero)
         val dest = pieceDrawer.convertSquareToRectFAccordingToHero(move.dest, chessView.hero)
 
@@ -59,12 +73,10 @@ class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDra
     }
 
     fun isAnimating(): Boolean {
-        return this.animation != null
+        return this.currentAnimations.isNotEmpty()
     }
 
     fun isPieceBeingAnimated(piece: Piece): Boolean {
-        animation ?: return false
-
-        return piece == animation!!.piece
+        return currentAnimations.any { it.piece == piece}
     }
 }
