@@ -18,7 +18,7 @@ class ChessDrawer(
     private val darkColor =
         fetchColorFromAttribute(context, R.attr.colorPrimaryDark)
 
-    val moveAnimator = MoveAnimator(1000, dimensions)
+    val moveAnimator = MoveAnimator(200, dimensions)
 
     fun drawChessboard() {
         val chessboardSquares = getChessboardSquares()

@@ -1,17 +1,14 @@
 package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.animation.ValueAnimator
+import android.graphics.RectF
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.ui.ChessView
 
-class MoveAnimator(duration: Long, dimensions: BoardDimensions): Drawer(dimensions) {
-    private val valueAnimator = ValueAnimator.ofFloat(0f, 1f)
+class MoveAnimator(private val duration: Long, dimensions: BoardDimensions): Drawer(dimensions) {
     var animation: MoveAnimation? = null
 
-    init {
-        valueAnimator.duration = duration
-    }
 
     fun animatePieceMovement(chessView: ChessView, move: Move) {
         val piece = chessView.game.board.pieceAt(move.origin)!!
@@ -20,10 +17,13 @@ class MoveAnimator(duration: Long, dimensions: BoardDimensions): Drawer(dimensio
 
         animation = MoveAnimation(piece, origin)
 
-        val anim = ValueAnimator.ofFloat(0f, 1f)
-        anim.duration = 1000
+        animate(chessView, origin, dest)
+    }
 
-        anim.addUpdateListener { animation ->
+    private fun animate(chessView: ChessView, origin: RectF, dest: RectF) {
+        val createValueAnimator = createValueAnimator()
+
+        createValueAnimator.addUpdateListener { animation ->
             val fraction = animation.animatedFraction
 
             val diff = dest.subtract(origin)
@@ -32,10 +32,17 @@ class MoveAnimator(duration: Long, dimensions: BoardDimensions): Drawer(dimensio
             chessView.invalidate()
         }
 
-        anim.start()
+        createValueAnimator.start()
     }
 
     fun isAnimating(): Boolean {
         return this.animation != null
+    }
+
+    private fun createValueAnimator(): ValueAnimator {
+        val valueAnimator = ValueAnimator.ofFloat(0f, 1f)
+        valueAnimator.duration = duration
+
+        return valueAnimator
     }
 }
