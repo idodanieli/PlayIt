@@ -1,4 +1,9 @@
+package com.idodanieli.playit.games.chess.ui.drawers
+
 import android.graphics.RectF
+import com.idodanieli.playit.games.chess.pieces.Piece
+
+data class MovingPiece(val piece: Piece, var rectF: RectF)
 
 fun RectF.add(other: RectF): RectF {
     return RectF(

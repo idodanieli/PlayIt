@@ -1,6 +1,5 @@
 package com.idodanieli.playit.games.chess.ui
 
-import add
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -14,13 +13,11 @@ import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.ui.drawers.ChessDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.*
 import com.idodanieli.playit.games.chess.ui.event_visualizers.LastMoveVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.TouchedSquareVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.VisualizerCollection
 import com.idodanieli.playit.games.chess.variants.*
-import multiply
-import subtract
 
 @SuppressLint("ClickableViewAccessibility")
 class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
@@ -49,16 +46,17 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
         chessDrawer.drawPieces(game)
 
-        chessDrawer.movingPieceRectF?.let { rect ->
-            chessDrawer.drawPieceAtRect(chessDrawer.movingPiece!!, rect)
+        chessDrawer.movingPiece?.let { it ->
+            chessDrawer.drawPieceAtRect(it.piece, it.rectF)
         }
     }
 
     private fun animatePieceMovement(move: Move) {
-        chessDrawer.movingPiece = game.board.pieceAt(move.origin) ?: return
-
+        val piece = game.board.pieceAt(move.origin)!!
         val origin = chessDrawer.convertSquareToRectF(move.origin)
         val dest = chessDrawer.convertSquareToRectF(move.dest)
+
+        chessDrawer.movingPiece = MovingPiece(piece, origin)
 
         val anim = ValueAnimator.ofFloat(0f, 1f)
         anim.duration = 1000
@@ -67,7 +65,7 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             val fraction = animation.animatedFraction
 
             val diff = dest.subtract(origin)
-            chessDrawer.movingPieceRectF = origin.add( diff.multiply(fraction) )
+            chessDrawer.movingPiece!!.rectF = origin.add( diff.multiply(fraction) )
             invalidate()
         }
 

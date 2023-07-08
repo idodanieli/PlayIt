@@ -13,12 +13,11 @@ class ChessDrawer(
     context: Context,
     ) : PieceDrawer(context, mode, dimensions = dimensions) {
 
+    var movingPiece: MovingPiece? = null
+
     private val lightColor = fetchColorFromAttribute(context, R.attr.colorAccent)
     private val darkColor =
         fetchColorFromAttribute(context, R.attr.colorPrimaryDark)
-
-    var movingPieceRectF: RectF? = null
-    var movingPiece: Piece? = null
 
     fun drawChessboard() {
         val chessboardSquares = getChessboardSquares()
