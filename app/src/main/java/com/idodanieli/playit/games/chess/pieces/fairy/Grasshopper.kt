@@ -8,7 +8,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.getFirstPieceInDirection
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 // The grasshopper is a fairy chess piece that moves along ranks, files, and diagonals (as a queen)
 // but only by hopping over another piece. The piece to be hopped may be any distance away,

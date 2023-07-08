@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.content.Context
 import android.content.res.TypedArray

@@ -5,7 +5,7 @@ import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.core.Compound
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 class Octopus(square: Square, player: Player) : Compound(square, player) {
     companion object {

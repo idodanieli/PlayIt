@@ -1,11 +1,10 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
-import com.idodanieli.playit.games.chess.CHESSBOARD_SIZE
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.DEFAULT_DIMENSIONS

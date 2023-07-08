@@ -2,15 +2,13 @@ package com.idodanieli.playit.games.chess.pieces.classic
 
 import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_A_FILE
-import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_EIGHTH_RANK
 import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_H_FILE
-import com.idodanieli.playit.games.chess.logic.BitBoard.Companion.NOT_ZERO_RANK
 import com.idodanieli.playit.games.chess.logic.Board
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.BasePiece
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 class Pawn(square: Square, player: Player) : BasePiece(square, player) {
     companion object {

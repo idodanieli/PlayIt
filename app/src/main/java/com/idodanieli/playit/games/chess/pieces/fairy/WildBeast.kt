@@ -4,10 +4,9 @@ import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.pieces.classic.Knight
 import com.idodanieli.playit.games.chess.pieces.core.Compound
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 
 const val TYPE_WILDBEAST = "W"

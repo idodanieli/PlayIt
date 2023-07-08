@@ -15,7 +15,7 @@ import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.ui.DialogBuilder
+import com.idodanieli.playit.games.chess.ui.dialogs.DialogBuilder
 import com.idodanieli.playit.games.chess.ui.Speaker
 import com.idodanieli.playit.games.chess.variants.*
 import org.json.JSONException

@@ -1,7 +1,8 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.content.Context
 import android.graphics.RectF
+import androidx.appcompat.R
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
@@ -12,9 +13,9 @@ class ChessDrawer(
     context: Context,
     ) : PieceDrawer(context, mode, dimensions = dimensions) {
 
-    private val lightColor = fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorAccent)
+    private val lightColor = fetchColorFromAttribute(context, R.attr.colorAccent)
     private val darkColor =
-        fetchColorFromAttribute(context, androidx.appcompat.R.attr.colorPrimaryDark)
+        fetchColorFromAttribute(context, R.attr.colorPrimaryDark)
 
     var movingPieceRectF: RectF? = null
     var movingPiece: Piece? = null

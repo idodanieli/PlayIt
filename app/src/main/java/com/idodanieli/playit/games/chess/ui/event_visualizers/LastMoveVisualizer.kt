@@ -6,7 +6,7 @@ import com.idodanieli.playit.games.chess.game_subscriber.MoveEvent
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.ColorPallete
+import com.idodanieli.playit.games.chess.ui.utils.ColorPallete
 import com.idodanieli.playit.games.chess.ui.utils.Clearable
 
 class LastMoveVisualizer: EventVisualizer, GameSubscriber, Clearable {

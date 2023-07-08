@@ -7,7 +7,7 @@ import com.idodanieli.playit.games.chess.logic.Square
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.abilities.Bomber
 import com.idodanieli.playit.games.chess.pieces.classic.Rook
-import com.idodanieli.playit.games.chess.ui.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
 
 class Terrorist(square: Square, player: Player) : Bomber(Rook(square, player)) {
     companion object {

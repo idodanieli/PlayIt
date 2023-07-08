@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog

@@ -14,6 +14,7 @@ import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.ui.drawers.ChessDrawer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.LastMoveVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.TouchedSquareVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.VisualizerCollection
