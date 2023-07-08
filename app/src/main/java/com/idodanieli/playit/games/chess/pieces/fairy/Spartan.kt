@@ -47,7 +47,6 @@ class Spartan(square: Square, player: Player): RestrictedPiece(square, player) {
         return followUpMoves
     }
 
-    // TODO: This breaks the friendly-fire mode.
     private fun isValidMove(neighbor: Piece, move: Move, board: Board): Boolean {
         board.pieceAt(move.dest)?.let {
             return it.player != neighbor.player

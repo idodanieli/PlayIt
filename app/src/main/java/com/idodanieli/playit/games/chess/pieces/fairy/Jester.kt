@@ -22,10 +22,18 @@ class Jester(square: Square, player: Player) : BasePiece(square, player) {
 
     private var mimickedPiece: Piece? = null
 
-    // TODO: Should it mimic capturable squares + ability as well ?
+    // TODO: Should it mimic ability as well ?
     override fun availableSquares(board: Board): List<Square> {
         mimickedPiece?.let {
             return it.availableSquares(board)
+        }
+
+        return emptyList()
+    }
+
+    override fun capturableSquares(board: Board): List<Square> {
+        mimickedPiece?.let {
+            return it.capturableSquares(board)
         }
 
         return emptyList()
