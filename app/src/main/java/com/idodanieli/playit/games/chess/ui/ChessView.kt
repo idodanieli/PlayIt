@@ -12,9 +12,9 @@ import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.ui.threat_visualizers.LastMoveVisualizer
-import com.idodanieli.playit.games.chess.ui.threat_visualizers.TouchedSquareVisualizer
-import com.idodanieli.playit.games.chess.ui.threat_visualizers.VisualizerCollection
+import com.idodanieli.playit.games.chess.ui.event_visualizers.LastMoveVisualizer
+import com.idodanieli.playit.games.chess.ui.event_visualizers.TouchedSquareVisualizer
+import com.idodanieli.playit.games.chess.ui.event_visualizers.VisualizerCollection
 import com.idodanieli.playit.games.chess.variants.*
 
 @SuppressLint("ClickableViewAccessibility")
@@ -226,13 +226,34 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         val gameOverEvent = GameOverEvent(winner, hero)
 
         game.notifySubscribers(gameOverEvent)
-        game.unsubscribeAll()
+        clear()
     }
 
     // --- Publisher -------------------------------------------------------------------------------
     fun subscribe(subscriber: GameSubscriber) {
         publisher.subscribe(subscriber)
         game.subscribe(subscriber)
+    }
+
+    fun subscribeVisualizers() {
+        for (visualizer in visualizers) {
+            if (visualizer is GameSubscriber) {
+                subscribe(visualizer)
+            }
+        }
+    }
+
+    fun clear() {
+        publisher.unsubscribeAll()
+
+        if(::game.isInitialized) {
+            game.unsubscribeAll()
+        }
+
+        visualizers.clear()
+
+        currentTouch = null
+        focusedPiece = null
     }
 
     // --- General ---------------------------------------------------------------------------------
@@ -255,15 +276,5 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     fun setGame(game: Game) {
         this.game = game
         this.chessDrawer = ChessDrawer(game.board.dimensions, MODE_DEFAULT, context!!)
-
-        subscribeVisualizers()
-    }
-
-    private fun subscribeVisualizers() {
-        for (visualizer in visualizers) {
-            if (visualizer is GameSubscriber) {
-                subscribe(visualizer)
-            }
-        }
     }
 }

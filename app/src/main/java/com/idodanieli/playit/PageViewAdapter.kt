@@ -20,6 +20,40 @@ class PageViewAdapter(
     ) :
     RecyclerView.Adapter<PageViewAdapter.ViewHolder>() {
 
+    // Holds the views for adding it to image and text
+    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+        private val chessView: ChessView = itemView.findViewById(R.id.chess_view)
+        private val gameTitle: TextView = itemView.findViewById(R.id.gameName)
+        private val gameDescription: TextView = itemView.findViewById(R.id.gameDescription)
+
+        private val opponentCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.opponentsCapturedPieces)
+        private val herosCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.herosCapturedPieces)
+
+        fun clear() {
+            chessView.clear()
+            herosCapturedPiecesView.clear()
+            opponentCapturedPiecesView.clear()
+        }
+
+        fun setupChessView(game: Game, width: Int, length: Int) {
+            chessView.setGame(game)
+
+            this.subscribeComponentsToChessView()
+            setDimensions(chessView, width, length)
+        }
+
+        private fun subscribeComponentsToChessView() {
+            chessView.subscribe(herosCapturedPiecesView)
+            chessView.subscribe(opponentCapturedPiecesView)
+            chessView.subscribeVisualizers()
+        }
+
+        fun setGameInfo(game: Game) {
+            gameTitle.text = game.name
+            gameDescription.text = game.description
+        }
+    }
+
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
@@ -35,32 +69,16 @@ class PageViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val game = games[position]
 
-        holder.gameTitle.text = game.name
-        holder.gameDescription.text = game.description
+        // Clears the state of the ViewHolder
+        // This class is reusable and without clearing it causes bugs
+        holder.clear()
 
-        holder.chessView.setGame(game)
-
-        subscribeComponentsToChessView(holder.chessView, holder)
-        setDimensions(holder.chessView, screenWidth, screenWidth)
-    }
-
-    private fun subscribeComponentsToChessView(chessView: ChessView, holder: ViewHolder) {
-        chessView.subscribe(holder.herosCapturedPiecesView)
-        chessView.subscribe(holder.opponentCapturedPiecesView)
+        holder.setGameInfo(game)
+        holder.setupChessView(game, screenWidth, screenWidth)
     }
 
     // return the number of the items in the list
     override fun getItemCount(): Int {
         return games.size
-    }
-
-    // Holds the views for adding it to image and text
-    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val chessView: ChessView = itemView.findViewById(R.id.chess_view)
-        val gameTitle: TextView = itemView.findViewById(R.id.gameName)
-        val gameDescription: TextView = itemView.findViewById(R.id.gameDescription)
-
-        val opponentCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.opponentsCapturedPieces)
-        val herosCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.herosCapturedPieces)
     }
 }

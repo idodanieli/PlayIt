@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess.ui.threat_visualizers
+package com.idodanieli.playit.games.chess.ui.event_visualizers
 
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.logic.Square

@@ -44,6 +44,10 @@ class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context,
         invalidate()
     }
 
+    fun clear() {
+        capturedPieces = mutableListOf()
+    }
+
     // --- UI --------------------------------------------------------------------------------------
     override fun onDraw(canvas: Canvas?) {
         canvas ?: return
