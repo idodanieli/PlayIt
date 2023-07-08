@@ -11,9 +11,10 @@ class MoveAnimator(private val duration: Long, dimensions: BoardDimensions): Dra
 
 
     fun animatePieceMovement(chessView: ChessView, move: Move) {
-        val piece = chessView.game.board.pieceAt(move.origin)!!
-        val origin = convertSquareToRectF(move.origin)
-        val dest = convertSquareToRectF(move.dest)
+        val piece = chessView.game.board.pieceAt(move.origin) ?: return
+
+        val origin = convertSquareToRectFAccordingToHero(move.origin, chessView.hero)
+        val dest = convertSquareToRectFAccordingToHero(move.dest, chessView.hero)
 
         animation = MoveAnimation(piece, origin)
 

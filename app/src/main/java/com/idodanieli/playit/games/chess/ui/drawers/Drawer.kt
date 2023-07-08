@@ -5,7 +5,9 @@ import android.content.res.TypedArray
 import android.graphics.*
 import android.util.TypedValue
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
+import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
+import java.sql.Ref
 
 
 open class Drawer (protected val dimensions: BoardDimensions) {
@@ -29,13 +31,21 @@ open class Drawer (protected val dimensions: BoardDimensions) {
         drawBitmapAtRect(bitmap, convertSquareToRectF(square))
     }
 
-    fun convertSquareToRectF(square: Square): RectF {
+    private fun convertSquareToRectF(square: Square): RectF {
         return RectF(
             square.col * squareSize,
             (dimensions.rows - 1 - square.row) * squareSize,
             (square.col + 1) * squareSize,
             ((dimensions.rows - 1 - square.row) + 1) * squareSize
         )
+    }
+
+    fun convertSquareToRectFAccordingToHero(square: Square, hero: Player): RectF {
+        if (hero.isBlack()) {
+            return convertSquareToRectF(square.flipVertically(dimensions.rows))
+        }
+
+        return convertSquareToRectF(square)
     }
 
     fun drawBitmapAtRect(bitmap: Bitmap, rect: RectF) {
