@@ -1,6 +1,5 @@
 {
   "name": "Classic",
   "board": "RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr",
-  "mode": "classic",
-  "description": "The classic chess game we all know and love"
+  "mode": "classic"
 }

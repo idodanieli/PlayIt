@@ -1,6 +1,5 @@
 {
   "name": "Venom",
   "board": "RNBUKBNRPPPPPPPP................................pppppppprnbukbnr",
-  "mode": "classic",
-  "description": "Venom is a powerful and sturdy piece that can move only one square at a time, but grows in power by capturing opponent's pieces."
+  "mode": "classic"
 }
