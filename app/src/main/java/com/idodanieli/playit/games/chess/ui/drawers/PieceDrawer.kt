@@ -5,11 +5,13 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
+import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.MODE_LOCAL
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.DEFAULT_DIMENSIONS
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.pieces.Piece
+import com.idodanieli.playit.games.chess.pieces.classic.King
 import com.idodanieli.playit.games.chess.variants.Game
 
 open class PieceDrawer (
@@ -32,6 +34,8 @@ open class PieceDrawer (
 
         private fun loadBitmaps(resources: Resources) {
             if (BITMAPS.isNotEmpty()) { return }
+
+            Drawer.loadBitmaps(resources)
 
             BITMAPS[Player.WHITE] = mutableMapOf()
             BITMAPS[Player.BLACK] = mutableMapOf()

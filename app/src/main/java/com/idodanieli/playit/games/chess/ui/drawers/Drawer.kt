@@ -1,9 +1,11 @@
 package com.idodanieli.playit.games.chess.ui.drawers
 
 import android.content.Context
+import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.*
 import android.util.TypedValue
+import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.logic.BoardDimensions
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.logic.Square
@@ -11,6 +13,13 @@ import java.sql.Ref
 
 
 open class Drawer (protected val dimensions: BoardDimensions) {
+    companion object {
+        lateinit var RED_GLOW_INDICATOR: Bitmap
+
+        fun loadBitmaps(resources: Resources) {
+            RED_GLOW_INDICATOR = BitmapFactory.decodeResource(resources, R.drawable.indicator_red_glow)
+        }
+    }
 
     var squareSize = 0f
     var canvas = Canvas()

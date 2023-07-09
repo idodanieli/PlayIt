@@ -101,7 +101,7 @@ open class ClassicGame(
     // --- Functions that check the game's state ---------------------------------------------------
     override fun isOver(): Boolean {
         if (isPlayerChecked(currentPlayer)) {
-            notifySubscribers( CheckEvent() )
+            notifySubscribers( CheckEvent(currentPlayer,this) )
 
             for (piece in board.pieces(currentPlayer)) {
                 val blockingMoves = getLegalMovesForPiece(piece)
