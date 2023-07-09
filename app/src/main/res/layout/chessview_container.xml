@@ -21,12 +21,13 @@
 
     </LinearLayout> <!-- Opponents View -->
 
-    <TextView
+    <com.idodanieli.playit.games.chess.ui.TimerView
         android:id="@+id/opponentTimer"
         style="@style/Timer"
         android:text="09:05.223"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/opponentLL"/> <!-- Opponent Timer -->
+        android:layout_alignTop="@id/opponentLL"
+        android:visibility="invisible"/> <!-- Opponent Timer -->
 
     <com.idodanieli.playit.games.chess.ui.ChessView
         android:id="@+id/chess_view"
@@ -50,13 +51,14 @@
 
     </LinearLayout> <!-- Heros View -->
 
-    <TextView
+    <com.idodanieli.playit.games.chess.ui.TimerView
         android:id="@+id/heroTimer"
         style="@style/Timer"
         android:text="09:05.223"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/heroLL"
-        android:layout_marginTop="10dp"/> <!-- Hero Timer -->
+        android:layout_marginTop="10dp"
+        android:visibility="invisible"/> <!-- Hero Timer -->
 
     <LinearLayout
         android:layout_width="match_parent"

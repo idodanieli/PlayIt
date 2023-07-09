@@ -28,6 +28,9 @@ class PageViewAdapter(
         private val opponentCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.opponentsCapturedPieces)
         private val herosCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.herosCapturedPieces)
 
+        private val opponentTimer: TimerView = itemView.findViewById(R.id.opponentTimer)
+        private val heroTimer: TimerView = itemView.findViewById(R.id.heroTimer)
+
         fun clear() {
             chessView.clear()
             herosCapturedPiecesView.clear()
@@ -43,7 +46,11 @@ class PageViewAdapter(
 
         private fun subscribeComponentsToChessView() {
             chessView.subscribe(herosCapturedPiecesView)
+            chessView.subscribe(heroTimer)
+
             chessView.subscribe(opponentCapturedPiecesView)
+            chessView.subscribe(opponentTimer)
+
             chessView.subscribeVisualizers()
         }
 

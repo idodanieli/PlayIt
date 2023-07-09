@@ -165,6 +165,7 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
     }
 
     // --- Set players names when they join a game ----------------------------------------------------
+    // TODO: THIS IS SHIT
     private fun setPlayers(hero: String, opponent: String) {
         setPlayer(viewPager.currentPage().findViewById(R.id.playerHero), hero)
         setPlayer(viewPager.currentPage().findViewById(R.id.playerOpponent), opponent)
@@ -172,6 +173,9 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         val heroColor = viewPager.currentChessview().hero
         viewPager.currentHeroCapturedPiecesView().player = heroColor
         viewPager.currentOpponentCapturedPiecesView().player = heroColor.opposite()
+
+        viewPager.currentHeroTimerView().visibility = View.VISIBLE
+        viewPager.currentOpponentTimerView().visibility = View.VISIBLE
     }
 
     private fun setPlayer(textView: TextView, player: String) {
