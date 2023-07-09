@@ -32,10 +32,6 @@ class TimerView(context: Context?, attrs: AttributeSet?): androidx.appcompat.wid
         text = formatMilliseconds(timeLeftInMillis)
     }
 
-    init {
-        // text = formatMilliseconds(timeLeftInMillis)
-    }
-
     override fun onGameEvent(event: GameEvent) {
         when (event) {
             is GameStartedEvent -> startTimerIfHeroIsWhite()
@@ -60,6 +56,7 @@ class TimerView(context: Context?, attrs: AttributeSet?): androidx.appcompat.wid
             }
 
             override fun onFinish() {
+                // TODO: Should Publish GameOverEvent
                 text = FINISHED_TIME
             }
         }
