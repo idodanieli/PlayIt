@@ -6,6 +6,7 @@
     android:background="?attr/colorPrimaryVariant">
 
     <LinearLayout
+        android:id="@+id/opponentLL"
         style="@style/PlayerLinearLayout"
         android:layout_above="@id/chess_view">
 
@@ -20,6 +21,13 @@
 
     </LinearLayout> <!-- Opponents View -->
 
+    <TextView
+        android:id="@+id/opponentTimer"
+        style="@style/Timer"
+        android:text="09:05.223"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/opponentLL"/> <!-- Opponent Timer -->
+
     <com.idodanieli.playit.games.chess.ui.ChessView
         android:id="@+id/chess_view"
         android:layout_height="match_parent"
@@ -27,6 +35,7 @@
         android:layout_centerInParent="true"/>
 
     <LinearLayout
+        android:id="@+id/heroLL"
         style="@style/PlayerLinearLayout"
         android:layout_below="@id/chess_view">
 
@@ -40,6 +49,14 @@
             style="@style/PlayerCapturedPieceView" />
 
     </LinearLayout> <!-- Heros View -->
+
+    <TextView
+        android:id="@+id/heroTimer"
+        style="@style/Timer"
+        android:text="09:05.223"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/heroLL"
+        android:layout_marginTop="10dp"/> <!-- Hero Timer -->
 
     <LinearLayout
         android:layout_width="match_parent"

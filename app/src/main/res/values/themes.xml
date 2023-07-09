@@ -15,6 +15,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <!-- Customize your theme here. -->
+        <item name="timerBackground">@drawable/round_corner_wood</item>
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
@@ -22,6 +23,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- PLAYER TEXTVIEW -->
     <style name="PlayerTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -32,6 +34,7 @@
         <item name="android:layout_marginLeft">5dp</item>
     </style>
 
+    <!-- PLAYER INFO LINEAR LAYOUT -->
     <style name="PlayerLinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -39,8 +42,19 @@
         <item name="android:layout_margin">5dp</item>
     </style>
 
+    <!-- CAPTURED PIECES VIEW -->
     <style name="PlayerCapturedPieceView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">25dp</item>
+    </style>
+
+    <!-- TIMER -->
+    <style name="Timer">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:background">?timerBackground</item>
     </style>
 </resources>

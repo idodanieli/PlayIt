@@ -26,7 +26,7 @@ class GameOverDialog(private val winner: Player?, private val hero: Player, priv
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val parent = inflater.inflate(R.layout.dialog_game_over, container, false)
 
-        dialog!!.window?.setBackgroundDrawableResource(R.drawable.dialog_round_corner_background)
+        dialog!!.window?.setBackgroundDrawableResource(R.drawable.round_corner_navy)
 
         findViews(parent)
         setViews()
