@@ -13,6 +13,7 @@ import com.idodanieli.playit.games.chess.ui.ChessView
 
 object OnlineChessSubscriber: GameSubscriber {
     private lateinit var fetchEnemyMovesThread: Thread
+    private var mLastMoveInfo: MoveInfo? = null
 
     // --- Subscriber ------------------------------------------------------------------------------
     override fun onGameEvent(event: GameEvent) {
@@ -87,7 +88,7 @@ object OnlineChessSubscriber: GameSubscriber {
         try {
             while (!fetchEnemyMovesThread.isInterrupted) {
                 if (chessView.isOpponentsTurn()) {
-                    fetchEnemyMove(chessView, handler)
+                    fetchOpponentMove(chessView, handler)
                 }
                 Thread.sleep(interval)
             }
@@ -95,18 +96,23 @@ object OnlineChessSubscriber: GameSubscriber {
             // Do nothing
         }
     }
-    private fun fetchEnemyMove(chessView: ChessView, handler: Handler) {
-        GameClient.getInstance().getLastMove()?.let { lastMoveInfo ->
-            if(lastMoveInfo.isOpponentsMove( chessView.hero )) {
-                // Post UI-related operations to the main thread
-                handler.post {
-                    applyEnemyMove(lastMoveInfo.move, chessView)
-                }
+    private fun fetchOpponentMove(chessView: ChessView, handler: Handler) {
+        val lastMoveInfo = GameClient.getInstance().getLastMove()
+        if ( isNewOpponentMove(lastMoveInfo, chessView.hero) ) {
+            // Post UI-related operations to the main thread
+            handler.post {
+                applyOpponentMove(lastMoveInfo!!.move, chessView)
             }
+
+            mLastMoveInfo = lastMoveInfo
         }
     }
 
-    private fun applyEnemyMove(move: Move, chessView: ChessView) {
+    private fun isNewOpponentMove(moveInfo: MoveInfo?, hero: Player): Boolean {
+        return moveInfo != null && moveInfo.isOpponentsMove(hero) && moveInfo != mLastMoveInfo
+    }
+
+    private fun applyOpponentMove(move: Move, chessView: ChessView) {
         if (move.isAbilityMove) {
             chessView.applyAbilityMove(move)
             return
