@@ -25,8 +25,16 @@ class TimerView(context: Context?, attrs: AttributeSet?): androidx.appcompat.wid
 
     lateinit var player: Player
 
-    private var timer = createTimer()
     private var timeLeftInMillis = DEFAULT_TIME_SPAN
+    private var timer = createTimer()
+
+    init {
+        text = formatMilliseconds(timeLeftInMillis)
+    }
+
+    init {
+        // text = formatMilliseconds(timeLeftInMillis)
+    }
 
     override fun onGameEvent(event: GameEvent) {
         when (event) {
