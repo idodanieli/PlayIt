@@ -71,6 +71,7 @@ class TimerView(context: Context?, attrs: AttributeSet?): androidx.appcompat.wid
         val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds) % 60
         val millis = milliseconds % 1000
 
-        return String.format("%02d:%02d.%03d", minutes, seconds, millis)
+        return String.format("%02d:%02d", minutes, seconds)
+        // return String.format("%02d:%02d.%03d", minutes, seconds, millis)
     }
 }

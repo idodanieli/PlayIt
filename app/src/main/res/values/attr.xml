@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="timerBackground" format="reference"/>
+    <attr name="timerSidePadding" format="dimension"/>
+    <attr name="timerTopBottomPadding" format="dimension"/>
 </resources>
