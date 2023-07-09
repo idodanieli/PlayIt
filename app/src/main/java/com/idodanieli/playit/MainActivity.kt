@@ -174,7 +174,10 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
         viewPager.currentHeroCapturedPiecesView().player = heroColor
         viewPager.currentOpponentCapturedPiecesView().player = heroColor.opposite()
 
+        viewPager.currentHeroTimerView().player = heroColor
         viewPager.currentHeroTimerView().visibility = View.VISIBLE
+
+        viewPager.currentOpponentTimerView().player = heroColor.opposite()
         viewPager.currentOpponentTimerView().visibility = View.VISIBLE
     }
 

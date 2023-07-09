@@ -77,6 +77,8 @@ open class ClassicGame(
 
     override fun switchTurn() {
         currentPlayer = currentPlayer.opposite()
+
+        notifySubscribers( TurnSwitched(currentPlayer) )
     }
 
     override fun isPromotionMove(move: Move): Boolean {

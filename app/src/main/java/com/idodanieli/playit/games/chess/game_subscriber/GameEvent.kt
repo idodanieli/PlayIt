@@ -16,3 +16,4 @@ class GameSelectedEvent(val chessView: ChessView, val gameID: String) : GameEven
 class PlayersJoinedEvent(val hero: String, val opponent: String) : GameEvent
 class GameStartedEvent(val chessView: ChessView) : GameEvent
 class GameOverEvent(val winner: Player?, val hero: Player) : GameEvent
+class TurnSwitched(val currentPlayer: Player) : GameEvent
