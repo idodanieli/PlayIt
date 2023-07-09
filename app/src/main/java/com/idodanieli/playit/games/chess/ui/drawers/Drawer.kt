@@ -36,7 +36,11 @@ open class Drawer (protected val dimensions: BoardDimensions) {
         )
     }
 
-    fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) {
+    fun drawBitmapAtSquareAccordingToHero(bitmap: Bitmap, square: Square, hero: Player) {
+        drawBitmapAtRect(bitmap, convertSquareToRectFAccordingToHero(square, hero))
+    }
+
+    protected fun drawBitmapAtSquare(square: Square, bitmap: Bitmap) {
         drawBitmapAtRect(bitmap, convertSquareToRectF(square))
     }
 
