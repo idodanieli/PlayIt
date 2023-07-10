@@ -2,6 +2,8 @@ package com.idodanieli.playit.games.chess.ui
 
 import android.content.Context
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameStartedEvent
@@ -11,7 +13,8 @@ import com.idodanieli.playit.games.chess.logic.Player
 import java.util.concurrent.TimeUnit
 
 
-class TimerView(context: Context?, attrs: AttributeSet?): androidx.appcompat.widget.AppCompatTextView(context!!, attrs), GameSubscriber {
+class TimerView(context: Context?, attrs: AttributeSet?) :
+    androidx.appcompat.widget.AppCompatTextView(context!!, attrs), GameSubscriber {
     companion object {
         private const val MILLISECOND = 1L
         private const val SECOND = 1000 * MILLISECOND // In Milliseconds
@@ -20,10 +23,11 @@ class TimerView(context: Context?, attrs: AttributeSet?): androidx.appcompat.wid
         private const val DEFAULT_TIME_SPAN = 10 * MINUTE
         private const val DEFAULT_COUNTDOWN_INTERVAL = MILLISECOND
 
-        private const val FINISHED_TIME = "00:00.000"
+        private const val FINISHED_TIME = "00:00"
     }
 
     lateinit var player: Player
+    lateinit var chessView: ChessView
 
     private var timeLeftInMillis = DEFAULT_TIME_SPAN
     private var timer = createTimer()
@@ -34,10 +38,15 @@ class TimerView(context: Context?, attrs: AttributeSet?): androidx.appcompat.wid
 
     override fun onGameEvent(event: GameEvent) {
         when (event) {
-            is GameStartedEvent -> startTimerIfHeroIsWhite()
+            is GameStartedEvent -> {
+                chessView = event.chessView
+                startTimerIfHeroIsWhite()
+            }
+
             is TurnSwitched -> {
-                if (event.currentPlayer == player) { timer.start() }
-                else pauseTimer()
+                if (event.currentPlayer == player) {
+                    timer.start()
+                } else pauseTimer()
             }
         }
     }
@@ -49,18 +58,20 @@ class TimerView(context: Context?, attrs: AttributeSet?): androidx.appcompat.wid
     }
 
     private fun createTimer(): CountDownTimer {
-        return  object : CountDownTimer(timeLeftInMillis, DEFAULT_COUNTDOWN_INTERVAL) {
+        return object : CountDownTimer(timeLeftInMillis, DEFAULT_COUNTDOWN_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis = millisUntilFinished
                 text = formatMilliseconds(millisUntilFinished)
             }
 
             override fun onFinish() {
-                // TODO: Should Publish GameOverEvent
                 text = FINISHED_TIME
+
+                chessView.notifyWinner(player.opposite())
             }
         }
     }
+
     private fun pauseTimer() {
         timer.cancel()
         timer = createTimer()

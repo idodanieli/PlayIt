@@ -229,17 +229,16 @@ class ChessView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     // --- Game Over -------------------------------------------------------------------------------
     private fun onGameOver() {
         val winner = game.currentPlayer.opposite()
-        this.close(winner)
+        this.notifyWinner(winner)
     }
 
     private fun onStalemate() {
-        this.close(null)
+        this.notifyWinner(null)
     }
 
-    private fun close(winner: Player?) {
-        val gameOverEvent = GameOverEvent(winner, hero)
+    fun notifyWinner(winner: Player?) {
+        game.notifySubscribers( GameOverEvent(winner, hero) )
 
-        game.notifySubscribers(gameOverEvent)
         clear()
     }
 
