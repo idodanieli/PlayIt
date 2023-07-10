@@ -6,7 +6,7 @@ import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.game_subscriber.MoveEvent
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
-import com.idodanieli.playit.games.chess.ui.ChessView
+import com.idodanieli.playit.games.chess.ui.views.ChessView
 import com.idodanieli.playit.games.chess.ui.drawers.Drawer
 
 class CheckVisualizer : EventVisualizer, GameSubscriber {

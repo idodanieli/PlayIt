@@ -1,4 +1,4 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.views
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,11 +12,14 @@ import com.idodanieli.playit.games.chess.MODE_DEFAULT
 import com.idodanieli.playit.games.chess.MODE_ONLINE
 import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
+import com.idodanieli.playit.games.chess.ui.TouchData
 import com.idodanieli.playit.games.chess.ui.drawers.*
 import com.idodanieli.playit.games.chess.ui.event_visualizers.CheckVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.LastMoveVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.TouchedSquareVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.VisualizerCollection
+import com.idodanieli.playit.games.chess.ui.getHeroTouchData
+import com.idodanieli.playit.games.chess.ui.getTouchData
 import com.idodanieli.playit.games.chess.variants.*
 
 @SuppressLint("ClickableViewAccessibility")

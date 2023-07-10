@@ -1,11 +1,10 @@
 package com.idodanieli.playit
 
 import android.view.View
-import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
-import com.idodanieli.playit.games.chess.ui.CapturedPiecesView
-import com.idodanieli.playit.games.chess.ui.ChessView
-import com.idodanieli.playit.games.chess.ui.TimerView
+import com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
+import com.idodanieli.playit.games.chess.ui.views.ChessView
+import com.idodanieli.playit.games.chess.ui.views.TimerView
 
 fun ViewPager2.currentPage(): View {
     return getChildAt(0)

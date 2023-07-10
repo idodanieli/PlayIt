@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.idodanieli.playit.games.chess.ui.*
 import com.idodanieli.playit.games.chess.ui.utils.Common.Companion.setDimensions
+import com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
+import com.idodanieli.playit.games.chess.ui.views.ChessView
+import com.idodanieli.playit.games.chess.ui.views.TimerView
 import com.idodanieli.playit.games.chess.variants.Game
 
 

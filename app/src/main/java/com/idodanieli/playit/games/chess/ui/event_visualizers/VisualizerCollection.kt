@@ -1,6 +1,6 @@
 package com.idodanieli.playit.games.chess.ui.event_visualizers
 
-import com.idodanieli.playit.games.chess.ui.ChessView
+import com.idodanieli.playit.games.chess.ui.views.ChessView
 import com.idodanieli.playit.games.chess.ui.utils.Clearable
 
 class VisualizerCollection(vararg visualizers: EventVisualizer): EventVisualizer, Clearable {

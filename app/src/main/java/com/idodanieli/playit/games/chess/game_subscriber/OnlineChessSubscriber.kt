@@ -9,7 +9,7 @@ import com.idodanieli.playit.User
 import com.idodanieli.playit.clients.GameClient
 import com.idodanieli.playit.clients.MoveInfo
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.ui.ChessView
+import com.idodanieli.playit.games.chess.ui.views.ChessView
 
 object OnlineChessSubscriber: GameSubscriber {
     private lateinit var fetchEnemyMovesThread: Thread

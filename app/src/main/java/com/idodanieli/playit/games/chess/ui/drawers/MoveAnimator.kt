@@ -4,7 +4,7 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import com.idodanieli.playit.games.chess.logic.Move
 import com.idodanieli.playit.games.chess.pieces.Piece
-import com.idodanieli.playit.games.chess.ui.ChessView
+import com.idodanieli.playit.games.chess.ui.views.ChessView
 
 class MoveAnimator(private val duration: Long, private val pieceDrawer: PieceDrawer) {
     private var currentAnimations = listOf<MoveAnimation>()

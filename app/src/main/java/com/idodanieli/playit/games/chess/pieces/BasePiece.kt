@@ -2,7 +2,7 @@ package com.idodanieli.playit.games.chess.pieces
 
 import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.logic.*
-import com.idodanieli.playit.games.chess.ui.ChessView
+import com.idodanieli.playit.games.chess.ui.views.ChessView
 import com.idodanieli.playit.games.chess.ui.event_visualizers.AvailableMovesVisualizer
 import com.idodanieli.playit.games.chess.ui.event_visualizers.VisualizerCollection
 import com.idodanieli.playit.games.chess.variants.Game

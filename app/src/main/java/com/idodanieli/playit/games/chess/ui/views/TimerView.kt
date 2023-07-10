@@ -1,9 +1,7 @@
-package com.idodanieli.playit.games.chess.ui
+package com.idodanieli.playit.games.chess.ui.views
 
 import android.content.Context
 import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
 import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameStartedEvent

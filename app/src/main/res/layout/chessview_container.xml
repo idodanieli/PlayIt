@@ -15,13 +15,13 @@
             style="@style/PlayerTextView"
             android:text="Opponent Player" />
 
-        <com.idodanieli.playit.games.chess.ui.CapturedPiecesView
+        <com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
             android:id="@+id/opponentsCapturedPieces"
             style="@style/PlayerCapturedPieceView" />
 
     </LinearLayout> <!-- Opponents View -->
 
-    <com.idodanieli.playit.games.chess.ui.TimerView
+    <com.idodanieli.playit.games.chess.ui.views.TimerView
         android:id="@+id/opponentTimer"
         style="@style/Timer"
         android:text="09:05.223"
@@ -29,7 +29,7 @@
         android:layout_alignTop="@id/opponentLL"
         android:visibility="invisible"/> <!-- Opponent Timer -->
 
-    <com.idodanieli.playit.games.chess.ui.ChessView
+    <com.idodanieli.playit.games.chess.ui.views.ChessView
         android:id="@+id/chess_view"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
@@ -45,13 +45,13 @@
             style="@style/PlayerTextView"
             android:text="This Player" />
 
-        <com.idodanieli.playit.games.chess.ui.CapturedPiecesView
+        <com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
             android:id="@+id/herosCapturedPieces"
             style="@style/PlayerCapturedPieceView" />
 
     </LinearLayout> <!-- Heros View -->
 
-    <com.idodanieli.playit.games.chess.ui.TimerView
+    <com.idodanieli.playit.games.chess.ui.views.TimerView
         android:id="@+id/heroTimer"
         style="@style/Timer"
         android:text="09:05.223"
