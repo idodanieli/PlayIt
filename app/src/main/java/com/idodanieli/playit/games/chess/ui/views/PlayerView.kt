@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -13,10 +14,11 @@ import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.logic.Player
 
 
-class PlayerView(context: Context?, attrs: AttributeSet?) : RelativeLayout(context, attrs), GameSubscriber {
+class PlayerView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs), GameSubscriber {
     lateinit var usernameTextView: TextView
     lateinit var capturedPieces: CapturedPiecesView
     lateinit var timer: TimerView
+    lateinit var profilePicture: ImageView
 
     // --- Initialization --------------------------------------------------------------------------
     init {
@@ -29,17 +31,19 @@ class PlayerView(context: Context?, attrs: AttributeSet?) : RelativeLayout(conte
         usernameTextView = findViewById(R.id.playerName)
         capturedPieces = findViewById(R.id.capturedPieces)
         timer = findViewById(R.id.playerTimer)
+        profilePicture = findViewById(R.id.profilePic)
     }
 
     // --- Core ------------------------------------------------------------------------------------
     fun setPlayer(username: String, color: Player) {
         usernameTextView.text = username
-        usernameTextView.visibility = View.VISIBLE
-
-        capturedPieces.player = color
 
         timer.player = color
+        capturedPieces.player = color
+
         timer.visibility = View.VISIBLE
+        profilePicture.visibility = View.VISIBLE
+        usernameTextView.visibility = View.VISIBLE
     }
 
     // --- General ---------------------------------------------------------------------------------
