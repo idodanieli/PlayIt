@@ -17,6 +17,7 @@ import com.idodanieli.playit.games.chess.game_subscriber.*
 import com.idodanieli.playit.games.chess.logic.*
 import com.idodanieli.playit.games.chess.ui.dialogs.DialogBuilder
 import com.idodanieli.playit.games.chess.ui.Speaker
+import com.idodanieli.playit.games.chess.ui.views.PlayerView
 import com.idodanieli.playit.games.chess.variants.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -167,22 +168,11 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
     // --- Set players names when they join a game ----------------------------------------------------
     // TODO: THIS IS SHIT
     private fun setPlayers(hero: String, opponent: String) {
-        setPlayer(viewPager.currentPage().findViewById(R.id.playerHero), hero)
-        setPlayer(viewPager.currentPage().findViewById(R.id.playerOpponent), opponent)
-
+        val heroView = viewPager.currentHeroPlayerView()
         val heroColor = viewPager.currentChessview().hero
-        viewPager.currentHeroCapturedPiecesView().player = heroColor
-        viewPager.currentOpponentCapturedPiecesView().player = heroColor.opposite()
+        heroView.setPlayer(hero, heroColor)
 
-        viewPager.currentHeroTimerView().player = heroColor
-        viewPager.currentHeroTimerView().visibility = View.VISIBLE
-
-        viewPager.currentOpponentTimerView().player = heroColor.opposite()
-        viewPager.currentOpponentTimerView().visibility = View.VISIBLE
-    }
-
-    private fun setPlayer(textView: TextView, player: String) {
-        textView.text = player
-        textView.visibility = View.VISIBLE
+        val opponentView = viewPager.currentOpponentPlayerView()
+        opponentView.setPlayer(opponent, heroColor.opposite())
     }
 }

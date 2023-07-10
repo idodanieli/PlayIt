@@ -6,61 +6,6 @@
     android:background="?attr/colorPrimaryVariant">
 
     <LinearLayout
-        android:id="@+id/opponentLL"
-        style="@style/PlayerLinearLayout"
-        android:layout_above="@id/chess_view">
-
-        <TextView
-            android:id="@+id/playerOpponent"
-            style="@style/PlayerTextView"
-            android:text="Opponent Player" />
-
-        <com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
-            android:id="@+id/opponentsCapturedPieces"
-            style="@style/PlayerCapturedPieceView" />
-
-    </LinearLayout> <!-- Opponents View -->
-
-    <com.idodanieli.playit.games.chess.ui.views.TimerView
-        android:id="@+id/opponentTimer"
-        style="@style/Timer"
-        android:text="09:05.223"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/opponentLL"
-        android:visibility="invisible"/> <!-- Opponent Timer -->
-
-    <com.idodanieli.playit.games.chess.ui.views.ChessView
-        android:id="@+id/chess_view"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"/>
-
-    <LinearLayout
-        android:id="@+id/heroLL"
-        style="@style/PlayerLinearLayout"
-        android:layout_below="@id/chess_view">
-
-        <TextView
-            android:id="@+id/playerHero"
-            style="@style/PlayerTextView"
-            android:text="This Player" />
-
-        <com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
-            android:id="@+id/herosCapturedPieces"
-            style="@style/PlayerCapturedPieceView" />
-
-    </LinearLayout> <!-- Heros View -->
-
-    <com.idodanieli.playit.games.chess.ui.views.TimerView
-        android:id="@+id/heroTimer"
-        style="@style/Timer"
-        android:text="09:05.223"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/heroLL"
-        android:layout_marginTop="10dp"
-        android:visibility="invisible"/> <!-- Hero Timer -->
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingEnd="5dp"
@@ -86,5 +31,24 @@
             android:textSize="15sp"
             android:layout_marginTop="10dp" />
     </LinearLayout> <!-- Game Title & Description -->
+
+    <com.idodanieli.playit.games.chess.ui.views.PlayerView
+        android:id="@+id/opponentPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/chess_view"/>
+
+    <com.idodanieli.playit.games.chess.ui.views.ChessView
+        android:id="@+id/chess_view"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <com.idodanieli.playit.games.chess.ui.views.PlayerView
+        android:id="@+id/heroPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chess_view"
+        />
 
 </RelativeLayout>

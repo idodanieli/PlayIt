@@ -4,6 +4,7 @@ import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
 import com.idodanieli.playit.games.chess.ui.views.ChessView
+import com.idodanieli.playit.games.chess.ui.views.PlayerView
 import com.idodanieli.playit.games.chess.ui.views.TimerView
 
 fun ViewPager2.currentPage(): View {
@@ -15,18 +16,12 @@ fun ViewPager2.currentChessview(): ChessView {
     return currentPage().findViewById(R.id.chess_view)
 }
 
-fun ViewPager2.currentHeroCapturedPiecesView(): CapturedPiecesView {
-    return currentPage().findViewById(R.id.herosCapturedPieces)
-}
-fun ViewPager2.currentOpponentCapturedPiecesView(): CapturedPiecesView {
-    return currentPage().findViewById(R.id.opponentsCapturedPieces)
+fun ViewPager2.currentHeroPlayerView(): PlayerView {
+    return currentPage().findViewById(R.id.heroPlayerView)
 }
 
-fun ViewPager2.currentHeroTimerView(): TimerView {
-    return currentPage().findViewById(R.id.heroTimer)
-}
-fun ViewPager2.currentOpponentTimerView(): TimerView {
-    return currentPage().findViewById(R.id.opponentTimer)
+fun ViewPager2.currentOpponentPlayerView(): PlayerView {
+    return currentPage().findViewById(R.id.opponentPlayerView)
 }
 
 // --- Logic ---------------------------------------------------------------------------------------

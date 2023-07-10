@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/playerLL"
+        style="@style/PlayerLinearLayout">
+
+        <TextView
+            android:id="@+id/playerName"
+            style="@style/PlayerTextView"
+            android:text="Opponent Player" />
+
+        <com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
+            android:id="@+id/capturedPieces"
+            style="@style/PlayerCapturedPieceView" />
+
+    </LinearLayout>
+
+    <com.idodanieli.playit.games.chess.ui.views.TimerView
+        android:id="@+id/playerTimer"
+        style="@style/Timer"
+        android:text="09:05.223"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/playerLL"
+        android:visibility="invisible"
+        android:layout_marginTop="5dp"/> <!-- Opponent Timer -->
+
+</RelativeLayout>

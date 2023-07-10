@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.idodanieli.playit.games.chess.ui.utils.Common.Companion.setDimensions
 import com.idodanieli.playit.games.chess.ui.views.CapturedPiecesView
 import com.idodanieli.playit.games.chess.ui.views.ChessView
+import com.idodanieli.playit.games.chess.ui.views.PlayerView
 import com.idodanieli.playit.games.chess.ui.views.TimerView
 import com.idodanieli.playit.games.chess.variants.Game
 
@@ -27,16 +28,13 @@ class PageViewAdapter(
         private val gameTitle: TextView = itemView.findViewById(R.id.gameName)
         private val gameDescription: TextView = itemView.findViewById(R.id.gameDescription)
 
-        private val opponentCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.opponentsCapturedPieces)
-        private val herosCapturedPiecesView: CapturedPiecesView = itemView.findViewById(R.id.herosCapturedPieces)
-
-        private val opponentTimer: TimerView = itemView.findViewById(R.id.opponentTimer)
-        private val heroTimer: TimerView = itemView.findViewById(R.id.heroTimer)
+        private val heroPlayerView: PlayerView = itemView.findViewById(R.id.heroPlayerView)
+        private val opponentPlayerView: PlayerView = itemView.findViewById(R.id.opponentPlayerView)
 
         fun clear() {
             chessView.clear()
-            herosCapturedPiecesView.clear()
-            opponentCapturedPiecesView.clear()
+            heroPlayerView.clear()
+            opponentPlayerView.clear()
         }
 
         fun setupChessView(game: Game, width: Int, length: Int) {
@@ -47,11 +45,8 @@ class PageViewAdapter(
         }
 
         private fun subscribeComponentsToChessView() {
-            chessView.subscribe(herosCapturedPiecesView)
-            chessView.subscribe(heroTimer)
-
-            chessView.subscribe(opponentCapturedPiecesView)
-            chessView.subscribe(opponentTimer)
+            chessView.subscribe(heroPlayerView)
+            chessView.subscribe(opponentPlayerView)
 
             chessView.subscribeVisualizers()
         }
