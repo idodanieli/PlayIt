@@ -59,10 +59,9 @@ object OnlineChessSubscriber: GameSubscriber {
             // Only the original thread that created a view hierarchy can touch its views.
             Handler(getMainLooper()).post{
                 chessView.publisher.notifySubscribers( PlayersJoinedEvent(user, opponent) )
+                chessView.startGame()
                 dialog.cancel()
             }
-
-            chessView.startGame()
         }.start()
     }
 
