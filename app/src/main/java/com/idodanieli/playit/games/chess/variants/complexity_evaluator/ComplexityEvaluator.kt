@@ -14,7 +14,7 @@ class ComplexityEvaluator {
     }
 
     fun evaluate(game: Game): Float {
-        var complexityScore = 1f
+        var complexityScore = game.pieces().size.toFloat()
 
         for (piece in game.pieces()) {
             val category = PieceCategory.fromPiece(piece)
