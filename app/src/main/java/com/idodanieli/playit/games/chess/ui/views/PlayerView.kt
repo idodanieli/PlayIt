@@ -59,5 +59,6 @@ class PlayerView(context: Context?, attrs: AttributeSet?) : LinearLayout(context
 
     fun clear() {
         capturedPieces.clear()
+        timer.clear()
     }
 }

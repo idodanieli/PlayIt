@@ -8,8 +8,9 @@ import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.pieces.classic.TYPE_KING
 import com.idodanieli.playit.games.chess.ui.views.ChessView
 import com.idodanieli.playit.games.chess.ui.drawers.Drawer
+import com.idodanieli.playit.games.chess.ui.utils.Clearable
 
-class CheckVisualizer : EventVisualizer, GameSubscriber {
+class CheckVisualizer : EventVisualizer, GameSubscriber, Clearable {
     private var checkedPiece: Piece? = null
 
     override fun onGameEvent(event: GameEvent) {
@@ -32,5 +33,9 @@ class CheckVisualizer : EventVisualizer, GameSubscriber {
                 chessView.hero
             )
         }
+    }
+
+    override fun clear() {
+        checkedPiece = null
     }
 }

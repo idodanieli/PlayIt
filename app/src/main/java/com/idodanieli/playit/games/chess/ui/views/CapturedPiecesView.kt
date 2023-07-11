@@ -12,9 +12,10 @@ import com.idodanieli.playit.games.chess.game_subscriber.PieceCapturedEvent
 import com.idodanieli.playit.games.chess.logic.Player
 import com.idodanieli.playit.games.chess.pieces.Piece
 import com.idodanieli.playit.games.chess.ui.drawers.PieceDrawer
+import com.idodanieli.playit.games.chess.ui.utils.Clearable
 
 
-class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context, attrs), GameSubscriber {
+class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context, attrs), GameSubscriber, Clearable {
     lateinit var player: Player
 
     private val pieceDrawer = PieceDrawer(context!!, MODE_DEFAULT)
@@ -44,7 +45,7 @@ class CapturedPiecesView(context: Context?, attrs: AttributeSet?): View(context,
         invalidate()
     }
 
-    fun clear() {
+    override fun clear() {
         capturedPieces = mutableListOf()
     }
 

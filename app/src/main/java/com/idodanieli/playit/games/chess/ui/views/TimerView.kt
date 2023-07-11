@@ -8,11 +8,12 @@ import com.idodanieli.playit.games.chess.game_subscriber.GameStartedEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.game_subscriber.TurnSwitched
 import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.ui.utils.Clearable
 import java.util.concurrent.TimeUnit
 
 
 class TimerView(context: Context?, attrs: AttributeSet?) :
-    androidx.appcompat.widget.AppCompatTextView(context!!, attrs), GameSubscriber {
+    androidx.appcompat.widget.AppCompatTextView(context!!, attrs), GameSubscriber, Clearable {
     companion object {
         private const val MILLISECOND = 1L
         private const val SECOND = 1000 * MILLISECOND // In Milliseconds
@@ -82,5 +83,10 @@ class TimerView(context: Context?, attrs: AttributeSet?) :
 
         return String.format("%02d:%02d", minutes, seconds)
         // return String.format("%02d:%02d.%03d", minutes, seconds, millis)
+    }
+
+    override fun clear() {
+        timeLeftInMillis = DEFAULT_TIME_SPAN
+        timer = createTimer()
     }
 }
