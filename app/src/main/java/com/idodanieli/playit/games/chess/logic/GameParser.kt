@@ -23,17 +23,7 @@ class GameParser {
             val desc = json.optString(DESCRIPTION)
             val board = json.getString(BOARD)
             val mode = json.getString(MODE)
-            var dimensions = DEFAULT_DIMENSIONS
-
-            // TODO: Prettify this
-            try {
-                val dimensionsJson = json.get("dimensions") as JSONObject
-                val rows = dimensionsJson.getInt("rows")
-                val cols = dimensionsJson.getInt("cols")
-                dimensions = BoardDimensions(cols, rows)
-            } catch (e: JSONException) {
-                // Do Nothing
-            }
+            val dimensions = parseBoardDimensionsJSON(json)
 
             val constructor = getGameConstructor(mode) ?: throw Exception("constructor is null for $name mode: $mode")
             val game = constructor.call(name, parseBoardPieces(board, dimensions), dimensions)
@@ -100,6 +90,17 @@ class GameParser {
             }
 
             return BasePiece(square, player)
+        }
+
+        private fun parseBoardDimensionsJSON(json: JSONObject): BoardDimensions {
+            return try {
+                val dimensionsJson = json.get("dimensions") as JSONObject
+                val rows = dimensionsJson.getInt("rows")
+                val cols = dimensionsJson.getInt("cols")
+                BoardDimensions(cols, rows)
+            } catch (e: JSONException) {
+                DEFAULT_DIMENSIONS
+            }
         }
     }
 }
