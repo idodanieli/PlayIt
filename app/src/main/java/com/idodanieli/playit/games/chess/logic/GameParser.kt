@@ -1,5 +1,6 @@
 package com.idodanieli.playit.games.chess.logic
 
+import android.util.Log
 import com.idodanieli.playit.games.chess.pieces.*
 import com.idodanieli.playit.games.chess.pieces.classic.*
 import com.idodanieli.playit.games.chess.pieces.fairy.*
@@ -53,6 +54,10 @@ class GameParser {
                         val player = if (char.isUpperCase()) Player.WHITE else Player.BLACK
                         val piece = pieceFromCharacter(char.uppercase(), square, player)
                         pieces.add(piece)
+
+                        // TODO: REMOVE THIS
+                        val packageName = piece.javaClass.`package`?.name
+                        Log.e("PACKAGE", piece.toString() + " " + packageName.toString())
                     }
                 }
             }

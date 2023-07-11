@@ -19,6 +19,7 @@ import com.idodanieli.playit.games.chess.ui.dialogs.DialogBuilder
 import com.idodanieli.playit.games.chess.ui.Speaker
 import com.idodanieli.playit.games.chess.ui.views.PlayerView
 import com.idodanieli.playit.games.chess.variants.*
+import com.idodanieli.playit.games.chess.variants.complexity_evaluator.ComplexityEvaluator
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Field
@@ -101,7 +102,11 @@ class MainActivity : AppCompatActivity(), GameSubscriber {
             }
         }
 
-        return files.map { GameParser.parse(it) }.shuffled()
+        val evaluator = ComplexityEvaluator()
+        var games = files.map { GameParser.parse(it) }.shuffled()
+        games = games.sortedBy { evaluator.evaluate(it) }
+
+        return games
     }
 
     // --- UI --------------------------------------------------------------------------------------
