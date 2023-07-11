@@ -12,6 +12,7 @@ import com.idodanieli.playit.R
 import com.idodanieli.playit.games.chess.game_subscriber.GameEvent
 import com.idodanieli.playit.games.chess.game_subscriber.GameSubscriber
 import com.idodanieli.playit.games.chess.logic.Player
+import com.idodanieli.playit.games.chess.ui.utils.Clearable
 
 
 class PlayerView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs), GameSubscriber {
@@ -58,7 +59,13 @@ class PlayerView(context: Context?, attrs: AttributeSet?) : LinearLayout(context
     }
 
     fun clear() {
-        capturedPieces.clear()
-        timer.clear()
+        val components = listOf(usernameTextView, capturedPieces, timer, profilePicture)
+
+        for (component in components) {
+            component.visibility = INVISIBLE
+            if (component is Clearable) {
+                component.clear()
+            }
+        }
     }
 }
